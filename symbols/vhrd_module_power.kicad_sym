@@ -6,7 +6,7 @@
     (property "Value" "B0505MT-1WR4" (at 0 2.54 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "CONVERTER DC DC 5V 1W SMD:B0505MT-1WR4" (at 0 -17.78 0)
+    (property "Footprint" "vhrd_module_power:B0505MT-1WR4" (at 0 -17.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 0 0 0)
