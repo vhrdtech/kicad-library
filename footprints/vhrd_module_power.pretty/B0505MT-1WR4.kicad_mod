@@ -66,4 +66,9 @@
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 0))
   )
+  (model "C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/vhrd_module_power/B0505MT-1WR4.STEP"
+    (offset (xyz 0 0 0.05))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
 )
