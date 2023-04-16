@@ -62,7 +62,7 @@
     (solder_mask_margin 0.102) (tstamp f94968be-7bc3-45cf-a6f4-e3384d953b04))
   (pad "8" smd roundrect (at 3.75 -6.605 90) (size 2.54 1.27) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25)
     (solder_mask_margin 0.102) (tstamp 73602b31-6304-42cf-a218-2951e8d2a147))
-  (model "C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/transformer/EP10 - PA1134NL.STEP"
+  (model "${VHRD_3DMODEL_DIR}/vhrd_transformer/EP10 - PA1134NL.STEP"
     (offset (xyz 0 0 4.75))
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 90))
