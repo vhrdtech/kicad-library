@@ -21,7 +21,7 @@
     (symbol "STM32H725IGKx_1_1"
       (rectangle (start 0 0) (end 7.62 -48.26)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -45.72 0) (length 5.08)
         (name "PA15" (effects (font (size 1.27 1.27))))
@@ -99,7 +99,7 @@
     (symbol "STM32H725IGKx_2_1"
       (rectangle (start 0 0) (end 7.62 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -22.86 0) (length 5.08)
         (name "PB8" (effects (font (size 1.27 1.27))))
@@ -169,7 +169,7 @@
     (symbol "STM32H725IGKx_3_1"
       (rectangle (start 0 0) (end 20.32 -48.26)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -38.1 0) (length 5.08)
         (name "PC12" (effects (font (size 1.27 1.27))))
@@ -247,7 +247,7 @@
     (symbol "STM32H725IGKx_4_1"
       (rectangle (start 0 0) (end 7.62 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -5.08 0) (length 5.08)
         (name "PD1" (effects (font (size 1.27 1.27))))
@@ -317,7 +317,7 @@
     (symbol "STM32H725IGKx_5_1"
       (rectangle (start 0 0) (end 7.62 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -12.7 0) (length 5.08)
         (name "PE4" (effects (font (size 1.27 1.27))))
@@ -387,7 +387,7 @@
     (symbol "STM32H725IGKx_6_1"
       (rectangle (start 0 0) (end 7.62 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -5.08 0) (length 5.08)
         (name "PF1" (effects (font (size 1.27 1.27))))
@@ -457,7 +457,7 @@
     (symbol "STM32H725IGKx_7_1"
       (rectangle (start 0 0) (end 7.62 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -30.48 0) (length 5.08)
         (name "PG11" (effects (font (size 1.27 1.27))))
@@ -527,7 +527,7 @@
     (symbol "STM32H725IGKx_8_1"
       (rectangle (start 0 0) (end 15.24 -43.18)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -5.08 -38.1 0) (length 5.08)
         (name "PH14" (effects (font (size 1.27 1.27))))
@@ -597,7 +597,7 @@
     (symbol "STM32H725IGKx_9_1"
       (rectangle (start -12.7 0) (end 12.7 -115.57)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin power_in line (at 17.78 -113.03 180) (length 5.08)
         (name "VSS" (effects (font (size 1.27 1.27))))

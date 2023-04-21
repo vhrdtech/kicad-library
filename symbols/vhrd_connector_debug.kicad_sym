@@ -15,13 +15,11 @@
     (property "Description" "CBL PLUG-OF-NAILS 10-PIN" (at 5.08 5.08 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (symbol "TC2050-IDC-NL_0_1"
+    (symbol "TC2050-IDC-NL_1_1"
       (rectangle (start 0 0) (end 7.62 -15.24)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
-    )
-    (symbol "TC2050-IDC-NL_1_1"
       (pin passive line (at -5.08 -2.54 0) (length 5.08)
         (name "1" (effects (font (size 1.27 1.27))))
         (number "1" (effects (font (size 1.27 1.27))))

@@ -24,7 +24,7 @@
     (symbol "LAN8740A_1_1"
       (rectangle (start 0 0) (end 40.64 -71.12)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin bidirectional line (at -2.54 -38.1 0) (length 2.54)
         (name "RXD1/MODE1" (effects (font (size 1.27 1.27))))
@@ -134,7 +134,7 @@
     (symbol "LAN8740A_2_1"
       (rectangle (start 0 0) (end 40.64 -22.86)
         (stroke (width 0) (type default))
-        (fill (type none))
+        (fill (type background))
       )
       (pin power_in line (at -2.54 -10.16 0) (length 2.54)
         (name "VDD2A" (effects (font (size 1.27 1.27))))
