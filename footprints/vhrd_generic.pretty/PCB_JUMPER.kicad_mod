@@ -1,0 +1,14 @@
+(footprint "PCB_JUMPER" (version 20221018) (generator pcbnew)
+  (layer "F.Cu")
+  (attr smd exclude_from_pos_files exclude_from_bom)
+  (fp_text reference "REF**" (at 0 -0.5 unlocked) (layer "F.SilkS") hide
+      (effects (font (size 1 1) (thickness 0.1)))
+    (tstamp 38ac693f-1217-4d85-a93e-f3d122100002)
+  )
+  (fp_text value "PCB_JUMPER" (at 0 1 unlocked) (layer "F.Fab") hide
+      (effects (font (size 1 1) (thickness 0.15)))
+    (tstamp 342e9f20-af05-49ee-8523-08dc714422c5)
+  )
+  (pad "1" smd roundrect (at -4 0 90) (size 1.4 2.2) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.178571) (tstamp beb49793-3fcc-4a11-9e92-0734b6e27f3f))
+  (pad "2" smd roundrect (at 4 0 90) (size 1.4 2.2) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.178571) (tstamp c6bdebc7-f201-4af4-bd1c-6a71a439f771))
+)
