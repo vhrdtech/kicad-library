@@ -58,5 +58,19 @@
         (number "7" (effects (font (size 1.27 1.27))))
       )
     )
+    (symbol "AOZ1376DI_1_1"
+      (pin passive line (at -13.97 -13.97 0) (length 2.54) hide
+        (name "NC" (effects (font (size 1.27 1.27))))
+        (number "10" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at -13.97 -8.89 0) (length 2.54) hide
+        (name "NC" (effects (font (size 1.27 1.27))))
+        (number "8" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at -13.97 -11.43 0) (length 2.54) hide
+        (name "NC" (effects (font (size 1.27 1.27))))
+        (number "9" (effects (font (size 1.27 1.27))))
+      )
+    )
   )
 )
