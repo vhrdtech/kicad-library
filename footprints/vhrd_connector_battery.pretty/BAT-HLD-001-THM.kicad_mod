@@ -55,7 +55,7 @@
     (solder_mask_margin 0.102) (tstamp 045d9045-573f-4cb7-bf67-844a0c7eb5f8))
   (pad "P" thru_hole circle (at 10.4 1.5) (size 2.3 2.3) (drill 1) (layers "*.Cu" "*.Mask")
     (solder_mask_margin 0.102) (tstamp 0ebda7d5-35f1-41cb-beef-ee291eaddd48))
-  (model "C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/connectors/battery/BAT-HLD-001-THM.STEP"
+  (model "${VHRD_3DMODEL_DIR}/connectors/battery/BAT-HLD-001-THM.STEP"
     (offset (xyz -2.8 0.3 3.85))
     (scale (xyz 1 1 1))
     (rotate (xyz 90 0 180))

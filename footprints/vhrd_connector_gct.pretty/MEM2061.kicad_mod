@@ -66,4 +66,9 @@
   (pad "10" smd rect (at 0.75 -7.325) (size 1.8 1.4) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 10cf5cff-f684-405e-86ba-9752db0e2e16))
   (pad "11" smd rect (at -6.55 5.825) (size 1.4 1.9) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 9183a51f-95aa-4e7e-81ce-86bea7da174a))
   (pad "11" smd rect (at 6.6 6.825) (size 1.4 1.9) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 8c5fe4ea-d99b-41a2-9f92-7ef4b6c1e415))
+  (model "${VHRD_3DMODEL_DIR}/connectors/gct/MEM2061-01-188-00-A_REVA.step"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz -90 0 0))
+  )
 )
