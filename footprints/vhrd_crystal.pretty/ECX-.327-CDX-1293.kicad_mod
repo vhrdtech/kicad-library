@@ -37,7 +37,7 @@
     (solder_mask_margin 0.102) (thermal_bridge_angle 45) (tstamp 76c7fe81-18d5-4498-95b3-5fbab3834427))
   (pad "2" smd rect (at 1.25 0) (size 1.1 1.9) (layers "F.Cu" "F.Paste" "F.Mask")
     (solder_mask_margin 0.102) (thermal_bridge_angle 45) (tstamp 158fd515-6a40-4b50-bcf1-fb051be8e0f5))
-  (model "C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/crystal/ECX-.327-CDX-1293.STEP"
+  (model "${VHRD_3DMODEL_DIR}/crystal/ECX-.327-CDX-1293.STEP"
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 0))
