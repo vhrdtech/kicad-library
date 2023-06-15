@@ -3,10 +3,10 @@
     (property "Reference" "J" (at 0 20.32 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "1-1775333-6" (at 0 -30.48 0)
+    (property "Value" "1-1775333-6" (at 0 -32.004 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "vhrd_connector_te:1-1775333-6" (at 0 0 0)
+    (property "Footprint" "vhrd_connector_te:1-1775333-6" (at 9.144 -34.036 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 0 0 0)
@@ -22,6 +22,10 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (symbol "1-1775333-6_1_1"
+      (rectangle (start -1.27 19.05) (end 1.27 -29.21)
+        (stroke (width 0) (type default))
+        (fill (type background))
+      )
       (arc (start 0 -27.432) (mid -0.5058 -27.94) (end 0 -28.448)
         (stroke (width 0.1524) (type default))
         (fill (type none))
@@ -66,6 +70,14 @@
         (pts
           (xy -1.27 -27.94)
           (xy -0.508 -27.94)
+        )
+        (stroke (width 0.1524) (type default))
+        (fill (type none))
+      )
+      (polyline
+        (pts
+          (xy -1.27 -25.4)
+          (xy -0.508 -25.4)
         )
         (stroke (width 0.1524) (type default))
         (fill (type none))
