@@ -98,7 +98,7 @@
   (pad "8" thru_hole circle (at 6.85 2.84) (size 1.6 1.6) (drill 1) (layers "*.Cu" "*.Mask") (tstamp 192054c3-18f9-481a-88ec-c66e32872218))
   (pad "9" thru_hole circle (at 9.59 2.84) (size 1.6 1.6) (drill 1) (layers "*.Cu" "*.Mask") (tstamp 55f30ddb-a5d8-4544-a454-03b9a9668add))
   (model "${VHRD_3DMODEL_DIR}/connectors/amphenol/sD09P33E4GL00LF.stp"
-    (offset (xyz 5.5 -10.45 0))
+    (offset (xyz 5.48 -10.45 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 180 0 180))
   )
