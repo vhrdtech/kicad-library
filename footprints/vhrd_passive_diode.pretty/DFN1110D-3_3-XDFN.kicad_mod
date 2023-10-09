@@ -38,4 +38,9 @@
         )
         (width 0) (fill yes))
     ) (tstamp cb145ce6-d44e-49a6-8a1c-d486d7e6e86f))
+  (model "${VHRD_3DMODEL_DIR}/vhrd_passive_diode/DFN1110D-3_(SOT8015).step"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
 )
