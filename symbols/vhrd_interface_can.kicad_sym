@@ -329,13 +329,11 @@
     (property "ki_fp_filters" "*TSOT?23* *SOIC*3.9x4.9mm*P1.27mm*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (symbol "TCAN1044VDDF_0_1"
+    (symbol "TCAN1044VDDF_1_1"
       (rectangle (start -10.16 7.62) (end 10.16 -7.62)
         (stroke (width 0.254) (type default))
         (fill (type background))
       )
-    )
-    (symbol "TCAN1044VDDF_1_1"
       (pin input line (at -12.7 5.08 0) (length 2.54)
         (name "TXD" (effects (font (size 1.27 1.27))))
         (number "1" (effects (font (size 1.27 1.27))))
