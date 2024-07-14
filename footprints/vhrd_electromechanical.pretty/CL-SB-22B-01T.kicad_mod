@@ -1,0 +1,403 @@
+(footprint "CL-SB-22B-01T"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "Slide Switch DPDT Surface Mount")
+	(tags "Slide Switch Gull Wing")
+	(property "Reference" "REF**"
+		(at 0.4 -4 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "0b6dd2e0-e35f-41f7-88b7-f2fc3a11fe94")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "CL-SB-22B-01T"
+		(at 0 5.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "b0841748-2430-42f1-bf88-62c29d99b646")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9fef980b-9f44-4f3f-a1b1-89792e401190")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.digikey.com/en/products/detail/nidec-components-corporation/CL-SB-22B-01T/3507839"
+		(at 0.2 7.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ac72c615-b546-4a35-9fea-12148055b8f6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "SWITCH SLIDE DPDT 200MA 12V"
+		(at 0 -5.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "57d16965-4833-4b68-9939-62b541d9eace")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -4.25 -1.75)
+		(end -4.25 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "4280947d-c9ce-4965-b445-ed6f4786ff4d")
+	)
+	(fp_line
+		(start -4.25 -1.75)
+		(end -3.3 -1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "fe72ebc3-20e4-4498-bb52-4828585411d0")
+	)
+	(fp_line
+		(start -4.25 1.75)
+		(end -3.3 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "6564674e-2667-472a-abf2-2ba01c5a20ee")
+	)
+	(fp_line
+		(start -2.5 0)
+		(end 2.6 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "4013ed07-8e66-4882-9cd8-d7bf2a931bdd")
+	)
+	(fp_line
+		(start -2.5 3.1)
+		(end -3.1 4.1)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "03349a0a-f3bb-493c-90d7-dc2009be91cb")
+	)
+	(fp_line
+		(start -2.5 3.1)
+		(end -1.9 4.1)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "2d8736da-e35c-4cde-8c9c-4389f6cd09f5")
+	)
+	(fp_line
+		(start -1.9 4.1)
+		(end -3.1 4.1)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "cd8362e6-a698-43e3-8a19-ebe5021108bc")
+	)
+	(fp_line
+		(start -1.695 -1.75)
+		(end -0.795 -1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "33f72582-9b1a-4fa3-b326-305a0b8893fe")
+	)
+	(fp_line
+		(start -1.695 1.75)
+		(end -0.795 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "d8723d2d-c5d5-4bf0-9f68-f25ce811df58")
+	)
+	(fp_line
+		(start 0.7 -0.4)
+		(end 2.1 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "22f89263-6e9a-4158-9f92-3692e44c9721")
+	)
+	(fp_line
+		(start 0.7 0.4)
+		(end 2.1 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "b349befb-8299-47fc-8a4d-9164b2304faf")
+	)
+	(fp_line
+		(start 0.805 -1.75)
+		(end 1.705 -1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "caf12931-9526-42c7-a23e-0bfe414a0990")
+	)
+	(fp_line
+		(start 0.805 1.75)
+		(end 1.705 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "cf6cf7be-dc86-4327-8732-12729d778772")
+	)
+	(fp_line
+		(start 2.6 0)
+		(end 0.7 -0.4)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "a925efca-2a15-41d8-bc25-f05ba2a8ebdf")
+	)
+	(fp_line
+		(start 2.6 0)
+		(end 0.7 0.4)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "9619a1e6-d274-4ff2-85f5-50183cdb3460")
+	)
+	(fp_line
+		(start 3.3 -1.75)
+		(end 4.25 -1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "bb2d7bab-ea2f-4362-a3b0-c00bd5d6eb5f")
+	)
+	(fp_line
+		(start 3.3 1.75)
+		(end 4.25 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "4f5bc139-258c-48d8-b3d1-31f090002386")
+	)
+	(fp_line
+		(start 4.25 -1.75)
+		(end 4.25 1.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "09663406-5c27-4368-914a-d98b717cac72")
+	)
+	(fp_line
+		(start -5.25 -3.9)
+		(end -5.25 3.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "9bf84f30-793c-43ab-a711-9cce5579cde0")
+	)
+	(fp_line
+		(start -5.25 -3.9)
+		(end 5.25 -3.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "3d5cbd28-fff7-442d-a9df-d9b565a9c2f8")
+	)
+	(fp_line
+		(start -5.25 3.9)
+		(end 5.25 3.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "072f1075-73ca-4453-b3ab-00ec162040b8")
+	)
+	(fp_line
+		(start 5.25 -3.9)
+		(end 5.25 3.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "791853ae-432c-416f-bb00-b922a88ac40a")
+	)
+	(fp_line
+		(start -4.25 -1.75)
+		(end 4.25 -1.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "4177b196-6df2-4ab6-b34b-a111d1037b2f")
+	)
+	(fp_line
+		(start -4.25 1.75)
+		(end -4.25 -1.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "82a68911-edb1-4ede-b523-4917e9127abe")
+	)
+	(fp_line
+		(start 4.25 -1.75)
+		(end 4.25 1.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "4b5bc713-2c3a-4b76-8e90-39a4d9ba7635")
+	)
+	(fp_line
+		(start 4.25 1.75)
+		(end -4.25 1.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "059d434d-7ca1-43c0-a1d9-db689388a67c")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 8.9 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "7e427200-8be4-4628-a652-435d708d1882")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -2.5 2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "9e9b5c93-1ffd-4216-99e5-9a74c949cb25")
+	)
+	(pad "2" smd roundrect
+		(at 0 2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "c244c904-0963-4358-8e84-5b2af51b6276")
+	)
+	(pad "3" smd roundrect
+		(at 2.5 2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "18320bab-fd2f-48b6-808c-9c2eaf999f66")
+	)
+	(pad "4" smd roundrect
+		(at -2.5 -2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "9410f570-e875-4408-8aba-0e0b8c2c4368")
+	)
+	(pad "5" smd roundrect
+		(at 0 -2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "ba2c95fe-78d0-411c-a42f-7ece94e16e23")
+	)
+	(pad "6" smd roundrect
+		(at 2.5 -2.2)
+		(size 1.2 1.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "6edbbb07-804b-4200-9889-80d5280f117b")
+	)
+	(model "${VHRD_3DMODEL_DIR}/switches/CL-SB-22B-01T.STEP"
+		(offset
+			(xyz 0 0 0.05)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 0)
+		)
+	)
+)
