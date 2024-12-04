@@ -1,0 +1,183 @@
+(footprint "BAT_3013"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at -5.715 -10.16 0)
+		(layer "F.SilkS")
+		(uuid "92459fb2-3cf1-4e7a-b42d-d2257b4604b6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "BAT_3013"
+		(at -3.81 9.525 0)
+		(layer "F.Fab")
+		(uuid "3ef52838-8eff-4d22-a4c6-e23f6f407a33")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "624c5d47-c0d2-48e8-a5e1-1cdbb82341d4")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7e1f3e12-6e50-4fe4-900e-116ce65d13de")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "acc0e4ed-3959-427a-91d3-ba195f302672")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -10.1 -2.7)
+		(end -10.1 8.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "8fb285d6-9e50-4826-9f3b-469e86656362")
+	)
+	(fp_line
+		(start -10.1 8.3)
+		(end 10.1 8.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "ab34ab19-3fb5-4de5-a757-db6a34dd5f0b")
+	)
+	(fp_line
+		(start -3.5 -9.3)
+		(end -10.1 -2.7)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "bf2c5d3f-f62c-4150-ad18-db1a9b9ecb7d")
+	)
+	(fp_line
+		(start -3.5 -9.3)
+		(end 3.5 -9.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "b053c322-ec8d-4e42-a8e7-2312f4d1bdd3")
+	)
+	(fp_line
+		(start 3.5 -9.3)
+		(end 10.1 -2.7)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "9134ce48-b1d0-46dc-9b3a-6ea09617206c")
+	)
+	(fp_line
+		(start 10.1 -2.7)
+		(end 10.1 8.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "971b852f-290d-4299-a4f6-7b3ca5bb6435")
+	)
+	(fp_circle
+		(center 0 -0.5)
+		(end 8 -0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill none)
+		(layer "F.Fab")
+		(uuid "5c134634-0b1c-469c-8132-a11f29332dde")
+	)
+	(pad "M" smd rect
+		(at 0 0)
+		(size 3.96 3.96)
+		(layers "F.Cu" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "d3054f68-82d8-42f1-bb23-6b0015db94d9")
+	)
+	(pad "P" thru_hole circle
+		(at -8.435 0)
+		(size 2.775 2.775)
+		(drill 1.85)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(solder_mask_margin 0.102)
+		(uuid "42d7c2c6-c2d8-4340-807d-d5ecba33e280")
+	)
+	(pad "P" thru_hole circle
+		(at 8.435 0)
+		(size 2.775 2.775)
+		(drill 1.85)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(solder_mask_margin 0.102)
+		(uuid "07e4ad43-5910-463b-9cf9-a21366c7cedd")
+	)
+	(model "${VHRD_3DMODEL_DIR}/connectors/battery/3013.step"
+		(offset
+			(xyz 0 0 3.7)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 180)
+		)
+	)
+	(model "${VHRD_3DMODEL_DIR}/connectors/battery/CR1632.stp"
+		(offset
+			(xyz 0 0.5 3)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 90 0)
+		)
+	)
+)
