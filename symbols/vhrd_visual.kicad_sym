@@ -1,144 +1,750 @@
-(kicad_symbol_lib (version 20220914) (generator kicad_symbol_editor)
-  (symbol "BOARD_ID" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "vhrd_visual:BOARD_ID" (at 7.62 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "BOARD_ID_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "BRD_ID" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-    )
-  )
-  (symbol "DATE" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "vhrd_visual:DATE" (at 7.62 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "DATE_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "DATE" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-    )
-  )
-  (symbol "LOGO" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "vhrd_visual:VHRD_TECH_LOGO_SO" (at 13.97 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "LOGO_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "LOGO" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-    )
-  )
-  (symbol "LOGO_GROUNDED" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "LOGO_GROUNDED" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "vhrd_visual:VHRD_TECH_LOGO" (at 13.97 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "LOGO_GROUNDED_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "LOGO" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-      (pin passive line (at -2.54 -6.35 0) (length 2.54)
-        (name "GND" (effects (font (size 1.27 1.27))))
-        (number "1" (effects (font (size 1.27 1.27))))
-      )
-    )
-  )
-  (symbol "MARKER_AREA" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "vhrd_visual:MARKER_15x5" (at 7.62 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "MARKER_AREA_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "MARKER" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-    )
-  )
-  (symbol "SYM" (in_bom no) (on_board yes)
-    (property "Reference" "V" (at 1.27 1.27 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "" (at 7.62 -8.89 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (symbol "SYM_1_1"
-      (rectangle (start 0 0) (end 15.24 -7.62)
-        (stroke (width 0) (type default) (color 255 153 0 1))
-        (fill (type none))
-      )
-      (text "SYM" (at 7.62 -3.81 0)
-        (effects (font (size 2.54 2.54) (color 255 153 0 1)))
-      )
-    )
-  )
+(kicad_symbol_lib
+	(version 20241209)
+	(generator "kicad_symbol_editor")
+	(generator_version "9.0")
+	(symbol "BOARD_ID"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:BOARD_ID"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "BOARD_ID_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "BRD_ID"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "DATE"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:DATE"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "DATE_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "DATE"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "LOGO_GROUNDED"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOGO_GROUNDED"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO"
+			(at 13.97 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "LOGO_GROUNDED_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "LOGO"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+			(pin passive line
+				(at -2.54 -6.35 0)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "LOGO_SO"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO_SO"
+			(at 13.97 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "LOGO_SO_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "LOGO"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "MARKER_AREA"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "vhrd_visual:MARKER_15x5"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "MARKER_AREA_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "MARKER"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "PRODUCT_NAME"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:VHRD_PRODUCT"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "PRODUCT_NAME_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "NAME"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "PRODUCT_NAME_SO"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:VHRD_PRODUCT_SO"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "PRODUCT_NAME_SO_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "NAME"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "QR"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "vhrd_visual:QR_7x7_LASER"
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "QR_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "QR"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "SYM"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 7.62 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "SYM_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "SYM"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "VHRD_TECH_TEXT_SO"
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(property "Reference" "V"
+			(at 1.27 1.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "vhrd_visual:VHRD_TECH_TEXT_SO"
+			(at 13.97 -8.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "VHRD_TECH_TEXT_SO_1_1"
+			(rectangle
+				(start 0 0)
+				(end 15.24 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+					(color 255 153 0 1)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "LOGO"
+				(at 7.62 -3.81 0)
+				(effects
+					(font
+						(size 2.54 2.54)
+						(color 255 153 0 1)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 )
