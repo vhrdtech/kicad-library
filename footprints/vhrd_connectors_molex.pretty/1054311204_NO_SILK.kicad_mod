@@ -1,4 +1,4 @@
-(footprint "1054311204"
+(footprint "1054311204_NO_SILK"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
@@ -56,108 +56,6 @@
 		)
 	)
 	(attr smd)
-	(fp_line
-		(start -10.364988 -1.75)
-		(end -10.364988 1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "6c89b2f5-7702-4094-a38d-575f3b750cd6")
-	)
-	(fp_line
-		(start -10.364988 1.75)
-		(end -10.175041 1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "0cc4f9b4-262c-41b0-9fda-ee59fc2e76f2")
-	)
-	(fp_line
-		(start -10.175041 -1.75)
-		(end -10.364988 -1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "2208cd4c-062d-4c5c-b412-5437cee4df44")
-	)
-	(fp_line
-		(start -6.55 -4.95)
-		(end -0.95 -4.95)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "82eca69d-04c9-42e1-8dfd-f2495037dc86")
-	)
-	(fp_line
-		(start -6.55 -3.75)
-		(end -6.55 -4.95)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "3cf8379c-a52b-4a7c-8912-c86681382ec7")
-	)
-	(fp_line
-		(start -0.95 -4.95)
-		(end -0.95 -3.75)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "fffe9714-9ae7-4eab-8c2e-e0aa93797155")
-	)
-	(fp_line
-		(start 2.67504 1.75)
-		(end 2.864985 1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "91446712-9d61-4039-8f7a-6f60669de8a0")
-	)
-	(fp_line
-		(start 2.864985 -1.75)
-		(end 2.67504 -1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "9bce5bc0-97b4-45f8-ae45-0bb151f4e1de")
-	)
-	(fp_line
-		(start 2.864985 1.75)
-		(end 2.864985 -1.75)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "10227563-d0af-45de-a0a0-79035a969988")
-	)
-	(fp_poly
-		(pts
-			(xy -0.635 4.903397) (xy 0.635 4.903397) (xy 0 3.975397)
-		)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.SilkS")
-		(uuid "eec79e27-226e-4488-9e80-a6c5164b5670")
-	)
 	(fp_line
 		(start -10.365 -1.74)
 		(end -10.365 1.74)
