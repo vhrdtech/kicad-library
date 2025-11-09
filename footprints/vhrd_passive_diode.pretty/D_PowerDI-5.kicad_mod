@@ -1,7 +1,7 @@
 (footprint "D_PowerDI-5"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(descr "PowerDI,Diode,Vishay,https://www.diodes.com/assets/Package-Files/PowerDI5.pdf")
 	(tags "PowerDI diode vishay")
@@ -23,18 +23,6 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "df9fab54-d9ee-47ef-8f81-8b8d9d5e35c0")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -71,7 +59,7 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.Paste")
 		(uuid "55642b1d-d22a-4f44-a91d-960103cf1b64")
 	)
@@ -82,7 +70,7 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.Paste")
 		(uuid "8d663011-cb3e-475b-ad1d-043980a9c6ed")
 	)
@@ -93,7 +81,7 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.Paste")
 		(uuid "c776efae-a2c6-430b-ba39-ecba892b5749")
 	)
@@ -104,39 +92,9 @@
 			(width 0.1)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.Paste")
 		(uuid "cafc941b-890f-4a58-b496-7804153bed23")
-	)
-	(fp_line
-		(start -3.81 2.125)
-		(end -3.81 -2.125)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "96878a0a-38f3-405e-b37c-3b98c294a8b2")
-	)
-	(fp_line
-		(start -3.81 2.125)
-		(end 1 2.125)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "b0c0ba32-93b9-47e7-80c5-9855ca2abb80")
-	)
-	(fp_line
-		(start 1 -2.125)
-		(end -3.81 -2.125)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "281a537e-8422-495c-a229-f2cfc07eb380")
 	)
 	(fp_line
 		(start -3.8 -2.28)
@@ -308,15 +266,16 @@
 	(pad "2" smd rect
 		(at 2.862 -0.92 180)
 		(size 1.4 1.39)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "43c10d65-7848-46e8-939f-d0409f323a7d")
 	)
 	(pad "2" smd rect
 		(at 2.862 0.92 180)
 		(size 1.4 1.39)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "e882a68b-de47-4a6f-bab6-66a450a5928d")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vhrd_passive_diode/PowerDI-5.STEP"
 		(offset
 			(xyz 0 9.5 8)
