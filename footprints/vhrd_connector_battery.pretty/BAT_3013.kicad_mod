@@ -1,7 +1,7 @@
 (footprint "BAT_3013"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at -5.715 -10.16 0)
@@ -21,18 +21,6 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "624c5d47-c0d2-48e8-a5e1-1cdbb82341d4")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -62,6 +50,17 @@
 		)
 	)
 	(attr through_hole)
+	(fp_circle
+		(center 0 -0.5)
+		(end 7.9 -0.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Mask")
+		(uuid "b4acb115-cae9-42b5-a7ef-894514fa2541")
+	)
 	(fp_line
 		(start -10.1 -2.7)
 		(end -10.1 8.3)
@@ -129,7 +128,7 @@
 			(width 0.1)
 			(type default)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "5c134634-0b1c-469c-8132-a11f29332dde")
 	)
@@ -142,7 +141,7 @@
 	)
 	(pad "P" thru_hole circle
 		(at -8.435 0)
-		(size 2.775 2.775)
+		(size 2.6 2.6)
 		(drill 1.85)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
@@ -151,13 +150,14 @@
 	)
 	(pad "P" thru_hole circle
 		(at 8.435 0)
-		(size 2.775 2.775)
+		(size 2.6 2.6)
 		(drill 1.85)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(solder_mask_margin 0.102)
 		(uuid "07e4ad43-5910-463b-9cf9-a21366c7cedd")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/connectors/battery/3013.step"
 		(offset
 			(xyz 0 0 3.7)
