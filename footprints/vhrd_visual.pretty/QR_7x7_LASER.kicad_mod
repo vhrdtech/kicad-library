@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "QR_7x7_LASER"
-		(at 3.5 3.5 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "3e57f4eb-a33d-4868-8fc6-bf73d1d8e455")
@@ -54,8 +54,8 @@
 	)
 	(attr smd)
 	(fp_rect
-		(start 0 0)
-		(end 7 7)
+		(start -3.5 -3.5)
+		(end 3.5 3.5)
 		(stroke
 			(width 0)
 			(type solid)
@@ -65,8 +65,8 @@
 		(uuid "37a5cced-f992-40ca-b3be-727a855e5a3b")
 	)
 	(fp_rect
-		(start -0.5 -0.5)
-		(end 7.5 7.6)
+		(start -4 -4)
+		(end 4 4.1)
 		(stroke
 			(width 0.05)
 			(type default)
@@ -74,6 +74,38 @@
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "c9e26f26-7c7b-4c4a-af5a-5e73945bfc55")
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layer "F.Cu")
+		(uuid "95687016-9b6c-4322-8842-a899bebf9c2b")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads not_allowed)
+			(copperpour not_allowed)
+			(footprints not_allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy -3.2 -3.2) (xy 3.2 -3.2) (xy 3.2 3.2) (xy -3.2 3.2)
+			)
+		)
 	)
 	(embedded_fonts no)
 )
