@@ -1,7 +1,7 @@
 (footprint "ID09P33E4GV00LF"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(tags "9-pin D-Sub connector horizontal angled 90deg THT male")
 	(property "Reference" "REF**"
@@ -22,18 +22,6 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at -5.48 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "9dcc240b-3bc7-4901-b9fa-6dc8a97eb74f")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -524,15 +512,16 @@
 		(remove_unused_layers no)
 		(uuid "55f30ddb-a5d8-4544-a454-03b9a9668add")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/connectors/amphenol/ID09P33E4GV00LF.STEP"
 		(offset
-			(xyz 0 -1.4 0)
+			(xyz 0 -10.47 0.5)
 		)
 		(scale
 			(xyz 1 1 1)
 		)
 		(rotate
-			(xyz -90 0 0)
+			(xyz -180 -0 -180)
 		)
 	)
 )
