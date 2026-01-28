@@ -1,9 +1,9 @@
-(footprint "TQFP-48_7x7mm_P0.5mm_TI"
+(footprint "TI-PFB0048A"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
 	(layer "F.Cu")
-	(descr "TQFP, 48 Pin, TI PFB0048A")
+	(descr "TQFP-48, 7x7mm, P0.5mm")
 	(tags "TQFP QFP P48GA-50-HAA-2 pkg_3304 PTQP0048KC-A C48-11 PFB0048A")
 	(property "Reference" "REF**"
 		(at 0 -5.85 0)
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "TQFP-48_7x7mm_P0.5mm"
+	(property "Value" "TI-PFB0048A"
 		(at 0 5.85 0)
 		(layer "F.Fab")
 		(uuid "94c55ff0-8ad9-4bd3-bddb-2274c104b910")
@@ -27,7 +27,7 @@
 			)
 		)
 	)
-	(property "Datasheet" ""
+	(property "Datasheet" "https://www.ti.com/lit/ml/mtqf019b/mtqf019b.pdf"
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
