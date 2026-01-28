@@ -651,12 +651,20 @@
 		(uuid "ef69372b-df55-4c9a-b587-a133d63d26c7")
 	)
 	(pad "25" thru_hole circle
-		(at 0 -1.95)
+		(at 0 -1.96)
 		(size 0.6 0.6)
 		(drill 0.3)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "220540be-bd52-4890-9d2a-9d245f0b754a")
+	)
+	(pad "25" thru_hole circle
+		(at 0 -0.67)
+		(size 0.6 0.6)
+		(drill 0.3)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "6b30945b-d674-49b4-964c-38956fd9a43f")
 	)
 	(pad "25" smd roundrect
 		(at 0 0 180)
@@ -667,7 +675,15 @@
 		(uuid "24ffd7cb-10c7-49c8-82a6-50eb32bc66fc")
 	)
 	(pad "25" thru_hole circle
-		(at 0 1.95)
+		(at 0 0.67)
+		(size 0.6 0.6)
+		(drill 0.3)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "18c6a4f6-2763-409c-8f81-f99c67da1cd8")
+	)
+	(pad "25" thru_hole circle
+		(at 0 1.96)
 		(size 0.6 0.6)
 		(drill 0.3)
 		(layers "*.Cu" "*.Mask")
