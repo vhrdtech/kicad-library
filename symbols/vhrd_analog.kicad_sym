@@ -2248,7 +2248,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:VSSOP-10_3x3mm_P0.5mm"
+		(property "Footprint" "vhrd_ti:TI-DGS0010A"
 			(at 1.778 -40.894 0)
 			(show_name no)
 			(do_not_autoplace no)
