@@ -1,0 +1,107 @@
+(footprint "SPARK_GAP_015"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at -4.8 -10.6 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "8c3c8d27-2ea0-4316-b23c-0a5377e5291f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "SPARK_GAP_015"
+		(at -4.8 -9.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "164e9207-40d9-4fac-a521-b71eef677ebb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d60b90cf-ea0e-418d-a2b4-16fef22287a0")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8951f976-b5ce-493f-bf98-1d826a725dbc")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -0.300002 -0.380002)
+		(end 0.300002 0.379998)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Mask")
+		(uuid "a361761a-2b85-453c-b3d3-cfe1ae1130bd")
+	)
+	(fp_text user "${REFERENCE}"
+		(at -4.8 -7.6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "f819b5c6-9bd8-4b33-ae12-7422dfa73aec")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at 0.15 0)
+		(size 0.3 0.15)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "82d3afb4-3e63-43ed-a225-28797d87e1c7")
+	)
+	(pad "2" smd rect
+		(at -0.225 0 90)
+		(size 0.76 0.15)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "a9ddf716-54cc-49eb-8d99-31acb15fd7da")
+	)
+	(pad "2" smd rect
+		(at 0.02 -0.3025 180)
+		(size 0.56 0.155)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "37cbb674-93b3-49fb-8812-d89b33fb4218")
+	)
+	(pad "2" smd rect
+		(at 0.02 0.3025)
+		(size 0.56 0.155)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "ae6a099b-2c20-43e8-aef9-e67e915b44c3")
+	)
+	(embedded_fonts no)
+)
