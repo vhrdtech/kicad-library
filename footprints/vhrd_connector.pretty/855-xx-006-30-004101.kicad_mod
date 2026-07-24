@@ -1,0 +1,140 @@
+(footprint "855-xx-006-30-004101"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at -0.2 -2.2 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "cc41c55e-a239-4f30-a3ec-ab44a92ceaa9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "855-xx-006-30-004101"
+		(at 0 -5.6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "f7dd6dbe-fa2a-4879-835b-ab55709e6b17")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.mill-max.com/products/datasheet/855-22-006-30-004101"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "43b645c7-7261-4bc1-b45b-b5da27d42943")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "POGO 1.27 2x3 SMT"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "dfae9eba-b68f-48ad-bf89-ecd69331cd08")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -2.095 -1.525)
+		(end 2.095 1.525)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "4dc37727-da4f-4d36-834e-579ad537187f")
+	)
+	(fp_rect
+		(start -2.095 -1.525)
+		(end 2.095 1.525)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e6f39ee1-8d12-4cde-a04d-4be125866a32")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 -4.1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "169f8a77-36ec-4617-ac15-1e171b81e290")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd circle
+		(at -1.27 -0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "5c844316-f969-460c-b625-54c2d49653fb")
+	)
+	(pad "2" smd circle
+		(at -1.27 0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "fa418ef7-4a93-439a-81bd-32cf124719e2")
+	)
+	(pad "3" smd circle
+		(at 0 -0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "017e6829-50bb-4373-be11-b14322affa9e")
+	)
+	(pad "4" smd circle
+		(at 0 0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "cdffc45a-26f5-42a5-be1f-f6a306c107a0")
+	)
+	(pad "5" smd circle
+		(at 1.27 -0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "684c3d24-1f41-47ad-8779-9748ee7db606")
+	)
+	(pad "6" smd circle
+		(at 1.27 0.635)
+		(size 0.99 0.99)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "777fcb1b-a852-47a6-a2d9-c1b4a4c18fa0")
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/connectors/mill_max/855-22-006-30-004101.STEP"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -0)
+		)
+	)
+)
