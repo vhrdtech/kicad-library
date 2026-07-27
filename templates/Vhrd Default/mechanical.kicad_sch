@@ -935,7 +935,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0d6615a0-8f8d-45be-a17c-d3cee5fe1bd2")
-		(property "Reference" "V1901"
+		(property "Reference" "V201"
 			(at 30.48 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1007,7 +1007,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1901")
+					(reference "V201")
 					(unit 1)
 				)
 			)
@@ -1024,7 +1024,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "339e7cb0-df43-473f-945f-6e32aaf1b956")
-		(property "Reference" "V1909"
+		(property "Reference" "V207"
 			(at 88.9 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1093,7 +1093,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1909")
+					(reference "V207")
 					(unit 1)
 				)
 			)
@@ -1110,7 +1110,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3a31a228-a70d-4cbc-8763-c5deeeb054f3")
-		(property "Reference" "V1906"
+		(property "Reference" "V208"
 			(at 82.55 120.65 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1179,7 +1179,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1906")
+					(reference "V208")
 					(unit 1)
 				)
 			)
@@ -1196,7 +1196,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3bb19c3d-d030-4880-b48d-7f3dd7593873")
-		(property "Reference" "V1904"
+		(property "Reference" "V206"
 			(at 85.09 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1264,7 +1264,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1904")
+					(reference "V206")
 					(unit 1)
 				)
 			)
@@ -1281,7 +1281,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "567c87a5-0f42-4c1c-8281-6525d0b217c3")
-		(property "Reference" "V1907"
+		(property "Reference" "V210"
 			(at 110.49 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1349,7 +1349,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1907")
+					(reference "V210")
 					(unit 1)
 				)
 			)
@@ -1366,7 +1366,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "675a1dae-2401-4ba5-8c4d-7b0ae33614f7")
-		(property "Reference" "V1911"
+		(property "Reference" "V211"
 			(at 107.95 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1435,7 +1435,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1911")
+					(reference "V211")
 					(unit 1)
 				)
 			)
@@ -1452,7 +1452,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8085496e-b90a-474d-b11a-058fbbf437a0")
-		(property "Reference" "#PWR01901"
+		(property "Reference" "#PWR0201"
 			(at 25.4 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -1512,7 +1512,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "#PWR01901")
+					(reference "#PWR0201")
 					(unit 1)
 				)
 			)
@@ -1529,7 +1529,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bd646ba3-c5f6-4ab8-adf5-3ef75b786cd2")
-		(property "Reference" "V1910"
+		(property "Reference" "V205"
 			(at 55.88 120.65 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1598,7 +1598,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1910")
+					(reference "V205")
 					(unit 1)
 				)
 			)
@@ -1615,7 +1615,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d6dd9f67-edd2-4c0d-8d27-ecdf1e45d8fb")
-		(property "Reference" "V1905"
+		(property "Reference" "V209"
 			(at 95.25 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1684,7 +1684,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1905")
+					(reference "V209")
 					(unit 1)
 				)
 			)
@@ -1702,7 +1702,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e9f0ab7d-e6d0-4bb1-a510-9c7e48fab794")
-		(property "Reference" "V1912"
+		(property "Reference" "V212"
 			(at 124.46 125.7299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1760,7 +1760,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1912")
+					(reference "V212")
 					(unit 1)
 				)
 			)
@@ -1777,7 +1777,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ea7ab72b-b44b-4ca6-a42e-795f23261093")
-		(property "Reference" "V1903"
+		(property "Reference" "V203"
 			(at 43.18 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1845,7 +1845,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1903")
+					(reference "V203")
 					(unit 1)
 				)
 			)
@@ -1862,7 +1862,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ed6016ce-fc8f-4710-a979-09b1c7d53e7e")
-		(property "Reference" "V1902"
+		(property "Reference" "V204"
 			(at 55.88 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1919,7 +1919,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1902")
+					(reference "V204")
 					(unit 1)
 				)
 			)
@@ -1936,7 +1936,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "edb2e07e-d8d7-4ea0-83c3-1e8189b3d213")
-		(property "Reference" "V1908"
+		(property "Reference" "V202"
 			(at 33.02 120.65 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2003,7 +2003,7 @@
 		(instances
 			(project "default_vhrd"
 				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
-					(reference "V1908")
+					(reference "V202")
 					(unit 1)
 				)
 			)

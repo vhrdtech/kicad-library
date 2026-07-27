@@ -693,7 +693,7 @@
   "schematic": {
     "annotate_start_num": 0,
     "annotation": {
-      "method": 0,
+      "method": 1,
       "sort_order": 0
     },
     "bom_export_filename": "${PROJECTNAME}.csv",
@@ -1012,7 +1012,7 @@
         "uuid": "40f6bb79-f555-4b81-9ba4-c7b6659be11e"
       }
     ],
-    "used_designators": "M1,V1901-1912,H1901-1902,#PWR1901",
+    "used_designators": "M1,V201-212,V1901-1912,H1901-1902,#PWR201,#PWR1901",
     "variants": []
   },
   "sheets": [

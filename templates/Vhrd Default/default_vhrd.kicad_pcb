@@ -165,7 +165,7 @@
 		(layer "F.Cu")
 		(uuid "2aa1dfd1-6b73-4cc6-a455-b32789f7ffee")
 		(at 197.6 150.3)
-		(property "Reference" "V1907"
+		(property "Reference" "V210"
 			(at 0 -0.5 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -346,7 +346,7 @@
 		(layer "F.Cu")
 		(uuid "42d0f1dc-80eb-464a-8552-7547bba03c06")
 		(at 205.85 150.3)
-		(property "Reference" "V1905"
+		(property "Reference" "V209"
 			(at 0 -0.5 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -586,7 +586,7 @@
 		(layer "F.Cu")
 		(uuid "b55a0ac3-3327-4021-9dac-0e6142dd7118")
 		(at 245.4 151.6)
-		(property "Reference" "V1901"
+		(property "Reference" "V201"
 			(at 2 -5.75 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -869,7 +869,7 @@
 		(at 185.092514 159.304848)
 		(descr "KiCad Logo")
 		(tags "Logo KiCad")
-		(property "Reference" "V1908"
+		(property "Reference" "V202"
 			(at 0 -5.08 0)
 			(layer "F.SilkS")
 			(hide yes)
@@ -1533,7 +1533,7 @@
 		(layer "F.Cu")
 		(uuid "c81dd48b-025d-4507-85b6-4c7790f73ca1")
 		(at 177.3 149.5)
-		(property "Reference" "V1909"
+		(property "Reference" "V207"
 			(at 0 -0.5 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -1745,7 +1745,7 @@
 		(layer "F.Cu")
 		(uuid "c899639a-a40d-4ddf-a40b-66af00bdbf5a")
 		(at 220.1 148.65)
-		(property "Reference" "V1902"
+		(property "Reference" "V204"
 			(at 2 -5.75 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -2000,7 +2000,7 @@
 		(at 199.6 160.2)
 		(descr "Waste Electrical and Electronic Equipment Directive https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32012L0019#page=29")
 		(tags "Logo WEEE")
-		(property "Reference" "V1910"
+		(property "Reference" "V205"
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
@@ -2264,7 +2264,7 @@
 		(layer "F.Cu")
 		(uuid "f6ab6611-3e56-4b08-9465-8c74c3ca5d50")
 		(at 256.2 149.5)
-		(property "Reference" "V1912"
+		(property "Reference" "V212"
 			(at 0 -0.5 0)
 			(unlocked yes)
 			(layer "F.SilkS")
@@ -2614,7 +2614,7 @@
 		(layer "B.Cu")
 		(uuid "2a396874-7461-46c9-93a2-460b07159163")
 		(at 225.5 163.1)
-		(property "Reference" "V1903"
+		(property "Reference" "V203"
 			(at 0 0.5 180)
 			(unlocked yes)
 			(layer "B.SilkS")
@@ -2718,7 +2718,7 @@
 		(layer "B.Cu")
 		(uuid "880abf93-e931-4d70-a7c9-bee77df6ef92")
 		(at 215.2 160.3)
-		(property "Reference" "V1906"
+		(property "Reference" "V208"
 			(at 0 0.5 180)
 			(unlocked yes)
 			(layer "B.SilkS")
@@ -2854,7 +2854,7 @@
 		(layer "B.Cu")
 		(uuid "b83364aa-245d-4b86-b8b8-1f48f675ae80")
 		(at 204.8 150.3 180)
-		(property "Reference" "V1904"
+		(property "Reference" "V206"
 			(at 0 0.5 0)
 			(unlocked yes)
 			(layer "B.SilkS")
@@ -3040,7 +3040,7 @@
 		(layer "B.Cu")
 		(uuid "b8def29e-4c08-4abc-9fcd-7ab72fb2da8f")
 		(at 192.5 149.5 180)
-		(property "Reference" "V1911"
+		(property "Reference" "V211"
 			(at 0 0.5 0)
 			(unlocked yes)
 			(layer "B.SilkS")
