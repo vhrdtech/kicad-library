@@ -1,4 +1,38 @@
+# Temporary files
+*.000
 *.bak
+*.bck
+*.kicad_pcb-bak
+*.kicad_sch-bak
+# Project-local settings
+*.kicad_prl
+*.sch-bak
+*~
+_autosave-*
+*.tmp
+*-save.pro
+*-save.kicad_pcb
+**/fp-info-cache
+**/fp-lib-table
+*#auto_saved_files#
+
+# Lock files
+*~*lck
+
+# Backups zips
+**/*backups/*.zip
+
+.history/
+.history_trim/
+
+# Commit zip archives, ignore plain gerbers
+**/gerbers/*.gbr
+**/gerbers/*.drl
+**/gerbers/*.gbrjob
+
+# FreeCad
+**/*.FCBak
+
+# OS-specific and editor files
 .DS_Store
-*.SLDPRT
-*.SLDASM
+Thumbs.db
