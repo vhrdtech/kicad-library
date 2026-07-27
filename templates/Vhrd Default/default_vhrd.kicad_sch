@@ -1,0 +1,89 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "40f6bb79-f555-4b81-9ba4-c7b6659be11e")
+	(paper "A3")
+	(title_block
+		(title "Product")
+		(date "27 Jul 2026")
+		(rev "A")
+		(company "vhrd.tech")
+		(comment 1 "Roman E. Isaikin")
+	)
+	(lib_symbols)
+	(sheet
+		(at 13.97 242.57)
+		(size 38.1 39.37)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "e8024289-d464-4f5f-b671-8fa26c9108fa")
+		(property "Sheetname" "Mechanical"
+			(at 13.97 241.8584 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mechanical.kicad_sch"
+			(at 13.97 282.5246 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "default_vhrd"
+				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+	(embedded_files
+		(file
+			(name "vhrd_a3.kicad_wks")
+			(type worksheet)
+			(data |KLUv/WDdDp0XAJZfYiAQlR5qERaaApj4+Aox/IFavYZ0WduSjTvzz0IAAEkEHFsAWwBZAArTgHqX
+				7cF748sHb9dkbr6ZrHksG/OdijqMT7O5K/rudioK/X3p6j36TQAAAh/Qfh2hpSxUxvtyb+l8qJfx
+				1vJ3nyEAAlV19ymjfB2+On+IAAhojsjCadvlEAKXwHASXBq0ta0f3PBiRsua0yJdHvec7TWK/Lv7
+				7ZEwd2vQZkI6qbVQPizGysgQCwuDMpk0pM8nqwoI7A5jpIwRuny2WnhNfxp/qD367DAp9d6jddTJ
+				Mwjj8YgEiEgiTsuRNTLTwKq+/zWTa27ts4LCWVGZ7uoreRrUfYV6v2kYC9Y6pWb7DbmsaUj5Q+72
+				QVrfh8Hvt3bV/BcPqHtc1nDiot/ZN6N+TSuE8+eDcCkx6BaMNQaBarpbrFasVpdePUZMOo3uFMPc
+				zsvaicl5XdWKGLVWYtP647qv/twjjIW3s7b1d9dxkJYn8zp/l/F26bxqRQpp4U2PcGLTfSKodEzC
+				SDwoEMtCEoChoCFFq2RGFCRJChnmoESExIoe6J3u+nM6MNN25IwJ6RoEhP4kLQIrMWmjXdMB2TaF
+				pmbmuWf+2AgcHV1s0Hjo3ql7SGWI3rjZaE5DHCxCFy5xBCUBrAXlEp53Qn788eY8OvPu6JfsLGOk
+				z84g1NnMNnnPDsMcOXH5xBivmtPT5rRKqusyMsE2EXlSBX3FLFrQSCCs7vyUF6KrnWakeA3KMiRC
+				BZGO2GlQR0z0bHvaSkdTNtMYSOgIeLvNrlMZL/U4+nUIIwRW0LWcHoafHTzsSfG/KQu286II+fHk
+				DgfEc4Rl25JbrFF3+hFOmyjqPD2Ck2kfZKrh80lBKL7mqPMkb1R3wRGSCHhHO+oHgfi5Buo50l9R
+				COsYMTMPdZJEtzXbEqtdgcP3QgoY4vHOitEZQj+gFlmu91O7msPo7qjkfX6tKbNmsW5ivagj6k7G
+				d6uMh13CUkUaVlIoArzj93XTSXzGh6gC|
+			)
+			(checksum "5AE9DFC58DC79BC2C9749CF47126D060")
+		)
+	)
+)

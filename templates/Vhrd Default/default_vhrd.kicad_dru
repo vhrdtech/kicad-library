@@ -1,0 +1,13 @@
+(version 1)
+
+# Ignore solder mask bridging different nets for spark gaps
+(rule spark_gap_bridging
+    (constraint bridged_mask)
+    (condition "A.memberOfFootprint('E*')")
+    (severity ignore))
+
+# Remove solder paste from DNP footprints.
+(rule remove_solder_paste_from_DNP
+    (constraint solder_paste_abs_margin (opt -50mm))
+    (condition "A.Do_not_Populate"))
+
