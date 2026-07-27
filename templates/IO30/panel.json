@@ -1,0 +1,32 @@
+{
+  "layout": {
+    "hspace": "2mm",
+    "vspace": "2mm",
+    "rows": 2,
+    "cols": 2
+  },
+  "tabs": {
+    "type": "fixed",
+    "width": "5mm",
+    "hcount": 0,
+    "vcount": 2
+  },
+  "cuts": {
+    "type": "mousebites",
+    "drill": "0.5mm",
+    "spacing": "0.9mm",
+    "offset": "0.25mm"
+  },
+  "framing": {
+    "type": "railstb",
+    "width": "5mm"
+  },
+  "tooling": {
+    "type": "4hole",
+    "hoffset": "2.5mm",
+    "voffset": "2.5mm"
+  },
+  "post": {
+    "millradius": "1mm"
+  }
+}

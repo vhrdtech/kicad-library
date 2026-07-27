@@ -1,0 +1,9 @@
+# just cheatsheet https://cheatography.com/linux-china/cheat-sheets/justfile/
+
+# List all available targets
+default:
+    @just --list
+
+panelize:
+    mkdir -p panel
+    kikit panelize -p panel.json io30.kicad_pcb panel/panel.kicad_pcb	
