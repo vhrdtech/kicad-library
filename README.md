@@ -18,6 +18,9 @@ Install KiKit for panelization support: [Installation](https://yaqwsx.github.io/
 Install just to create shortcuts for various commands like: `just panelize`:
 [Just](https://github.com/casey/just#installation)
 
+[Panelization Examples](https://yaqwsx.github.io/KiKit/latest/panelization/examples/)
+[Panelization Docs](https://yaqwsx.github.io/KiKit/latest/panelization/cli/)
+
 ### Arch
 
 `sudo pacman -S python-kikit`
