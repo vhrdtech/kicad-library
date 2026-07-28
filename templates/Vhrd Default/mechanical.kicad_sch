@@ -1271,6 +1271,92 @@
 		)
 	)
 	(symbol
+		(lib_id "vhrd_visual:SYM")
+		(at 30.48 138.43 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "5253419b-08d2-4ea2-acec-9c4d3e35a164")
+		(property "Reference" "V213"
+			(at 30.48 137.16 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RoHS"
+			(at 40.64 147.32 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "vhrd_visual:RoHS-Logo_6mm_SilkScreen"
+			(at 38.1 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 30.48 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 30.48 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Iworking" ""
+			(at 30.48 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "default_vhrd"
+				(path "/40f6bb79-f555-4b81-9ba4-c7b6659be11e/e8024289-d464-4f5f-b671-8fa26c9108fa"
+					(reference "V213")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "vhrd_visual:BOARD_ID")
 		(at 107.95 33.02 0)
 		(unit 1)
