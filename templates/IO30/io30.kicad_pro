@@ -686,6 +686,7 @@
       "netlist": "",
       "plot": "",
       "specctra_dsn": "",
+      "step": "",
       "vrml": ""
     },
     "page_layout_descr_file": "kicad-embed://vhrd_a4.kicad_wks"
@@ -1012,7 +1013,7 @@
         "uuid": "40f6bb79-f555-4b81-9ba4-c7b6659be11e"
       }
     ],
-    "used_designators": "B201-202,J1-2,J101,M1,V201-212,V1901-1912,H1901-1902,#PWR101-103,#PWR201,#PWR1901",
+    "used_designators": "B201-202,H1901-1902,J1-2,J101,M1,V201-212,V1901-1912,#PWR101-103,#PWR201,#PWR1901",
     "variants": []
   },
   "sheets": [

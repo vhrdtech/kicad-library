@@ -1436,6 +1436,30 @@
 		)
 		(uuid "23398ff5-f152-4c62-9968-23e1a5a24f28")
 	)
+	(text "100mA max"
+		(exclude_from_sim no)
+		(at 95.758 110.49 0)
+		(effects
+			(font
+				(size 1 1)
+				(color 132 132 132 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "3482edae-a4cc-4470-86f8-4c8a59626588")
+	)
+	(text "100mA max"
+		(exclude_from_sim no)
+		(at 95.25 146.05 0)
+		(effects
+			(font
+				(size 1 1)
+				(color 132 132 132 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "4593593e-e033-4bbc-a87b-c6a8a981fff4")
+	)
 	(text "aux. I, RX2"
 		(exclude_from_sim no)
 		(at 95.25 125.73 0)
