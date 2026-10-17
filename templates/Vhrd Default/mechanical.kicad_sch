@@ -44,6 +44,7 @@
 				(effects
 					(font
 						(size 1.27 1.27)
+						(color 110 110 110 1)
 					)
 				)
 			)
@@ -99,6 +100,7 @@
 					(stroke
 						(width 0)
 						(type default)
+						(color 110 110 110 1)
 					)
 					(fill
 						(type none)
@@ -1556,6 +1558,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(color 110 110 110 1)
 				)
 			)
 		)
