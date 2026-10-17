@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-17
+
+### Added
+
+- AGENTS.md, CLAUDE.md, FEATURES.md, CHANGELOG.md and a justfile (`look`, `test`, `lint`, `install`, `deploy`).
+
 ### Changed
 
 - The VHRD look from vhrd_brand's `vhrd-kicad` (P2534, 17 Oct 2026): `templates/vhrd_a4.kicad_wks` and
@@ -10,7 +16,3 @@
   them by path get the new frame. `vhrd_power` symbols coloured: supplies orange, grounds (ISO, CHASSIS) grey. The
   "Vhrd Default" template embeds the new A3 sheet, its net classes carry the signal colours, and it has the
   VHRD_STAMP text variable.
-
-### Added
-
-- AGENTS.md, CLAUDE.md, FEATURES.md, CHANGELOG.md and a justfile (`look`, `test`, `lint`, `install`, `deploy`).
