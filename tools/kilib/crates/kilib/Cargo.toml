@@ -1,0 +1,11 @@
+[package]
+name = "kilib"
+description = "Check and set up KiCad library references: library tables, path variables, symbols, footprints and 3D models"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true

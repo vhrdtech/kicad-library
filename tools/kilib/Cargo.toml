@@ -1,0 +1,29 @@
+[workspace]
+resolver = "3"
+members = ["crates/kilib", "crates/kilib_cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/vhrdtech/kicad-library"
+
+[workspace.dependencies]
+kilib = { path = "crates/kilib" }
+anstream = { version = "1", default-features = false, features = ["auto", "wincon"] }
+anstyle = { version = "1", default-features = false, features = ["std"] }
+clap = { version = "4.5", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "color", "suggestions"] }
+clap_complete = { version = "4.5", default-features = false, features = ["unstable-dynamic"] }
+serde = { version = "1", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["std", "preserve_order", "arbitrary_precision"] }
+
+[profile.dev]
+split-debuginfo = "unpacked"
+
+[profile.test]
+split-debuginfo = "unpacked"
+
+# `just install`: release speed, incremental rebuilds
+[profile.deploy]
+inherits = "release"
+incremental = true
