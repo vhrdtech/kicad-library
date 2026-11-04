@@ -4,6 +4,8 @@
 
 ### Added
 
+- `migrate/2026-11.toml`: where every symbol, footprint and 3D model of the old layout goes in the new kind-first one
+  (`VHRD_<KiCad library>`), for `kilib migrate` to rewrite boards with.
 - `tools/kilib`, a small Rust CLI (MIT): `kilib check PATH...` resolves every symbol, `Footprint` field, footprint and
   3D model of the boards the way KiCad does (global and project library tables, `kicad_common.json` path variables and
   the environment, `${KIPRJMOD}`, `KICAD6..10_3DMODEL_DIR`, `VHRD_3DMODEL_DIR`, stock `.kicad_symdir` libraries,
@@ -12,9 +14,18 @@
   rename map's `[libraries.*]` tables (`--map`) or the library folders found, in place of the old `vhrd_*` rows; it
   also sets `VHRD_LIBRARY_DIR`, `VHRD_VENDOR_LIBRARY_DIR`, `VHRD_3DMODEL_DIR` and the template variables. `--dry-run`
   only shows it; it refuses while KiCad runs.
+- `kilib migrate --map FILE PATH...`: rewrites boards to a new library layout, changing only the strings the map
+  matches and every other byte as it was: symbol ids (`lib_id`, `lib_name`, the `lib_symbols` cache), `Footprint`
+  fields, `ki_fp_filters` entries, footprint ids, `${VHRD_3DMODEL_DIR}` model paths (also absolute ones into a
+  `kicad-library/3dmodels` folder) and the old `vhrd_*` rows of project library tables. It prints a unified diff;
+  `--write` applies it, `--stat` shows only the summary. A dropped footprint still in use is an error, and nothing is
+  written. A second run changes nothing.
+- `kilib restructure --map FILE --vendor-dir DIR`: builds the new layout from the old libraries inside a kicad-library
+  checkout. Each symbol gets its own `.kicad_sym` in `symbols/VHRD_*.kicad_symdir` (KiCad 10's layout; derived symbols
+  go with their parent), footprints move to `footprints/VHRD_*.pretty`, and `VHRD_Vendor` goes to `DIR`. Text stays as
+  it was except what `migrate` rewrites. `--dry-run` lists every move.
 - `just check-boards`: `kilib check` on the hw checkout beside this one (or `VHRD_BOARDS_DIR`), skipped with a note
   where there is none.
-- `migrate/2026-11.toml`: where every symbol, footprint and 3D model of the old layout goes in the new kind-first one (`VHRD_<KiCad library>`), for `kilib migrate` to rewrite boards with.
 
 ### Changed
 

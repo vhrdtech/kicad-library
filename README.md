@@ -32,7 +32,31 @@ Vhrd.Tech KiCad library
   variables are `VHRD_LIBRARY_DIR`, `VHRD_VENDOR_LIBRARY_DIR` and `VHRD_3DMODEL_DIR` (`--models-dir`), each only when
   given, plus `VHRD_TEMPLATE_DIR` and `KICAD_USER_TEMPLATE_DIR` for the drawing sheets. Every other row and setting
   stays as it is. It refuses while KiCad runs.
+- `kilib migrate --map migrate/2026-11.toml PATH...` moves boards to a new library layout. It rewrites only the
+  strings the map matches, and every other byte stays as it was: symbol ids (`lib_id`, `lib_name` and the schematic's
+  `lib_symbols` cache), `Footprint` fields, `ki_fp_filters` entries, footprint ids, `${VHRD_3DMODEL_DIR}` model paths
+  (and absolute paths into a `kicad-library/3dmodels` folder), and the old `vhrd_*` rows of a project's
+  `sym-lib-table` and `fp-lib-table`, which become the rows of the new libraries. An id is looked up in `[symbol]` /
+  `[footprint]` first, then its old library in `[symbol_lib]` / `[footprint_lib]`. It prints a unified diff (`git
+  apply` takes it inside the folder given); `--write` applies it and `--stat` shows only the summary. A footprint the
+  map dropped (`""`) that a board still uses, or two cached symbols that would get one name, is an error: it exits 1
+  and writes nothing. Names the map does not know are listed and left as they are. A second run changes nothing.
+- `kilib restructure --map migrate/2026-11.toml --vendor-dir DIR` moves this checkout's own symbols and footprints
+  into the map's new libraries. Each `symbols/<old>.kicad_sym` becomes one `.kicad_sym` per symbol in
+  `symbols/<New>.kicad_symdir`, as KiCad 10's own libraries are laid out (a `/` in a name is `{slash}` in the file
+  name; a derived symbol goes to its parent's library). Footprints move to `footprints/<New>.pretty`. Libraries under
+  `${VHRD_VENDOR_LIBRARY_DIR}` go to `DIR`. The text of each symbol and footprint stays as it was, except what
+  `migrate` rewrites in it (model paths, `Footprint` fields). The old files are removed once the new ones are written.
+  `--dry-run` lists every move.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
+
+### Migrating an older board
+
+```sh
+kilib migrate --map migrate/2026-11.toml path/to/board            # look at the diff
+kilib migrate --map migrate/2026-11.toml --write path/to/board    # apply it
+kilib check path/to/board                                         # everything resolves
+```
 
 ## KiKit
 

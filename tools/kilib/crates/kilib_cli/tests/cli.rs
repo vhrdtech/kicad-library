@@ -275,3 +275,121 @@ fn setup_rows_from_a_map_and_the_three_variables() {
     assert!(!t.contains("does not exist"), "every row's folder is there:\n{t}");
     assert_eq!(snapshot(&cfg), before);
 }
+
+const MAP: &str = r#"
+[libraries.symbol]
+"VHRD_Device" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Device.kicad_symdir"
+[libraries.footprint]
+"VHRD_Package_SO" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_SO.pretty"
+"VHRD_Vendor" = "${VHRD_VENDOR_LIBRARY_DIR}/footprints/VHRD_Vendor.pretty"
+[symbol]
+"vhrd_device:R" = "VHRD_Device"
+[footprint]
+"vhrd_generic:SOIC-8" = "VHRD_Package_SO"
+"vhrd_generic:PTS815" = "VHRD_Vendor"
+"vhrd_generic:_TEMPLATE" = ""
+[model]
+"ic/SOIC-8.STEP" = "vendor/VHRD_Package_SO.3dshapes/SOIC-8.step"
+"#;
+
+fn migrate_fixture(dir: &TestDir) {
+    dir.write("map.toml", MAP);
+    dir.write("b/b.kicad_sch", "(kicad_sch\n\t(symbol\n\t\t(lib_id \"vhrd_device:R\")\n\t\t(property \"Footprint\" \"vhrd_generic:SOIC-8\")\n\t)\n)\n");
+    dir.write("b/b.kicad_pcb", "(kicad_pcb\n\t(footprint \"vhrd_generic:SOIC-8\"\n\t\t(model \"${VHRD_3DMODEL_DIR}/ic/SOIC-8.STEP\")\n\t)\n)\n");
+}
+
+#[test]
+fn migrate_prints_a_diff_and_writes_with_write() {
+    let dir = TestDir::new("cli_migrate");
+    migrate_fixture(&dir);
+    let before = std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap();
+    let out = kilib(&dir, &["migrate", "--map", "map.toml", "b"]);
+    let (stdout, stderr) = (String::from_utf8_lossy(&out.stdout), String::from_utf8_lossy(&out.stderr));
+    assert_eq!(out.status.code(), Some(0), "{stderr}");
+    assert_eq!(
+        stdout,
+        "--- a/b.kicad_pcb\n+++ b/b.kicad_pcb\n@@ -1,5 +1,5 @@\n (kicad_pcb\n-\t(footprint \"vhrd_generic:SOIC-8\"\n-\t\t(model \"${VHRD_3DMODEL_DIR}/ic/SOIC-8.STEP\")\n+\t(footprint \"VHRD_Package_SO:SOIC-8\"\n+\t\t(model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SOIC-8.step\")\n \t)\n )\n\
+--- a/b.kicad_sch\n+++ b/b.kicad_sch\n@@ -1,6 +1,6 @@\n (kicad_sch\n \t(symbol\n-\t\t(lib_id \"vhrd_device:R\")\n-\t\t(property \"Footprint\" \"vhrd_generic:SOIC-8\")\n+\t\t(lib_id \"VHRD_Device:R\")\n+\t\t(property \"Footprint\" \"VHRD_Package_SO:SOIC-8\")\n \t)\n )\n"
+    );
+    assert!(stderr.contains("kilib migrate: 2 files read, 2 to change: 1 symbol ids, 1 Footprint fields, 1 footprints, 0 filters, 1 3D models, 0 table rows"), "{stderr}");
+    assert!(stderr.contains("not written: run with --write to apply"), "{stderr}");
+    assert_eq!(std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap(), before);
+
+    let out = kilib(&dir, &["migrate", "--map", "map.toml", "--stat", "b"]);
+    assert!(out.stdout.is_empty(), "--stat prints no diff");
+
+    let out = kilib(&dir, &["migrate", "--map", "map.toml", "--write", "b"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert!(text(&out).contains("✓ wrote 2 files"), "{}", text(&out));
+    let pcb = std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap();
+    assert!(pcb.contains("(footprint \"VHRD_Package_SO:SOIC-8\""), "{pcb}");
+    let out = kilib(&dir, &["migrate", "--map", "map.toml", "b"]);
+    assert!(out.stdout.is_empty() && text(&out).contains("✓ nothing to change"), "{}", text(&out));
+    let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
+    assert!(usage.contains("\tmigrate\twrite\n") && usage.contains("\tmigrate\tstat\n"), "{usage}");
+}
+
+#[test]
+fn migrate_refuses_a_dropped_footprint_in_use_and_a_bad_map() {
+    let dir = TestDir::new("cli_migrate_errors");
+    migrate_fixture(&dir);
+    dir.write("b/c.kicad_pcb", "(kicad_pcb (footprint \"vhrd_generic:_TEMPLATE\"))\n");
+    let out = kilib(&dir, &["migrate", "--map", "map.toml", "--write", "b"]);
+    assert_eq!(out.status.code(), Some(1), "{}", text(&out));
+    assert!(text(&out).contains("✗ footprint vhrd_generic:_TEMPLATE was dropped from the library (\"\" in the map) and is still used in c.kicad_pcb (1)"), "{}", text(&out));
+    assert!(text(&out).contains("errors: nothing written"));
+    assert!(std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap().contains("vhrd_generic:SOIC-8"));
+
+    dir.write("bad.toml", "[symbol]\n\"vhrd_x:A\" = \"VHRD_Nowhere\"\n");
+    let out = kilib(&dir, &["migrate", "--map", "bad.toml", "b"]);
+    assert_eq!(out.status.code(), Some(2));
+    assert!(text(&out).contains("targets not in [libraries]: symbol vhrd_x:A = \"VHRD_Nowhere\""), "{}", text(&out));
+}
+
+#[test]
+fn restructure_dry_run_lists_every_move_then_moves() {
+    let dir = TestDir::new("cli_restructure");
+    dir.write("map.toml", MAP);
+    dir.write(
+        "lib/symbols/vhrd_device.kicad_sym",
+        "(kicad_symbol_lib (version 20220914) (generator kicad_symbol_editor)\n  (symbol \"R\")\n)\n",
+    );
+    dir.write(
+        "lib/footprints/vhrd_generic.pretty/SOIC-8.kicad_mod",
+        "(footprint \"SOIC-8\"\n  (model \"${VHRD_3DMODEL_DIR}/ic/SOIC-8.STEP\"))\n",
+    );
+    dir.write("lib/footprints/vhrd_generic.pretty/PTS815.kicad_mod", "(footprint \"PTS815\")\n");
+    dir.write("lib/footprints/vhrd_generic.pretty/_TEMPLATE.kicad_mod", "(footprint \"_TEMPLATE\")\n");
+    let args = ["restructure", "--map", "map.toml", "--vendor-dir", "vendor", "--library", "lib"];
+    let out = kilib(&dir, &[&args[..], &["--dry-run"]].concat());
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    let vendor = dir.path().join("vendor/footprints/VHRD_Vendor.pretty/PTS815.kicad_mod");
+    for want in [
+        "  symbol vhrd_device:R → symbols/VHRD_Device.kicad_symdir/R.kicad_sym\n".to_string(),
+        "  footprint vhrd_generic:SOIC-8 → footprints/VHRD_Package_SO.pretty/SOIC-8.kicad_mod, 1 strings rewritten\n"
+            .into(),
+        format!("  footprint vhrd_generic:PTS815 → {}\n", vendor.display()),
+        "- footprint vhrd_generic:_TEMPLATE (footprints/vhrd_generic.pretty/_TEMPLATE.kicad_mod): dropped\n".into(),
+        "kilib restructure: 1 symbols, 2 footprints to move, 1 dropped; 4 old files out".into(),
+        "dry run: nothing written".into(),
+    ] {
+        assert!(t.contains(&want), "missing {want:?} in:\n{t}");
+    }
+    assert!(dir.path().join("lib/symbols/vhrd_device.kicad_sym").exists() && !dir.path().join("vendor").exists());
+
+    // From inside the checkout, without --library.
+    let mut cmd = Command::new(env!("CARGO_BIN_EXE_kilib"));
+    cmd.args(["restructure", "--map", "../map.toml", "--vendor-dir", "../vendor"])
+        .env_clear()
+        .env("HOME", dir.path().join("home"))
+        .env("NO_COLOR", "1")
+        .current_dir(dir.path().join("lib"));
+    let out = cmd.output().unwrap();
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert!(vendor.is_file());
+    assert!(dir.path().join("lib/symbols/VHRD_Device.kicad_symdir/R.kicad_sym").is_file());
+    assert!(!dir.path().join("lib/footprints/vhrd_generic.pretty").exists());
+    let out = kilib(&dir, &args);
+    assert!(text(&out).contains("✓ nothing to move"), "{}", text(&out));
+}

@@ -114,7 +114,7 @@ pub fn check(paths: &[PathBuf], setup: &Setup) -> Report {
     let mut files = Vec::new();
     for p in paths {
         // Absolute, so KIPRJMOD is too: KiCad's own is always absolute.
-        collect(&std::path::absolute(p).unwrap_or_else(|_| p.clone()), &mut files);
+        collect(&std::path::absolute(p).unwrap_or_else(|_| p.clone()), &mut files, &is_board_file);
     }
     files.sort();
     files.dedup();
@@ -137,7 +137,13 @@ pub fn check(paths: &[PathBuf], setup: &Setup) -> Report {
 
 const EXTENSIONS: &[&str] = &["kicad_sch", "kicad_pcb", "kicad_sym", "kicad_mod"];
 
-fn collect(path: &Path, out: &mut Vec<PathBuf>) {
+fn is_board_file(name: &str) -> bool {
+    Path::new(name).extension().and_then(|e| e.to_str()).is_some_and(|e| EXTENSIONS.contains(&e))
+}
+
+/// The files under `path` whose name `want` takes; a path that is a file is taken as it is. Hidden folders,
+/// KiCad's backups and autosaves are skipped.
+pub(crate) fn collect(path: &Path, out: &mut Vec<PathBuf>, want: &dyn Fn(&str) -> bool) {
     let Ok(meta) = std::fs::metadata(path) else {
         out.push(path.to_path_buf()); // reported as unreadable
         return;
@@ -156,11 +162,8 @@ fn collect(path: &Path, out: &mut Vec<PathBuf>) {
             if name.starts_with('.') || name.ends_with("-backups") || name == "target" {
                 continue;
             }
-            collect(&p, out);
-        } else if p.extension().and_then(|e| e.to_str()).is_some_and(|e| EXTENSIONS.contains(&e))
-            && !name.starts_with("_autosave-")
-            && !name.starts_with('~')
-        {
+            collect(&p, out, want);
+        } else if want(&name) && !name.starts_with("_autosave-") && !name.starts_with('~') {
             out.push(p);
         }
     }

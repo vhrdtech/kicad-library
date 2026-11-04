@@ -13,6 +13,8 @@ use clap::{CommandFactory, Parser, Subcommand, ValueHint};
 use kilib::check::{self, Finding, Report};
 use kilib::config;
 use kilib::libtable::{LibTable, TableKind};
+use kilib::migrate;
+use kilib::restructure;
 use kilib::setup::{self, Line};
 
 const VERSION: &str = concat!(env!("CARGO_PKG_VERSION"), " (", env!("GIT_SHA"), ", commit ", env!("BUILD_TIME"), ")");
@@ -46,6 +48,7 @@ Examples:
   kilib check ~/git/hw                  every board in hw resolves on this PC
   kilib check --json board.kicad_pcb    the same for one file, as JSON
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
+  kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -116,6 +119,56 @@ Examples:
         #[arg(long)]
         dry_run: bool,
     },
+    /// Rewrite boards to a new library layout: only the strings the map matches change
+    ///
+    /// Rewrites symbol ids (lib_id, lib_name, the lib_symbols cache), Footprint fields, ki_fp_filters entries,
+    /// footprint ids, ${VHRD_3DMODEL_DIR} model paths and the old vhrd_* rows of project sym-lib-table and
+    /// fp-lib-table; every other byte stays as it was. Prints a unified diff; --write applies it. Exits 1 on an
+    /// error (a dropped footprint still in use, two cached symbols that would get one name), and then writes
+    /// nothing. A second run changes nothing.
+    #[command(after_help = "\
+Examples:
+  kilib migrate --map migrate/2026-11.toml ~/git/hw > hw.diff
+  kilib migrate --map migrate/2026-11.toml --write ~/git/hw/b129_cannify_micro")]
+    Migrate {
+        /// The rename map (migrate/*.toml in kicad-library)
+        #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
+        map: PathBuf,
+        /// Boards: files or folders searched for .kicad_sch, .kicad_pcb, .kicad_sym, .kicad_mod and the tables
+        #[arg(required = true, value_hint = ValueHint::AnyPath)]
+        paths: Vec<PathBuf>,
+        /// Write the changes instead of printing the diff
+        #[arg(long)]
+        write: bool,
+        /// Print only the summary, no diff
+        #[arg(long, conflicts_with = "write")]
+        stat: bool,
+    },
+    /// Move a kicad-library checkout's symbols and footprints into the map's new libraries
+    ///
+    /// symbols/<old>.kicad_sym becomes one .kicad_sym per symbol in <New>.kicad_symdir (KiCad 10's layout; a
+    /// derived symbol goes with its parent), footprints/<old>.pretty/*.kicad_mod move to <New>.pretty. Libraries
+    /// under ${VHRD_VENDOR_LIBRARY_DIR} go to --vendor-dir. Symbol and footprint text is kept as it is, except
+    /// what migrate rewrites (model paths, Footprint fields). The old files are removed once the new ones are
+    /// written.
+    #[command(after_help = "\
+Examples:
+  kilib restructure --map migrate/2026-11.toml --vendor-dir ~/vhrd-library-vendor --dry-run
+  kilib restructure --map migrate/2026-11.toml --vendor-dir ~/vhrd-library-vendor")]
+    Restructure {
+        /// The rename map (migrate/*.toml in kicad-library)
+        #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
+        map: PathBuf,
+        /// Where the libraries under ${VHRD_VENDOR_LIBRARY_DIR} go
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+        vendor_dir: PathBuf,
+        /// The kicad-library checkout (default: the one around the current folder)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+        library: Option<PathBuf>,
+        /// List every move and write nothing
+        #[arg(long)]
+        dry_run: bool,
+    },
 }
 
 #[derive(clap::Args)]
@@ -168,6 +221,14 @@ fn main() -> ExitCode {
                 ],
             );
             run_setup(library, &config, map, vendor_dir, models_dir, &stock_tables, dry_run)
+        }
+        Command::Migrate { map, paths, write, stat } => {
+            usage::record("migrate", &[("write", write), ("stat", stat)]);
+            run_migrate(&map, &paths, write, stat)
+        }
+        Command::Restructure { map, vendor_dir, library, dry_run } => {
+            usage::record("restructure", &[("dry-run", dry_run), ("library", library.is_some())]);
+            run_restructure(&map, &vendor_dir, library, dry_run)
         }
     };
     match result {
@@ -310,6 +371,16 @@ fn find_library(start: &Path) -> Option<PathBuf> {
     start.ancestors().find(|d| d.join("symbols").is_dir() && d.join("footprints").is_dir()).map(Path::to_path_buf)
 }
 
+fn library_or_cwd(library: Option<PathBuf>) -> Result<PathBuf, String> {
+    match library {
+        Some(l) => Ok(l),
+        None => {
+            let cwd = std::env::current_dir().map_err(|e| e.to_string())?;
+            Ok(find_library(&cwd).ok_or("no kicad-library checkout around the current folder: pass --library DIR")?)
+        }
+    }
+}
+
 fn run_setup(
     library: Option<PathBuf>,
     config: &ConfigArgs,
@@ -319,13 +390,7 @@ fn run_setup(
     stock: &Path,
     dry_run: bool,
 ) -> Result<ExitCode, String> {
-    let library = match library {
-        Some(l) => l,
-        None => {
-            let cwd = std::env::current_dir().map_err(|e| e.to_string())?;
-            find_library(&cwd).ok_or("no kicad-library checkout around the current folder: pass --library DIR")?
-        }
-    };
+    let library = library_or_cwd(library)?;
     let dir = config.dir().ok_or("no KiCad config folder: pass --config-dir DIR")?;
     if !dir.is_dir() {
         return Err(format!(
@@ -395,5 +460,113 @@ fn run_setup(
         println!("{GREEN}✓{GREEN:#} wrote {} files", plan.changes.len());
     }
     let _ = std::io::stdout().flush();
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_migrate(map: &Path, paths: &[PathBuf], write: bool, stat: bool) -> Result<ExitCode, String> {
+    let map = kilib::map::Map::read(map)?;
+    let plan = migrate::plan(&map, paths);
+    let roots: Vec<PathBuf> = paths.to_vec();
+    if !write && !stat {
+        for c in &plan.changes {
+            for line in c.diff(&shown(&c.path, &roots)).lines() {
+                match line.as_bytes().first() {
+                    Some(b'+') if !line.starts_with("+++") => println!("{GREEN}{line}{GREEN:#}"),
+                    Some(b'-') if !line.starts_with("---") => println!("{RED}{line}{RED:#}"),
+                    Some(b'@') => println!("{CYAN}{line}{CYAN:#}"),
+                    _ => println!("{line}"),
+                }
+            }
+        }
+    }
+    // The summary goes to stderr, so the diff on stdout stays a clean patch.
+    let c = &plan.counts;
+    eprintln!(
+        "{BOLD}kilib migrate{BOLD:#}: {} files read, {} to change: {} symbol ids, {} Footprint fields, {} footprints, {} filters, {} 3D models, {} table rows",
+        plan.files,
+        plan.changes.len(),
+        c.symbols,
+        c.footprint_fields,
+        c.footprints,
+        c.filters,
+        c.models,
+        c.table_rows
+    );
+    for n in &plan.notes {
+        let (mark, style) = match n.severity {
+            migrate::Severity::Error => ("✗", RED),
+            migrate::Severity::Warning => ("!", YELLOW),
+        };
+        let files: Vec<String> = n.uses.iter().map(|(p, k)| format!("{} ({k})", shown(p, &roots))).collect();
+        eprintln!("{style}{mark}{style:#} {} {DIM}in {}{DIM:#}", n.message, files.join(", "));
+    }
+    if plan.has_errors() {
+        eprintln!("{RED}✗{RED:#} errors: nothing written");
+        return Ok(ExitCode::from(1));
+    }
+    if plan.changes.is_empty() {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+    } else if write {
+        migrate::apply(&plan)?;
+        eprintln!("{GREEN}✓{GREEN:#} wrote {} files", plan.changes.len());
+    } else {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_restructure(map: &Path, vendor: &Path, library: Option<PathBuf>, dry_run: bool) -> Result<ExitCode, String> {
+    let map = kilib::map::Map::read(map)?;
+    let library = std::path::absolute(library_or_cwd(library)?).map_err(|e| e.to_string())?;
+    let vendor = std::path::absolute(vendor).map_err(|e| e.to_string())?;
+    let plan = restructure::plan(&map, &library, &vendor);
+    let roots = [library.clone(), vendor.clone()];
+    let (mut symbols, mut footprints, mut dropped) = (0, 0, 0);
+    for m in &plan.moves {
+        let from = shown(&m.from, &roots);
+        match &m.to {
+            None => {
+                dropped += 1;
+                println!("{RED}-{RED:#} {} {} {DIM}({from}){DIM:#}: dropped", m.kind.label(), m.id);
+            }
+            Some(to) => {
+                match m.kind {
+                    kilib::map::ItemKind::Symbol => symbols += 1,
+                    kilib::map::ItemKind::Footprint => footprints += 1,
+                }
+                let to = if to.starts_with(&library) { shown(to, &roots) } else { to.display().to_string() };
+                let why = match m.why {
+                    restructure::Why::Item => "",
+                    restructure::Why::Library => " (library default)",
+                    restructure::Why::Parent => " (with its parent)",
+                };
+                let rewritten =
+                    if m.rewritten > 0 { format!(", {} strings rewritten", m.rewritten) } else { String::new() };
+                println!("  {} {} → {to}{DIM}{why}{rewritten}{DIM:#}", m.kind.label(), m.id);
+            }
+        }
+    }
+    for (sev, msg) in &plan.notes {
+        match sev {
+            migrate::Severity::Error => eprintln!("{RED}✗{RED:#} {msg}"),
+            migrate::Severity::Warning => eprintln!("{YELLOW}!{YELLOW:#} {msg}"),
+        }
+    }
+    eprintln!(
+        "{BOLD}kilib restructure{BOLD:#}: {symbols} symbols, {footprints} footprints to move, {dropped} dropped; {} old files out",
+        plan.remove.len()
+    );
+    if plan.has_errors() {
+        eprintln!("{RED}✗{RED:#} errors: nothing written");
+        return Ok(ExitCode::from(1));
+    }
+    if plan.moves.is_empty() && plan.remove.is_empty() {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to move");
+    } else if dry_run {
+        eprintln!("{CYAN}dry run{CYAN:#}: nothing written");
+    } else {
+        restructure::apply(&plan)?;
+        eprintln!("{GREEN}✓{GREEN:#} moved");
+    }
     Ok(ExitCode::SUCCESS)
 }
