@@ -30,7 +30,9 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(font (size 1.27 1.27) (color 232 113 10 1))
+				(font
+					(size 1.27 1.27)
+					(color 110 110 110 1))
 			)
 		)
 		(property "Footprint" ""
@@ -91,7 +93,7 @@
 				(stroke
 					(width 0)
 					(type default)
-					(color 232 113 10 1)
+					(color 110 110 110 1)
 				)
 				(fill
 					(type none)

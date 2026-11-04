@@ -37,9 +37,11 @@
   file per symbol), footprints in `footprints/VHRD_*.pretty`, each named `VHRD_` plus the KiCad library it would
   belong to. `migrate/2026-11.toml` says where each old symbol, footprint and 3D model went; `kilib migrate` moves a
   board. Third-party footprints and symbols moved to the private `VHRD_Vendor` library (`${VHRD_VENDOR_LIBRARY_DIR}`).
-- The templates Vhrd Default, IO30 and Hammond-1455C801 use the new library names. `just look` colours `VHRD_power`
-  and runs `vhrd-kicad adopt --power` on the three templates; `just test` checks that each template's schematic and
-  board print their embedded VHRD sheet.
+- The templates Vhrd Default, IO30 and Hammond-1455C801 use the new library names and carry the current VHRD look from
+  vhrd-kicad 0.9.9: the A3 sheet embedded in the schematic, the A4 sheet in the board, net class colours and coloured
+  power symbols. `just look` colours `VHRD_power` and redoes all three (`vhrd-kicad adopt --power`, then `vhrd-kicad
+  embed` of the A4 sheet into each board); `just test` checks that each template's schematic and board print their
+  embedded VHRD sheet. Grounds and `PWR_FLAG` in `VHRD_power` are grey now.
 - Footprint model paths: `B0505MT-1WR4`'s second model goes through `${VHRD_3DMODEL_DIR}` instead of a Windows path.
 - `just test` also runs kilib's tests (`just test --changed`: kilib's changed crates only), `just lint` checks its
   format and clippy, and `just install` builds and installs `kilib`.

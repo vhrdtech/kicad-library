@@ -552,6 +552,139 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(232, 113, 10)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Ground",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(138, 138, 138)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Differential",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(21, 101, 192)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Analog",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(106, 27, 154)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "ExtConnector",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(0, 128, 129)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Highdidt",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(178, 84, 141)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "PWM",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgb(114, 125, 10)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
       }
     ],
     "meta": {
@@ -559,7 +692,76 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "+*"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*/+*"
+      },
+      {
+        "netclass": "Ground",
+        "pattern": "GND"
+      },
+      {
+        "netclass": "Differential",
+        "pattern": "*+"
+      },
+      {
+        "netclass": "Differential",
+        "pattern": "*-"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*_A"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*ADC*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*FB"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*/AN*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*CSP*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*CSN*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*REF"
+      },
+      {
+        "netclass": "ExtConnector",
+        "pattern": "*_EXT"
+      },
+      {
+        "netclass": "ExtConnector",
+        "pattern": "*_RET"
+      },
+      {
+        "netclass": "Highdidt",
+        "pattern": "*LX*"
+      },
+      {
+        "netclass": "Highdidt",
+        "pattern": "*SW"
+      },
+      {
+        "netclass": "PWM",
+        "pattern": "*PWM*"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
@@ -569,7 +771,7 @@
       "specctra_dsn": "",
       "vrml": ""
     },
-    "page_layout_descr_file": ""
+    "page_layout_descr_file": "kicad-embed://vhrd_a4.kicad_wks"
   },
   "schematic": {
     "annotate_start_num": 0,
@@ -700,7 +902,8 @@
   ],
   "text_variables": {
     "BOARD_NUMBER": "Bxxx",
-    "PRODUCT_NAME": "Product"
+    "PRODUCT_NAME": "Product",
+    "VHRD_STAMP": "not stamped"
   },
   "tuning_profiles": {
     "meta": {

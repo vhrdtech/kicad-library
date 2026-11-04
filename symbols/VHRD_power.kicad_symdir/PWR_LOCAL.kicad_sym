@@ -20,7 +20,9 @@
 		(property "Value" "+V_LOCAL"
 			(at 0 4.064 0)
 			(effects
-				(font (size 1.27 1.27) (color 232 113 10 1))
+				(font
+					(size 1.27 1.27)
+					(color 110 110 110 1))
 			)
 		)
 		(property "Footprint" ""
@@ -57,7 +59,7 @@
 				(stroke
 					(width 0)
 					(type default)
-					(color 232 113 10 1)
+					(color 110 110 110 1)
 				)
 				(fill
 					(type none)
@@ -68,7 +70,7 @@
 				(stroke
 					(width 0.254)
 					(type default)
-					(color 232 113 10 1)
+					(color 110 110 110 1)
 				)
 				(fill
 					(type none)
@@ -79,7 +81,7 @@
 				(stroke
 					(width 0)
 					(type default)
-					(color 232 113 10 1)
+					(color 110 110 110 1)
 				)
 				(fill
 					(type none)

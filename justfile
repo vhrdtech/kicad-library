@@ -9,12 +9,16 @@ boards := env_var_or_default("VHRD_BOARDS_DIR", "../hw")
 default:
     @just --list
 
-# vhrd_power's colours and the kept templates' sheets, net class colours and power symbols, from the installed vhrd-kicad (vhrd_brand `just install`)
+# VHRD_power's colours and the kept templates' look (schematic and board sheets, net class colours, power symbols), from the installed vhrd-kicad (vhrd_brand `just install`)
 look:
     vhrd-kicad power-colours symbols/VHRD_power.kicad_symdir
     vhrd-kicad adopt --power "templates/Vhrd Default/default_vhrd.kicad_pro"
     vhrd-kicad adopt --power templates/IO30/io30.kicad_pro
     vhrd-kicad adopt --power templates/Hammond-1455C801/hammond_1455c801.kicad_pro
+    vhrd-kicad gen /tmp/kicad-library-look
+    vhrd-kicad embed "templates/Vhrd Default/default_vhrd.kicad_pcb" /tmp/kicad-library-look/vhrd_a4.kicad_wks
+    vhrd-kicad embed templates/IO30/io30.kicad_pcb /tmp/kicad-library-look/vhrd_a4.kicad_wks
+    vhrd-kicad embed templates/Hammond-1455C801/hammond_1455c801.kicad_pcb /tmp/kicad-library-look/vhrd_a4.kicad_wks
 
 # The kept templates print their embedded VHRD sheet, and kilib's tests (`--changed`: only the kilib crates changed against main)
 test *flags:

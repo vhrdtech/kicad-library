@@ -557,21 +557,21 @@
         "name": "Analog",
         "pcb_color": "rgb(255, 255, 194)",
         "priority": 4,
-        "schematic_color": "rgb(255, 255, 194)",
+        "schematic_color": "rgb(106, 27, 154)",
         "tuning_profile": ""
       },
       {
         "name": "Differential",
         "pcb_color": "rgb(93, 135, 255)",
         "priority": 1,
-        "schematic_color": "rgb(93, 135, 255)",
+        "schematic_color": "rgb(21, 101, 192)",
         "tuning_profile": ""
       },
       {
         "name": "ExtConnector",
         "pcb_color": "rgb(0, 194, 194)",
         "priority": 5,
-        "schematic_color": "rgb(0, 255, 255)",
+        "schematic_color": "rgb(0, 128, 129)",
         "tuning_profile": ""
       },
       {
@@ -579,7 +579,7 @@
         "name": "Ground",
         "pcb_color": "rgb(0, 194, 0)",
         "priority": 7,
-        "schematic_color": "rgb(0, 194, 0)",
+        "schematic_color": "rgb(138, 138, 138)",
         "tuning_profile": "",
         "wire_width": 0
       },
@@ -587,7 +587,7 @@
         "name": "Highdidt",
         "pcb_color": "rgb(255, 255, 0)",
         "priority": 3,
-        "schematic_color": "rgb(255, 255, 0)",
+        "schematic_color": "rgb(178, 84, 141)",
         "tuning_profile": ""
       },
       {
@@ -601,14 +601,14 @@
         "name": "PWM",
         "pcb_color": "rgb(132, 132, 0)",
         "priority": 2,
-        "schematic_color": "rgb(132, 132, 0)",
+        "schematic_color": "rgb(114, 125, 10)",
         "tuning_profile": ""
       },
       {
         "name": "Power",
         "pcb_color": "rgb(194, 0, 194)",
         "priority": 6,
-        "schematic_color": "rgb(194, 0, 0)",
+        "schematic_color": "rgb(232, 113, 10)",
         "tuning_profile": ""
       }
     ],
@@ -1028,7 +1028,8 @@
   ],
   "text_variables": {
     "BOARD_NUMBER": "BxxxA",
-    "PRODUCT_NAME": "Product"
+    "PRODUCT_NAME": "Product",
+    "VHRD_STAMP": "not stamped"
   },
   "tuning_profiles": {
     "meta": {
