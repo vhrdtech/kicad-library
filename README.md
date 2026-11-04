@@ -3,13 +3,16 @@ Vhrd.Tech KiCad library
 
 ## Configuration
 
-- Preferences - Manage Symbol Libraries - Folder down - KiCad (.kicad_sym)
-    - Select all files from `symbols`
-- Preferences - Manage Footprint Libraries - Folder down - KiCad (...)
-    - Select all folders from `footprints`
-- Preferences - Configure paths
-    - Set `VHRD_3DMODEL_DIR` to `3dmodels` folder
-    - Set `KICAD_USER_TEMPLATE_DIR` to `templates` folder if you want to use project templates
+The library has three parts, each found through a KiCad path variable:
+
+- `VHRD_LIBRARY_DIR`: this checkout, with `symbols/VHRD_*.kicad_symdir` and `footprints/VHRD_*.pretty`.
+- `VHRD_VENDOR_LIBRARY_DIR`: the private `VHRD_Vendor` library of third-party footprints and symbols. It is not part
+  of this repo.
+- `VHRD_3DMODEL_DIR`: the 3D models, in `own/` and `vendor/`. They are not part of this repo either.
+
+`kilib setup --map migrate/2026-11.toml --vendor-dir DIR --models-dir DIR` writes the library rows and the variables
+into this PC's KiCad config (see below). `KICAD_USER_TEMPLATE_DIR` points at `templates/`, so File, New Project from
+Template offers "Vhrd Default", IO30 and Hammond-1455C801. Each template embeds its drawing sheet.
 
 ## Checking boards: kilib
 
