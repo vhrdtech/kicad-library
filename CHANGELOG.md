@@ -7,9 +7,11 @@
 - `tools/kilib`, a small Rust CLI (MIT): `kilib check PATH...` resolves every symbol, `Footprint` field, footprint and
   3D model of the boards the way KiCad does (global and project library tables, `kicad_common.json` path variables and
   the environment, `${KIPRJMOD}`, `KICAD6..10_3DMODEL_DIR`, `VHRD_3DMODEL_DIR`, stock `.kicad_symdir` libraries,
-  nested tables) and exits 1 with the list of what does not resolve (`--json` for scripts). `kilib setup` writes one
-  row per library of this checkout through `${VHRD_LIBRARY_DIR}` in place of the old `vhrd_*` rows, and the `VHRD_*`
-  path variables, into this PC's KiCad config; `--dry-run` only shows it; it refuses while KiCad runs.
+  nested tables) and exits 1 with the list of what does not resolve (`--json` for scripts). `kilib setup` writes the
+  library rows through `${VHRD_LIBRARY_DIR}` and `${VHRD_VENDOR_LIBRARY_DIR}` into this PC's KiCad config, from a
+  rename map's `[libraries.*]` tables (`--map`) or the library folders found, in place of the old `vhrd_*` rows; it
+  also sets `VHRD_LIBRARY_DIR`, `VHRD_VENDOR_LIBRARY_DIR`, `VHRD_3DMODEL_DIR` and the template variables. `--dry-run`
+  only shows it; it refuses while KiCad runs.
 - `just check-boards`: `kilib check` on the hw checkout beside this one (or `VHRD_BOARDS_DIR`), skipped with a note
   where there is none.
 

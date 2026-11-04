@@ -12,9 +12,10 @@ repository = "https://github.com/vhrdtech/kicad-library"
 kilib = { path = "crates/kilib" }
 anstream = { version = "1", default-features = false, features = ["auto", "wincon"] }
 anstyle = { version = "1", default-features = false, features = ["std"] }
-clap = { version = "4.5", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "color", "suggestions"] }
+clap = { version = "4.5", default-features = false, features = ["std", "derive", "env", "help", "usage", "error-context", "color", "suggestions"] }
 clap_complete = { version = "4.5", default-features = false, features = ["unstable-dynamic"] }
 serde = { version = "1", default-features = false, features = ["std", "derive"] }
+toml = { version = "1", default-features = false, features = ["std", "parse", "serde"] }
 serde_json = { version = "1", default-features = false, features = ["std", "preserve_order", "arbitrary_precision"] }
 
 [profile.dev]

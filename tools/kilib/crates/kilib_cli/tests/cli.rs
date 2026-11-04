@@ -223,3 +223,55 @@ fn version_and_completion() {
     assert!(out.status.success());
     assert!(String::from_utf8_lossy(&out.stdout).contains("complete"), "a bash completion script");
 }
+
+#[test]
+fn setup_rows_from_a_map_and_the_three_variables() {
+    let dir = TestDir::new("cli_setup_map");
+    let lib = dir.path().join("lib");
+    dir.write("lib/symbols/vhrd_power.kicad_sym", "(kicad_symbol_lib)\n");
+    dir.write("lib/footprints/VHRD_Connector.pretty/c.kicad_mod", "(footprint \"c\")\n");
+    dir.write("vendor/footprints/VHRD_Vendor.pretty/v.kicad_mod", "(footprint \"v\")\n");
+    std::fs::create_dir_all(dir.path().join("models/own")).unwrap();
+    let map = dir.write(
+        "map.toml",
+        "[libraries.footprint]\n\"VHRD_Connector\" = \"${VHRD_LIBRARY_DIR}/footprints/VHRD_Connector.pretty\"\n\"VHRD_Vendor\" = \"${VHRD_VENDOR_LIBRARY_DIR}/footprints/VHRD_Vendor.pretty\"\n[libraries.symbol]\n[model]\n\"a.step\" = \"own/a.step\"\n",
+    );
+    dir.write("cfg/10.0/kicad_common.json", "{}\n");
+    let cfg = dir.path().join("cfg/10.0");
+    let before = snapshot(&cfg);
+    let (vendor, models, stock) = (dir.path().join("vendor"), dir.path().join("models"), dir.path().join("none"));
+    let out = kilib(
+        &dir,
+        &[
+            "setup",
+            "--dry-run",
+            "--library",
+            p(&lib),
+            "--config-dir",
+            p(&cfg),
+            "--map",
+            p(&map),
+            "--vendor-dir",
+            p(&vendor),
+            "--models-dir",
+            p(&models),
+            "--stock-tables",
+            p(&stock),
+        ],
+    );
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    for want in [
+        "(rows from ",
+        "fp-lib-table: 0 out, 2 in",
+        "+ (lib (name \"VHRD_Vendor\") (type \"KiCad\") (uri \"${VHRD_VENDOR_LIBRARY_DIR}/footprints/VHRD_Vendor.pretty\")",
+        "sym-lib-table: 0 out, 0 in",
+        "+ VHRD_VENDOR_LIBRARY_DIR = ",
+        "+ VHRD_3DMODEL_DIR = ",
+        "+ VHRD_LIBRARY_DIR = ",
+    ] {
+        assert!(t.contains(want), "missing {want:?} in:\n{t}");
+    }
+    assert!(!t.contains("does not exist"), "every row's folder is there:\n{t}");
+    assert_eq!(snapshot(&cfg), before);
+}

@@ -81,14 +81,17 @@ Examples:
     },
     /// Point this PC's KiCad at a kicad-library checkout: library rows and path variables
     ///
-    /// Replaces the old vhrd_* rows of the global sym-lib-table and fp-lib-table by one row per library of the
-    /// checkout, through ${VHRD_LIBRARY_DIR}, and sets VHRD_LIBRARY_DIR, VHRD_3DMODEL_DIR, VHRD_TEMPLATE_DIR and
-    /// KICAD_USER_TEMPLATE_DIR in kicad_common.json. Every other row and setting stays as it is. Refuses while
-    /// KiCad runs, since KiCad writes these files when it closes.
+    /// Replaces every vhrd_* and VHRD_* row of the global sym-lib-table and fp-lib-table by the rows of a rename
+    /// map's [libraries.symbol] and [libraries.footprint] (--map), or else of the library folders found, through
+    /// ${VHRD_LIBRARY_DIR} and ${VHRD_VENDOR_LIBRARY_DIR}. Sets VHRD_LIBRARY_DIR, VHRD_VENDOR_LIBRARY_DIR and
+    /// VHRD_3DMODEL_DIR (each when given), VHRD_TEMPLATE_DIR and KICAD_USER_TEMPLATE_DIR in kicad_common.json.
+    /// Every other row and setting stays as it is. Refuses while KiCad runs, since KiCad writes these files when
+    /// it closes.
     #[command(after_help = "\
 Examples:
   kilib setup --dry-run
-  kilib setup --library ~/git/kicad-library
+  kilib setup --map migrate/2026-11.toml --vendor-dir ~/vhrd-library-vendor \\
+              --models-dir ~/vhrd-packages3D
   kilib setup --config-dir /tmp/kicad-test/10.0 --dry-run")]
     Setup {
         /// The kicad-library checkout (default: the one around the current folder)
@@ -96,6 +99,16 @@ Examples:
         library: Option<PathBuf>,
         #[command(flatten)]
         config: ConfigArgs,
+        /// A rename map (migrate/*.toml): its [libraries.symbol] and [libraries.footprint] give the rows
+        /// (default: the library folders found in the checkout and the vendor library)
+        #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
+        map: Option<PathBuf>,
+        /// The private vendor library, for VHRD_VENDOR_LIBRARY_DIR (left as it is when not given)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath, env = "VHRD_VENDOR_LIBRARY_DIR")]
+        vendor_dir: Option<PathBuf>,
+        /// The 3D models, for VHRD_3DMODEL_DIR (left as it is when not given)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath, env = "VHRD_3DMODEL_DIR")]
+        models_dir: Option<PathBuf>,
         /// Where a new table is copied from when the config folder has none (KiCad's stock tables)
         #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath, default_value = "/usr/share/kicad/template")]
         stock_tables: PathBuf,
@@ -143,9 +156,18 @@ fn main() -> ExitCode {
             );
             run_check(&paths, &config, sym_lib_table, fp_lib_table, vars, json)
         }
-        Command::Setup { library, config, stock_tables, dry_run } => {
-            usage::record("setup", &[("dry-run", dry_run), ("config-dir", config.config_dir.is_some())]);
-            run_setup(library, &config, &stock_tables, dry_run)
+        Command::Setup { library, config, map, vendor_dir, models_dir, stock_tables, dry_run } => {
+            usage::record(
+                "setup",
+                &[
+                    ("dry-run", dry_run),
+                    ("config-dir", config.config_dir.is_some()),
+                    ("map", map.is_some()),
+                    ("vendor-dir", vendor_dir.is_some()),
+                    ("models-dir", models_dir.is_some()),
+                ],
+            );
+            run_setup(library, &config, map, vendor_dir, models_dir, &stock_tables, dry_run)
         }
     };
     match result {
@@ -288,7 +310,15 @@ fn find_library(start: &Path) -> Option<PathBuf> {
     start.ancestors().find(|d| d.join("symbols").is_dir() && d.join("footprints").is_dir()).map(Path::to_path_buf)
 }
 
-fn run_setup(library: Option<PathBuf>, config: &ConfigArgs, stock: &Path, dry_run: bool) -> Result<ExitCode, String> {
+fn run_setup(
+    library: Option<PathBuf>,
+    config: &ConfigArgs,
+    map: Option<PathBuf>,
+    vendor: Option<PathBuf>,
+    models: Option<PathBuf>,
+    stock: &Path,
+    dry_run: bool,
+) -> Result<ExitCode, String> {
     let library = match library {
         Some(l) => l,
         None => {
@@ -310,8 +340,16 @@ fn run_setup(library: Option<PathBuf>, config: &ConfigArgs, stock: &Path, dry_ru
             running.join(", ")
         ));
     }
-    let plan = setup::plan(&library, &dir, Some(stock))?;
-    println!("{BOLD}kilib setup{BOLD:#}: {} → {}", library.display(), dir.display());
+    let canon = |p: &Path| std::fs::canonicalize(p).map_err(|e| format!("{}: {e}", p.display()));
+    let src = setup::Sources {
+        library: canon(&library)?,
+        vendor: vendor.as_deref().map(canon).transpose()?,
+        models: models.as_deref().map(canon).transpose()?,
+        map,
+    };
+    let plan = setup::plan(&src, &dir, Some(stock))?;
+    let from = src.map.as_ref().map_or("the library folders".into(), |m| m.display().to_string());
+    println!("{BOLD}kilib setup{BOLD:#}: {} → {} (rows from {from})", src.library.display(), dir.display());
     for change in &plan.changes {
         let name = change.path.file_name().unwrap_or_default().to_string_lossy();
         let (out, inn) = change.lines.iter().fold((0, 0), |(o, i), l| match l {
@@ -332,8 +370,7 @@ fn run_setup(library: Option<PathBuf>, config: &ConfigArgs, stock: &Path, dry_ru
     for p in &plan.unchanged {
         println!("{DIM}{}: already set up{DIM:#}", p.file_name().unwrap_or_default().to_string_lossy());
     }
-    let library = std::fs::canonicalize(&library).map_err(|e| e.to_string())?;
-    for (name, value) in setup::variables(&library) {
+    for (name, value) in setup::variables(&src) {
         if let Ok(env) = std::env::var(name)
             && env != value
         {

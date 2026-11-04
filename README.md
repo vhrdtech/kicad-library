@@ -25,10 +25,13 @@ Vhrd.Tech KiCad library
   `--fp-lib-table` and `--var NAME=VALUE` check against another PC's setup.
 - `just check-boards` runs it on the hw checkout beside this one (or `VHRD_BOARDS_DIR`) and skips with a note where
   there is none.
-- `kilib setup --dry-run` shows what `kilib setup` would write into this PC's KiCad config: one row per library of
-  this checkout through `${VHRD_LIBRARY_DIR}` in place of the old `vhrd_*` rows, and the variables `VHRD_LIBRARY_DIR`,
-  `VHRD_3DMODEL_DIR`, `VHRD_TEMPLATE_DIR` and `KICAD_USER_TEMPLATE_DIR`. Every other row and setting stays as it is.
-  It refuses while KiCad runs.
+- `kilib setup --dry-run` shows what `kilib setup` would write into this PC's KiCad config. The library rows go
+  through `${VHRD_LIBRARY_DIR}` (this checkout) and `${VHRD_VENDOR_LIBRARY_DIR}` (the private vendor library,
+  `--vendor-dir`). They come from a rename map's `[libraries.symbol]` and `[libraries.footprint]` tables (`--map
+  migrate/2026-11.toml`), or else from the library folders found. They replace every `vhrd_*` and `VHRD_*` row. The
+  variables are `VHRD_LIBRARY_DIR`, `VHRD_VENDOR_LIBRARY_DIR` and `VHRD_3DMODEL_DIR` (`--models-dir`), each only when
+  given, plus `VHRD_TEMPLATE_DIR` and `KICAD_USER_TEMPLATE_DIR` for the drawing sheets. Every other row and setting
+  stays as it is. It refuses while KiCad runs.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ## KiKit
