@@ -79,9 +79,4 @@
     (solder_mask_margin 0.102) (thermal_bridge_angle 45) (tstamp 4b5aee60-8992-404b-b8d1-25264bf7d7dd))
   (pad "11" smd roundrect (at 12.775 -0.2) (size 5.45 9) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15)
     (solder_mask_margin 0.102) (thermal_bridge_angle 45) (tstamp 97d4dc40-7de0-430a-9254-847c3e76859b))
-  (model "C:/Users/Evgeniy/Downloads/0955166X81X_100566082MOD000A.stp.STEP"
-    (offset (xyz 0 -5.38 7.35))
-    (scale (xyz 1 1 1))
-    (rotate (xyz 90 0 0))
-  )
 )
