@@ -30,7 +30,6 @@
   it was except what `migrate` rewrites. `--dry-run` lists every move.
 - `just check-boards`: `kilib check` on the hw checkout beside this one (or `VHRD_BOARDS_DIR`), skipped with a note
   where there is none.
-
 - `symbols/VHRD_Connector.kicad_symdir`: `ARJM11D7-114-AB` and `BAT-HLD-001-THM`, recovered from the symbol caches of
   the boards that used them as `vhrd_connector_abracon:` and `vhrd_connector_battery:` symbols no library had.
 
