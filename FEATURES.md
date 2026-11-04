@@ -28,3 +28,4 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-8 models-on-syncthing: no 3D models in the repo; footprints find theirs under `${VHRD_3DMODEL_DIR}`, in
   `own/` (made here) and `vendor/` (the makers', not redistributable), one `<FootprintLib>.3dshapes/` folder per
   footprint library
+- 🚧 LIB-9 license: `LICENSE.md`, CC-BY-SA 4.0 with KiCad's library exception, the same as KiCad's own libraries; a README for outside users still to come

@@ -4,6 +4,7 @@
 
 ### Added
 
+- `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours); `tools/kilib` is MIT.
 - `migrate/2026-11.toml`: where every symbol, footprint and 3D model of the old layout goes in the new kind-first one
   (`VHRD_<KiCad library>`), for `kilib migrate` to rewrite boards with.
 - `tools/kilib`, a small Rust CLI (MIT): `kilib check PATH...` resolves every symbol, `Footprint` field, footprint and
