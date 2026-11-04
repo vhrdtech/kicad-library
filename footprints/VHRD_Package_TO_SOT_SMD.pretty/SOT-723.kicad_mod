@@ -1,0 +1,236 @@
+(footprint "SOT-723"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV")
+	(tags "sot 723")
+	(property "Reference" "REF**"
+		(at 0.1 -1.6 0)
+		(layer "F.SilkS")
+		(uuid "516d3e89-34d3-4b82-bafb-f5dc4f43ef1e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SOT-723"
+		(at 0 1.75 0)
+		(layer "F.Fab")
+		(uuid "22c2d087-e368-48e2-92c4-b554ef7431d0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d0ee2e4b-2855-4261-a549-958a44d4af57")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "448feb4b-a1b5-4cea-902e-8a7c1f7caee2")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start 0.3 0.86)
+		(end -0.3 0.86)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "91ba55a4-137c-4b2d-adcd-dc7c434200a4")
+	)
+	(fp_line
+		(start 0.5 -0.86)
+		(end -0.7 -0.86)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "711676c4-e6b7-4353-9308-4ea5060461b4")
+	)
+	(fp_circle
+		(center -1.15 -0.4)
+		(end -1 -0.4)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "ccc18b97-661a-4005-bc99-fa7ad810c99a")
+	)
+	(fp_line
+		(start -0.9 -0.9)
+		(end -0.9 -0.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ea32f647-1b23-413c-9abd-3fb61acc5c5e")
+	)
+	(fp_line
+		(start -0.9 -0.9)
+		(end 0.9 -0.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1e84c4a3-1b8b-42a7-9455-2e1e1e22e8cb")
+	)
+	(fp_line
+		(start -0.9 0.9)
+		(end -0.9 -0.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "52b54f58-052d-4d65-8dd7-730864158a72")
+	)
+	(fp_line
+		(start 0.9 -0.9)
+		(end 0.9 0.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "edccbda4-1582-4bd0-bc70-34f6efe3cd4a")
+	)
+	(fp_line
+		(start 0.9 0.9)
+		(end -0.9 0.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5dc81a06-cbe5-4cbc-90a4-7efff85bdcef")
+	)
+	(fp_line
+		(start -0.4 -0.3)
+		(end -0.1 -0.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "cd9197ce-b935-4532-90e8-a00a991c0fc7")
+	)
+	(fp_line
+		(start -0.4 0.6)
+		(end -0.4 -0.3)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "73155b58-f77f-4a01-8e87-1bba05c76a00")
+	)
+	(fp_line
+		(start -0.1 -0.6)
+		(end 0.4 -0.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "7db43cf0-b790-4813-9303-74416cdf014d")
+	)
+	(fp_line
+		(start 0.4 -0.6)
+		(end 0.4 0.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a339db6b-f596-4d6b-88e5-0d3ef284b83b")
+	)
+	(fp_line
+		(start 0.4 0.6)
+		(end -0.4 0.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c1efce08-494c-4ce4-8774-e7923699481f")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0.8 0 90)
+		(layer "F.Fab")
+		(uuid "27564be3-0cce-4194-aa6e-66d65875a725")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -0.575 -0.4)
+		(size 0.45 0.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(solder_paste_margin_ratio 0)
+		(uuid "6d528059-50bc-42ed-b28a-613a55959b40")
+	)
+	(pad "2" smd roundrect
+		(at -0.575 0.4)
+		(size 0.45 0.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(solder_paste_margin_ratio 0)
+		(uuid "332ce9de-34de-415d-8ddc-e8580fd4a271")
+	)
+	(pad "3" smd roundrect
+		(at 0.575 0)
+		(size 0.45 0.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(solder_paste_margin_ratio 0)
+		(uuid "691f1d6e-b921-49f6-a599-ce327bcb4297")
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_TO_SOT_SMD.3dshapes/SOT-723-3.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -180)
+		)
+	)
+)
