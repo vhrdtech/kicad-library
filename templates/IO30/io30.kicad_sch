@@ -2434,7 +2434,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_connector:PPPC152LJBN-RC"
+		(property "Footprint" "VHRD_Vendor:PPPC152LJBN-RC"
 			(at 110.49 128.27 0)
 			(hide yes)
 			(show_name no)

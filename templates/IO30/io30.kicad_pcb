@@ -138,7 +138,7 @@
 	)
 	(property "BOARD_NUMBER" "BxxxA")
 	(property "PRODUCT_NAME" "Product")
-	(footprint "vhrd_visual:BOARD_ID"
+	(footprint "VHRD_Symbol:BOARD_ID"
 		(layer "F.Cu")
 		(uuid "2aa1dfd1-6b73-4cc6-a455-b32789f7ffee")
 		(at 197.6 150.3)
@@ -296,7 +296,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:DATE"
+	(footprint "VHRD_Symbol:DATE"
 		(layer "F.Cu")
 		(uuid "42d0f1dc-80eb-464a-8552-7547bba03c06")
 		(at 205.85 150.3)
@@ -542,7 +542,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_connector:PPPC152LJBN-RC"
+	(footprint "VHRD_Vendor:PPPC152LJBN-RC"
 		(layer "F.Cu")
 		(uuid "462fe68e-4ce5-49de-8550-68b275be4634")
 		(at 163.78 80.84 -90)
@@ -1792,7 +1792,7 @@
 			(uuid "630fed7f-f7c1-4aa1-b670-000b1f29683e")
 		)
 		(embedded_fonts no)
-		(model "${VHRD_3DMODEL_DIR}/connectors/sullins/PPPC152LJBN-RC.STEP"
+		(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Vendor.3dshapes/PPPC152LJBN-RC.step"
 			(offset
 				(xyz -1.27 -17.78 0)
 			)
@@ -1804,7 +1804,7 @@
 			)
 		)
 	)
-	(footprint "vhrd_visual:VHRD_TECH_LOGO"
+	(footprint "VHRD_Symbol:VHRD_TECH_LOGO"
 		(layer "F.Cu")
 		(uuid "b55a0ac3-3327-4021-9dac-0e6142dd7118")
 		(at 245.4 151.6)
@@ -2755,7 +2755,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_PRODUCT"
+	(footprint "VHRD_Symbol:VHRD_PRODUCT"
 		(layer "F.Cu")
 		(uuid "c81dd48b-025d-4507-85b6-4c7790f73ca1")
 		(at 177.3 149.5)
@@ -2968,7 +2968,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_TECH_LOGO_SO"
+	(footprint "VHRD_Symbol:VHRD_TECH_LOGO_SO"
 		(layer "F.Cu")
 		(uuid "c899639a-a40d-4ddf-a40b-66af00bdbf5a")
 		(at 220.1 148.65)
@@ -3491,7 +3491,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:DOC_LINK"
+	(footprint "VHRD_Symbol:DOC_LINK"
 		(layer "F.Cu")
 		(uuid "f6ab6611-3e56-4b08-9465-8c74c3ca5d50")
 		(at 256.2 149.5)
@@ -3823,7 +3823,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:MARKER_15x5"
+	(footprint "VHRD_Symbol:MARKER_15x5"
 		(layer "B.Cu")
 		(uuid "2a396874-7461-46c9-93a2-460b07159163")
 		(at 225.5 163.1)
@@ -3927,7 +3927,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:QR_7x7_LASER"
+	(footprint "VHRD_Symbol:QR_7x7_LASER"
 		(layer "B.Cu")
 		(uuid "880abf93-e931-4d70-a7c9-bee77df6ef92")
 		(at 215.2 160.3)
@@ -4063,7 +4063,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:BOARD_ID"
+	(footprint "VHRD_Symbol:BOARD_ID"
 		(layer "B.Cu")
 		(uuid "b83364aa-245d-4b86-b8b8-1f48f675ae80")
 		(at 204.8 150.3 180)
@@ -4226,7 +4226,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_PRODUCT"
+	(footprint "VHRD_Symbol:VHRD_PRODUCT"
 		(layer "B.Cu")
 		(uuid "b8def29e-4c08-4abc-9fcd-7ab72fb2da8f")
 		(at 192.5 149.5 180)

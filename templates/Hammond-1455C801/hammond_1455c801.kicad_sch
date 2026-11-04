@@ -225,7 +225,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_mechanical:HAMMOND_1455C801"
+		(symbol "VHRD_Mechanical:HAMMOND_1455C801"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -251,7 +251,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_mechanical:HAMMOND_1455C801"
+			(property "Footprint" "VHRD_Mechanical:HAMMOND_1455C801"
 				(at 27.178 -28.448 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -404,7 +404,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:BOARD_ID"
+		(symbol "VHRD_Graphic:BOARD_ID"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -431,7 +431,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:BOARD_ID"
+			(property "Footprint" "VHRD_Symbol:BOARD_ID"
 				(at 7.62 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -489,7 +489,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:DATE"
+		(symbol "VHRD_Graphic:DATE"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -516,7 +516,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:DATE"
+			(property "Footprint" "VHRD_Symbol:DATE"
 				(at 7.62 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -574,7 +574,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:DOC_LINK"
+		(symbol "VHRD_Graphic:DOC_LINK"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -601,7 +601,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:DOC_LINK"
+			(property "Footprint" "VHRD_Symbol:DOC_LINK"
 				(at 7.62 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -659,7 +659,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:LOGO_GROUNDED"
+		(symbol "VHRD_Graphic:LOGO_GROUNDED"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -686,7 +686,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO"
+			(property "Footprint" "VHRD_Symbol:VHRD_TECH_LOGO"
 				(at 13.97 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -762,7 +762,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:LOGO_SO"
+		(symbol "VHRD_Graphic:LOGO_SO"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -788,7 +788,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO_SO"
+			(property "Footprint" "VHRD_Symbol:VHRD_TECH_LOGO_SO"
 				(at 13.97 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -846,7 +846,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:MARKER_AREA"
+		(symbol "VHRD_Graphic:MARKER_AREA"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -872,7 +872,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:MARKER_15x5"
+			(property "Footprint" "VHRD_Symbol:MARKER_15x5"
 				(at 7.62 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -930,7 +930,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:QR"
+		(symbol "VHRD_Graphic:QR"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -957,7 +957,7 @@
 					)
 				)
 			)
-			(property "Footprint" "vhrd_visual:QR_7x7_LASER"
+			(property "Footprint" "VHRD_Symbol:QR_7x7_LASER"
 				(at 7.62 -8.89 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1015,7 +1015,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "vhrd_visual:SYM"
+		(symbol "VHRD_Graphic:SYM"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
@@ -1222,7 +1222,7 @@
 		(uuid "f9095a2d-c114-4b16-8916-39f2b7cb9451")
 	)
 	(symbol
-		(lib_id "vhrd_visual:LOGO_GROUNDED")
+		(lib_id "VHRD_Graphic:LOGO_GROUNDED")
 		(at 34.29 34.29 0)
 		(unit 1)
 		(body_style 1)
@@ -1254,7 +1254,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO"
+		(property "Footprint" "VHRD_Symbol:VHRD_TECH_LOGO"
 			(at 48.26 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -1387,7 +1387,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:SYM")
+		(lib_id "VHRD_Graphic:SYM")
 		(at 34.29 123.19 0)
 		(unit 1)
 		(body_style 1)
@@ -1548,7 +1548,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:QR")
+		(lib_id "VHRD_Graphic:QR")
 		(at 86.36 123.19 0)
 		(unit 1)
 		(body_style 1)
@@ -1580,7 +1580,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:QR_7x7_LASER"
+		(property "Footprint" "VHRD_Symbol:QR_7x7_LASER"
 			(at 93.98 132.08 0)
 			(hide yes)
 			(show_name no)
@@ -1634,7 +1634,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_mechanical:HAMMOND_1455C801")
+		(lib_id "VHRD_Mechanical:HAMMOND_1455C801")
 		(at 144.78 35.56 0)
 		(unit 1)
 		(body_style 1)
@@ -1666,7 +1666,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "vhrd_mechanical:HAMMOND_1455C801"
+		(property "Footprint" "VHRD_Mechanical:HAMMOND_1455C801"
 			(at 171.958 64.008 0)
 			(hide yes)
 			(show_name no)
@@ -1753,7 +1753,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:BOARD_ID")
+		(lib_id "VHRD_Graphic:BOARD_ID")
 		(at 111.76 34.29 0)
 		(unit 1)
 		(body_style 1)
@@ -1784,7 +1784,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:BOARD_ID"
+		(property "Footprint" "VHRD_Symbol:BOARD_ID"
 			(at 125.73 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -1838,7 +1838,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:LOGO_SO")
+		(lib_id "VHRD_Graphic:LOGO_SO")
 		(at 59.69 34.29 0)
 		(unit 1)
 		(body_style 1)
@@ -1869,7 +1869,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:VHRD_TECH_LOGO_SO"
+		(property "Footprint" "VHRD_Symbol:VHRD_TECH_LOGO_SO"
 			(at 73.66 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -1912,7 +1912,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:SYM")
+		(lib_id "VHRD_Graphic:SYM")
 		(at 86.36 67.31 0)
 		(unit 1)
 		(body_style 1)
@@ -1944,7 +1944,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "vhrd_visual:VHRD_PRODUCT"
+		(property "Footprint" "VHRD_Symbol:VHRD_PRODUCT"
 			(at 93.98 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2074,7 +2074,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:SYM")
+		(lib_id "VHRD_Graphic:SYM")
 		(at 111.76 67.31 0)
 		(unit 1)
 		(body_style 1)
@@ -2106,7 +2106,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "vhrd_visual:VHRD_PRODUCT"
+		(property "Footprint" "VHRD_Symbol:VHRD_PRODUCT"
 			(at 119.38 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2160,7 +2160,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:MARKER_AREA")
+		(lib_id "VHRD_Graphic:MARKER_AREA")
 		(at 46.99 67.31 0)
 		(unit 1)
 		(body_style 1)
@@ -2191,7 +2191,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:MARKER_15x5"
+		(property "Footprint" "VHRD_Symbol:MARKER_15x5"
 			(at 60.96 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2245,7 +2245,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:SYM")
+		(lib_id "VHRD_Graphic:SYM")
 		(at 59.69 123.19 0)
 		(unit 1)
 		(body_style 1)
@@ -2331,7 +2331,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:BOARD_ID")
+		(lib_id "VHRD_Graphic:BOARD_ID")
 		(at 86.36 34.29 0)
 		(unit 1)
 		(body_style 1)
@@ -2362,7 +2362,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:BOARD_ID"
+		(property "Footprint" "VHRD_Symbol:BOARD_ID"
 			(at 100.33 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -2416,7 +2416,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:DATE")
+		(lib_id "VHRD_Graphic:DATE")
 		(at 99.06 99.06 0)
 		(unit 1)
 		(body_style 1)
@@ -2448,7 +2448,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:DATE"
+		(property "Footprint" "VHRD_Symbol:DATE"
 			(at 113.03 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -2502,7 +2502,7 @@
 		)
 	)
 	(symbol
-		(lib_id "vhrd_visual:DOC_LINK")
+		(lib_id "VHRD_Graphic:DOC_LINK")
 		(at 111.76 123.19 0)
 		(unit 1)
 		(body_style 1)
@@ -2535,7 +2535,7 @@
 				)
 			)
 		)
-		(property "Footprint" "vhrd_visual:DOC_LINK"
+		(property "Footprint" "VHRD_Symbol:DOC_LINK"
 			(at 119.38 132.08 0)
 			(hide yes)
 			(show_name no)

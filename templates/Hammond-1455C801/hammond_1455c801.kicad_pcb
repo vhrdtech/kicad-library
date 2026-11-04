@@ -262,7 +262,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_mechanical:HAMMOND_1455C801"
+	(footprint "VHRD_Mechanical:HAMMOND_1455C801"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "296b93d3-dd85-45be-8c60-022723607d4b")
@@ -653,7 +653,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:BOARD_ID"
+	(footprint "VHRD_Symbol:BOARD_ID"
 		(layer "F.Cu")
 		(uuid "2aa1dfd1-6b73-4cc6-a455-b32789f7ffee")
 		(at 172.9 119.7)
@@ -928,7 +928,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:DATE"
+	(footprint "VHRD_Symbol:DATE"
 		(layer "F.Cu")
 		(uuid "42d0f1dc-80eb-464a-8552-7547bba03c06")
 		(at 181.15 119.7)
@@ -1168,7 +1168,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_TECH_LOGO"
+	(footprint "VHRD_Symbol:VHRD_TECH_LOGO"
 		(layer "F.Cu")
 		(uuid "b55a0ac3-3327-4021-9dac-0e6142dd7118")
 		(at 139.3 118.6)
@@ -1449,7 +1449,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_PRODUCT"
+	(footprint "VHRD_Symbol:VHRD_PRODUCT"
 		(layer "F.Cu")
 		(uuid "c81dd48b-025d-4507-85b6-4c7790f73ca1")
 		(at 152.3 117.7)
@@ -1661,7 +1661,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_TECH_LOGO_SO"
+	(footprint "VHRD_Symbol:VHRD_TECH_LOGO_SO"
 		(layer "F.Cu")
 		(uuid "c899639a-a40d-4ddf-a40b-66af00bdbf5a")
 		(at 181.7 101.6 90)
@@ -1914,7 +1914,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:DOC_LINK"
+	(footprint "VHRD_Symbol:DOC_LINK"
 		(layer "F.Cu")
 		(uuid "f6ab6611-3e56-4b08-9465-8c74c3ca5d50")
 		(at 160.8 76.8)
@@ -2245,7 +2245,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:MARKER_15x5"
+	(footprint "VHRD_Symbol:MARKER_15x5"
 		(layer "B.Cu")
 		(uuid "2a396874-7461-46c9-93a2-460b07159163")
 		(at 109.7 121.4)
@@ -2349,7 +2349,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:QR_7x7_LASER"
+	(footprint "VHRD_Symbol:QR_7x7_LASER"
 		(layer "B.Cu")
 		(uuid "880abf93-e931-4d70-a7c9-bee77df6ef92")
 		(at 175.8 80.9)
@@ -2485,7 +2485,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:BOARD_ID"
+	(footprint "VHRD_Symbol:BOARD_ID"
 		(layer "B.Cu")
 		(uuid "b83364aa-245d-4b86-b8b8-1f48f675ae80")
 		(at 190.8 76.6 180)
@@ -2658,7 +2658,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "vhrd_visual:VHRD_PRODUCT"
+	(footprint "VHRD_Symbol:VHRD_PRODUCT"
 		(layer "B.Cu")
 		(uuid "b8def29e-4c08-4abc-9fcd-7ab72fb2da8f")
 		(at 167.5 117.7 180)
