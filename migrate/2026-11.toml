@@ -511,7 +511,7 @@
 "connectors/DX07P024AJ1R1500.STEP" = "vendor/VHRD_Connector_USB.3dshapes/DX07P024AJ1R1500.step"
 "connectors/abracon/ARJM11C7-114-BA-EW2.STEP" = "vendor/VHRD_Connector_RJ.3dshapes/ARJM11C7-114-BA-EW2.step"
 "connectors/abracon/ARJM11D7-009-AB-EW2.step" = "vendor/VHRD_Vendor.3dshapes/ARJM11D7-009-AB-EW2.step"
-"connectors/abracon/ARJM11D7-009-AB-EW2.stp" = "vendor/VHRD_Connector.3dshapes/ARJM11D7-009-AB-EW2.step"
+"connectors/abracon/ARJM11D7-009-AB-EW2.stp" = "vendor/VHRD_Vendor.3dshapes/ARJM11D7-009-AB-EW2.step"
 "connectors/abracon/ARJM11D7-114-AB-EW2.STEP" = "vendor/VHRD_Connector_RJ.3dshapes/ARJM11D7-114-AB-EW2.step"
 "connectors/amphenol/20021321-00008T4LF.STEP" = "vendor/VHRD_Connector_PinHeader_1.27mm.3dshapes/20021321-00008T4LF.step"
 "connectors/amphenol/ID09P33E4GV00LF.STEP" = "vendor/VHRD_Connector_Dsub.3dshapes/ID09P33E4GV00LF.step"
