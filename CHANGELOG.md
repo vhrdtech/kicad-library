@@ -32,13 +32,13 @@
 
 ### Changed
 
-- The library is laid out by kind, like KiCad's own: symbols in KiCad 10 `symbols/VHRD_*.kicad_symdir` libraries
-  (one file per symbol), footprints in `footprints/VHRD_*.pretty`, each named `VHRD_` plus the KiCad library it would
-  belong to. `migrate/2026-11.toml` says where each old symbol, footprint and 3D model went; `kilib migrate` moves a board.
-  Third-party footprints and symbols moved to the private `VHRD_Vendor` library (`${VHRD_VENDOR_LIBRARY_DIR}`).
-- The templates Vhrd Default, IO30 and Hammond-1455C801 use the new library names. `just look` colours
-  `VHRD_power` and runs `vhrd-kicad adopt --power` on the three templates; `just test` checks that each template's
-  schematic and board print their embedded VHRD sheet.
+- The library is laid out by kind, like KiCad's own: symbols in KiCad 10 `symbols/VHRD_*.kicad_symdir` libraries (one
+  file per symbol), footprints in `footprints/VHRD_*.pretty`, each named `VHRD_` plus the KiCad library it would
+  belong to. `migrate/2026-11.toml` says where each old symbol, footprint and 3D model went; `kilib migrate` moves a
+  board. Third-party footprints and symbols moved to the private `VHRD_Vendor` library (`${VHRD_VENDOR_LIBRARY_DIR}`).
+- The templates Vhrd Default, IO30 and Hammond-1455C801 use the new library names. `just look` colours `VHRD_power`
+  and runs `vhrd-kicad adopt --power` on the three templates; `just test` checks that each template's schematic and
+  board print their embedded VHRD sheet.
 - Footprint model paths: `B0505MT-1WR4`'s second model goes through `${VHRD_3DMODEL_DIR}` instead of a Windows path.
 - `just test` also runs kilib's tests (`just test --changed`: kilib's changed crates only), `just lint` checks its
   format and clippy, and `just install` builds and installs `kilib`.
@@ -47,7 +47,8 @@
 
 - `3dmodels/`: the 3D models live outside the repo, under `${VHRD_3DMODEL_DIR}` (`own/`, `vendor/`).
 - `keymaps/`, `default/`, `templates/default`, and the sheet copies `templates/vhrd_a4.kicad_wks` and
-  `vhrd_a3.kicad_wks` (vhrd-kicad makes the sheets, and the templates embed them; a board that used a sheet by path embeds it instead).
+  `vhrd_a3.kicad_wks` (vhrd-kicad makes the sheets, and the templates embed them; a board that used a sheet by path
+  embeds it instead).
 - The templates RaspberryPi-HAT, RaspberryPi-uHAT and STM32_Nucleo-64_Morpho: unchanged copies of KiCad's stock
   templates, which KiCad ships.
 - The unused footprints `TEST` and `_TEMPLATE`, and `09551667812741`'s 3D model line, which pointed at a file on a
