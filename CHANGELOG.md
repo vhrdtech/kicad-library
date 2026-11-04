@@ -14,6 +14,7 @@
   only shows it; it refuses while KiCad runs.
 - `just check-boards`: `kilib check` on the hw checkout beside this one (or `VHRD_BOARDS_DIR`), skipped with a note
   where there is none.
+- `migrate/2026-11.toml`: where every symbol, footprint and 3D model of the old layout goes in the new kind-first one (`VHRD_<KiCad library>`), for `kilib migrate` to rewrite boards with.
 
 ### Changed
 
