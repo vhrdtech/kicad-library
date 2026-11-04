@@ -29,6 +29,16 @@ const CYAN: Style = AnsiColor::Cyan.on_default();
 struct Cli {
     #[command(subcommand)]
     command: Command,
+    /// Colour in the output: auto (a terminal without NO_COLOR), always or never
+    #[arg(long, global = true, value_name = "WHEN", default_value = "auto")]
+    color: ColorWhen,
+}
+
+#[derive(Clone, Copy, clap::ValueEnum)]
+enum ColorWhen {
+    Auto,
+    Always,
+    Never,
 }
 
 const AFTER_HELP: &str = "\
@@ -120,6 +130,11 @@ fn parse_var(s: &str) -> Result<(String, String), String> {
 fn main() -> ExitCode {
     clap_complete::CompleteEnv::with_factory(Cli::command).complete();
     let cli = Cli::parse();
+    match cli.color {
+        ColorWhen::Auto => {}
+        ColorWhen::Always => anstream::ColorChoice::Always.write_global(),
+        ColorWhen::Never => anstream::ColorChoice::Never.write_global(),
+    }
     let result = match cli.command {
         Command::Check { paths, config, sym_lib_table, fp_lib_table, vars, json } => {
             usage::record(

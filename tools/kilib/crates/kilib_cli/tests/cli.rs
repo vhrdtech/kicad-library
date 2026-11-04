@@ -192,6 +192,25 @@ fn setup_refuses_without_a_config_folder() {
 }
 
 #[test]
+fn color_always_and_never() {
+    let dir = TestDir::new("cli_color");
+    fixture(&dir);
+    let cfg = dir.path().join("cfg/10.0");
+    let run = |when: &str| {
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_kilib"));
+        cmd.args(["check", "--color", when, "--config-dir", p(&cfg), "home/lib"])
+            .env_clear()
+            .env("HOME", dir.path().join("home"))
+            .env("XDG_STATE_HOME", dir.path().join("state"))
+            .current_dir(dir.path());
+        String::from_utf8(cmd.output().unwrap().stdout).unwrap()
+    };
+    assert!(run("always").contains("\u{1b}["), "colour when asked, even into a pipe");
+    assert!(!run("never").contains('\u{1b}'));
+    assert!(!run("auto").contains('\u{1b}'), "no colour into a pipe");
+}
+
+#[test]
 fn version_and_completion() {
     let dir = TestDir::new("cli_version");
     let out = kilib(&dir, &["--version"]);
