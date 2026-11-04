@@ -113,7 +113,8 @@ impl Report {
 pub fn check(paths: &[PathBuf], setup: &Setup) -> Report {
     let mut files = Vec::new();
     for p in paths {
-        collect(p, &mut files);
+        // Absolute, so KIPRJMOD is too: KiCad's own is always absolute.
+        collect(&std::path::absolute(p).unwrap_or_else(|_| p.clone()), &mut files);
     }
     files.sort();
     files.dedup();
@@ -127,9 +128,9 @@ pub fn check(paths: &[PathBuf], setup: &Setup) -> Report {
         checker.file(file, &project, &mut report.checked);
     }
     report.projects = projects.len();
-    for ((kind, id, reason), (library, unchecked, uses)) in checker.found {
-        let finding = Finding { kind, id, reason, library, uses: uses.into_iter().collect() };
-        if unchecked { report.unchecked.push(finding) } else { report.problems.push(finding) }
+    for ((kind, id, reason), noted) in checker.found {
+        let finding = Finding { kind, id, reason, library: noted.library, uses: noted.uses.into_iter().collect() };
+        if noted.unchecked { report.unchecked.push(finding) } else { report.problems.push(finding) }
     }
     report
 }
@@ -199,24 +200,32 @@ enum Lib {
     Broken(String),
 }
 
+/// (kind, id, reason)
 type Key = (Kind, String, String);
+
+/// What is noted for a key: the library the reason is about, whether it is only unchecked, uses per file.
+struct Noted {
+    library: Option<String>,
+    unchecked: bool,
+    uses: BTreeMap<PathBuf, usize>,
+}
 
 struct Checker<'a> {
     setup: &'a Setup,
     libs: HashMap<PathBuf, Result<Contents, String>>,
     /// Project tables and nested tables, by path.
     tables: HashMap<PathBuf, Option<LibTable>>,
-    /// (library, unchecked, uses per file)
-    found: BTreeMap<Key, (Option<String>, bool, BTreeMap<PathBuf, usize>)>,
+    found: BTreeMap<Key, Noted>,
 }
 
 impl Checker<'_> {
     fn note(&mut self, kind: Kind, id: &str, reason: String, library: Option<&str>, unchecked: bool, file: &Path) {
-        let entry = self
-            .found
-            .entry((kind, id.to_string(), reason))
-            .or_insert_with(|| (library.map(str::to_string), unchecked, BTreeMap::new()));
-        *entry.2.entry(file.to_path_buf()).or_default() += 1;
+        let entry = self.found.entry((kind, id.to_string(), reason)).or_insert_with(|| Noted {
+            library: library.map(str::to_string),
+            unchecked,
+            uses: BTreeMap::new(),
+        });
+        *entry.uses.entry(file.to_path_buf()).or_default() += 1;
     }
 
     fn file(&mut self, file: &Path, project: &Path, counts: &mut Counts) {
@@ -463,9 +472,10 @@ fn model_problem(raw: &str, project: &Path, vars: &Vars) -> Option<String> {
         return None;
     }
     // KiCad 10's stock models are STEP only; it offers to switch a board's .wrl references when it opens one.
-    let step = tried.iter().map(|t| t.with_extension("step")).find(|s| {
-        s.is_file() && tried.iter().any(|t| t.extension().is_some_and(|e| e.eq_ignore_ascii_case("wrl")))
-    });
+    let step = tried
+        .iter()
+        .map(|t| t.with_extension("step"))
+        .find(|s| s.is_file() && tried.iter().any(|t| t.extension().is_some_and(|e| e.eq_ignore_ascii_case("wrl"))));
     let tried: Vec<String> = tried.iter().map(|t| t.display().to_string()).collect();
     let tried = tried.join(", ");
     Some(match step {
@@ -538,7 +548,9 @@ mod tests {
         assert!(reason("off:Z").starts_with("library off is disabled in "));
         assert!(reason("unset:U").starts_with("library unset: NOT_SET unset"));
         assert_eq!(reason("vhrd_connector_debug:TC2050"), "library vhrd_connector_debug is not in any sym-lib-table");
-        assert!(reason("${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.wrl").starts_with("missing .wrl"));
+        assert!(
+            reason("${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.wrl").starts_with("missing .wrl")
+        );
         assert_eq!(reason("${UNSET_DIR}/a.step"), "UNSET_DIR unset");
 
         let unchecked: Vec<&str> = report.unchecked.iter().map(|f| f.id.as_str()).collect();

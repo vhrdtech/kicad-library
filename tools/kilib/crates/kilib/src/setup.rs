@@ -159,11 +159,8 @@ fn table_change(
     let table = LibTable::parse(kind, path, &base).map_err(|e| e.to_string())?;
     let old: Vec<&LibRow> = table.rows.iter().filter(|r| ours(r, library)).collect();
     // Compared as sets: KiCad may save the rows in another order.
-    let mut have: Vec<(&str, String)> = old
-        .iter()
-        .filter(|r| r.kind == "KiCad" && !r.disabled)
-        .map(|r| (r.name.as_str(), r.uri.clone()))
-        .collect();
+    let mut have: Vec<(&str, String)> =
+        old.iter().filter(|r| r.kind == "KiCad" && !r.disabled).map(|r| (r.name.as_str(), r.uri.clone())).collect();
     have.sort();
     let want: Vec<(&str, String)> = libs.iter().map(|l| (l.name.as_str(), l.uri())).collect();
     let same = have.len() == old.len() && have == want;
@@ -287,16 +284,8 @@ fn common_change(path: &Path, library: &Path) -> Result<Option<FileChange>, Stri
 
 /// The KiCad programs that write the config, found running under `proc` (`/proc` on Linux).
 pub fn kicad_running(proc: &Path) -> Vec<String> {
-    const NAMES: &[&str] = &[
-        "kicad",
-        "eeschema",
-        "pcbnew",
-        "cvpcb",
-        "gerbview",
-        "pl_editor",
-        "bitmap2component",
-        "pcb_calculator",
-    ];
+    const NAMES: &[&str] =
+        &["kicad", "eeschema", "pcbnew", "cvpcb", "gerbview", "pl_editor", "bitmap2component", "pcb_calculator"];
     let mut found: Vec<String> = std::fs::read_dir(proc)
         .into_iter()
         .flatten()
@@ -309,4 +298,171 @@ pub fn kicad_running(proc: &Path) -> Vec<String> {
     found.sort();
     found.dedup();
     found
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::testdir::TestDir;
+
+    /// A checkout with a symbol file, a symbol folder, a `.pretty` folder, a footprint folder without `.pretty`
+    /// and an empty one (not a library).
+    fn checkout(dir: &TestDir) -> PathBuf {
+        dir.write("lib/symbols/vhrd_power.kicad_sym", "(kicad_symbol_lib)\n");
+        dir.write("lib/symbols/vhrd_new.kicad_symdir/A.kicad_sym", "(kicad_symbol_lib)\n");
+        dir.write("lib/symbols/README.md", "not a library\n");
+        dir.write("lib/footprints/vhrd_generic.pretty/x.kicad_mod", "(footprint \"x\")\n");
+        dir.write("lib/footprints/vhrd_connector_usb/y.kicad_mod", "(footprint \"y\")\n");
+        std::fs::create_dir_all(dir.path().join("lib/footprints/empty.pretty")).unwrap();
+        std::fs::canonicalize(dir.path().join("lib")).unwrap()
+    }
+
+    const SYM_TABLE: &str = "(sym_lib_table\n\t(version 7)\n\t(lib (name \"Device\") (type \"KiCad\") (uri \"${KICAD10_SYMBOL_DIR}/Device.kicad_symdir\") (options \"\") (descr \"\"))\n\t(lib (name \"vhrd_power\") (type \"KiCad\") (uri \"/home/someone/git/kicad-library/symbols/vhrd_power.kicad_sym\") (options \"\") (descr \"\"))\n\t(lib (name \"vhrd_gone\") (type \"KiCad\") (uri \"/old/vhrd_gone.kicad_sym\") (options \"\") (descr \"\"))\n\t(lib (name \"my_lib\") (type \"KiCad\") (uri \"${HOME}/my.kicad_sym\") (options \"\") (descr \"mine\"))\n)\n";
+
+    const COMMON: &str = "{\n  \"appearance\": {\n    \"hicontrast_dimming_factor\": 0.800000011920929,\n    \"zoom_correction_factor\": 1.0\n  },\n  \"dialog\": {\n    \"controls\": {}\n  },\n  \"environment\": {\n    \"vars\": {\n      \"KICAD10_3DMODEL_DIR\": \"/stock/3d\",\n      \"VHRD_3DMODEL_DIR\": \"/old/3dmodels\"\n    }\n  },\n  \"git\": {\n    \"repositories\": []\n  },\n  \"zebra\": 1e-7\n}\n";
+
+    #[test]
+    fn finds_the_libraries_of_a_checkout() {
+        let dir = TestDir::new("setup_libraries");
+        let lib = checkout(&dir);
+        let (sym, fp) = libraries(&lib).unwrap();
+        let names = |l: &[Library]| l.iter().map(|l| format!("{} {}", l.name, l.uri())).collect::<Vec<_>>();
+        assert_eq!(
+            names(&sym),
+            vec![
+                "vhrd_new ${VHRD_LIBRARY_DIR}/symbols/vhrd_new.kicad_symdir",
+                "vhrd_power ${VHRD_LIBRARY_DIR}/symbols/vhrd_power.kicad_sym"
+            ]
+        );
+        assert_eq!(
+            names(&fp),
+            vec![
+                "vhrd_connector_usb ${VHRD_LIBRARY_DIR}/footprints/vhrd_connector_usb",
+                "vhrd_generic ${VHRD_LIBRARY_DIR}/footprints/vhrd_generic.pretty"
+            ]
+        );
+    }
+
+    #[test]
+    fn replaces_old_vhrd_rows_and_keeps_the_rest_byte_for_byte() {
+        let dir = TestDir::new("setup_replace");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        dir.write("cfg/sym-lib-table", SYM_TABLE);
+        let plan = plan(&lib, &cfg, None).unwrap();
+        let sym = plan.changes.iter().find(|c| c.path.ends_with("sym-lib-table")).unwrap();
+        let expected = "(sym_lib_table\n\t(version 7)\n\t(lib (name \"Device\") (type \"KiCad\") (uri \"${KICAD10_SYMBOL_DIR}/Device.kicad_symdir\") (options \"\") (descr \"\"))\n\t(lib (name \"vhrd_new\") (type \"KiCad\") (uri \"${VHRD_LIBRARY_DIR}/symbols/vhrd_new.kicad_symdir\") (options \"\") (descr \"\"))\n\t(lib (name \"vhrd_power\") (type \"KiCad\") (uri \"${VHRD_LIBRARY_DIR}/symbols/vhrd_power.kicad_sym\") (options \"\") (descr \"\"))\n\t(lib (name \"my_lib\") (type \"KiCad\") (uri \"${HOME}/my.kicad_sym\") (options \"\") (descr \"mine\"))\n)\n";
+        assert_eq!(sym.after, expected);
+        let removed = sym.lines.iter().filter(|l| matches!(l, Line::Removed(_))).count();
+        let added = sym.lines.iter().filter(|l| matches!(l, Line::Added(_))).count();
+        assert_eq!((removed, added), (2, 2));
+        assert_eq!(sym.before.as_deref(), Some(SYM_TABLE));
+        // Planning wrote nothing.
+        assert_eq!(std::fs::read_to_string(cfg.join("sym-lib-table")).unwrap(), SYM_TABLE);
+        assert!(!cfg.join("fp-lib-table").exists());
+    }
+
+    #[test]
+    fn apply_then_plan_again_changes_nothing() {
+        let dir = TestDir::new("setup_idempotent");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        dir.write("cfg/sym-lib-table", SYM_TABLE);
+        dir.write("cfg/kicad_common.json", COMMON);
+        let first = plan(&lib, &cfg, None).unwrap();
+        assert_eq!(first.changes.len(), 3);
+        apply(&first).unwrap();
+        let second = plan(&lib, &cfg, None).unwrap();
+        assert_eq!(second.changes, vec![], "{:#?}", second.changes);
+        assert_eq!(second.unchanged.len(), 3);
+        // No temporary files left behind.
+        let mut names: Vec<String> =
+            std::fs::read_dir(&cfg).unwrap().map(|e| e.unwrap().file_name().into_string().unwrap()).collect();
+        names.sort();
+        assert_eq!(names, vec!["fp-lib-table", "kicad_common.json", "sym-lib-table"]);
+        // The rows written are read back by the checker's table reader.
+        let t = LibTable::read(TableKind::Footprint, &cfg.join("fp-lib-table")).unwrap();
+        assert_eq!(t.find("vhrd_generic").unwrap().uri, "${VHRD_LIBRARY_DIR}/footprints/vhrd_generic.pretty");
+    }
+
+    #[test]
+    fn rows_kicad_reordered_are_still_set_up() {
+        let dir = TestDir::new("setup_order");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        let (sym, _) = libraries(&lib).unwrap();
+        let rows: String =
+            sym.iter().rev().map(|l| format!("  {}\n", LibRow::render(&l.name, "KiCad", &l.uri(), ""))).collect();
+        dir.write("cfg/sym-lib-table", &format!("(sym_lib_table\n  (version 7)\n{rows})\n"));
+        let plan = plan(&lib, &cfg, None).unwrap();
+        assert!(plan.unchanged.iter().any(|p| p.ends_with("sym-lib-table")));
+    }
+
+    #[test]
+    fn kicad_common_keeps_keys_order_and_numbers() {
+        let dir = TestDir::new("setup_common");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        dir.write("cfg/kicad_common.json", COMMON);
+        let plan = plan(&lib, &cfg, None).unwrap();
+        let c = plan.changes.iter().find(|c| c.path.ends_with("kicad_common.json")).unwrap();
+        let l = lib.display();
+        let expected = COMMON.replace(
+            "      \"VHRD_3DMODEL_DIR\": \"/old/3dmodels\"\n",
+            &format!("      \"VHRD_3DMODEL_DIR\": \"{l}/3dmodels\",\n      \"VHRD_LIBRARY_DIR\": \"{l}\",\n      \"VHRD_TEMPLATE_DIR\": \"{l}/templates\",\n      \"KICAD_USER_TEMPLATE_DIR\": \"{l}/templates\"\n"),
+        );
+        assert_eq!(c.after, expected);
+        assert!(c.lines.contains(&Line::Removed("VHRD_3DMODEL_DIR = /old/3dmodels".into())));
+    }
+
+    #[test]
+    fn a_fresh_config_starts_from_the_stock_tables() {
+        let dir = TestDir::new("setup_fresh");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        std::fs::create_dir_all(&cfg).unwrap();
+        dir.write(
+            "stock/sym-lib-table",
+            "(sym_lib_table\n  (version 7)\n  (lib (name \"Device\")(type \"KiCad\")(uri \"${KICAD10_SYMBOL_DIR}/Device.kicad_symdir\")(options \"\")(descr \"\"))\n)\n",
+        );
+        let plan = plan(&lib, &cfg, Some(&dir.path().join("stock"))).unwrap();
+        let sym = plan.changes.iter().find(|c| c.path.ends_with("sym-lib-table")).unwrap();
+        assert_eq!(sym.before, None);
+        assert!(sym.after.contains("(name \"Device\")") && sym.after.contains("(name \"vhrd_power\")"));
+        let fp = plan.changes.iter().find(|c| c.path.ends_with("fp-lib-table")).unwrap();
+        assert!(matches!(&fp.lines[0], Line::Note(n) if n.contains("without KiCad's stock libraries")));
+        assert!(fp.after.starts_with("(fp_lib_table\n\t(version 7)\n\t(lib (name \"vhrd_connector_usb\")"));
+        let common = plan.changes.iter().find(|c| c.path.ends_with("kicad_common.json")).unwrap();
+        let json: serde_json::Value = serde_json::from_str(&common.after).unwrap();
+        assert_eq!(json["environment"]["vars"]["VHRD_LIBRARY_DIR"], lib.display().to_string());
+    }
+
+    #[test]
+    fn a_closing_parenthesis_on_a_row_line() {
+        let dir = TestDir::new("setup_close");
+        let lib = checkout(&dir);
+        let cfg = dir.path().join("cfg");
+        dir.write(
+            "cfg/fp-lib-table",
+            "(fp_lib_table (version 7) (lib (name \"A\")(type \"KiCad\")(uri \"/a\")(options \"\")(descr \"\")))",
+        );
+        let plan = plan(&lib, &cfg, None).unwrap();
+        let fp = plan.changes.iter().find(|c| c.path.ends_with("fp-lib-table")).unwrap();
+        let t = LibTable::parse(TableKind::Footprint, &fp.path, &fp.after).unwrap();
+        let names: Vec<&str> = t.rows.iter().map(|r| r.name.as_str()).collect();
+        assert_eq!(names, vec!["A", "vhrd_connector_usb", "vhrd_generic"]);
+    }
+
+    #[test]
+    fn finds_running_kicad_programs() {
+        let dir = TestDir::new("setup_proc");
+        dir.write("proc/1/comm", "systemd\n");
+        dir.write("proc/200/comm", "pcbnew\n");
+        dir.write("proc/201/comm", "kicad\n");
+        dir.write("proc/202/comm", "pcbnew\n");
+        dir.write("proc/203/comm", "kicad-cli\n");
+        dir.write("proc/self/comm", "kicad\n");
+        assert_eq!(kicad_running(&dir.path().join("proc")), vec!["kicad", "pcbnew"]);
+        assert_eq!(kicad_running(&dir.path().join("nothing")), Vec::<String>::new());
+    }
 }

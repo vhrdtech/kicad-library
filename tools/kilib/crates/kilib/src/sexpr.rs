@@ -8,8 +8,15 @@ use std::ops::Range;
 #[derive(Debug, Clone, PartialEq)]
 pub enum Node {
     /// A bare word or a quoted string, unescaped.
-    Atom { text: String, quoted: bool, span: Range<usize> },
-    List { items: Vec<Node>, span: Range<usize> },
+    Atom {
+        text: String,
+        quoted: bool,
+        span: Range<usize>,
+    },
+    List {
+        items: Vec<Node>,
+        span: Range<usize>,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq)]

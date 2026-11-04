@@ -37,9 +37,7 @@ fn watch_if_there(path: &str) {
 
 fn git(args: &[&str]) -> Option<String> {
     let out = Command::new("git").args(args).output().ok()?;
-    out.status
-        .success()
-        .then(|| String::from_utf8_lossy(&out.stdout).trim().to_string())
+    out.status.success().then(|| String::from_utf8_lossy(&out.stdout).trim().to_string())
 }
 
 fn git_sha() -> String {
@@ -71,13 +69,6 @@ fn build_time() -> String {
     let day = doy - (153 * mp + 2) / 5 + 1;
     let month = if mp < 10 { mp + 3 } else { mp - 9 };
     let year = yoe + era * 400 + i64::from(month <= 2);
-    const MONTHS: [&str; 12] = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-    format!(
-        "{day} {} {year} {:02}:{:02} UTC",
-        MONTHS[(month - 1) as usize],
-        rest / 3600,
-        rest % 3600 / 60
-    )
+    const MONTHS: [&str; 12] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    format!("{day} {} {year} {:02}:{:02} UTC", MONTHS[(month - 1) as usize], rest / 3600, rest % 3600 / 60)
 }

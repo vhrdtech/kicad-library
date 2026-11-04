@@ -62,7 +62,9 @@ impl std::fmt::Display for TableError {
         match self {
             TableError::Io(p, e) => write!(f, "{}: {e}", p.display()),
             TableError::Parse(p, e) => write!(f, "{}: {e}", p.display()),
-            TableError::NotATable(p, head) => write!(f, "{}: starts with ({head} ...), not a library table", p.display()),
+            TableError::NotATable(p, head) => {
+                write!(f, "{}: starts with ({head} ...), not a library table", p.display())
+            }
         }
     }
 }
@@ -113,10 +115,10 @@ fn row(n: &Node) -> LibRow {
 }
 
 impl LibRow {
-    /// One row the way KiCad writes it.
+    /// One row the way KiCad 10 writes it.
     pub fn render(name: &str, kind: &str, uri: &str, descr: &str) -> String {
         format!(
-            "(lib (name {})(type {})(uri {})(options \"\")(descr {}))",
+            "(lib (name {}) (type {}) (uri {}) (options \"\") (descr {}))",
             sexpr::quote(name),
             sexpr::quote(kind),
             sexpr::quote(uri),

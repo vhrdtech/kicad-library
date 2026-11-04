@@ -61,7 +61,10 @@ pub fn fixture(dir: &TestDir) {
         "(kicad_symbol_lib (version 1) (symbol \"C\") (symbol \"C_Small\" (extends \"C\")))\n",
     );
     dir.write("stock/symbols/power.kicad_sym", "(kicad_symbol_lib (version 1) (symbol \"GND\" (power)))\n");
-    dir.write("stock/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod", "(footprint \"R_0402_1005Metric\")\n");
+    dir.write(
+        "stock/footprints/Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+        "(footprint \"R_0402_1005Metric\")\n",
+    );
     dir.write("stock/3d/Resistor_SMD.3dshapes/R_0402_1005Metric.step", "");
 
     dir.write(
@@ -116,7 +119,9 @@ pub fn fixture(dir: &TestDir) {
         &format!("(sym_lib_table\n  (version 7)\n{})\n", row("nested", "KiCad", "${KIPRJMOD}/local.kicad_sym", "")),
     );
     dir.write("boards/b1/local.kicad_sym", "(kicad_symbol_lib (version 1) (symbol \"X\") (symbol \"N\"))\n");
-    let sym = |id: &str, fp: &str| format!("  (symbol (lib_id \"{id}\") (property \"Reference\" \"U\") (property \"Footprint\" \"{fp}\"))\n");
+    let sym = |id: &str, fp: &str| {
+        format!("  (symbol (lib_id \"{id}\") (property \"Reference\" \"U\") (property \"Footprint\" \"{fp}\"))\n")
+    };
     dir.write(
         "boards/b1/b1.kicad_sch",
         &[

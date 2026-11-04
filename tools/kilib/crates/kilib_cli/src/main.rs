@@ -122,7 +122,10 @@ fn main() -> ExitCode {
     let cli = Cli::parse();
     let result = match cli.command {
         Command::Check { paths, config, sym_lib_table, fp_lib_table, vars, json } => {
-            usage::record("check", &[("json", json), ("var", !vars.is_empty()), ("config-dir", config.config_dir.is_some())]);
+            usage::record(
+                "check",
+                &[("json", json), ("var", !vars.is_empty()), ("config-dir", config.config_dir.is_some())],
+            );
             run_check(&paths, &config, sym_lib_table, fp_lib_table, vars, json)
         }
         Command::Setup { library, config, stock_tables, dry_run } => {
@@ -180,7 +183,8 @@ fn run_check(
 /// A path as the person gave its root: `b129/x.kicad_pcb` under `~/git/hw`.
 fn shown(path: &Path, roots: &[PathBuf]) -> String {
     for r in roots {
-        if let Ok(rel) = path.strip_prefix(r)
+        let r = std::path::absolute(r).unwrap_or_else(|_| r.clone());
+        if let Ok(rel) = path.strip_prefix(&r)
             && !rel.as_os_str().is_empty()
         {
             return rel.display().to_string();
@@ -318,7 +322,9 @@ fn run_setup(library: Option<PathBuf>, config: &ConfigArgs, stock: &Path, dry_ru
         if let Ok(env) = std::env::var(name)
             && env != value
         {
-            println!("{YELLOW}note:{YELLOW:#} the environment sets {name}={env}, which KiCad uses over kicad_common.json");
+            println!(
+                "{YELLOW}note:{YELLOW:#} the environment sets {name}={env}, which KiCad uses over kicad_common.json"
+            );
         }
     }
     println!();
@@ -326,7 +332,10 @@ fn run_setup(library: Option<PathBuf>, config: &ConfigArgs, stock: &Path, dry_ru
         println!("{GREEN}✓{GREEN:#} nothing to change");
     } else if dry_run {
         if !running.is_empty() {
-            println!("{YELLOW}note:{YELLOW:#} KiCad is running ({}): setup without --dry-run refuses until it is closed", running.join(", "));
+            println!(
+                "{YELLOW}note:{YELLOW:#} KiCad is running ({}): setup without --dry-run refuses until it is closed",
+                running.join(", ")
+            );
         }
         println!("{CYAN}dry run{CYAN:#}: nothing written; run without --dry-run to write {} files", plan.changes.len());
     } else {
