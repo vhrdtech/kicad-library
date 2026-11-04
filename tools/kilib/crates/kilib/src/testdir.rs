@@ -51,7 +51,7 @@ fn row(name: &str, kind: &str, uri: &str, extra: &str) -> String {
 /// - break: `Device:Q` (not in the library), `vhrd_connector_debug:TC2050` (no such library), `off:Z` (disabled),
 ///   `unset:U` (its URI names an unset variable), the Footprint field `vhrd_generic:MISSING`, the models
 ///   `${VHRD_3DMODEL_DIR}/modules/cannify_micro.step` (missing), `.../R_0402_1005Metric.wrl` (only the .step
-///   exists), `C:/Users/Evgeniy/x.STEP` and `${UNSET_DIR}/a.step`;
+///   exists), `C:/Users/someone/x.STEP` and `${UNSET_DIR}/a.step`;
 /// - not checked: `old:Y` (a Legacy library) and the footprint `NPTH` (no library link).
 pub fn fixture(dir: &TestDir) {
     let root = dir.path().display().to_string();
@@ -153,7 +153,7 @@ pub fn fixture(dir: &TestDir) {
     (model \"kicad-embed://own.step\"))
   (footprint \"vhrd_generic:SOT-23\"
     (model \"${VHRD_3DMODEL_DIR}/modules/cannify_micro.step\")
-    (model \"C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/x.STEP\")
+    (model \"C:/Users/someone/Documents/GitHub/kicad-library/3dmodels/x.STEP\")
     (model \"${UNSET_DIR}/a.step\"))
   (footprint \"NPTH\"))
 ",

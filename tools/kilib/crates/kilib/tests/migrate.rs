@@ -48,7 +48,7 @@ const PCB: &str = "(kicad_pcb (version 20250114)
     (model \"${VHRD_3DMODEL_DIR}/ic/SOIC 8.STEP\" (offset (xyz 0 0 0)))
     (model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SOIC_8.step\"))
   (footprint \"vhrd_generic:SOT-23\"
-    (model \"C:/Users/Someone/Documents/GitHub/kicad-library/3dmodels/sot/SOT-23.step\")
+    (model \"C:/Users/someone/Documents/GitHub/kicad-library/3dmodels/sot/SOT-23.step\")
     (model \"${VHRD_3DMODEL_DIR}/switches/CHS-01TB.SLDPRT\")
     (model \"${VHRD_3DMODEL_DIR}/modules/missing.step\")
     (model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\"))

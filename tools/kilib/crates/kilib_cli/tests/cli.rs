@@ -42,7 +42,7 @@ fn check_lists_what_does_not_resolve_and_exits_1() {
         "✗ symbol Device:Q",
         "✗ Footprint field vhrd_generic:MISSING",
         "✗ 3D model ${VHRD_3DMODEL_DIR}/modules/cannify_micro.step",
-        "✗ 3D model C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/x.STEP",
+        "✗ 3D model C:/Users/someone/Documents/GitHub/kicad-library/3dmodels/x.STEP",
         "    a Windows path",
         "missing .wrl, the .step beside it exists",
         "not checked (no library link, or a library type kilib does not read):",

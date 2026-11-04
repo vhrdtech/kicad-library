@@ -4,7 +4,10 @@
 
 ### Added
 
-- `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours); `tools/kilib` is MIT.
+- `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours);
+  `tools/kilib` is MIT.
+- `README.md` for outside users: what the library is, its layout, setting it up with `kilib setup` or by hand,
+  migrating an older board, and the licence.
 - `migrate/2026-11.toml`: where every symbol, footprint and 3D model of the old layout goes in the new kind-first one
   (`VHRD_<KiCad library>`), for `kilib migrate` to rewrite boards with.
 - `tools/kilib`, a small Rust CLI (MIT): `kilib check PATH...` resolves every symbol, `Footprint` field, footprint and
@@ -45,6 +48,10 @@
 - Footprint model paths: `B0505MT-1WR4`'s second model goes through `${VHRD_3DMODEL_DIR}` instead of a Windows path.
 - `just test` also runs kilib's tests (`just test --changed`: kilib's changed crates only), `just lint` checks its
   format and clippy, and `just install` builds and installs `kilib`.
+- The templates' `meta/info.html` titles and copyright lines say VHRD and vhrd.tech, not `Vhrd.Tech`; IO30's info
+  page had Vhrd Default's title and a broken `<body>` tag, both fixed.
+- `just deploy` is a plain `git pull` instead of a tpm command.
+- kilib's test fixtures use a generic `C:/Users/someone` path instead of a real name.
 
 ### Removed
 
@@ -65,7 +72,7 @@
 
 ### Changed
 
-- The VHRD look from vhrd_brand's `vhrd-kicad` (P2534, 17 Oct 2026): `templates/vhrd_a4.kicad_wks` and
+- The VHRD look from vhrd_brand's `vhrd-kicad`: `templates/vhrd_a4.kicad_wks` and
   `vhrd_a3.kicad_wks` replaced by the new drawing sheets (red edge bar, zone ring with red corner marks, open title
   block on the same fields: PRODUCT_NAME, BOARD_NUMBER, title, REVISION, COMMENT1-4, VHRD_STAMP); boards that use
   them by path get the new frame. `vhrd_power` symbols coloured: supplies orange, grounds (ISO, CHASSIS) grey. The

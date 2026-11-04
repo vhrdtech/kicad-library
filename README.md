@@ -1,5 +1,16 @@
-Vhrd.Tech KiCad library
+VHRD KiCad library
 ---
+
+VHRD's own KiCad parts: the symbols and footprints behind VHRD's boards, three project templates, and `kilib`, a
+small CLI that sets up and checks the library. The symbols, footprints and templates are free to reuse (see
+"Licence" below); 3D models and third-party parts live outside this repo.
+
+## Layout
+
+Symbols live one per file in `symbols/VHRD_<KiCad library>.kicad_symdir` (KiCad 10's own layout), footprints in
+`footprints/VHRD_<KiCad library>.pretty`: each library is named `VHRD_` plus the stock KiCad library it would
+belong to, e.g. `VHRD_Connector_Molex` or `VHRD_Package_DFN_QFN`. Third-party parts live in a separate, private
+`VHRD_Vendor` library, outside this repo.
 
 ## Configuration
 
@@ -13,6 +24,13 @@ The library has three parts, each found through a KiCad path variable:
 `kilib setup --map migrate/2026-11.toml --vendor-dir DIR --models-dir DIR` writes the library rows and the variables
 into this PC's KiCad config (see below). `KICAD_USER_TEMPLATE_DIR` points at `templates/`, so File, New Project from
 Template offers "Vhrd Default", IO30 and Hammond-1455C801. Each template embeds its drawing sheet.
+
+Without `kilib setup`, set the three variables and the library rows by hand: in KiCad's "Configure Paths", point
+`VHRD_LIBRARY_DIR` at this checkout, `VHRD_VENDOR_LIBRARY_DIR` at the vendor library's folder and
+`VHRD_3DMODEL_DIR` at the 3D models' folder — each one a folder you provide. Then add a row per library in "Manage
+Symbol Libraries" / "Manage Footprint Libraries": name it after the folder, type KiCad, and point it at
+`${VHRD_LIBRARY_DIR}/symbols/<name>.kicad_symdir` (or under `${VHRD_VENDOR_LIBRARY_DIR}` for a vendor one), and the
+same under `footprints/<name>.pretty` for footprints.
 
 ## Checking boards: kilib
 
@@ -60,6 +78,11 @@ kilib migrate --map migrate/2026-11.toml path/to/board            # look at the 
 kilib migrate --map migrate/2026-11.toml --write path/to/board    # apply it
 kilib check path/to/board                                         # everything resolves
 ```
+
+## Licence
+
+The symbols, footprints and templates are CC-BY-SA 4.0 with KiCad's library exception — designs that use them stay
+yours; see [LICENSE.md](LICENSE.md). `tools/kilib` is MIT; see [tools/kilib/LICENSE](tools/kilib/LICENSE).
 
 ## KiKit
 

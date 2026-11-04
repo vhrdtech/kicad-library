@@ -55,6 +55,6 @@ install:
     if command -v tpm >/dev/null; then tpm install tools/kilib/target/deploy/kilib; else cargo install --locked --path tools/kilib/crates/kilib_cli; fi
     @echo "kicad-library is used in place: KiCad's library tables and VHRD_TEMPLATE_DIR point at $PWD (README)"
 
-# Bring this PC's checkout up to main
+# Bring this checkout up to main
 deploy:
-    tpm repos pull kicad-library
+    git pull

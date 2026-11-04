@@ -542,7 +542,7 @@ mod tests {
                 (Kind::Model, "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.wrl"),
                 (Kind::Model, "${UNSET_DIR}/a.step"),
                 (Kind::Model, "${VHRD_3DMODEL_DIR}/modules/cannify_micro.step"),
-                (Kind::Model, "C:/Users/Evgeniy/Documents/GitHub/kicad-library/3dmodels/x.STEP"),
+                (Kind::Model, "C:/Users/someone/Documents/GitHub/kicad-library/3dmodels/x.STEP"),
             ],
             "{problems:#?}"
         );
