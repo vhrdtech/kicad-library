@@ -4,6 +4,7 @@
 
 ### Added
 
+- `VHRD_TestPoint:TestPoint_Pad_D1.2mm`, a 1.2 mm SMD test point pad.
 - `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours);
   `tools/kilib` is MIT.
 - `README.md` for outside users: what the library is, its layout, setting it up with `kilib setup` or by hand,

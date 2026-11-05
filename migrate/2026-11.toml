@@ -358,6 +358,7 @@
 "vhrd_connector_debug:TC2050-IDC-NL" = "VHRD_Connector"
 "vhrd_connector_debug:TestPoint_Pad_D0.6mm" = "VHRD_TestPoint"
 "vhrd_connector_debug:TestPoint_Pad_D0.8mm" = "VHRD_TestPoint"
+"vhrd_connector_debug:TestPoint_Pad_D1.2mm" = "VHRD_TestPoint"
 "vhrd_connector_gct:FFC2B35-30-G" = "VHRD_Connector_FFC-FPC"
 "vhrd_connector_gct:MEM2061" = "VHRD_Connector_Card"
 "vhrd_connector_gct:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal" = "VHRD_Connector_USB"
