@@ -35,6 +35,7 @@
 
 ### Changed
 
+- `VHRD_power` and the templates take the rail colours of vhrd_brand 0.9.10 through `just look`: ground symbols green, Ground net class dark green, Power net class burnt orange.
 - The library is laid out by kind, like KiCad's own: symbols in KiCad 10 `symbols/VHRD_*.kicad_symdir` libraries (one
   file per symbol), footprints in `footprints/VHRD_*.pretty`, each named `VHRD_` plus the KiCad library it would
   belong to. `migrate/2026-11.toml` says where each old symbol, footprint and 3D model went; `kilib migrate` moves a

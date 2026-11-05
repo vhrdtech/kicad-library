@@ -32,7 +32,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
-					(color 110 110 110 1))
+					(color 60 170 24 1))
 			)
 		)
 		(property "Footprint" ""
@@ -93,7 +93,7 @@
 				(stroke
 					(width 0)
 					(type default)
-					(color 110 110 110 1)
+					(color 60 170 24 1)
 				)
 				(fill
 					(type none)
