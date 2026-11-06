@@ -4,6 +4,11 @@
 
 ### Added
 
+- `VHRD_Logic_LevelTranslator:LSF0102DCUR` and `NVT2002DP`, 2-bit pass-FET level translators with one pinout and one
+  drawing (A side left, each Bn facing its An, VREF_B a passive pin since it is fed through about 200 kOhm). The two
+  packages share no footprint: LSF0102DCUR on stock VSSOP-8 2.3x2 mm (`Mpn1` LSF0102DCUR, `Mpn2` TI PCA9306DCUR,
+  `Mpn3` NXP PCA9306DC1Z), NVT2002DP on stock TSSOP-8 3x3 mm (`Mpn1` NVT2002DP,118, `Mpn2` NXP PCA9306DP,118); both
+  footprints carry KiCad's own 3D models.
 - `VHRD_Connector:USB_C_Receptacle_USB2.0_16P`, KiCad 10's stock symbol (shield pin `SH`) with the GCT USB4105
   footprint and `Mpn1` USB4105-GF-A, so a KiCad library update cannot renumber it under the boards again. Pins sit
   where the stock symbol has them: changing a placed stock symbol to this one keeps its wires.
