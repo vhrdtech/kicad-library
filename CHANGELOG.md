@@ -41,6 +41,9 @@
 
 ### Changed
 
+- **Breaking:** `VHRD_Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal` numbers its four shield
+  pads `SH` instead of `S1` (saved with KiCad 10). A board whose connector symbol still numbers the shield pin `S1`
+  loses the shield's net on its next update from the schematic.
 - `VHRD_power` and the templates take the rail colours of vhrd_brand 0.9.10 through `just look`: ground symbols green, Ground net class dark green, Power net class burnt orange.
 - The library is laid out by kind, like KiCad's own: symbols in KiCad 10 `symbols/VHRD_*.kicad_symdir` libraries (one
   file per symbol), footprints in `footprints/VHRD_*.pretty`, each named `VHRD_` plus the KiCad library it would
