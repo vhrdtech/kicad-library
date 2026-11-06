@@ -4,10 +4,10 @@
 
 ### Added
 
-- `VHRD_Logic_LevelTranslator:SN74LXC2T45DCUR` (1.1-5.5 V), `SN74LVC2T45DCUR` (TI, 1.65-5.5 V) and `74LVC2T45DC`
-  (Nexperia, 1.2-5.5 V), 2-bit dual-supply transceivers on stock VSSOP-8 2.3x2 mm with one pinout and one drawing (A
-  side left, each Bn facing its An, DIR on its own). One symbol each, not alternates of one another: their lowest
-  supply differs, and only the LXC pulls DIR down.
+- `VHRD_Logic_LevelTranslator:SN74LXC2T45DCUR` (1.1-5.5 V), `SN74LVC2T45DCUR` (TI, 1.65-5.5 V), `74LVC2T45DC`
+  (Nexperia, 1.2-5.5 V), `SN74AVC2T45DCUR` (1.2-3.6 V) and `SN74AXC2T45DCUR` (0.65-3.6 V), 2-bit dual-supply
+  transceivers on stock VSSOP-8 2.3x2 mm with one pinout and one drawing (A side left, each Bn facing its An, DIR on
+  its own). One symbol each, not alternates of one another: their supply ranges and pull-downs differ.
 - `VHRD_Logic_LevelTranslator:LSF0102DCUR` and `NVT2002DP`, 2-bit pass-FET level translators with one pinout and one
   drawing (A side left, each Bn facing its An, VREF_B a passive pin since it is fed through about 200 kOhm). The two
   packages share no footprint: LSF0102DCUR on stock VSSOP-8 2.3x2 mm (`Mpn1` LSF0102DCUR, `Mpn2` TI PCA9306DCUR,
