@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "2-bit dual-supply bus transceiver, direction by DIR (high: A to B), 1.1-5.5 V on each side, Schmitt-trigger inputs, weak pull-downs on DIR and the I/Os, VSSOP-8 (TI DCU, Nexperia SOT765-1). Same pinout: Mpn2 TI SN74LVC2T45DCUR (1.65-5.5 V) and Mpn3 Nexperia 74LVC2T45DC (1.2-5.5 V), with no pull-downs, so DIR must be driven. SN74AVC2T45, 74AVC2T45 and SN74AXC2T45 fit too but stop at 3.6 V"
+		(property "Description" "2-bit dual-supply bus transceiver, direction by DIR (high: A to B), VCCA and VCCB 1.1-5.5 V, Schmitt-trigger inputs, weak pull-downs on DIR and the I/Os (a floating DIR gives B to A), VSSOP-8 (TI DCU)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -65,28 +65,6 @@
 		)
 		(property "Mpn1" "SN74LXC2T45DCUR"
 			(at 0 -21.59 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mpn2" "SN74LVC2T45DCUR"
-			(at 0 -24.13 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mpn3" "74LVC2T45DC"
-			(at 0 -26.67 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
