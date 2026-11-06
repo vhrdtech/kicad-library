@@ -4,6 +4,9 @@
 
 ### Added
 
+- `VHRD_Connector:USB_C_Receptacle_USB2.0_16P`, KiCad 10's stock symbol (shield pin `SH`) with the GCT USB4105
+  footprint and `Mpn1` USB4105-GF-A, so a KiCad library update cannot renumber it under the boards again. Pins sit
+  where the stock symbol has them: changing a placed stock symbol to this one keeps its wires.
 - `VHRD_Power_Protection:TPD6S300A`, from KiCad's stock symbol: each connector-side pin (C_CC1, C_CC2, C_SBU1,
   C_SBU2) faces its system-side pin on one row, `Mpn1` TPD6S300ARUKR and `Mpn2` TPD8S300ARUKR (pin to pin; pins 16 /
   17 are N.C. on TPD6S300A and D4 / D3 on TPD8S300A, and TPD8S300A needs VPWR at or below 3.6 V). The pins come in
