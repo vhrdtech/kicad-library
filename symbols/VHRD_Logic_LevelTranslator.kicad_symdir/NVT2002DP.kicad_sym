@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "2-bit bidirectional voltage-level translator, pass-FET (open-drain and push-pull, I2C), TSSOP-8 (NXP SOT505-1). VREF_B and EN to the B supply through about 200 kOhm. Same pinout: NXP PCA9306DP (VREF1/2 = VREF_A/B, SCL1 = A1, SDA1 = A2, SCL2 = B1, SDA2 = B2)"
+		(property "Description" "NXP 2-bit bidirectional pass-FET voltage-level translator (open-drain and push-pull), VREFA 0-5.4 V, VREFB, EN and I/O 0-5.5 V, VREFB and EN to the B supply through about 200 kOhm, TSSOP-8 (SOT505-1)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -74,18 +74,7 @@
 				)
 			)
 		)
-		(property "Mpn2" "PCA9306DP,118"
-			(at 0 -24.13 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_keywords" "level translator shifter I2C bidirectional LSF0102 PCA9306 NVT2002"
+		(property "ki_keywords" "level translator shifter I2C bidirectional pass FET"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -142,7 +131,7 @@
 			(pin power_in line
 				(at -12.7 5.08 0)
 				(length 2.54)
-				(name "VREF_A"
+				(name "VREFA"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -232,7 +221,7 @@
 			(pin passive line
 				(at 12.7 5.08 180)
 				(length 2.54)
-				(name "VREF_B"
+				(name "VREFB"
 					(effects
 						(font
 							(size 1.27 1.27)

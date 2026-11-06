@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "2-bit bidirectional voltage-level translator, pass-FET (open-drain and push-pull, I2C), VSSOP-8 (TI DCU, NXP SOT765-1). VREF_B and EN to the B supply through about 200 kOhm. Same pinout: TI PCA9306DCUR, NXP PCA9306DC1Z (VREF1/2 = VREF_A/B, SCL1 = A1, SDA1 = A2, SCL2 = B1, SDA2 = B2)"
+		(property "Description" "TI 2-bit bidirectional pass-FET voltage-level translator (open-drain and push-pull), I/O, VREF_A, VREF_B and EN 0-5.5 V, VREF_B and EN to the B supply through about 200 kOhm, VSSOP-8 (DCU)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -74,29 +74,7 @@
 				)
 			)
 		)
-		(property "Mpn2" "PCA9306DCUR"
-			(at 0 -24.13 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mpn3" "PCA9306DC1Z"
-			(at 0 -26.67 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_keywords" "level translator shifter I2C bidirectional LSF0102 PCA9306 NVT2002"
+		(property "ki_keywords" "level translator shifter I2C bidirectional pass FET"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

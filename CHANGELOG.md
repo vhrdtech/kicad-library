@@ -8,11 +8,12 @@
   (Nexperia, 1.2-5.5 V), `SN74AVC2T45DCUR` (1.2-3.6 V) and `SN74AXC2T45DCUR` (0.65-3.6 V), 2-bit dual-supply
   transceivers on stock VSSOP-8 2.3x2 mm with one pinout and one drawing (A side left, each Bn facing its An, DIR on
   its own). One symbol each, not alternates of one another: their supply ranges and pull-downs differ.
-- `VHRD_Logic_LevelTranslator:LSF0102DCUR` and `NVT2002DP`, 2-bit pass-FET level translators with one pinout and one
-  drawing (A side left, each Bn facing its An, VREF_B a passive pin since it is fed through about 200 kOhm). The two
-  packages share no footprint: LSF0102DCUR on stock VSSOP-8 2.3x2 mm (`Mpn1` LSF0102DCUR, `Mpn2` TI PCA9306DCUR,
-  `Mpn3` NXP PCA9306DC1Z), NVT2002DP on stock TSSOP-8 3x3 mm (`Mpn1` NVT2002DP,118, `Mpn2` NXP PCA9306DP,118); both
-  footprints carry KiCad's own 3D models.
+- `VHRD_Logic_LevelTranslator:LSF0102DCUR`, `PCA9306DCUR` (TI) and `PCA9306DC1Z` (NXP) on stock VSSOP-8 2.3x2 mm,
+  `PCA9306DP` (NXP) and `NVT2002DP` on stock TSSOP-8 3x3 mm: 2-bit pass-FET level translators with one pinout and one
+  drawing (A side left, each Bn facing its An, VREF_B a passive pin since it is fed through about 200 kOhm), each with
+  its datasheet's pin names. One symbol each, not alternates of one another: their reference voltage ranges differ
+  (TI PCA9306 VREF1 from 1.2 V, NXP PCA9306 up to 5 V, NVT2002 VREFA up to 5.4 V, LSF0102 0-5.5 V). The footprints
+  carry KiCad's own 3D models.
 - `VHRD_Connector:USB_C_Receptacle_USB2.0_16P`, KiCad 10's stock symbol (shield pin `SH`) with the GCT USB4105
   footprint and `Mpn1` USB4105-GF-A, so a KiCad library update cannot renumber it under the boards again. Pins sit
   where the stock symbol has them: changing a placed stock symbol to this one keeps its wires.
