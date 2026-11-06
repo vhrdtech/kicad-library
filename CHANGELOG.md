@@ -4,6 +4,11 @@
 
 ### Added
 
+- `VHRD_Power_Protection:TPD6S300A`, from KiCad's stock symbol: each connector-side pin (C_CC1, C_CC2, C_SBU1,
+  C_SBU2) faces its system-side pin on one row, `Mpn1` TPD6S300ARUKR and `Mpn2` TPD8S300ARUKR (pin to pin; pins 16 /
+  17 are N.C. on TPD6S300A and D4 / D3 on TPD8S300A, and TPD8S300A needs VPWR at or below 3.6 V). The pins come in
+  groups with a free row between them (CC, SBU, D, RPD); pins 16 / 17 are visible as `NC/D3` and `NC/D4`, and only
+  the grounds and the pad are stacked under one GND pin.
 - `VHRD_TestPoint:TestPoint_Pad_D1.2mm`, a 1.2 mm SMD test point pad.
 - `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours);
   `tools/kilib` is MIT.
