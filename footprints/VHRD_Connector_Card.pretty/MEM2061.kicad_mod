@@ -1,7 +1,7 @@
 (footprint "MEM2061"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at -2.42133 -9.32106 0)
@@ -21,18 +21,6 @@
 		(effects
 			(font
 				(size 1.600465 1.600465)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "a90db0b0-7dcd-4974-a8e8-e6f2b71f44a6")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -62,6 +50,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -7 -7.725)
 		(end -6.2738 -7.725)
@@ -139,7 +128,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.SilkS")
 		(uuid "e8b6163c-c533-42bc-915f-70b76b835606")
 	)
@@ -246,78 +235,76 @@
 	(pad "1" smd rect
 		(at 1.94 3.225)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "0b56abac-b234-40e0-b210-bbe0b5a4446a")
 	)
 	(pad "2" smd rect
 		(at 0.84 2.825)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "6a39dda9-d524-4cd8-b84a-239ee34a65a4")
 	)
 	(pad "3" smd rect
 		(at -0.26 3.225)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "3e19d4d0-b079-4324-a9c0-3dd998a5dbb2")
 	)
 	(pad "4" smd rect
 		(at -1.36 3.425)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "d4d974f4-684b-4ed0-b867-0fe5259d6161")
 	)
 	(pad "5" smd rect
 		(at -2.46 3.225)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "f0e4d521-4d17-4392-b51a-d09887ca0786")
 	)
 	(pad "6" smd rect
 		(at -3.56 3.425)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "db839cb3-06d3-4e1d-a269-3030e336e51c")
 	)
 	(pad "7" smd rect
 		(at -4.66 3.225)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "97ac6df7-3ce3-459e-a0ae-5818233808e2")
 	)
 	(pad "8" smd rect
 		(at -5.76 3.225)
 		(size 0.8 2)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "1272c73c-25d6-4810-945e-3e9af23f8aff")
 	)
 	(pad "9" smd rect
 		(at -4.95 -7.325)
 		(size 1.8 1.4)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "cee43fef-0dbd-4447-b85f-dc7ecbd3b735")
 	)
 	(pad "10" smd rect
 		(at 0.75 -7.325)
 		(size 1.8 1.4)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "10cf5cff-f684-405e-86ba-9752db0e2e16")
 	)
 	(pad "11" smd rect
 		(at -6.55 5.825)
 		(size 1.4 1.9)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "9183a51f-95aa-4e7e-81ce-86bea7da174a")
 	)
 	(pad "11" smd rect
 		(at 6.6 6.825)
 		(size 1.4 1.9)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "8c5fe4ea-d99b-41a2-9f92-7ef4b6c1e415")
 	)
 	(zone
-		(net 0)
-		(net_name "")
 		(layer "F.Cu")
 		(uuid "9e88309c-2175-4806-b526-da047ba01cc2")
 		(name "SD Keepout")
@@ -326,7 +313,6 @@
 			(clearance 0)
 		)
 		(min_thickness 0.25)
-		(filled_areas_thickness no)
 		(keepout
 			(tracks not_allowed)
 			(vias not_allowed)
@@ -334,9 +320,14 @@
 			(copperpour not_allowed)
 			(footprints allowed)
 		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
 		(fill
 			(thermal_gap 0.5)
 			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
 		)
 		(polygon
 			(pts
@@ -344,6 +335,7 @@
 			)
 		)
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector_Card.3dshapes/MEM2061-01-188-00-A_REVA.step"
 		(offset
 			(xyz 0 0 0)

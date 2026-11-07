@@ -1,7 +1,7 @@
 (footprint "ARJM11D7-009-AB"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(descr "RJ45 jack with magnetics, 10/100BASE-T, Abracon ARJM11D7-009-AB")
 	(tags "ARJM11D7-009-AB RJ45 magnetics ethernet")
@@ -22,19 +22,6 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "1cd69c5b-9bae-40ca-915e-55600a6b8b9a")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at -0.175 0.04 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "ed005998-b2e7-4163-8d98-2e7becfe2c87")
 		(effects
 			(font
 				(size 1 1)
@@ -69,6 +56,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -8.095 -1.78)
 		(end -8.095 4.47)
@@ -250,6 +238,17 @@
 		(uuid "5a187825-fbca-421d-a30e-007ffeb60677")
 	)
 	(fp_text user "${REFERENCE}"
+		(at -0.025 10.25 90)
+		(layer "F.Fab")
+		(uuid "4a5c1d3a-b1bb-4603-a396-bcf896c1addd")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
 		(at 0.125 23.075 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -261,29 +260,18 @@
 			)
 		)
 	)
-	(fp_text user "${REFERENCE}"
-		(at -0.025 10.25 90)
-		(layer "F.Fab")
-		(uuid "4a5c1d3a-b1bb-4603-a396-bcf896c1addd")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
 	(pad "" np_thru_hole circle
 		(at -5.715 8.89)
 		(size 3.2 3.2)
 		(drill 3.25)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "75992d53-10e0-4e48-9c51-279a041a45aa")
 	)
 	(pad "" np_thru_hole circle
 		(at 5.715 8.89)
 		(size 3.2 3.2)
 		(drill 3.25)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "44e10805-f9e6-48e3-903f-722d21cf288f")
 	)
 	(pad "1" thru_hole circle
@@ -398,6 +386,7 @@
 		(remove_unused_layers no)
 		(uuid "9874bc40-3a6c-4872-aa9c-68b1bf89c010")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector_RJ.3dshapes/ARJM11D7-009-AB-EW2.step"
 		(offset
 			(xyz 0 -8.87 0)

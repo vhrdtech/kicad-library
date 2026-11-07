@@ -1,12 +1,12 @@
 (footprint "610112249121"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(descr "Pin header, 2x06, P2.54mm, right angle, SMD, Würth 610112249121")
 	(tags "610112249121 pin header right angle")
 	(property "Reference" "REF**"
-		(at -8.7 -7.9 -90)
+		(at -8.7 -7.9 270)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "2d649b4f-28bd-47d6-9a17-fa7b8bec2753")
@@ -23,19 +23,6 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "eeb43799-8b1c-4cb5-8635-ddf17ccf1629")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "b38e9d62-df6e-4a49-a300-efad58d6136d")
 		(effects
 			(font
 				(size 1 1)
@@ -70,6 +57,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -7.62 -7.6)
 		(end -7.62 -3.55)
@@ -246,20 +234,20 @@
 		(at -5.08 -6.3)
 		(size 1.68 1.68)
 		(drill 1.68)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "e50e693f-d3ae-47ae-99cc-bd2e99309cc7")
 	)
 	(pad "" np_thru_hole circle
 		(at 5.08 -6.3)
 		(size 1.68 1.68)
 		(drill 1.68)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "99f47aab-1646-4b4b-994b-313c3d6735b5")
 	)
 	(pad "1" smd roundrect
 		(at -6.35 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "6da8906a-76b3-46db-99dc-012c9e246de6")
@@ -267,7 +255,7 @@
 	(pad "2" smd roundrect
 		(at -6.35 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "808410b9-e708-4652-a767-a87ce03cce8b")
@@ -275,7 +263,7 @@
 	(pad "3" smd roundrect
 		(at -3.81 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "aedb6db4-fc95-4007-9a4a-92c561a76895")
@@ -283,7 +271,7 @@
 	(pad "4" smd roundrect
 		(at -3.81 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "c5a3efc0-d2d8-4277-9b68-8b0906853088")
@@ -291,7 +279,7 @@
 	(pad "5" smd roundrect
 		(at -1.27 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "02b3b9ef-aeea-4d8a-b426-6d4ec780be5c")
@@ -299,7 +287,7 @@
 	(pad "6" smd roundrect
 		(at -1.27 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "f66912dc-2185-4ee6-a63e-da3f8ab30350")
@@ -307,7 +295,7 @@
 	(pad "7" smd roundrect
 		(at 1.27 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "97e5a591-dc27-4bf3-bf8a-ee77ce7b6f8a")
@@ -315,7 +303,7 @@
 	(pad "8" smd roundrect
 		(at 1.27 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "8f9e0414-b175-4c16-9b47-8fc7021370dd")
@@ -323,7 +311,7 @@
 	(pad "9" smd roundrect
 		(at 3.81 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "501840c6-6c66-4765-93aa-d7b647ecf9d1")
@@ -331,7 +319,7 @@
 	(pad "10" smd roundrect
 		(at 3.81 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "58acf91f-0d71-4586-9b58-a627e592e5b0")
@@ -339,7 +327,7 @@
 	(pad "11" smd roundrect
 		(at 6.35 1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "5da50408-0bd3-4691-b50d-893c8f96d009")
@@ -347,11 +335,12 @@
 	(pad "12" smd roundrect
 		(at 6.35 -1.85)
 		(size 1 2.5)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "84dd1c3d-d202-4c54-bba1-516e237e07d9")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector_PinHeader_2.54mm.3dshapes/Wurth_610112249121.step"
 		(offset
 			(xyz 0 6.3 2.55)

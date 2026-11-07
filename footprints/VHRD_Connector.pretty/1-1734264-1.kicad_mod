@@ -1,7 +1,7 @@
 (footprint "1-1734264-1"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at -3.807015 -11.645175 0)
@@ -21,18 +21,6 @@
 		(effects
 			(font
 				(size 1.401898 1.401898)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "6cdc6a0f-4a35-45cf-8178-bded7d22a672")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -62,6 +50,7 @@
 		)
 	)
 	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -7.9 -10.3)
 		(end 7.9 -10.3)
@@ -129,7 +118,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.SilkS")
 		(uuid "7eda4590-2c44-48aa-825c-2b1588c690bb")
 	)
@@ -300,7 +289,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "f4195d2a-4c07-4c15-919c-102b71d37d30")
 	)
@@ -398,6 +387,7 @@
 		(remove_unused_layers no)
 		(uuid "e7438b9c-c200-4b2f-bfb3-98521718d587")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector.3dshapes/1-1734264-1.step"
 		(offset
 			(xyz 0 -8.3 0)

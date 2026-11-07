@@ -1,12 +1,12 @@
 (footprint "CL-SB-12B-01T"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(descr "Slide switch, SPDT, SMD, gull wing, Nidec CL-SB-12B-01T")
 	(tags "CL-SB-12B-01T slide switch SPDT")
 	(property "Reference" "REF**"
-		(at -5.1 -2.075 -90)
+		(at -5.1 -2.075 270)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "0ec0f53d-bfbc-486e-bcde-288515c631df")
@@ -24,19 +24,6 @@
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "b9270f39-7b27-4fdc-b82d-5d993159b2fd")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0.05 0 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "a1f42f38-46ed-44e7-8f58-ed9bad9861b6")
 		(effects
 			(font
 				(size 1 1)
@@ -71,6 +58,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -4.25 -1.75)
 		(end -4.25 1.75)
@@ -317,20 +305,20 @@
 		(at -3.4 0)
 		(size 0.9 0.9)
 		(drill 0.9)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "d287d692-050e-4344-99de-82bc0a7d98c6")
 	)
 	(pad "" np_thru_hole circle
 		(at 3.4 0)
 		(size 0.9 0.9)
 		(drill 0.9)
-		(layers "F&B.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask")
 		(uuid "a0a9f35f-d43b-41b4-9419-c8a9dbac6654")
 	)
 	(pad "1" smd roundrect
 		(at -2.5 2.2)
 		(size 1.2 1.4)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "692f2a17-19aa-4292-baa0-04eb5d3786bc")
@@ -338,7 +326,7 @@
 	(pad "2" smd roundrect
 		(at 0 -2.2)
 		(size 1.2 1.4)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "31481008-2428-4af8-9400-acb1c9f58013")
@@ -346,11 +334,12 @@
 	(pad "3" smd roundrect
 		(at 2.5 2.2)
 		(size 1.2 1.4)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "8b6499e6-6c8e-40e4-8a13-6c92d6ec5eed")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Button_Switch_SMD.3dshapes/CL-SB-12B-01T.step"
 		(offset
 			(xyz 0 0 3.5)

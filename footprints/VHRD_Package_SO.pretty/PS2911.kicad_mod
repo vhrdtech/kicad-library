@@ -1,10 +1,10 @@
 (footprint "PS2911"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
-	(tags "PS2911 optocoupler")
-	(descr "Optocoupler, 4-pin flat lead (SON 1-1-F3), Renesas PS2911-1")
+	(generator_version "10.0")
 	(layer "F.Cu")
+	(descr "Optocoupler, 4-pin flat lead (SON 1-1-F3), Renesas PS2911-1")
+	(tags "PS2911 optocoupler")
 	(property "Reference" "REF**"
 		(at -0.05 -2.3 0)
 		(unlocked yes)
@@ -25,18 +25,6 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "9fb7fdb5-97f7-4b92-bc64-002dda0da3a2")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -66,6 +54,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -2.4 -1.4)
 		(end -2.4 -1.2)
@@ -133,7 +122,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.SilkS")
 		(uuid "4176b6ff-d69f-4b26-8378-e3b6a27759f9")
 	)
@@ -144,7 +133,7 @@
 			(width 0.05)
 			(type default)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.CrtYd")
 		(uuid "606de0cf-3a10-4ed7-9098-5ab4154d1c64")
 	)
@@ -155,7 +144,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "4b1eaf92-f258-4e4c-bf77-9762f3005496")
 	)
@@ -174,7 +163,7 @@
 	(pad "1" smd roundrect
 		(at -2.47 -0.635)
 		(size 0.78 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "72f2df6b-3850-4b9c-813c-73f7fba25b7d")
@@ -182,7 +171,7 @@
 	(pad "2" smd roundrect
 		(at -2.47 0.635)
 		(size 0.78 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "c64520e0-77ea-4b35-8595-9c4423dbed58")
@@ -190,7 +179,7 @@
 	(pad "3" smd roundrect
 		(at 2.47 0.635)
 		(size 0.78 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "b437120a-a9d7-443b-9c63-50793cec82d9")
@@ -198,11 +187,12 @@
 	(pad "4" smd roundrect
 		(at 2.47 -0.635)
 		(size 0.78 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "535e6592-4b82-478f-bee5-0f038c098c12")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SON_1-1-F3-AX_REN.step"
 		(offset
 			(xyz 0 0 0)

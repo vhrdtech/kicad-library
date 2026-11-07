@@ -1,9 +1,9 @@
 (footprint "2337019-1"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
-	(descr "U.FL coaxial receptacle, 50 Ohm, SMD, TE 2337019-1")
+	(generator_version "10.0")
 	(layer "F.Cu")
+	(descr "U.FL coaxial receptacle, 50 Ohm, SMD, TE 2337019-1")
 	(tags "2337019-1 U.FL UMCC coaxial")
 	(property "Reference" "REF**"
 		(at -1.9 2.6 0)
@@ -28,18 +28,6 @@
 			(font
 				(size 1 1)
 				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "a60ff74b-ccf9-425e-ad80-1081166e7652")
-		(effects
-			(font
-				(size 1.27 1.27)
 			)
 		)
 	)
@@ -68,6 +56,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -1.6256 -1.6764)
 		(end -1.6256 -1.487039)
@@ -221,24 +210,25 @@
 	(pad "1" smd roundrect
 		(at 0 -1.5744)
 		(size 0.9906 1.0414)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.25)
 		(uuid "bc251240-eac0-47ba-be11-7fadfbd0df08")
 	)
 	(pad "2" smd roundrect
 		(at -1.147501 -0.049399)
 		(size 1.0414 2.2098)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.2400614557)
 		(uuid "f902fea0-2cb5-4e59-a46f-45ddd86efc07")
 	)
 	(pad "2" smd roundrect
 		(at 1.147501 -0.049399)
 		(size 1.0414 2.2098)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.2400614557)
 		(uuid "d5a0c6ee-3d31-4fe0-b063-f2e546a5e10f")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector.3dshapes/c-2337019-1-a2-3d.step"
 		(offset
 			(xyz 0 0 1.25)

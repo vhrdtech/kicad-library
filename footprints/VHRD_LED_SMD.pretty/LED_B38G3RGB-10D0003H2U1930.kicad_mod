@@ -1,7 +1,7 @@
 (footprint "LED_B38G3RGB-10D0003H2U1930"
-	(version 20240108)
+	(version 20260206)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at 0.95 -2.1 0)
@@ -22,18 +22,6 @@
 		(effects
 			(font
 				(size 0.629921 0.629921)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "65195403-0600-4897-b870-ab34a772c373")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -63,6 +51,7 @@
 		)
 	)
 	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -1.02 0.8)
 		(end -1.02 -0.8)
@@ -90,7 +79,7 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.SilkS")
 		(uuid "6a5d1f31-b61c-4bd5-8997-c2899e20bed9")
 	)
@@ -181,34 +170,35 @@
 			(width 0.2)
 			(type solid)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.Fab")
 		(uuid "f85b7f91-1db9-4fca-b276-5c6f11ca5058")
 	)
 	(pad "1" smd rect
 		(at -0.45 -0.8)
 		(size 0.5 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "9f991ba2-5818-4df4-990c-b08d9e98d280")
 	)
 	(pad "2" smd rect
 		(at 0.45 -0.8)
 		(size 0.5 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "30403eaa-4fe6-4b15-8a00-efa1ebfd3b61")
 	)
 	(pad "3" smd rect
 		(at 0.45 0.8)
 		(size 0.5 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "e55cbaa8-cc0d-48ee-9acb-2d695d77fce0")
 	)
 	(pad "4" smd rect
 		(at -0.45 0.8)
 		(size 0.5 0.8)
-		(layers "F.Cu" "F.Paste" "F.Mask")
+		(layers "F.Cu" "F.Mask" "F.Paste")
 		(uuid "943db519-c706-4381-bb7e-e320f0c47a74")
 	)
+	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_LED_SMD.3dshapes/B38G3RGB-10D0003H2U1930.step"
 		(offset
 			(xyz 0 0 0)
