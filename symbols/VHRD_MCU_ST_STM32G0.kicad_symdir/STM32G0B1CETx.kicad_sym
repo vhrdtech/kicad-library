@@ -123,7 +123,7 @@
 					(justify left)
 				)
 			)
-			(text "Bootloader pins (AN2606 T112):"
+			(text "Bootloader pins (AN2606 T112, ROM):"
 				(at 1.27 -58.42 0)
 				(effects
 					(font
@@ -189,18 +189,18 @@
 					(justify left)
 				)
 			)
-			(text "Reset-time pins:"
-				(at 1.27 -71.42 0)
+			(text "BL:Rd sink Rd ~5.1k (UCPD1)"
+				(at 1.27 -70.42 0)
 				(effects
 					(font
 						(size 0.9 0.9)
 						(bold yes)
-						(color 72 72 72 1)
+						(color 215 140 0 1)
 					)
 					(justify left)
 				)
 			)
-			(text "DB  Rd at reset while its DBC is high"
+			(text "Reset-time pins:"
 				(at 1.27 -73.42 0)
 				(effects
 					(font
@@ -211,7 +211,7 @@
 					(justify left)
 				)
 			)
-			(text "DBC turns its DB pin's Rd on when high"
+			(text "DB  Rd from power-on while its DBC is high"
 				(at 1.27 -75.42 0)
 				(effects
 					(font
@@ -222,8 +222,19 @@
 					(justify left)
 				)
 			)
-			(text "SWDIO, BOOT0, NRST act at every reset"
+			(text "DBC turns its DB pin's Rd on when high"
 				(at 1.27 -77.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "SWDIO, BOOT0, NRST act at every reset"
+				(at 1.27 -79.42 0)
 				(effects
 					(font
 						(size 0.9 0.9)
@@ -290,6 +301,17 @@
 			)
 			(text "PD"
 				(at 47.625 -20.32 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "Rd"
+				(at 47.625 -22.86 0)
 				(effects
 					(font
 						(size 0.75 0.75)
@@ -420,7 +442,7 @@
 					(justify right)
 				)
 			)
-			(text "PD"
+			(text "Rd"
 				(at 47.625 -83.82 0)
 				(effects
 					(font

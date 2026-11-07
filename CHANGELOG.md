@@ -73,6 +73,10 @@
   it runs open drain with pull-up (PB6, PB7, PB10, PB11), `PU` / `PD` / `I` in amber for pulled-up, pulled-down and
   plain inputs; a legend inside the body says the `BL:` meaning. The body is 7.62 mm wider and pin names sit 2.54 mm
   in from the edge to make room.
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: `Rd` in amber on PA8 and PB15 (was `PD` on PB15), the ROM bootloader's
+  ~5.1k UCPD1 sink Rd: it configures UCPD1 as a sink and strobes it at entry, not in AN2606 (read from the ROM and
+  measured, hw `b153_typec_serial/test/test_b153b_dead_battery.md` T3). The legend gets `BL:Rd` and credits the ROM;
+  the DB line says the Rd comes from power-on, since a strobe holds through NRST.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: every port pin offers its GPIO modes as alternates, `PA9/PP` (push-pull,
   output), `PA9/OD` (open drain), `PA9/IN` (input) and `PA9/FX` (flex, bidirectional), in place of the bare `PA9`;
   the remappable pins 33 and 34 offer them for both their ports.
