@@ -19,6 +19,7 @@
 	(property "Value" "DFN-12-AOZ"
 		(at 0.1 2.3 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "ecf54cc8-4c0d-41ad-818a-2637f6fcac46")
 		(effects
 			(font
@@ -147,13 +148,13 @@
 		(uuid "a4dae0ca-0ffb-4bb6-bdd8-e070e47b7578")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0.2 -0.6 0)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "da5f5fde-2c99-45e6-a7ff-ba35ffa17275")
+		(uuid "12efccec-9731-468f-86ce-f80125d51d2f")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.92 0.92)
+				(thickness 0.138)
 			)
 		)
 	)

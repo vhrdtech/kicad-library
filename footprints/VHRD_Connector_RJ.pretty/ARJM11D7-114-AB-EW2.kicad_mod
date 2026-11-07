@@ -19,6 +19,7 @@
 	(property "Value" "RJ45_Abracon_ARJM11_7POE_LED"
 		(at -10.795 7 270)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "995fc33c-26a9-47b2-9e29-ff30dddb6667")
 		(effects
 			(font
@@ -312,9 +313,9 @@
 		(uuid "86907b1a-b144-4c49-92b6-c7f2275d07c1")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0.445 7.5 90)
+		(at 0 9.015 0)
 		(layer "F.Fab")
-		(uuid "62a149e9-a436-4aca-9a89-49d7cc5fc554")
+		(uuid "f9148fc2-b48e-4e37-a06d-530625958106")
 		(effects
 			(font
 				(size 1 1)

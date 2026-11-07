@@ -19,6 +19,7 @@
 	(property "Value" "PPPC152LJBN-RC"
 		(at -5.65 38.33 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "2a4fadfe-53a0-4fb0-9320-432f27549333")
 		(effects
 			(font
@@ -896,9 +897,9 @@
 		(uuid "a40ed0a1-b5a6-453c-8b33-306a30951eee")
 	)
 	(fp_text user "${REFERENCE}"
-		(at -8.315 17.78 90)
+		(at -6.285 17.78 0)
 		(layer "F.Fab")
-		(uuid "e4b9c6ba-36e1-48e1-8792-386d7dce01ab")
+		(uuid "e6f75711-a036-4360-8950-5b9f52548377")
 		(effects
 			(font
 				(size 1 1)

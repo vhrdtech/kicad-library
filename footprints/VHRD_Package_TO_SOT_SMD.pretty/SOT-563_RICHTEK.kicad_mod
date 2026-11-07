@@ -19,6 +19,7 @@
 	(property "Value" "SOT-563_RICHTEK"
 		(at 0 1.65 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "bd24207b-4f6f-41cd-b9cb-83cc8554e2dc")
 		(effects
 			(font
@@ -167,13 +168,13 @@
 		(uuid "056429cb-c5f0-422e-ba7f-3a7a6a2aca83")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "9e857e83-c471-49aa-a531-c6a3f54dbb7f")
+		(uuid "f23b0c5e-40e0-4ca7-aec9-99318ab5c024")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.04)
+				(size 0.49 0.49)
+				(thickness 0.073)
 			)
 		)
 	)

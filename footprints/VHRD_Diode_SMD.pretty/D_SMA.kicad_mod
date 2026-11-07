@@ -19,6 +19,7 @@
 	(property "Value" "D_SMA"
 		(at 0 2.6 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "26bf8a96-04b0-416e-b8c4-6ebaf8cbc530")
 		(effects
 			(font
@@ -174,9 +175,9 @@
 		(uuid "4f6dba20-e488-4e24-8411-10f30317da99")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -2.5 0)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "993bb932-a91a-460f-a5e6-6b4ad656dc7c")
+		(uuid "a9f8ac21-32f0-4beb-9b11-36d442ad3346")
 		(effects
 			(font
 				(size 1 1)

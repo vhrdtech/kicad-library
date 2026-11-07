@@ -19,6 +19,7 @@
 	(property "Value" "DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm"
 		(at 0 2.8 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "49eaa24e-233e-4b77-8460-be155a99cfa8")
 		(effects
 			(font
@@ -169,11 +170,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "069a21e5-d099-458a-a758-bcdbd1586b7c")
+		(uuid "28647695-2d2c-4bfb-a59a-60a7560d114a")
 		(effects
 			(font
-				(size 0.75 0.75)
-				(thickness 0.11)
+				(size 0.92 0.92)
+				(thickness 0.138)
 			)
 		)
 	)

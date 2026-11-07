@@ -18,6 +18,7 @@
 	(property "Value" "Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1"
 		(at 0 2.45 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "5e33e577-92d0-4cee-a432-07e1e580761d")
 		(effects
 			(font
@@ -292,11 +293,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "2c1f2516-17ee-45a3-a9ce-f867838523a7")
+		(uuid "2150c1c5-d424-4b5a-a167-4881f462da05")
 		(effects
 			(font
-				(size 0.7 0.7)
-				(thickness 0.105)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

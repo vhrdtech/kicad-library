@@ -17,6 +17,7 @@
 	(property "Value" "MEM2061"
 		(at 20.95407 9.036605 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "0e516f70-448b-4816-94dc-116d8fa6572a")
 		(effects
 			(font
@@ -410,6 +411,17 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "ffd7429e-dd21-401e-a0ea-f87ed48d7690")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "9e2a435a-6067-4e5d-8945-00bb80646aeb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
 	)
 	(pad "1" smd rect
 		(at 1.94 3.225)

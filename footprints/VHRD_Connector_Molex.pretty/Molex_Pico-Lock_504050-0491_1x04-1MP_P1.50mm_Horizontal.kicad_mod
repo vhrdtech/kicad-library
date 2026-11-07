@@ -19,6 +19,7 @@
 	(property "Value" "Molex_Pico-Lock_504050-0491_1x04-1MP_P1.50mm_Horizontal"
 		(at 0 4.52 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "449ecbf6-3c8a-4804-a2dd-a723eafad707")
 		(effects
 			(font
@@ -299,9 +300,9 @@
 		(uuid "b1b31336-926e-44b5-b0cb-ac5c23506aca")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0.27 0)
+		(at 0 0.265 0)
 		(layer "F.Fab")
-		(uuid "db1a27ae-2658-45ff-8fb9-fd9bef2c528f")
+		(uuid "fe735a91-ea7a-43f4-b224-e1df75f98501")
 		(effects
 			(font
 				(size 1 1)

@@ -18,6 +18,7 @@
 	(property "Value" "C_1808_4520Metric"
 		(at 0 2.65 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "c6b02b7a-ee61-421b-bc1e-2ec2818dff85")
 		(effects
 			(font
@@ -153,7 +154,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "98e2f1fd-cbe1-4cfe-af84-73eb2dff87fa")
+		(uuid "b90dd519-6512-4e24-a64d-255a6b13b62b")
 		(effects
 			(font
 				(size 1 1)

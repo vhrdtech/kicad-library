@@ -19,6 +19,7 @@
 	(property "Value" "D_PowerDI-5"
 		(at 0 3 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "0e3cf3bd-2ac0-4a32-af92-01aefbc208c1")
 		(effects
 			(font
@@ -231,9 +232,9 @@
 		(uuid "cd32ab68-96e4-4f48-8b80-4849af901bc5")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -3 0)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "efb05e06-6fdd-4bad-ad11-775a93ad3710")
+		(uuid "c98bd7f4-4de8-4219-9661-2738dd00c3f8")
 		(effects
 			(font
 				(size 1 1)

@@ -19,6 +19,7 @@
 	(property "Value" "Relay_DPDT_Kemet_EE2_NUH_DoubleCoil"
 		(at -6.19 -0.06 90)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "128c15e6-47ac-448d-b8cc-08c7ccddfb34")
 		(effects
 			(font
@@ -336,9 +337,9 @@
 		(uuid "23c2702e-e0d5-4669-976f-7238af7cef46")
 	)
 	(fp_text user "${REFERENCE}"
-		(at -0.14 0.39 90)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "f1a97958-e9ab-47cb-bcbe-be4514eb0ca8")
+		(uuid "ade3ab5d-ca5f-4c2e-aeeb-f32dd6bf25e5")
 		(effects
 			(font
 				(size 1 1)

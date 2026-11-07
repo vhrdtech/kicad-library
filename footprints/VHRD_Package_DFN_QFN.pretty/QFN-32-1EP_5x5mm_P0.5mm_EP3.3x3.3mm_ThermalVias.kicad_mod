@@ -19,6 +19,7 @@
 	(property "Value" "QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias"
 		(at 0 3.82 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "3feb8947-3fee-4363-819c-cf6f92510f3e")
 		(effects
 			(font
@@ -209,7 +210,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "18f56857-895c-4c2c-b7c4-9b34304fd00d")
+		(uuid "5bc03380-a33f-4633-b189-41147f197fc1")
 		(effects
 			(font
 				(size 1 1)

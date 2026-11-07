@@ -64,6 +64,9 @@
 
 ### Changed
 
+- The fab layer shows only the reference: Value is hidden there (still a property, so BOMs keep it) and every
+  footprint has one `${REFERENCE}` at its body's centre, sized to fit (0.25 to 1.0 mm) and turned along tall bodies,
+  so F.Fab stays readable on a dense board and while routing.
 - Courtyards (F.CrtYd) of the 128 footprints with a STEP model are rebuilt from the model's top view: the body and
   the pads, grown by the KLC F5.3 clearance (0.25 mm, 0.15 mm for parts under 1.5 mm, 0.5 mm for connectors and
   crystals, 1.0 mm for BGA), gaps under 2 mm closed, a rectangle where the outline fills at least 87 % of its box and

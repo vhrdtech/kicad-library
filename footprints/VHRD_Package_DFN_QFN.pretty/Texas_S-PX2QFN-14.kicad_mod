@@ -19,6 +19,7 @@
 	(property "Value" "Texas_S-PX2QFN-14"
 		(at 0 2.33 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "5ac5c654-4263-49c3-ba92-454cf25f2ca2")
 		(effects
 			(font
@@ -132,11 +133,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "b87ae5a4-cf7c-43fe-b302-87b176349fef")
+		(uuid "7909de39-834f-4f64-969a-3a22977850e2")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 0.62 0.62)
+				(thickness 0.093)
 			)
 		)
 	)

@@ -19,6 +19,7 @@
 	(property "Value" "D_SMF"
 		(at 0 2 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "4e8aff7a-49d1-4fe5-b61b-a76cde3c3d19")
 		(effects
 			(font
@@ -174,13 +175,13 @@
 		(uuid "50623115-36c3-4653-8be5-a723ca0a7784")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -2 0)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "57ac36d9-3688-459f-8b34-9083f2b4008b")
+		(uuid "8d50f516-25ac-4fbb-ac49-156dbec9917a")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.86 0.86)
+				(thickness 0.129)
 			)
 		)
 	)

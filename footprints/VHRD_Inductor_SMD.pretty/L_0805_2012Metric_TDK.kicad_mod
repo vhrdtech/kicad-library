@@ -19,6 +19,7 @@
 	(property "Value" "L_0805_2012Metric_TDK"
 		(at 0 1.55 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "a1f24ac3-bec3-4271-bdc6-f5e72e17891c")
 		(effects
 			(font
@@ -127,11 +128,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "b9c3b373-8513-44dd-8cb4-e8f968895223")
+		(uuid "af054ef4-52f6-489d-97e1-acd194a0fc41")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 0.62 0.62)
+				(thickness 0.093)
 			)
 		)
 	)

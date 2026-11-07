@@ -19,6 +19,7 @@
 	(property "Value" "PinSocket_1x20_P2.54mm_Vertical"
 		(at 0 51.03 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "6d4fd172-46e5-4ee7-9e24-2557bb26e576")
 		(effects
 			(font
@@ -215,7 +216,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 24.13 90)
 		(layer "F.Fab")
-		(uuid "77d8006e-73b0-49c0-98b9-d858d07d2dfd")
+		(uuid "49a8cce2-5782-4fda-97e3-096c814e5de5")
 		(effects
 			(font
 				(size 1 1)

@@ -19,6 +19,7 @@
 	(property "Value" "C_Disc_D7.0mm_W2.5mm_P6.00mm"
 		(at 2.5 2.5 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "c9f15c48-f05b-44ea-87cc-619977868bd7")
 		(effects
 			(font
@@ -190,7 +191,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 2.5 0 0)
 		(layer "F.Fab")
-		(uuid "1d8f085f-bf3a-4c13-b278-008b7e6a8735")
+		(uuid "147d93d9-e54c-4310-9043-91370ae43f94")
 		(effects
 			(font
 				(size 1 1)

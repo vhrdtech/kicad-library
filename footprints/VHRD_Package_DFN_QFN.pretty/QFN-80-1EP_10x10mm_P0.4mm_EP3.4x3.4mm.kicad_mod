@@ -19,6 +19,7 @@
 	(property "Value" "QFN-80-1EP_10x10mm_P0.4mm_EP3.4x3.4mm"
 		(at 0 6.3 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "bfd6087b-ab2a-4824-a54b-8941e0a7dc34")
 		(effects
 			(font
@@ -169,7 +170,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "730b40dd-e652-46d6-b7b7-99b28b4a3b2e")
+		(uuid "8e055323-ed50-461f-b80c-a9096855a95f")
 		(effects
 			(font
 				(size 1 1)

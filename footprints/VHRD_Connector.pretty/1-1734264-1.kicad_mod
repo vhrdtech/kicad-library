@@ -17,6 +17,7 @@
 	(property "Value" "1-1734264-1"
 		(at 4.20169 9.623995 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "6f3913ce-ed51-475c-b5bf-690ffdbde2c8")
 		(effects
 			(font
@@ -208,6 +209,17 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "089993fb-3398-4fde-9a84-6c1a39189932")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 -1 0)
+		(layer "F.Fab")
+		(uuid "2f20e04b-6d43-42eb-9132-33a0a091b880")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
 	)
 	(pad "" np_thru_hole circle
 		(at -5.715 0)

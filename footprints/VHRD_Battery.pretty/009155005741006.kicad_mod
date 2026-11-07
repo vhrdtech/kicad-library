@@ -21,6 +21,7 @@
 		(at 0 -12 0)
 		(unlocked yes)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "58ee3f77-3302-4b7d-8bc8-ebdaacbce34d")
 		(effects
 			(font
@@ -1242,10 +1243,9 @@
 		(uuid "72831725-fd26-4649-9958-39a291bfb763")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -10.5 0)
-		(unlocked yes)
+		(at 0 2 0)
 		(layer "F.Fab")
-		(uuid "f72743cc-9283-4f26-8b9b-570e2e4bbb2e")
+		(uuid "88c2aae4-fda3-4136-a3b5-65064e3315c1")
 		(effects
 			(font
 				(size 1 1)

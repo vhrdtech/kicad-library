@@ -19,6 +19,7 @@
 	(property "Value" "NRS5030T100MMGJ"
 		(at 0 3.45 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "bd26417a-8e82-466c-b243-7b5213673247")
 		(effects
 			(font
@@ -136,7 +137,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "ebe3db9f-a2fb-4bc9-b1fe-1e5b965173e0")
+		(uuid "bff9e243-ceff-4c71-8b0a-eb1e4b6ad30e")
 		(effects
 			(font
 				(size 1 1)

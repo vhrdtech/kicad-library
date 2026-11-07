@@ -19,6 +19,7 @@
 	(property "Value" "D_SOD-323"
 		(at 0.1 1.9 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "b3c7f3bb-e3a1-4706-8e5e-c232f9ea0abb")
 		(effects
 			(font
@@ -176,13 +177,13 @@
 		(uuid "b640432c-c0a9-45cf-85ce-40fc5bb6798a")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -1.85 0)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "91c41baa-dfe0-4ef1-8faa-ec3e542efc2b")
+		(uuid "edc15fbe-553e-4f0f-8ec8-05cbcc9ae510")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.55 0.55)
+				(thickness 0.083)
 			)
 		)
 	)

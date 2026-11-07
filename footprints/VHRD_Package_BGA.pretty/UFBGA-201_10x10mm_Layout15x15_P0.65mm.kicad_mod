@@ -18,6 +18,7 @@
 	(property "Value" "UFBGA-201_10x10mm_Layout15x15_P0.65mm"
 		(at 0 6 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "01fcd076-a2cf-4b07-82c1-de251baf7493")
 		(effects
 			(font
@@ -129,7 +130,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "e99bcb06-d773-4a21-8d5c-b4ebce58a171")
+		(uuid "cb356cb3-4033-4602-9243-6cd209827f42")
 		(effects
 			(font
 				(size 1 1)

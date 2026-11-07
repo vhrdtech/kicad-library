@@ -19,6 +19,7 @@
 	(property "Value" "TI-DBV0006A"
 		(at 0 2.5 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "ba3dc82d-07d3-4a7c-bc21-bef16006509d")
 		(effects
 			(font
@@ -149,11 +150,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "327b3a2f-092f-43a5-861b-40e1d4d51acf")
+		(uuid "8ae62597-a7e7-4692-b721-d097b5b70a53")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.89 0.89)
+				(thickness 0.134)
 			)
 		)
 	)

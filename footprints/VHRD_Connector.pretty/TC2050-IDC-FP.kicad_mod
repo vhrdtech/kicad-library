@@ -19,6 +19,7 @@
 	(property "Value" "TC2050-IDC-FP"
 		(at 0 -4.8 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "afd5401f-d2d7-4c79-b75e-29364200fc5d")
 		(effects
 			(font
@@ -139,9 +140,9 @@
 		)
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at -0.375 0 0)
 		(layer "F.Fab")
-		(uuid "23bd99f8-48db-4526-b2b4-ad0630a96d34")
+		(uuid "20d6ab60-3c1a-401d-b31c-3ba2b3aea921")
 		(effects
 			(font
 				(size 1 1)

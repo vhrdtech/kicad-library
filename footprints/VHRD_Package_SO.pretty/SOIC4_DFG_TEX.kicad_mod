@@ -330,9 +330,8 @@
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
-		(unlocked yes)
 		(layer "F.Fab")
-		(uuid "6b0d82cc-b939-4961-8c67-9bdbebdd4f38")
+		(uuid "80fa9fd9-04da-4ca1-970a-1335686b3eba")
 		(effects
 			(font
 				(size 1 1)

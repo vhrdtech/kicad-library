@@ -19,6 +19,7 @@
 	(property "Value" "DIP-4_W7.62mm-PS2911"
 		(at 3.81 4.87 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "e254f5db-26f7-457d-9d2b-6c11247c0e60")
 		(effects
 			(font
@@ -192,7 +193,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 3.81 1.27 0)
 		(layer "F.Fab")
-		(uuid "dbfdd5a9-97c8-4a90-9017-bd3377b51056")
+		(uuid "07da6a10-1a24-41b5-bcb3-c7df6ef4a292")
 		(effects
 			(font
 				(size 1 1)

@@ -17,6 +17,7 @@
 	(property "Value" "BAT_3013"
 		(at -3.81 9.525 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "3ef52838-8eff-4d22-a4c6-e23f6f407a33")
 		(effects
 			(font
@@ -118,6 +119,17 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "c8c9ed66-8ef7-4629-a891-f7806a05a2d0")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 -0.5 0)
+		(layer "F.Fab")
+		(uuid "257ebeaf-a31e-4637-9822-5f8feee580b4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
 	)
 	(pad "M" smd rect
 		(at 0 0)

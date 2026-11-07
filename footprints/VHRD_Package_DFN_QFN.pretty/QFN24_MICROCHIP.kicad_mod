@@ -19,6 +19,7 @@
 	(property "Value" "QFN24_MICROCHIP"
 		(at 0 3.3 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "b72d8a24-3629-42b8-abdc-fb8f6adb2619")
 		(effects
 			(font
@@ -207,7 +208,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "bae98479-a266-4e9b-9674-e6d3bf5e9f88")
+		(uuid "e4ea9641-26cd-4b83-bcc3-fb81b4cf2984")
 		(effects
 			(font
 				(size 1 1)

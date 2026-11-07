@@ -391,9 +391,9 @@
 		(uuid "84577f11-eb45-4fe5-9722-64267d4c3be5")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 1.45 0)
+		(at 0 1.325 0)
 		(layer "F.Fab")
-		(uuid "9fdcc772-8d7a-45dc-be07-3d16ac168fd7")
+		(uuid "8d4755e8-63d2-4063-98a1-ec1b6738df1c")
 		(effects
 			(font
 				(size 1 1)

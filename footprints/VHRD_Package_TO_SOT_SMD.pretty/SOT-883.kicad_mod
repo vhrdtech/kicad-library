@@ -19,6 +19,7 @@
 	(property "Value" "SOT-883"
 		(at 0 1.905 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "e13ac711-4f0e-4ec8-822d-2fa31135cbb6")
 		(effects
 			(font
@@ -141,11 +142,11 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "b03f23df-16d4-4e51-b397-7586a5d7b2c5")
+		(uuid "be4cfaee-8898-473f-9c19-f3203f74fd02")
 		(effects
 			(font
-				(size 0.2 0.2)
-				(thickness 0.03)
+				(size 0.31 0.31)
+				(thickness 0.05)
 			)
 		)
 	)

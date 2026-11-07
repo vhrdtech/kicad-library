@@ -19,6 +19,7 @@
 	(property "Value" "SOIC-8-1EP_TI_NOVIA"
 		(at 0 3.4 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "631f6aad-ae07-41b7-ba14-c7ae5a417da8")
 		(effects
 			(font
@@ -196,10 +197,10 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "55783ce6-8a91-4ac6-88ff-276f86497572")
+		(uuid "b4c55efa-59a6-4ed2-b95b-ebc94efb5c30")
 		(effects
 			(font
-				(size 0.98 0.98)
+				(size 1 1)
 				(thickness 0.15)
 			)
 		)

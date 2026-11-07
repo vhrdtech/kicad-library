@@ -19,6 +19,7 @@
 	(property "Value" "cannify_micro_l"
 		(at 0 51.03 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "6d4fd172-46e5-4ee7-9e24-2557bb26e576")
 		(effects
 			(font
@@ -215,7 +216,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 24.13 90)
 		(layer "F.Fab")
-		(uuid "77d8006e-73b0-49c0-98b9-d858d07d2dfd")
+		(uuid "d5aa50e1-3d72-4dec-a32d-87384ede0bef")
 		(effects
 			(font
 				(size 1 1)

@@ -17,6 +17,7 @@
 	(property "Value" "CONV_MIE1W0505BGLVH-3R-Z"
 		(at 1.9 3.2 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "80af2bc6-474b-4606-a1c5-41d55a83eb2d")
 		(effects
 			(font
@@ -135,6 +136,17 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "48a623d4-75e6-471c-81e7-c0c3c4aa2dd9")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0.35 0 0)
+		(layer "F.Fab")
+		(uuid "8d222bc6-c294-4dce-a421-889d17ff6ceb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
 	)
 	(pad "1" smd custom
 		(at 2.0875 -1.6375)

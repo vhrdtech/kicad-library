@@ -18,6 +18,7 @@
 	(property "Value" "SOIC-8-ANALOG"
 		(at 0 3.4 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "f2335a8f-2dff-4020-82f2-78815611867b")
 		(effects
 			(font
@@ -166,10 +167,10 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "0da527d2-d574-4143-8d27-fa53aea5f97c")
+		(uuid "075ecd51-5a04-4681-b8c3-e2d1431ca013")
 		(effects
 			(font
-				(size 0.98 0.98)
+				(size 1 1)
 				(thickness 0.15)
 			)
 		)

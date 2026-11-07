@@ -19,6 +19,7 @@
 	(property "Value" "TI-PFB0048A"
 		(at 0 5.85 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "94c55ff0-8ad9-4bd3-bddb-2274c104b910")
 		(effects
 			(font
@@ -174,7 +175,7 @@
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "534889d2-4b16-44db-9260-1055cea8b312")
+		(uuid "ecda8868-7a3d-46a8-9aa4-c038bbe77b03")
 		(effects
 			(font
 				(size 1 1)

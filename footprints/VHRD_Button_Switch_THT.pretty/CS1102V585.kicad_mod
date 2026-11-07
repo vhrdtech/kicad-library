@@ -176,13 +176,13 @@
 		(uuid "c1328195-94f1-4f27-b8b0-2e56e10997cd")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -1.95 0)
+		(at 0 -1.271 0)
 		(layer "F.Fab")
-		(uuid "0f460ebd-e6c2-4037-bcc2-bba4e5c4d9ce")
+		(uuid "3eb42691-5dcc-4ac5-bcf5-1778cee12544")
 		(effects
 			(font
-				(size 0.75 0.75)
-				(thickness 0.1)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

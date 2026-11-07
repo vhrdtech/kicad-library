@@ -19,6 +19,7 @@
 	(property "Value" "PinHeader_2x04_P2.54mm_Horizontal"
 		(at 5.655 9.89 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "f6103b8a-4388-4824-8adf-91bebdc54b3c")
 		(effects
 			(font
@@ -604,9 +605,9 @@
 		(uuid "60fbbe73-7053-4e1b-a529-ba2fef7cad2e")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 5.31 3.81 90)
+		(at 6.13 3.81 0)
 		(layer "F.Fab")
-		(uuid "24500bef-4fe0-4115-8585-1410573797a3")
+		(uuid "392fb283-6a0d-4945-8a40-60a8bd8d647f")
 		(effects
 			(font
 				(size 1 1)

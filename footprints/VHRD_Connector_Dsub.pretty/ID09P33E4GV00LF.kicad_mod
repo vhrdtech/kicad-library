@@ -18,6 +18,7 @@
 	(property "Value" "ID09P33E4GV00LF"
 		(at 0 18.44 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "d8beb49c-3971-43f5-8250-537fc0833125")
 		(effects
 			(font
@@ -457,9 +458,9 @@
 		(uuid "20a16702-711f-40b8-91ea-d3c835f5246f")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 13.94 0)
+		(at 0 7.57 0)
 		(layer "F.Fab")
-		(uuid "dda43bc1-f09e-43e7-812c-8e1d9f1572bd")
+		(uuid "3ec0a85a-e5f7-44d7-99dd-6b85cd5545b5")
 		(effects
 			(font
 				(size 1 1)

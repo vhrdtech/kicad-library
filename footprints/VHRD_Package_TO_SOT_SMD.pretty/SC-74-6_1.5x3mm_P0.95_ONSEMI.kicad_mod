@@ -18,6 +18,7 @@
 	(property "Value" "SC-74-6_1.5x3mm_P0.95"
 		(at 0 2.4 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "b963891f-ad5f-46c3-9747-9c8a55ad77af")
 		(effects
 			(font
@@ -166,13 +167,13 @@
 		(uuid "6a0a45b1-a70c-4da3-91a0-f21ffc5fc0a1")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "cab85b6e-563f-43e2-bbb7-8e5e5bc86e12")
+		(uuid "f2c201c6-614a-4d0c-b55e-2fbd467b3264")
 		(effects
 			(font
-				(size 0.39 0.39)
-				(thickness 0.06)
+				(size 0.89 0.89)
+				(thickness 0.134)
 			)
 		)
 	)
