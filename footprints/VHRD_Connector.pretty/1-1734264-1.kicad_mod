@@ -324,7 +324,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "89d801d4-8c71-43c8-a52e-7e00ee9b4b58")
 	)
 	(pad "2" thru_hole circle
@@ -333,7 +332,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "0fbdaef7-708e-41c8-aa8d-32da770492b0")
 	)
 	(pad "3" thru_hole circle
@@ -342,7 +340,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "5043c0ad-ad92-4c82-9b51-c29749d4e124")
 	)
 	(pad "4" thru_hole circle
@@ -351,7 +348,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "6f89804a-8d6f-48f3-b405-d3d18686cb8c")
 	)
 	(pad "5" thru_hole circle
@@ -360,7 +356,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "b60b7674-1295-4103-8fa3-f92cd2142faa")
 	)
 	(pad "6" thru_hole circle
@@ -369,7 +364,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "7036f94b-d52d-4145-8d0a-e78c385f3310")
 	)
 	(pad "7" thru_hole circle
@@ -378,7 +372,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "8636eecc-434d-439b-ad4c-b7576e7cdb6c")
 	)
 	(pad "8" thru_hole circle
@@ -387,7 +380,6 @@
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "8dbcf5ba-3eae-4705-b4ee-3853488c5ad0")
 	)
 	(pad "SH" thru_hole circle
@@ -396,7 +388,6 @@
 		(drill 1.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "7b33ac01-d235-4eb4-9053-11cb4c20721f")
 	)
 	(pad "SH" thru_hole circle
@@ -405,7 +396,6 @@
 		(drill 1.6)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(solder_mask_margin 0.102)
 		(uuid "e7438b9c-c200-4b2f-bfb3-98521718d587")
 	)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Connector.3dshapes/1-1734264-1.step"

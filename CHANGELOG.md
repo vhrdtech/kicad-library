@@ -64,6 +64,13 @@
 
 ### Changed
 
+- Pads follow the board's mask and paste rules again: the vendor-export 0.102 mm solder mask margin is gone from
+  BAT-HLD-001-THM, BAT_3013, CUI_MSD-1-A, 1-1734264-1, 09551667812741, 3220-10-0300-00, 20021321-00008T4LF,
+  B0505MT-1WR4, DM-OLED042-647, D5V0P4UR6SO-7, PA1134NL and some pads of JUST-SCREW-IT-6P and TC2050-IDC-NL, as are
+  the 0.2 mm on 009155005741006, the -0.01 mm on AXF382700 and the forced 0 paste ratio on SOT-723 and SOT-883.
+  Deliberate overrides stay (Tag-Connect pads, BGA and module mask, paste windows, fine-pitch paste).
+- Hand edits from b135 moved into the footprints: paste ratio +1 % on Relay_DPDT_Kemet_EE2_NUH_DoubleCoil, +5 % on
+  750315125, -5 % on pad 1 of D_SMA_BIDIR, and 0.4 mm clearance on the shell pads and pin 5 of ID09P33E4GV00LF.
 - **Breaking:** the private `VHRD_Vendor` library is folded into this one and gone. Its 37 footprints and 7 symbols
   sit in the library their kind belongs to (`VHRD_Package_SO`, `VHRD_Button_Switch_SMD`, `VHRD_Connector_USB`, the
   new `VHRD_Button_Switch_THT` and others; `migrate/2026-11.toml` lists each), with the vendor drawing copies on

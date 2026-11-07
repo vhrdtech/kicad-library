@@ -430,6 +430,7 @@
 		(drill 3.2)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
+		(clearance 0.4)
 		(uuid "580021a8-6e75-4ed6-82c3-dec68430ffa5")
 	)
 	(pad "0" thru_hole circle
@@ -438,6 +439,7 @@
 		(drill 3.2)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
+		(clearance 0.4)
 		(uuid "244f4951-d0d6-4aa7-8ab3-43398d61c158")
 	)
 	(pad "1" thru_hole rect
@@ -478,6 +480,7 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
+		(clearance 0.4)
 		(uuid "f026359b-a5a0-47a8-a60d-6caf4ea1fede")
 	)
 	(pad "6" thru_hole circle

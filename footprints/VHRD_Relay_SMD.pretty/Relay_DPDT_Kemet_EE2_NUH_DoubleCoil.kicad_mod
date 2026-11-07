@@ -2,6 +2,7 @@
   (layer "F.Cu")
   (descr "Kemet signal relay, DPDT, double coil latching, https://content.kemet.com/datasheets/KEM_R7002_EC2_EE2.pdf")
   (tags "Kemet EC2 signal relay DPDT double dual coil latching surface mount SMD")
+  (solder_paste_ratio 0.01)
   (attr smd)
   (fp_text reference "REF**" (at 0 -9 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
