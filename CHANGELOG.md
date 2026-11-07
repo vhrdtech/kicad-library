@@ -23,6 +23,7 @@
   groups with a free row between them (CC, SBU, D, RPD); pins 16 / 17 are visible as `NC/D3` and `NC/D4`, and only
   the grounds and the pad are stacked under one GND pin.
 - `VHRD_TestPoint:TestPoint_Pad_D1.2mm`, a 1.2 mm SMD test point pad.
+- `VHRD_TestPoint:TestPoint_Pad_0.8x0.8mm`, a square 0.8 × 0.8 mm SMD test point pad.
 - `LICENSE.md`: the library is CC-BY-SA 4.0 with KiCad's library exception (designs that use it stay yours);
   `tools/kilib` is MIT.
 - `README.md` for outside users: what the library is, its layout, setting it up with `kilib setup` or by hand,
