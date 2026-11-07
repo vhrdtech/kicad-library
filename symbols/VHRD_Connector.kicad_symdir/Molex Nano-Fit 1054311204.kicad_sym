@@ -20,7 +20,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:1054311204"
+		(property "Footprint" "VHRD_Connector_Molex:1054311204"
 			(at 1.27 -20.32 0)
 			(effects
 				(font

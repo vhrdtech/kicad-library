@@ -1,10 +1,14 @@
-//! The map in `migrate/` covers the library as it is: every symbol, footprint and 3D model of the old layout has
-//! its own line, and every item of a new library is a target of one.
+//! The map in `migrate/` fits the library as it is: every item it sends into this checkout is there, and every
+//! library folder of the checkout has its row in `[libraries]` (that row is what `kilib setup` writes into KiCad).
+//! The library grows after the move, so an item need not be a target of the map.
 
+use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 
 use kilib::map::{ItemKind, Map};
 use kilib::sexpr;
+
+const OWN: &str = "${VHRD_LIBRARY_DIR}/";
 
 fn repo() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../..")
@@ -27,71 +31,58 @@ fn stem(p: &Path) -> String {
     p.file_stem().unwrap().to_string_lossy().to_string()
 }
 
+fn has_ext(p: &Path, ext: &str) -> bool {
+    p.extension().is_some_and(|e| e == ext)
+}
+
+/// `lib:name` of every symbol and footprint in the checkout, and its library folders, each with its kind.
+type Named = BTreeSet<(ItemKind, String)>;
+fn library(repo: &Path) -> (Named, Named) {
+    let (mut items, mut libs) = (BTreeSet::new(), BTreeSet::new());
+    for dir in entries(&repo.join("symbols")).into_iter().filter(|p| has_ext(p, "kicad_symdir")) {
+        let lib = stem(&dir);
+        for f in entries(&dir) {
+            for name in symbol_names(&f) {
+                items.insert((ItemKind::Symbol, format!("{lib}:{name}")));
+            }
+        }
+        libs.insert((ItemKind::Symbol, lib));
+    }
+    for dir in entries(&repo.join("footprints")).into_iter().filter(|p| has_ext(p, "pretty")) {
+        let lib = stem(&dir);
+        for f in entries(&dir).into_iter().filter(|f| has_ext(f, "kicad_mod")) {
+            items.insert((ItemKind::Footprint, format!("{lib}:{}", stem(&f))));
+        }
+        libs.insert((ItemKind::Footprint, lib));
+    }
+    (items, libs)
+}
+
 #[test]
-fn the_map_covers_every_symbol_footprint_and_model() {
+fn every_map_target_is_in_the_library_and_every_library_has_a_row() {
     let repo = repo();
     let map = Map::read(&repo.join("migrate/2026-11.toml")).unwrap();
-    let is_target = |kind: ItemKind, lib: &str, name: &str| {
-        let items = if kind == ItemKind::Symbol { &map.symbol } else { &map.footprint };
-        items.iter().any(|(k, v)| v == lib && k.split_once(':').is_some_and(|(_, n)| n == name))
-    };
-    let mut missing = Vec::new();
-    let mut seen = 0;
+    let (items, libs) = library(&repo);
+    assert!(!items.is_empty(), "nothing found under {}", repo.display());
+    let mut wrong = Vec::new();
 
-    for p in entries(&repo.join("symbols")) {
-        let lib = stem(&p);
-        if p.is_file() && p.extension().is_some_and(|e| e == "kicad_sym") {
-            for name in symbol_names(&p) {
-                seen += 1;
-                if !map.symbol.contains_key(&format!("{lib}:{name}")) {
-                    missing.push(format!("symbol {lib}:{name}"));
-                }
+    for (kind, targets) in [(ItemKind::Symbol, &map.symbol), (ItemKind::Footprint, &map.footprint)] {
+        let rows = map.libraries(kind);
+        for (key, lib) in targets {
+            // "" is dropped; a library outside this checkout is not checked here
+            if lib.is_empty() || !rows.get(lib).is_some_and(|uri| uri.starts_with(OWN)) {
+                continue;
             }
-        } else if p.extension().is_some_and(|e| e == "kicad_symdir") {
-            for f in entries(&p) {
-                for name in symbol_names(&f) {
-                    seen += 1;
-                    if !is_target(ItemKind::Symbol, &lib, &name) {
-                        missing.push(format!("symbol {lib}:{name} (new layout) is no target of [symbol]"));
-                    }
-                }
+            let name = key.split_once(':').map_or(key.as_str(), |(_, n)| n);
+            if !items.contains(&(kind, format!("{lib}:{name}"))) {
+                wrong.push(format!("{} {key} = {lib:?}: no {lib}:{name} in the library", kind.label()));
             }
         }
     }
-    for dir in entries(&repo.join("footprints")).into_iter().filter(|d| d.is_dir()) {
-        let dir_name = dir.file_name().unwrap().to_string_lossy().to_string();
-        let lib = dir_name.strip_suffix(".pretty").unwrap_or(&dir_name).to_string();
-        let new = map.libraries(ItemKind::Footprint).contains_key(&lib);
-        for f in entries(&dir).into_iter().filter(|f| f.extension().is_some_and(|e| e == "kicad_mod")) {
-            let name = stem(&f);
-            seen += 1;
-            if new {
-                if !is_target(ItemKind::Footprint, &lib, &name) {
-                    missing.push(format!("footprint {lib}:{name} (new layout) is no target of [footprint]"));
-                }
-            } else if !map.footprint.contains_key(&format!("{lib}:{name}")) {
-                missing.push(format!("footprint {lib}:{name}"));
-            }
+    for (kind, lib) in &libs {
+        if !map.libraries(*kind).contains_key(lib) {
+            wrong.push(format!("{} library {lib} has no row in [libraries]", kind.label()));
         }
     }
-    // The models, while they are in the repo.
-    fn files(dir: &Path, base: &Path, out: &mut Vec<String>) {
-        for p in entries(dir) {
-            if p.is_dir() {
-                files(&p, base, out);
-            } else {
-                out.push(p.strip_prefix(base).unwrap().to_string_lossy().replace('\\', "/"));
-            }
-        }
-    }
-    let mut models = Vec::new();
-    files(&repo.join("3dmodels"), &repo.join("3dmodels"), &mut models);
-    for m in &models {
-        seen += 1;
-        if map.model(m).is_none() {
-            missing.push(format!("3D model {m}"));
-        }
-    }
-    assert!(seen > 0, "nothing found under {}", repo.display());
-    assert!(missing.is_empty(), "not in the map:\n{}", missing.join("\n"));
+    assert!(wrong.is_empty(), "the map does not fit the library:\n{}", wrong.join("\n"));
 }

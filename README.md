@@ -9,27 +9,24 @@ small CLI that sets up and checks the library. The symbols, footprints and templ
 
 Symbols live one per file in `symbols/VHRD_<KiCad library>.kicad_symdir` (KiCad 10's own layout), footprints in
 `footprints/VHRD_<KiCad library>.pretty`: each library is named `VHRD_` plus the stock KiCad library it would
-belong to, e.g. `VHRD_Connector_Molex` or `VHRD_Package_DFN_QFN`. Third-party parts live in a separate, private
-`VHRD_Vendor` library, outside this repo.
+belong to, e.g. `VHRD_Connector_Molex` or `VHRD_Package_DFN_QFN`. Every part, whoever drew it first, is sorted the same
+way; there is no separate vendor library (the private `VHRD_Vendor` one was folded in on 7 Nov 2026).
 
 ## Configuration
 
-The library has three parts, each found through a KiCad path variable:
+The library has two parts, each found through a KiCad path variable:
 
 - `VHRD_LIBRARY_DIR`: this checkout, with `symbols/VHRD_*.kicad_symdir` and `footprints/VHRD_*.pretty`.
-- `VHRD_VENDOR_LIBRARY_DIR`: the private `VHRD_Vendor` library of third-party footprints and symbols. It is not part
-  of this repo.
-- `VHRD_3DMODEL_DIR`: the 3D models, in `own/` and `vendor/`. They are not part of this repo either.
+- `VHRD_3DMODEL_DIR`: the 3D models, in `own/` and `vendor/`. They are not part of this repo.
 
-`kilib setup --map migrate/2026-11.toml --vendor-dir DIR --models-dir DIR` writes the library rows and the variables
+`kilib setup --map migrate/2026-11.toml --models-dir DIR` writes the library rows and the variables
 into this PC's KiCad config (see below). `KICAD_USER_TEMPLATE_DIR` points at `templates/`, so File, New Project from
 Template offers "Vhrd Default", IO30 and Hammond-1455C801. Each template embeds its drawing sheet.
 
-Without `kilib setup`, set the three variables and the library rows by hand: in KiCad's "Configure Paths", point
-`VHRD_LIBRARY_DIR` at this checkout, `VHRD_VENDOR_LIBRARY_DIR` at the vendor library's folder and
-`VHRD_3DMODEL_DIR` at the 3D models' folder — each one a folder you provide. Then add a row per library in "Manage
+Without `kilib setup`, set the two variables and the library rows by hand: in KiCad's "Configure Paths", point
+`VHRD_LIBRARY_DIR` at this checkout and `VHRD_3DMODEL_DIR` at the 3D models' folder. Then add a row per library in "Manage
 Symbol Libraries" / "Manage Footprint Libraries": name it after the folder, type KiCad, and point it at
-`${VHRD_LIBRARY_DIR}/symbols/<name>.kicad_symdir` (or under `${VHRD_VENDOR_LIBRARY_DIR}` for a vendor one), and the
+`${VHRD_LIBRARY_DIR}/symbols/<name>.kicad_symdir`, and the
 same under `footprints/<name>.pretty` for footprints.
 
 ## Checking boards: kilib

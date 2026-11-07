@@ -2,8 +2,8 @@
 
 VHRD Tech's KiCad library: symbols (`symbols/VHRD_*.kicad_symdir`, one file per symbol), footprints
 (`footprints/VHRD_*.pretty`), the rename map from the old layout (`migrate/`), and the project templates
-(`templates/`, KiCad's user template folder: Vhrd Default, IO30, Hammond-1455C801). 3D models and the third-party
-`VHRD_Vendor` library live outside the repo (`VHRD_3DMODEL_DIR`, `VHRD_VENDOR_LIBRARY_DIR`). Boards in `hw` depend on
+(`templates/`, KiCad's user template folder: Vhrd Default, IO30, Hammond-1455C801). 3D models live outside the repo
+(`VHRD_3DMODEL_DIR`); there is no separate vendor library. Boards in `hw` depend on
 it, so a change here changes how they open: keep names stable, never rename or remove a symbol or footprint a board
 uses; a move goes through a rename map and `kilib migrate`.
 

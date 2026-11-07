@@ -25,7 +25,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:AXF361500A"
+		(property "Footprint" "VHRD_Connector:AXF361500A"
 			(at 0 5.08 0)
 			(effects
 				(font

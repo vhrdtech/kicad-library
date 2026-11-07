@@ -111,7 +111,7 @@
 		)
 		(symbol "LSF0102DCUR_1_1"
 			(pin power_in line
-				(at 0 -12.7 90)
+				(at -12.7 -7.62 0)
 				(length 2.54)
 				(name "GND"
 					(effects

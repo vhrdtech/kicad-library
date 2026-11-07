@@ -33,7 +33,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:PS2911"
+		(property "Footprint" "VHRD_Package_SO:PS2911"
 			(at -5.08 -5.08 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -6,7 +6,7 @@
     (property "Value" "CPC1966B" (at 20.32 7.62 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "VHRD_Vendor:CPC1966B_IXYS-M" (at 2.54 8.89 0)
+    (property "Footprint" "VHRD_Relay_SMD:CPC1966B_IXYS-M" (at 2.54 8.89 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
     (property "Datasheet" "CPC1966B" (at 1.27 6.35 0)

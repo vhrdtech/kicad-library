@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "AP64060WU-7"
-			(at 15.748 -11.43 0)
+			(at 7.62 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -64,7 +64,7 @@
 		(symbol "AP64060_0_1"
 			(rectangle
 				(start 0 0)
-				(end 15.24 -10.16)
+				(end 15.24 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -94,7 +94,7 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 -12.7 90)
+				(at -2.54 -10.16 0)
 				(length 2.54)
 				(name "GND"
 					(effects

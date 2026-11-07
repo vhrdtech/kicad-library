@@ -20,7 +20,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:610112249121"
+		(property "Footprint" "VHRD_Connector_PinHeader_2.54mm:610112249121"
 			(at 0 0 0)
 			(effects
 				(font

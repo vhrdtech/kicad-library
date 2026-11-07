@@ -26,7 +26,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:2337019-1"
+		(property "Footprint" "VHRD_Connector:2337019-1"
 			(at 0.254 -19.304 0)
 			(effects
 				(font

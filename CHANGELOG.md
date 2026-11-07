@@ -52,8 +52,34 @@
   where there is none.
 - `symbols/VHRD_Connector.kicad_symdir`: `ARJM11D7-114-AB` and `BAT-HLD-001-THM`, recovered from the symbol caches of
   the boards that used them as `vhrd_connector_abracon:` and `vhrd_connector_battery:` symbols no library had.
+- Side-pin copies of B153's stock symbols, every pin on the left or right edge, none on top or bottom (supplies top
+  left, ground bottom left): `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`, `VHRD_Interface_USB:USB2514B_Bi`,
+  `VHRD_Amplifier_Current:INA181`, `VHRD_Analog_Switch:TS5A3160DCK` (one unit, datasheet pin names NO, NC, COM, IN),
+  `VHRD_Logic_LevelTranslator:TXS0102DCU`, `VHRD_Power_Protection:D3V3XA4B10LP` and
+  `VHRD_Regulator_Linear:TLV70233_SOT23-5`.
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx` names its pins as DS13560 Table 12 prints them (`PF2-NRST`, `PA14-BOOT0`,
+  `PA11[PA9]`, `PA12[PA10]`, the OSC and VDDA/VSSA functions), adds the UCPD dead-battery pins (CC1/CC2 on PA8, PB15,
+  PD0, PD2 carry an Rd at reset while their DBCC pin PA9, PA10, PD1, PD3 is high) and marks pins 30/31 as VSS and
+  VDDIO2 on the `N` part.
 
 ### Changed
+
+- **Breaking:** the private `VHRD_Vendor` library is folded into this one and gone. Its 37 footprints and 7 symbols
+  sit in the library their kind belongs to (`VHRD_Package_SO`, `VHRD_Button_Switch_SMD`, `VHRD_Connector_USB`, the
+  new `VHRD_Button_Switch_THT` and others; `migrate/2026-11.toml` lists each), with the vendor drawing copies on
+  Dwgs.User / Cmts.User, the `*` and spare `REF**` texts and the DigiKey descriptions replaced by our own (a silk dot
+  marks pin 1 where a `*` did). The Nidec slide switch symbols are `VHRD_Switch:CL-SB-12B-01T` and `CL-SB-22B-01T`; the
+  SnapEDA copy of `JAE DX07P024AJ1R1500` is dropped for the one in `VHRD_Connector`. Their 3D models moved from
+  `vendor/VHRD_Vendor.3dshapes/` to `vendor/<FootprintLib>.3dshapes/`. `kilib migrate --map migrate/2026-11.toml`
+  moves a board's `VHRD_Vendor:` ids and model paths; the two symbol renames are not in the map.
+- kilib's map test checks the map against the library as it grows: every item the map sends into this checkout
+  must be there, and every library folder needs its `[libraries]` row (the row `kilib setup` writes). It no longer
+  asks that every item be a target of the map. The boards test accepts boards that are already migrated.
+- **Breaking:** `VHRD_Power_Protection:TPD6S300A`, `VHRD_Connector:USB_C_Plug`,
+  `VHRD_Connector:USB_C_Receptacle_USB2.0_16P` (GND and SHIELD on the left edge), `VHRD_Logic_LevelTranslator:LSF0102DCUR`,
+  `VHRD_Logic_LevelTranslator:SN74LXC2T45DCUR` and `VHRD_Regulator_Switching:AP64060` have no pin on the top or bottom
+  edge any more: supplies and grounds moved to the sides. Updating a placed symbol from the library moves those pins
+  off their wires (the receptacle is on thirteen boards).
 
 - **Breaking:** `VHRD_Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal` numbers its four shield
   pads `SH` instead of `S1` (saved with KiCad 10). A board whose connector symbol still numbers the shield pin `S1`

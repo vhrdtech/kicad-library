@@ -6,7 +6,7 @@
     (property "Value" "ADM3050EBRIZ" (at 7.62 -13.97 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "VHRD_Vendor:RI-8-1_ADI" (at 6.35 3.81 0)
+    (property "Footprint" "VHRD_Package_SO:RI-8-1_ADI" (at 6.35 3.81 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://www.analog.com/media/en/technical-documentation/data-sheets/ADM3050E.pdf" (at 11.43 -17.78 0)

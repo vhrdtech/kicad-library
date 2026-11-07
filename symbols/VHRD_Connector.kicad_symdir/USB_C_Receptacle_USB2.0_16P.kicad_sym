@@ -99,17 +99,6 @@
 		)
 		(symbol "USB_C_Receptacle_USB2.0_16P_0_0"
 			(rectangle
-				(start -0.254 -17.78)
-				(end 0.254 -16.764)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(rectangle
 				(start 10.16 15.494)
 				(end 9.144 14.986)
 				(stroke
@@ -208,6 +197,28 @@
 					(type none)
 				)
 			)
+			(rectangle
+				(start -10.16 -12.446)
+				(end -9.144 -12.954)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -10.16 -14.986)
+				(end -9.144 -15.494)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
 		)
 		(symbol "USB_C_Receptacle_USB2.0_16P_0_1"
 			(rectangle
@@ -223,7 +234,8 @@
 			)
 			(polyline
 				(pts
-					(xy -8.89 -3.81) (xy -8.89 3.81)
+					(xy -8.89 -3.81)
+					(xy -8.89 3.81)
 				)
 				(stroke
 					(width 0.508)
@@ -318,7 +330,8 @@
 			)
 			(polyline
 				(pts
-					(xy -5.08 3.81) (xy -5.08 -3.81)
+					(xy -5.08 3.81)
+					(xy -5.08 -3.81)
 				)
 				(stroke
 					(width 0.508)
@@ -341,7 +354,10 @@
 			)
 			(polyline
 				(pts
-					(xy -1.27 4.318) (xy 0 6.858) (xy 1.27 4.318) (xy -1.27 4.318)
+					(xy -1.27 4.318)
+					(xy 0 6.858)
+					(xy 1.27 4.318)
+					(xy -1.27 4.318)
 				)
 				(stroke
 					(width 0.254)
@@ -353,7 +369,9 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -2.032) (xy 2.54 0.508) (xy 2.54 1.778)
+					(xy 0 -2.032)
+					(xy 2.54 0.508)
+					(xy 2.54 1.778)
 				)
 				(stroke
 					(width 0.508)
@@ -365,7 +383,9 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -3.302) (xy -2.54 -0.762) (xy -2.54 0.508)
+					(xy 0 -3.302)
+					(xy -2.54 -0.762)
+					(xy -2.54 0.508)
 				)
 				(stroke
 					(width 0.508)
@@ -377,7 +397,8 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -5.842) (xy 0 4.318)
+					(xy 0 -5.842)
+					(xy 0 4.318)
 				)
 				(stroke
 					(width 0.508)
@@ -412,7 +433,7 @@
 		)
 		(symbol "USB_C_Receptacle_USB2.0_16P_1_1"
 			(pin passive line
-				(at 0 -22.86 90)
+				(at -15.24 -12.7 0)
 				(length 5.08)
 				(name "GND"
 					(effects
@@ -539,7 +560,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -22.86 90)
+				(at -15.24 -12.7 0)
 				(length 5.08)
 				(hide yes)
 				(name "GND"
@@ -558,7 +579,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -22.86 90)
+				(at -15.24 -12.7 0)
 				(length 5.08)
 				(hide yes)
 				(name "GND"
@@ -687,7 +708,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -22.86 90)
+				(at -15.24 -12.7 0)
 				(length 5.08)
 				(hide yes)
 				(name "GND"
@@ -706,7 +727,7 @@
 				)
 			)
 			(pin passive line
-				(at -7.62 -22.86 90)
+				(at -15.24 -15.24 0)
 				(length 5.08)
 				(name "SHIELD"
 					(effects

@@ -25,7 +25,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:BM50U_4DS"
+		(property "Footprint" "VHRD_Connector_Hirose:BM50U_4DS"
 			(at 1.524 -38.608 0)
 			(effects
 				(font

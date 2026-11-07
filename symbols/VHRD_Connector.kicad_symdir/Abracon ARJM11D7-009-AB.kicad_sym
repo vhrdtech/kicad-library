@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:ARJM11D7-009-AB"
+		(property "Footprint" "VHRD_Connector_RJ:ARJM11D7-009-AB"
 			(at 15.24 -55.245 0)
 			(effects
 				(font

@@ -27,7 +27,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Vendor:PTS815"
+		(property "Footprint" "VHRD_Button_Switch_SMD:PTS815"
 			(at 0 7.62 0)
 			(effects
 				(font

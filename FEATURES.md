@@ -12,7 +12,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-4 project-template: "Vhrd Default" with the embedded A3 sheet, net class colours and text variables
 - ✅ LIB-5 kind-first-layout: symbols in KiCad 10 `.kicad_symdir` libraries and footprints in `.pretty` libraries,
   named `VHRD_` plus the KiCad library they would belong to (`VHRD_Connector_Molex`, `VHRD_Package_DFN_QFN`);
-  third-party parts in the private `VHRD_Vendor` library under `${VHRD_VENDOR_LIBRARY_DIR}`; `migrate/2026-11.toml`
+  third-party parts sorted the same way (the private `VHRD_Vendor` library folded in, 7 Nov 2026); `migrate/2026-11.toml`
   maps every old symbol, footprint and 3D model to its new home; the templates are Vhrd Default, IO30 and
   Hammond-1455C801
 - 🚧 LIB-6 kilib-check: `tools/kilib`, a Rust CLI: `kilib check` (every symbol, Footprint field, footprint and 3D model
