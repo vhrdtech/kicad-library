@@ -64,6 +64,9 @@
 
 ### Changed
 
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: every port pin offers its GPIO modes as alternates, `PA9/PP` (push-pull,
+  output), `PA9/OD` (open drain), `PA9/IN` (input) and `PA9/FX` (flex, bidirectional), in place of the bare `PA9`;
+  the remappable pins 33 and 34 offer them for both their ports.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: every alternate pin function starts with its port pin (`PA9/USART1_TX`,
   `PF2/LPUART2_TX`, `VREF+/VREFBUF_OUT`), so a pin with an alternate chosen still says which pin it is; on the remapped
   pins each function names the port it uses (`PA11/COMP1_OUT`, `PA9/DAC1_EXTI9`).
