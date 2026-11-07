@@ -64,6 +64,9 @@
 
 ### Changed
 
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: every alternate pin function starts with its port pin (`PA9/USART1_TX`,
+  `PF2/LPUART2_TX`, `VREF+/VREFBUF_OUT`), so a pin with an alternate chosen still says which pin it is; on the remapped
+  pins each function names the port it uses (`PA11/COMP1_OUT`, `PA9/DAC1_EXTI9`).
 - The fab layer shows only the reference: Value is hidden there (still a property, so BOMs keep it) and every
   footprint has one `${REFERENCE}` at its body's centre, sized to fit (0.25 to 1.0 mm) and turned along tall bodies,
   so F.Fab stays readable on a dense board and while routing.
