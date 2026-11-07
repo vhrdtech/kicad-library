@@ -64,6 +64,17 @@
 
 ### Changed
 
+- Courtyards (F.CrtYd) of the 128 footprints with a STEP model are rebuilt from the model's top view: the body and
+  the pads, grown by the KLC F5.3 clearance (0.25 mm, 0.15 mm for parts under 1.5 mm, 0.5 mm for connectors and
+  crystals, 1.0 mm for BGA), gaps under 2 mm closed, a rectangle where the outline fills at least 87 % of its box and
+  a polygon on the 0.01 mm grid otherwise. Where the old courtyard reached further on one side only (mating room on
+  CUI_MSD-1-A, DX07P024AJ1R1500, the TF31-16S FPC, Pico-Lock, 1054301204 and 610112249121) that side keeps it.
+  VHRD_Mechanical and VHRD_Module keep theirs. Connectors also get their full top view on `User.2`.
+- Every polarized footprint has one pin-1 mark: a filled 0.48 x 0.33 mm silk triangle (KLC F5.1) just outside the
+  outline next to pin 1, pointing at it, 0.2 mm from copper, in place of the old dots, squares and triangles. Diodes
+  and LEDs keep their cathode bars (the bar is the mark there, no triangle) and arrows, marks inside the body stay,
+  and bidirectional diodes get none.
+- Every footprint is saved by KiCad 10 (`kicad-cli fp upgrade`).
 - Pads follow the board's mask and paste rules again: the vendor-export 0.102 mm solder mask margin is gone from
   BAT-HLD-001-THM, BAT_3013, CUI_MSD-1-A, 1-1734264-1, 09551667812741, 3220-10-0300-00, 20021321-00008T4LF,
   B0505MT-1WR4, DM-OLED042-647, D5V0P4UR6SO-7, PA1134NL and some pads of JUST-SCREW-IT-6P and TC2050-IDC-NL, as are

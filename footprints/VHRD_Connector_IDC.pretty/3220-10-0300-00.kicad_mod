@@ -126,45 +126,28 @@
 		(layer "F.SilkS")
 		(uuid "06e0413c-2c29-4279-80b1-28b00c90ed6a")
 	)
-	(fp_line
-		(start -6.6 -3.65)
-		(end -6.6 3.65)
+	(fp_poly
+		(pts
+			(xy -2.54 3.66) (xy -2.3 3.99) (xy -2.78 3.99)
+		)
 		(stroke
-			(width 0.05)
+			(width 0.12)
 			(type solid)
 		)
-		(layer "F.CrtYd")
-		(uuid "6c2791d7-ef79-41e9-9d0e-43a06a414753")
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "ac537384-170b-4492-b41b-fe8ed351a09a")
 	)
-	(fp_line
-		(start -6.6 3.65)
-		(end 6.6 3.65)
+	(fp_rect
+		(start -6.83 -3.9)
+		(end 6.83 3.9)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "6ca04c21-2a1d-4939-9007-0b69655479e0")
-	)
-	(fp_line
-		(start 6.6 -3.65)
-		(end -6.6 -3.65)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "d7060df6-8c7f-437d-a623-d8e48dce4100")
-	)
-	(fp_line
-		(start 6.6 3.65)
-		(end 6.6 -3.65)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "a548bdfe-d2f0-4c88-aa96-72a145899976")
+		(uuid "d569419e-d33d-43d4-a25a-928a6ccf2780")
 	)
 	(fp_line
 		(start -6.35 -2.5)
@@ -216,6 +199,24 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "1770cd6c-dc81-4fc7-b83e-3bbe2d8495a9")
+	)
+	(fp_poly
+		(pts
+			(xy -6.325 2.55) (xy -2.713 2.55) (xy -2.64 2.75) (xy -2.44 2.75) (xy -2.367 2.55) (xy -1.443 2.55)
+			(xy -1.37 2.75) (xy -1.17 2.75) (xy -1.097 2.55) (xy -0.173 2.55) (xy -0.1 2.75) (xy 0.1 2.75) (xy 0.173 2.55)
+			(xy 1.097 2.55) (xy 1.17 2.75) (xy 1.37 2.75) (xy 1.443 2.55) (xy 2.367 2.55) (xy 2.44 2.75) (xy 2.64 2.75)
+			(xy 2.713 2.55) (xy 6.325 2.55) (xy 6.325 -2.55) (xy 2.713 -2.55) (xy 2.64 -2.75) (xy 2.44 -2.75)
+			(xy 2.367 -2.55) (xy 1.443 -2.55) (xy 1.37 -2.75) (xy 1.17 -2.75) (xy 1.097 -2.55) (xy 0.173 -2.55)
+			(xy 0.1 -2.75) (xy -0.1 -2.75) (xy -0.173 -2.55) (xy -1.097 -2.55) (xy -1.17 -2.75) (xy -1.37 -2.75)
+			(xy -1.443 -2.55) (xy -2.367 -2.55) (xy -2.44 -2.75) (xy -2.64 -2.75) (xy -2.713 -2.55) (xy -6.325 -2.55)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "08ac88dc-a93e-470a-9e5c-0a990d70a096")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 1.4 -11.2 0)

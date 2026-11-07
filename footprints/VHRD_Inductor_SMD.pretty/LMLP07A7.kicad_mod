@@ -132,15 +132,15 @@
 		(uuid "a75e3c59-39ae-4b4b-a513-2d563f4beeb2")
 	)
 	(fp_rect
-		(start -4.6 -4.3)
-		(end 4.6 4.3)
+		(start -4.33 -3.56)
+		(end 4.33 3.55)
 		(stroke
 			(width 0.05)
-			(type default)
+			(type solid)
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "485e1acb-658f-45fa-938c-7973c0b6b075")
+		(uuid "4bb18a0e-5035-40af-b9ae-ebbb43038604")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 2.5 0)

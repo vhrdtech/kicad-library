@@ -93,45 +93,28 @@
 		(layer "F.SilkS")
 		(uuid "727bd50a-f146-4ca7-8471-c03a57abfbec")
 	)
-	(fp_line
-		(start -2.0447 -1.2317)
-		(end -2.0447 1.2317)
+	(fp_poly
+		(pts
+			(xy -0.175 1.238) (xy 0.065 1.568) (xy -0.415 1.568)
+		)
 		(stroke
-			(width 0.1524)
+			(width 0.12)
 			(type solid)
 		)
-		(layer "F.CrtYd")
-		(uuid "a59b4924-41a6-4fe7-81e2-e5df41072bb6")
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "2e5684c1-0a87-4a51-b061-91aecef16f0c")
 	)
-	(fp_line
-		(start -2.0447 1.2317)
-		(end 2.0447 1.2317)
+	(fp_rect
+		(start -2.3 -1.48)
+		(end 2.29 1.48)
 		(stroke
-			(width 0.1524)
+			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "711e8660-d623-47b0-928d-61984d03391c")
-	)
-	(fp_line
-		(start 2.0447 -1.2317)
-		(end -2.0447 -1.2317)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "7dbd4dfe-370c-4ee9-88f1-2d6ccdd08707")
-	)
-	(fp_line
-		(start 2.0447 1.2317)
-		(end 2.0447 -1.2317)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "d37e517c-b9fb-4f06-b15b-79e13938ae91")
+		(uuid "6e767e7a-ad26-49ab-a8a0-6199a5b65361")
 	)
 	(fp_line
 		(start -1.7907 -0.8255)
@@ -172,6 +155,26 @@
 		)
 		(layer "F.Fab")
 		(uuid "d16a0ada-4030-4f4b-af13-36cbb4dcc441")
+	)
+	(fp_poly
+		(pts
+			(xy -1.77 -0.261) (xy -1.75 0.028) (xy -1.761 0.248) (xy -1.79 0.271) (xy -1.79 0.511) (xy -1.63 0.671)
+			(xy -1.44 0.671) (xy -1.38 0.776) (xy -1.38 0.826) (xy -0.53 0.826) (xy -0.53 0.776) (xy -0.235 0.776)
+			(xy -0.235 0.826) (xy -0.115 0.826) (xy -0.115 0.776) (xy 0.115 0.776) (xy 0.115 0.826) (xy 0.235 0.826)
+			(xy 0.235 0.776) (xy 0.53 0.776) (xy 0.53 0.826) (xy 1.38 0.826) (xy 1.38 0.776) (xy 1.44 0.671)
+			(xy 1.63 0.671) (xy 1.79 0.511) (xy 1.79 0.271) (xy 1.76 0.246) (xy 1.75 0.028) (xy 1.76 -0.244)
+			(xy 1.79 -0.269) (xy 1.79 -0.509) (xy 1.63 -0.669) (xy 1.44 -0.669) (xy 1.38 -0.774) (xy 1.38 -0.824)
+			(xy 0.53 -0.824) (xy 0.53 -0.774) (xy 0.235 -0.774) (xy 0.235 -0.824) (xy 0.115 -0.824) (xy 0.115 -0.774)
+			(xy -0.115 -0.774) (xy -0.115 -0.824) (xy -0.235 -0.824) (xy -0.235 -0.774) (xy -0.53 -0.774) (xy -0.53 -0.824)
+			(xy -1.38 -0.824) (xy -1.38 -0.774) (xy -1.44 -0.669) (xy -1.63 -0.669) (xy -1.79 -0.509) (xy -1.79 -0.269)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "c64c31a0-1a43-449d-964e-5b2c1fdfcf20")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 2.54 0)

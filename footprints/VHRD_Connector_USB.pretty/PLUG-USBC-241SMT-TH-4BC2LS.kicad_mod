@@ -80,6 +80,18 @@
 		(layers "F.Cu" "F.Mask")
 		(uuid "f37374b3-87ca-470d-b5ba-a9f871f0aee3")
 	)
+	(fp_poly
+		(pts
+			(xy 2.75 -3.36) (xy 2.51 -3.69) (xy 2.99 -3.69)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "fc352a9f-8394-41a7-84fc-4463777d0b89")
+	)
 	(fp_rect
 		(start -3.825 -1.23)
 		(end -3.375 0)
@@ -101,6 +113,31 @@
 		(fill yes)
 		(layer "F.Paste")
 		(uuid "695b5352-7856-4e5a-9e4f-9e33b76d758b")
+	)
+	(fp_rect
+		(start -5.17 -3.6)
+		(end 5.17 11.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "5106de07-f629-41e3-8751-3ca6ec93d481")
+	)
+	(fp_poly
+		(pts
+			(xy -4.35 -2.55) (xy -4.35 0) (xy -3.965 0) (xy -3.965 0.5) (xy -4.125 0.5) (xy -4.125 10.95) (xy -4.084 11.087)
+			(xy -3.99 11.172) (xy -3.875 11.2) (xy 3.875 11.2) (xy 4.012 11.159) (xy 4.097 11.065) (xy 4.107 11.042)
+			(xy 4.121 10.995) (xy 4.125 10.95) (xy 4.125 0.5) (xy 3.965 0.5) (xy 3.965 0) (xy 4.35 0) (xy 4.35 -2.55)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "ea1d74f7-26da-4edd-a181-9e85597baaae")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 5.7 270)

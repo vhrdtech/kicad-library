@@ -114,216 +114,28 @@
 		(layer "F.SilkS")
 		(uuid "42131cf7-8771-4dad-8870-a81701990e19")
 	)
-	(fp_circle
-		(center -1.507671 -1.743959)
-		(end -1.207671 -1.743959)
+	(fp_poly
+		(pts
+			(xy -1.61 -1) (xy -1.94 -0.76) (xy -1.94 -1.24)
+		)
 		(stroke
-			(width 0.1)
-			(type default)
+			(width 0.12)
+			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "165bec4e-0882-46c2-be60-3efabb59e99e")
+		(uuid "65e3d02b-63de-4f3b-a099-e210a6e4edc0")
 	)
-	(fp_line
-		(start -1.6 -1.35)
-		(end -1.25 -1.35)
+	(fp_rect
+		(start -1.6 -2.1)
+		(end 1.6 2.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "20f9e304-48af-4daa-8b10-0625808303b1")
-	)
-	(fp_line
-		(start -1.6 1.35)
-		(end -1.6 -1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "8ce526f5-1bc7-49e1-afce-40ed34a7795b")
-	)
-	(fp_line
-		(start -1.25 -1.75)
-		(end -0.95 -1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "70e4519a-ab3f-4ffe-9532-ef83c1027760")
-	)
-	(fp_line
-		(start -1.25 -1.35)
-		(end -1.25 -1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "6f3d7d22-e9c4-4ee0-b1f9-dc633eb8befd")
-	)
-	(fp_line
-		(start -1.25 1.35)
-		(end -1.6 1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "17ece503-e740-4648-b307-43158b0605d5")
-	)
-	(fp_line
-		(start -1.25 1.75)
-		(end -1.25 1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "9bb97f26-cadd-4ca4-b8fa-4da73a728f1f")
-	)
-	(fp_line
-		(start -0.95 -2.1)
-		(end 0.95 -2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "71a537cf-15b1-47bb-9f48-ac1cddf67a36")
-	)
-	(fp_line
-		(start -0.95 -1.75)
-		(end -0.95 -2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "366856f2-5a5a-4ddd-8c60-f0f4023b04eb")
-	)
-	(fp_line
-		(start -0.95 1.75)
-		(end -1.25 1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "f1023613-a70f-45b6-af8d-dc13e7714c70")
-	)
-	(fp_line
-		(start -0.95 2.1)
-		(end -0.95 1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "1055ce31-9c40-44a5-8dde-cc4a4829a45a")
-	)
-	(fp_line
-		(start 0.95 -2.1)
-		(end 0.95 -1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "c23c834a-0dbb-4b8f-8658-1ec5e8e79f75")
-	)
-	(fp_line
-		(start 0.95 -1.75)
-		(end 1.25 -1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "be79615b-8a59-4118-ba99-a84dde5f0bb0")
-	)
-	(fp_line
-		(start 0.95 1.75)
-		(end 0.95 2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "63a1cbcb-8dc1-4bb4-ab03-09b34a2ddcf2")
-	)
-	(fp_line
-		(start 0.95 2.1)
-		(end -0.95 2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "20a549cd-6952-4b02-a2bb-7362a7f98cd2")
-	)
-	(fp_line
-		(start 1.25 -1.75)
-		(end 1.25 -1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "5f8e07c0-c79c-40c7-8650-96041fda46c8")
-	)
-	(fp_line
-		(start 1.25 -1.35)
-		(end 1.6 -1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "b8d37e0a-c10e-473a-823d-440688d8bd85")
-	)
-	(fp_line
-		(start 1.25 1.35)
-		(end 1.25 1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "428261e7-79ac-4f21-8788-b80df6879d17")
-	)
-	(fp_line
-		(start 1.25 1.75)
-		(end 0.95 1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "981e7bc9-bdc0-4679-b37a-06b59e3f5966")
-	)
-	(fp_line
-		(start 1.6 -1.35)
-		(end 1.6 1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "3357c603-2677-4e5b-ba73-ae9939aa8260")
-	)
-	(fp_line
-		(start 1.6 1.35)
-		(end 1.25 1.35)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "65c38f51-119a-4e04-a3f4-0106e1a3c4ca")
+		(uuid "0cbf28c5-55e2-4978-8af7-d45b20af3098")
 	)
 	(fp_poly
 		(pts

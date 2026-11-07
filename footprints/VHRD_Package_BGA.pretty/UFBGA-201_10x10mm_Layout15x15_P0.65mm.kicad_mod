@@ -53,56 +53,28 @@
 	(solder_mask_margin 0.05)
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_circle
-		(center -5.8 -5.8)
-		(end -5.6 -5.5)
+	(fp_poly
+		(pts
+			(xy -4.55 -5.235) (xy -4.79 -5.565) (xy -4.31 -5.565)
+		)
 		(stroke
-			(width 0.1)
-			(type default)
+			(width 0.12)
+			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "5f8d6f1f-7e4d-4823-9cf0-69486ae18967")
+		(uuid "3e6e153d-5569-40dd-8263-4ea283f1839f")
 	)
-	(fp_line
-		(start -6 -6)
-		(end -6 6)
+	(fp_rect
+		(start -6.08 -6.08)
+		(end 6.08 6.08)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "66f5e853-0267-4c46-a199-9ac6a1124069")
-	)
-	(fp_line
-		(start -6 6)
-		(end 6 6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "227bc459-5cb7-4628-a1e9-a5115d51d885")
-	)
-	(fp_line
-		(start 6 -6)
-		(end -6 -6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "cd6fc51a-c68d-48d4-a936-0ff87c2f7b9c")
-	)
-	(fp_line
-		(start 6 6)
-		(end 6 -6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "0351220a-9a54-422f-98c6-1867d850d495")
+		(uuid "014fecc6-ad54-43dc-ba60-0c6b4ef6fbf6")
 	)
 	(fp_line
 		(start -5 -4)

@@ -58,45 +58,28 @@
 	)
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_line
-		(start -11.634988 -6.22)
-		(end -11.634988 4.570001)
+	(fp_poly
+		(pts
+			(xy 3.025 0) (xy 3.355 -0.24) (xy 3.355 0.24)
+		)
 		(stroke
-			(width 0.127)
+			(width 0.12)
 			(type solid)
 		)
-		(layer "F.CrtYd")
-		(uuid "c5313a01-7e0d-47cb-a6ac-6fa5a75124cd")
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "f6b3f11a-c525-48ad-b726-7ba2f0bf3429")
 	)
-	(fp_line
-		(start -11.634988 4.570001)
-		(end 4.134985 4.570001)
+	(fp_rect
+		(start -10.87 -5.39)
+		(end 3.37 4.5)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "ffc136f7-5cb7-4197-abad-325b8d1ab906")
-	)
-	(fp_line
-		(start 4.134985 -6.22)
-		(end -11.634988 -6.22)
-		(stroke
-			(width 0.127)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "65543c49-2f9c-4e40-a9f5-ea02592d3714")
-	)
-	(fp_line
-		(start 4.134985 4.570001)
-		(end 4.134985 -6.22)
-		(stroke
-			(width 0.127)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "5c194ed0-6516-4f10-8535-4a4a21db6752")
+		(uuid "ca02b8f6-c49a-4fca-89de-d533b6677c56")
 	)
 	(fp_line
 		(start -10.364988 -4.95)
@@ -167,6 +150,38 @@
 		)
 		(layer "F.Fab")
 		(uuid "a51df7e1-927b-48d3-9e18-c75ca78b999b")
+	)
+	(fp_poly
+		(pts
+			(xy -2.183 -1.68) (xy -2.183 -2.939) (xy -2.817 -2.939) (xy -2.817 -1.68) (xy -4.683 -1.68) (xy -4.683 -2.939)
+			(xy -5.317 -2.939) (xy -5.317 -1.68) (xy -6.05 -1.68) (xy -6.05 -3.69) (xy -1.45 -3.69) (xy -1.45 -1.68)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "ebc9dc91-2855-47df-a559-44afe59990fe")
+	)
+	(fp_poly
+		(pts
+			(xy -9.555 1.8) (xy -9.555 3.361) (xy -9.055 3.361) (xy -9.055 1.8) (xy -7.817 1.8) (xy -7.817 3.061)
+			(xy -7.183 3.061) (xy -7.183 1.8) (xy -5.317 1.8) (xy -5.317 3.061) (xy -4.683 3.061) (xy -4.683 1.8)
+			(xy -2.817 1.8) (xy -2.817 3.061) (xy -2.183 3.061) (xy -2.183 1.8) (xy -0.318 1.8) (xy -0.318 3.061)
+			(xy 0.318 3.061) (xy 0.318 1.8) (xy 1.555 1.8) (xy 1.555 3.361) (xy 2.055 3.361) (xy 2.055 1.8) (xy 2.865 1.8)
+			(xy 2.865 -1.68) (xy 2.055 -1.68) (xy 2.055 -3.24) (xy 1.555 -3.24) (xy 1.555 -1.68) (xy 0.318 -1.68)
+			(xy 0.318 -2.939) (xy -0.318 -2.939) (xy -0.318 -1.68) (xy -0.95 -1.68) (xy -0.95 -4.89) (xy -6.55 -4.89)
+			(xy -6.55 -1.68) (xy -7.183 -1.68) (xy -7.183 -2.939) (xy -7.817 -2.939) (xy -7.817 -1.68) (xy -9.055 -1.68)
+			(xy -9.055 -3.24) (xy -9.555 -3.24) (xy -9.555 -1.68) (xy -10.365 -1.68) (xy -10.365 1.8)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "e0a5d123-9c44-4e33-bf54-9c480ece794c")
 	)
 	(fp_text user "${REFERENCE}"
 		(at -3.6 -2.6 0)

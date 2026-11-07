@@ -55,45 +55,16 @@
 	)
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_line
-		(start -0.9 -0.6)
-		(end -0.9 0.6)
+	(fp_rect
+		(start -0.8 -0.5)
+		(end 0.8 0.5)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "ed3ed489-ee4a-4920-8ad6-dd749f07f931")
-	)
-	(fp_line
-		(start -0.9 -0.6)
-		(end 0.9 -0.6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "7e9ddbd0-2b90-49f0-9cc5-c28dd8619f89")
-	)
-	(fp_line
-		(start 0.9 -0.6)
-		(end 0.9 0.6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "fdaac929-d2cf-4bdf-baf9-7a87e4e79d3c")
-	)
-	(fp_line
-		(start 0.9 0.6)
-		(end -0.9 0.6)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "83c0e2af-f4d7-4478-92da-b222571d4ffe")
+		(uuid "178d3286-0e04-4137-a7b1-a2e7792e1d13")
 	)
 	(fp_line
 		(start -0.5 -0.3)

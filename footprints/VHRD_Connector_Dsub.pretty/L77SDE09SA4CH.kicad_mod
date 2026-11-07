@@ -92,45 +92,31 @@
 		(layer "F.SilkS")
 		(uuid "fdb9ae80-2204-4156-b270-c7a38ee79151")
 	)
-	(fp_line
-		(start -15.655 -3.25)
-		(end -15.655 15.55)
+	(fp_poly
+		(pts
+			(xy 5.54 -3.16) (xy 5.3 -3.49) (xy 5.78 -3.49)
+		)
 		(stroke
-			(width 0.05)
+			(width 0.12)
 			(type solid)
 		)
-		(layer "F.CrtYd")
-		(uuid "5d2294fd-0847-4dcc-96dd-25a15ea12c2f")
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "6f71fd6f-0cbe-428d-bc27-499869ca5123")
 	)
-	(fp_line
-		(start -15.655 15.55)
-		(end 15.655 15.55)
+	(fp_poly
+		(pts
+			(xy -8.72 10.05) (xy -8.71 15.06) (xy -8.53 15.49) (xy -8.15 15.79) (xy -7.83 15.85) (xy 7.83 15.85)
+			(xy 8.26 15.74) (xy 8.53 15.49) (xy 8.71 15.06) (xy 8.71 10.05) (xy 15.96 10.05) (xy 15.96 -3.55)
+			(xy -15.96 -3.55) (xy -15.96 10.05)
+		)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
+		(fill no)
 		(layer "F.CrtYd")
-		(uuid "1b0888a3-9234-4568-a297-20c3ddc36e4a")
-	)
-	(fp_line
-		(start 15.655 -3.25)
-		(end -15.655 -3.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "c6164be9-e876-4272-a47a-7355dda51215")
-	)
-	(fp_line
-		(start 15.655 15.55)
-		(end 15.655 -3.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "dccd2a49-1a74-4bfe-a348-ff2ce0abab54")
+		(uuid "5f64eb1a-b154-401d-85eb-591c2d722a45")
 	)
 	(fp_line
 		(start -15.405 -3)
@@ -242,6 +228,23 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "0c7b2138-9be9-40e9-b3b0-385c12f7da52")
+	)
+	(fp_poly
+		(pts
+			(xy -15.403 9.5) (xy -8.965 9.5) (xy -8.799 9.518) (xy -8.682 9.552) (xy -8.482 9.663) (xy -8.329 9.815)
+			(xy -8.262 9.92) (xy -8.218 10.014) (xy -8.17 10.212) (xy -8.165 14.95) (xy -8.14 15.079) (xy -8.094 15.161)
+			(xy -8.026 15.229) (xy -7.9 15.289) (xy -7.815 15.3) (xy 7.815 15.3) (xy 7.944 15.275) (xy 8.026 15.229)
+			(xy 8.094 15.161) (xy 8.14 15.079) (xy 8.165 14.95) (xy 8.171 10.201) (xy 8.209 10.041) (xy 8.273 9.897)
+			(xy 8.399 9.734) (xy 8.48 9.664) (xy 8.687 9.55) (xy 8.829 9.513) (xy 8.964 9.5) (xy 15.405 9.5)
+			(xy 15.405 -3) (xy -15.405 -3)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "47ec11e5-b254-40de-b88b-4cffd91e3985")
 	)
 	(fp_text user "5"
 		(at -7.2 -1.4 180)

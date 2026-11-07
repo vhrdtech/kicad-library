@@ -56,16 +56,17 @@
 	)
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_circle
-		(center 3 -4.5)
-		(end 3.3 -4.5)
+	(fp_poly
+		(pts
+			(xy 2.75 -3.985) (xy 2.51 -4.315) (xy 2.99 -4.315)
+		)
 		(stroke
-			(width 0.1)
-			(type default)
+			(width 0.12)
+			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "8bbf30df-c61f-49a2-a45b-342504bddc84")
+		(uuid "bb1b6bea-1aee-474a-b58d-08c0c09fdc97")
 	)
 	(fp_poly
 		(pts
@@ -960,15 +961,15 @@
 		(uuid "096a8e9e-db8e-471f-8353-5e5da2c48d58")
 	)
 	(fp_rect
-		(start -4 -4)
-		(end 4 4)
+		(start -3.98 -3.98)
+		(end 3.98 3.98)
 		(stroke
 			(width 0.05)
-			(type default)
+			(type solid)
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "c1459c8c-fc8d-43ad-a38c-bf38d257c6e4")
+		(uuid "391bdf87-5722-412a-a003-2793e3fa7c58")
 	)
 	(fp_rect
 		(start -3.5 -3.5)

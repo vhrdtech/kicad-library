@@ -65,6 +65,18 @@
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_poly
 		(pts
+			(xy -1.485 0) (xy -1.815 0.24) (xy -1.815 -0.24)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "7062185a-2273-4791-87b9-41e0b9c8420d")
+	)
+	(fp_poly
+		(pts
 			(xy 0.275 -0.3) (xy -0.25 0) (xy 0.275 0.275)
 		)
 		(stroke
@@ -84,7 +96,7 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "fac8bb26-52da-48e2-8263-1c1198027891")
+		(uuid "918bd39d-6203-4f77-856c-f8e00410f177")
 	)
 	(fp_line
 		(start -0.8 -0.1)

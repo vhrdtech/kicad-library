@@ -96,6 +96,18 @@
 		(layer "B.Mask")
 		(uuid "e345bd5a-c308-4cac-a2f8-eaeac7be273b")
 	)
+	(fp_poly
+		(pts
+			(xy -1.27 -2.16) (xy -1.51 -2.49) (xy -1.03 -2.49)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "5a8fbb28-5414-4636-9084-9be0ca9553eb")
+	)
 	(fp_line
 		(start -4 -1)
 		(end -4 2.2)
