@@ -3,6 +3,9 @@
 	(generator "kicad_symbol_editor")
 	(generator_version "10.0")
 	(symbol "STM32G0B1CETx"
+		(pin_names
+			(offset 2.54)
+		)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -89,13 +92,343 @@
 		(symbol "STM32G0B1CETx_0_1"
 			(rectangle
 				(start 0 0)
-				(end 40.64 -86.36)
+				(end 48.26 -86.36)
 				(stroke
 					(width 0.254)
 					(type default)
 				)
 				(fill
 					(type background)
+				)
+			)
+			(text "PU"
+				(at 0.635 -43.18 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "H"
+				(at 0.635 -45.72 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "Bootloader pins (AN2606 T112):"
+				(at 1.27 -58.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "BL:H  driven high, push-pull"
+				(at 1.27 -60.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "BL:PU input, pull-up"
+				(at 1.27 -62.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "BL:PD input, pull-down"
+				(at 1.27 -64.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "BL:OD open drain, pull-up"
+				(at 1.27 -66.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "BL:I  input, no pull"
+				(at 1.27 -68.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify left)
+				)
+			)
+			(text "Reset-time pins:"
+				(at 1.27 -71.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "DB  Rd at reset while its DBC is high"
+				(at 1.27 -73.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "DBC turns its DB pin's Rd on when high"
+				(at 1.27 -75.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "SWDIO, BOOT0, NRST act at every reset"
+				(at 1.27 -77.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 72 72 72 1)
+					)
+					(justify left)
+				)
+			)
+			(text "H"
+				(at 47.625 -7.62 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PU"
+				(at 47.625 -10.16 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -12.7 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -15.24 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "H"
+				(at 47.625 -17.78 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -20.32 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "H"
+				(at 47.625 -25.4 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PU"
+				(at 47.625 -27.94 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "I"
+				(at 47.625 -30.48 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PU"
+				(at 47.625 -33.02 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "OD"
+				(at 47.625 -60.96 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "OD"
+				(at 47.625 -63.5 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "OD"
+				(at 47.625 -71.12 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "OD"
+				(at 47.625 -73.66 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -76.2 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -78.74 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "H"
+				(at 47.625 -81.28 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 200 0 0 1)
+					)
+					(justify right)
+				)
+			)
+			(text "PD"
+				(at 47.625 -83.82 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 215 140 0 1)
+					)
+					(justify right)
 				)
 			)
 		)
@@ -317,17 +650,17 @@
 						)
 					)
 				)
-				(alternate "PF2/FX" bidirectional line)
-				(alternate "PF2/IN" input line)
-				(alternate "PF2/LPUART2_DE" bidirectional line)
-				(alternate "PF2/LPUART2_RTS" bidirectional line)
-				(alternate "PF2/LPUART2_TX" bidirectional line)
-				(alternate "PF2/OD" open_collector line)
-				(alternate "PF2/PP" output line)
-				(alternate "PF2/RCC_MCO" bidirectional line)
+				(alternate "PF2-NRST/FX" bidirectional line)
+				(alternate "PF2-NRST/IN" input line)
+				(alternate "PF2-NRST/LPUART2_DE" bidirectional line)
+				(alternate "PF2-NRST/LPUART2_RTS" bidirectional line)
+				(alternate "PF2-NRST/LPUART2_TX" bidirectional line)
+				(alternate "PF2-NRST/OD" open_collector line)
+				(alternate "PF2-NRST/PP" output line)
+				(alternate "PF2-NRST/RCC_MCO" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -2.54 180)
+				(at 50.8 -2.54 180)
 				(length 2.54)
 				(name "PA0"
 					(effects
@@ -364,7 +697,7 @@
 				(alternate "PA0/USART4_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -5.08 180)
+				(at 50.8 -5.08 180)
 				(length 2.54)
 				(name "PA1"
 					(effects
@@ -397,7 +730,7 @@
 				(alternate "PA1/USART4_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -7.62 180)
+				(at 50.8 -7.62 180)
 				(length 2.54)
 				(name "PA2"
 					(effects
@@ -432,7 +765,7 @@
 				(alternate "PA2/USART2_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -10.16 180)
+				(at 50.8 -10.16 180)
 				(length 2.54)
 				(name "PA3"
 					(effects
@@ -464,7 +797,7 @@
 				(alternate "PA3/USART2_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -12.7 180)
+				(at 50.8 -12.7 180)
 				(length 2.54)
 				(name "PA4"
 					(effects
@@ -500,7 +833,7 @@
 				(alternate "PA4/USB_NOE" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -15.24 180)
+				(at 50.8 -15.24 180)
 				(length 2.54)
 				(name "PA5"
 					(effects
@@ -534,7 +867,7 @@
 				(alternate "PA5/USART6_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -17.78 180)
+				(at 50.8 -17.78 180)
 				(length 2.54)
 				(name "PA6"
 					(effects
@@ -570,7 +903,7 @@
 				(alternate "PA6/USART6_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -20.32 180)
+				(at 50.8 -20.32 180)
 				(length 2.54)
 				(name "PA7"
 					(effects
@@ -607,7 +940,7 @@
 				(alternate "PA7/USART6_RTS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -45.72 180)
+				(at 50.8 -45.72 180)
 				(length 2.54)
 				(name "PB0"
 					(effects
@@ -643,7 +976,7 @@
 				(alternate "PB0/USART5_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -48.26 180)
+				(at 50.8 -48.26 180)
 				(length 2.54)
 				(name "PB1"
 					(effects
@@ -681,7 +1014,7 @@
 				(alternate "PB1/USART5_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -50.8 180)
+				(at 50.8 -50.8 180)
 				(length 2.54)
 				(name "PB2"
 					(effects
@@ -711,7 +1044,7 @@
 				(alternate "PB2/USART3_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -71.12 180)
+				(at 50.8 -71.12 180)
 				(length 2.54)
 				(name "PB10"
 					(effects
@@ -742,7 +1075,7 @@
 				(alternate "PB10/USART3_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -73.66 180)
+				(at 50.8 -73.66 180)
 				(length 2.54)
 				(name "PB11"
 					(effects
@@ -773,7 +1106,7 @@
 				(alternate "PB11/USART3_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -76.2 180)
+				(at 50.8 -76.2 180)
 				(length 2.54)
 				(name "PB12"
 					(effects
@@ -806,7 +1139,7 @@
 				(alternate "PB12/UCPD2_FRSTX2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -78.74 180)
+				(at 50.8 -78.74 180)
 				(length 2.54)
 				(name "PB13"
 					(effects
@@ -837,7 +1170,7 @@
 				(alternate "PB13/USART3_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -81.28 180)
+				(at 50.8 -81.28 180)
 				(length 2.54)
 				(name "PB14"
 					(effects
@@ -872,9 +1205,9 @@
 				(alternate "PB14/USART6_RTS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -83.82 180)
+				(at 50.8 -83.82 180)
 				(length 2.54)
-				(name "PB15/UCPD1_CC2"
+				(name "PB15-DB/UCPD1_CC2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -888,24 +1221,24 @@
 						)
 					)
 				)
-				(alternate "PB15/FX" bidirectional line)
-				(alternate "PB15/I2S2_SD" bidirectional line)
-				(alternate "PB15/IN" input line)
-				(alternate "PB15/OD" open_collector line)
-				(alternate "PB15/PP" output line)
-				(alternate "PB15/RTC_REFIN" bidirectional line)
-				(alternate "PB15/SPI2_MOSI" bidirectional line)
-				(alternate "PB15/TIM15_CH1N" bidirectional line)
-				(alternate "PB15/TIM15_CH2" bidirectional line)
-				(alternate "PB15/TIM1_CH3N" bidirectional line)
-				(alternate "PB15/UCPD1_CC2" bidirectional line)
-				(alternate "PB15/USART6_CTS" bidirectional line)
-				(alternate "PB15/USART6_NSS" bidirectional line)
+				(alternate "PB15-DB/FX" bidirectional line)
+				(alternate "PB15-DB/I2S2_SD" bidirectional line)
+				(alternate "PB15-DB/IN" input line)
+				(alternate "PB15-DB/OD" open_collector line)
+				(alternate "PB15-DB/PP" output line)
+				(alternate "PB15-DB/RTC_REFIN" bidirectional line)
+				(alternate "PB15-DB/SPI2_MOSI" bidirectional line)
+				(alternate "PB15-DB/TIM15_CH1N" bidirectional line)
+				(alternate "PB15-DB/TIM15_CH2" bidirectional line)
+				(alternate "PB15-DB/TIM1_CH3N" bidirectional line)
+				(alternate "PB15-DB/UCPD1_CC2" bidirectional line)
+				(alternate "PB15-DB/USART6_CTS" bidirectional line)
+				(alternate "PB15-DB/USART6_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -22.86 180)
+				(at 50.8 -22.86 180)
 				(length 2.54)
-				(name "PA8/UCPD1_CC1"
+				(name "PA8-DB/UCPD1_CC1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -919,23 +1252,23 @@
 						)
 					)
 				)
-				(alternate "PA8/CRS1_SYNC" bidirectional line)
-				(alternate "PA8/FX" bidirectional line)
-				(alternate "PA8/I2C2_SMBA" bidirectional line)
-				(alternate "PA8/I2S2_WS" bidirectional line)
-				(alternate "PA8/IN" input line)
-				(alternate "PA8/LPTIM2_OUT" bidirectional line)
-				(alternate "PA8/OD" open_collector line)
-				(alternate "PA8/PP" output line)
-				(alternate "PA8/RCC_MCO" bidirectional line)
-				(alternate "PA8/SPI2_NSS" bidirectional line)
-				(alternate "PA8/TIM1_CH1" bidirectional line)
-				(alternate "PA8/UCPD1_CC1" bidirectional line)
+				(alternate "PA8-DB/CRS1_SYNC" bidirectional line)
+				(alternate "PA8-DB/FX" bidirectional line)
+				(alternate "PA8-DB/I2C2_SMBA" bidirectional line)
+				(alternate "PA8-DB/I2S2_WS" bidirectional line)
+				(alternate "PA8-DB/IN" input line)
+				(alternate "PA8-DB/LPTIM2_OUT" bidirectional line)
+				(alternate "PA8-DB/OD" open_collector line)
+				(alternate "PA8-DB/PP" output line)
+				(alternate "PA8-DB/RCC_MCO" bidirectional line)
+				(alternate "PA8-DB/SPI2_NSS" bidirectional line)
+				(alternate "PA8-DB/TIM1_CH1" bidirectional line)
+				(alternate "PA8-DB/UCPD1_CC1" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -25.4 180)
+				(at 50.8 -25.4 180)
 				(length 2.54)
-				(name "PA9/UCPD1_DBCC1"
+				(name "PA9-DBC/UCPD1_DBCC1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -949,20 +1282,20 @@
 						)
 					)
 				)
-				(alternate "PA9/DAC1_EXTI9" bidirectional line)
-				(alternate "PA9/FX" bidirectional line)
-				(alternate "PA9/I2C1_SCL" bidirectional line)
-				(alternate "PA9/I2C2_SCL" bidirectional line)
-				(alternate "PA9/I2S2_MCK" bidirectional line)
-				(alternate "PA9/IN" input line)
-				(alternate "PA9/OD" open_collector line)
-				(alternate "PA9/PP" output line)
-				(alternate "PA9/RCC_MCO" bidirectional line)
-				(alternate "PA9/SPI2_MISO" bidirectional line)
-				(alternate "PA9/TIM15_BK" bidirectional line)
-				(alternate "PA9/TIM1_CH2" bidirectional line)
-				(alternate "PA9/UCPD1_DBCC1" bidirectional line)
-				(alternate "PA9/USART1_TX" bidirectional line)
+				(alternate "PA9-DBC/DAC1_EXTI9" bidirectional line)
+				(alternate "PA9-DBC/FX" bidirectional line)
+				(alternate "PA9-DBC/I2C1_SCL" bidirectional line)
+				(alternate "PA9-DBC/I2C2_SCL" bidirectional line)
+				(alternate "PA9-DBC/I2S2_MCK" bidirectional line)
+				(alternate "PA9-DBC/IN" input line)
+				(alternate "PA9-DBC/OD" open_collector line)
+				(alternate "PA9-DBC/PP" output line)
+				(alternate "PA9-DBC/RCC_MCO" bidirectional line)
+				(alternate "PA9-DBC/SPI2_MISO" bidirectional line)
+				(alternate "PA9-DBC/TIM15_BK" bidirectional line)
+				(alternate "PA9-DBC/TIM1_CH2" bidirectional line)
+				(alternate "PA9-DBC/UCPD1_DBCC1" bidirectional line)
+				(alternate "PA9-DBC/USART1_TX" bidirectional line)
 			)
 			(pin bidirectional line
 				(at -2.54 -35.56 0)
@@ -1019,9 +1352,9 @@
 				(alternate "PC7/UCPD2_FRSTX2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -27.94 180)
+				(at 50.8 -27.94 180)
 				(length 2.54)
-				(name "PA10/UCPD1_DBCC2"
+				(name "PA10-DBC/UCPD1_DBCC2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1035,22 +1368,22 @@
 						)
 					)
 				)
-				(alternate "PA10/FX" bidirectional line)
-				(alternate "PA10/I2C1_SDA" bidirectional line)
-				(alternate "PA10/I2C2_SDA" bidirectional line)
-				(alternate "PA10/I2S2_SD" bidirectional line)
-				(alternate "PA10/IN" input line)
-				(alternate "PA10/OD" open_collector line)
-				(alternate "PA10/PP" output line)
-				(alternate "PA10/RCC_MCO_2" bidirectional line)
-				(alternate "PA10/SPI2_MOSI" bidirectional line)
-				(alternate "PA10/TIM17_BK" bidirectional line)
-				(alternate "PA10/TIM1_CH3" bidirectional line)
-				(alternate "PA10/UCPD1_DBCC2" bidirectional line)
-				(alternate "PA10/USART1_RX" bidirectional line)
+				(alternate "PA10-DBC/FX" bidirectional line)
+				(alternate "PA10-DBC/I2C1_SDA" bidirectional line)
+				(alternate "PA10-DBC/I2C2_SDA" bidirectional line)
+				(alternate "PA10-DBC/I2S2_SD" bidirectional line)
+				(alternate "PA10-DBC/IN" input line)
+				(alternate "PA10-DBC/OD" open_collector line)
+				(alternate "PA10-DBC/PP" output line)
+				(alternate "PA10-DBC/RCC_MCO_2" bidirectional line)
+				(alternate "PA10-DBC/SPI2_MOSI" bidirectional line)
+				(alternate "PA10-DBC/TIM17_BK" bidirectional line)
+				(alternate "PA10-DBC/TIM1_CH3" bidirectional line)
+				(alternate "PA10-DBC/UCPD1_DBCC2" bidirectional line)
+				(alternate "PA10-DBC/USART1_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -30.48 180)
+				(at 50.8 -30.48 180)
 				(length 2.54)
 				(name "PA11[PA9]"
 					(effects
@@ -1097,7 +1430,7 @@
 				(alternate "PA9/USART1_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -33.02 180)
+				(at 50.8 -33.02 180)
 				(length 2.54)
 				(name "PA12[PA10]"
 					(effects
@@ -1143,9 +1476,9 @@
 				(alternate "PA12/USB_DP" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -35.56 180)
+				(at 50.8 -35.56 180)
 				(length 2.54)
-				(name "PA13"
+				(name "PA13-SWDIO"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1159,17 +1492,17 @@
 						)
 					)
 				)
-				(alternate "PA13/FX" bidirectional line)
-				(alternate "PA13/IN" input line)
-				(alternate "PA13/IR_OUT" bidirectional line)
-				(alternate "PA13/LPUART2_RX" bidirectional line)
-				(alternate "PA13/OD" open_collector line)
-				(alternate "PA13/PP" output line)
-				(alternate "PA13/SYS_SWDIO" bidirectional line)
-				(alternate "PA13/USB_NOE" bidirectional line)
+				(alternate "PA13-SWDIO/FX" bidirectional line)
+				(alternate "PA13-SWDIO/IN" input line)
+				(alternate "PA13-SWDIO/IR_OUT" bidirectional line)
+				(alternate "PA13-SWDIO/LPUART2_RX" bidirectional line)
+				(alternate "PA13-SWDIO/OD" open_collector line)
+				(alternate "PA13-SWDIO/PP" output line)
+				(alternate "PA13-SWDIO/SYS_SWDIO" bidirectional line)
+				(alternate "PA13-SWDIO/USB_NOE" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -38.1 180)
+				(at 50.8 -38.1 180)
 				(length 2.54)
 				(name "PA14-BOOT0"
 					(effects
@@ -1185,16 +1518,16 @@
 						)
 					)
 				)
-				(alternate "PA14/FX" bidirectional line)
-				(alternate "PA14/IN" input line)
-				(alternate "PA14/LPUART2_TX" bidirectional line)
-				(alternate "PA14/OD" open_collector line)
-				(alternate "PA14/PP" output line)
-				(alternate "PA14/SYS_SWCLK" bidirectional line)
-				(alternate "PA14/USART2_TX" bidirectional line)
+				(alternate "PA14-BOOT0/FX" bidirectional line)
+				(alternate "PA14-BOOT0/IN" input line)
+				(alternate "PA14-BOOT0/LPUART2_TX" bidirectional line)
+				(alternate "PA14-BOOT0/OD" open_collector line)
+				(alternate "PA14-BOOT0/PP" output line)
+				(alternate "PA14-BOOT0/SYS_SWCLK" bidirectional line)
+				(alternate "PA14-BOOT0/USART2_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -40.64 180)
+				(at 50.8 -40.64 180)
 				(length 2.54)
 				(name "PA15"
 					(effects
@@ -1233,7 +1566,7 @@
 			(pin bidirectional line
 				(at -2.54 -43.18 0)
 				(length 2.54)
-				(name "PD0/UCPD2_CC1"
+				(name "PD0-DB/UCPD2_CC1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1247,20 +1580,20 @@
 						)
 					)
 				)
-				(alternate "PD0/FDCAN1_RX" bidirectional line)
-				(alternate "PD0/FX" bidirectional line)
-				(alternate "PD0/I2S2_WS" bidirectional line)
-				(alternate "PD0/IN" input line)
-				(alternate "PD0/OD" open_collector line)
-				(alternate "PD0/PP" output line)
-				(alternate "PD0/SPI2_NSS" bidirectional line)
-				(alternate "PD0/TIM16_CH1" bidirectional line)
-				(alternate "PD0/UCPD2_CC1" bidirectional line)
+				(alternate "PD0-DB/FDCAN1_RX" bidirectional line)
+				(alternate "PD0-DB/FX" bidirectional line)
+				(alternate "PD0-DB/I2S2_WS" bidirectional line)
+				(alternate "PD0-DB/IN" input line)
+				(alternate "PD0-DB/OD" open_collector line)
+				(alternate "PD0-DB/PP" output line)
+				(alternate "PD0-DB/SPI2_NSS" bidirectional line)
+				(alternate "PD0-DB/TIM16_CH1" bidirectional line)
+				(alternate "PD0-DB/UCPD2_CC1" bidirectional line)
 			)
 			(pin bidirectional line
 				(at -2.54 -45.72 0)
 				(length 2.54)
-				(name "PD1/UCPD2_DBCC1"
+				(name "PD1-DBC/UCPD2_DBCC1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1274,20 +1607,20 @@
 						)
 					)
 				)
-				(alternate "PD1/FDCAN1_TX" bidirectional line)
-				(alternate "PD1/FX" bidirectional line)
-				(alternate "PD1/I2S2_CK" bidirectional line)
-				(alternate "PD1/IN" input line)
-				(alternate "PD1/OD" open_collector line)
-				(alternate "PD1/PP" output line)
-				(alternate "PD1/SPI2_SCK" bidirectional line)
-				(alternate "PD1/TIM17_CH1" bidirectional line)
-				(alternate "PD1/UCPD2_DBCC1" bidirectional line)
+				(alternate "PD1-DBC/FDCAN1_TX" bidirectional line)
+				(alternate "PD1-DBC/FX" bidirectional line)
+				(alternate "PD1-DBC/I2S2_CK" bidirectional line)
+				(alternate "PD1-DBC/IN" input line)
+				(alternate "PD1-DBC/OD" open_collector line)
+				(alternate "PD1-DBC/PP" output line)
+				(alternate "PD1-DBC/SPI2_SCK" bidirectional line)
+				(alternate "PD1-DBC/TIM17_CH1" bidirectional line)
+				(alternate "PD1-DBC/UCPD2_DBCC1" bidirectional line)
 			)
 			(pin bidirectional line
 				(at -2.54 -48.26 0)
 				(length 2.54)
-				(name "PD2/UCPD2_CC2"
+				(name "PD2-DB/UCPD2_CC2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1301,22 +1634,22 @@
 						)
 					)
 				)
-				(alternate "PD2/FX" bidirectional line)
-				(alternate "PD2/IN" input line)
-				(alternate "PD2/OD" open_collector line)
-				(alternate "PD2/PP" output line)
-				(alternate "PD2/TIM1_CH1N" bidirectional line)
-				(alternate "PD2/TIM3_ETR" bidirectional line)
-				(alternate "PD2/UCPD2_CC2" bidirectional line)
-				(alternate "PD2/USART3_CK" bidirectional line)
-				(alternate "PD2/USART3_DE" bidirectional line)
-				(alternate "PD2/USART3_RTS" bidirectional line)
-				(alternate "PD2/USART5_RX" bidirectional line)
+				(alternate "PD2-DB/FX" bidirectional line)
+				(alternate "PD2-DB/IN" input line)
+				(alternate "PD2-DB/OD" open_collector line)
+				(alternate "PD2-DB/PP" output line)
+				(alternate "PD2-DB/TIM1_CH1N" bidirectional line)
+				(alternate "PD2-DB/TIM3_ETR" bidirectional line)
+				(alternate "PD2-DB/UCPD2_CC2" bidirectional line)
+				(alternate "PD2-DB/USART3_CK" bidirectional line)
+				(alternate "PD2-DB/USART3_DE" bidirectional line)
+				(alternate "PD2-DB/USART3_RTS" bidirectional line)
+				(alternate "PD2-DB/USART5_RX" bidirectional line)
 			)
 			(pin bidirectional line
 				(at -2.54 -50.8 0)
 				(length 2.54)
-				(name "PD3/UCPD2_DBCC2"
+				(name "PD3-DBC/UCPD2_DBCC2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1330,20 +1663,20 @@
 						)
 					)
 				)
-				(alternate "PD3/FX" bidirectional line)
-				(alternate "PD3/I2S2_MCK" bidirectional line)
-				(alternate "PD3/IN" input line)
-				(alternate "PD3/OD" open_collector line)
-				(alternate "PD3/PP" output line)
-				(alternate "PD3/SPI2_MISO" bidirectional line)
-				(alternate "PD3/TIM1_CH2N" bidirectional line)
-				(alternate "PD3/UCPD2_DBCC2" bidirectional line)
-				(alternate "PD3/USART2_CTS" bidirectional line)
-				(alternate "PD3/USART2_NSS" bidirectional line)
-				(alternate "PD3/USART5_TX" bidirectional line)
+				(alternate "PD3-DBC/FX" bidirectional line)
+				(alternate "PD3-DBC/I2S2_MCK" bidirectional line)
+				(alternate "PD3-DBC/IN" input line)
+				(alternate "PD3-DBC/OD" open_collector line)
+				(alternate "PD3-DBC/PP" output line)
+				(alternate "PD3-DBC/SPI2_MISO" bidirectional line)
+				(alternate "PD3-DBC/TIM1_CH2N" bidirectional line)
+				(alternate "PD3-DBC/UCPD2_DBCC2" bidirectional line)
+				(alternate "PD3-DBC/USART2_CTS" bidirectional line)
+				(alternate "PD3-DBC/USART2_NSS" bidirectional line)
+				(alternate "PD3-DBC/USART5_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -53.34 180)
+				(at 50.8 -53.34 180)
 				(length 2.54)
 				(name "PB3"
 					(effects
@@ -1377,7 +1710,7 @@
 				(alternate "PB3/USART5_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -55.88 180)
+				(at 50.8 -55.88 180)
 				(length 2.54)
 				(name "PB4"
 					(effects
@@ -1410,7 +1743,7 @@
 				(alternate "PB4/USART5_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -58.42 180)
+				(at 50.8 -58.42 180)
 				(length 2.54)
 				(name "PB5"
 					(effects
@@ -1445,7 +1778,7 @@
 				(alternate "PB5/USART5_RTS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -60.96 180)
+				(at 50.8 -60.96 180)
 				(length 2.54)
 				(name "PB6"
 					(effects
@@ -1480,7 +1813,7 @@
 				(alternate "PB6/USART5_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -63.5 180)
+				(at 50.8 -63.5 180)
 				(length 2.54)
 				(name "PB7"
 					(effects
@@ -1514,7 +1847,7 @@
 				(alternate "PB7/USART4_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -66.04 180)
+				(at 50.8 -66.04 180)
 				(length 2.54)
 				(name "PB8"
 					(effects
@@ -1546,7 +1879,7 @@
 				(alternate "PB8/USART6_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 43.18 -68.58 180)
+				(at 50.8 -68.58 180)
 				(length 2.54)
 				(name "PB9"
 					(effects

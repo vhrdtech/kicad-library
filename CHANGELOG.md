@@ -64,6 +64,15 @@
 
 ### Changed
 
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: pins that act at reset say so in their name and in every alternate, whatever
+  function is chosen: `PA14-BOOT0/…`, `PF2-NRST/…`, `PA13-SWDIO/…` (debug with pull-up at reset), `-DB` on the USB-C
+  dead-battery pins that get an Rd pull-down at reset (PA8, PB15, PD0, PD2) and `-DBC` on the pins that switch it on
+  when high (PA9, PA10, PD1, PD3); a legend inside the body explains DB and DBC.
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx` shows what the ROM bootloader does to each pin (AN2606 Table 112), next to
+  the pin: `H` in red where it drives the pin high push-pull (PA2, PA9, PA6, PB14, PD1), `OD` in red for the I2C pins
+  it runs open drain with pull-up (PB6, PB7, PB10, PB11), `PU` / `PD` / `I` in amber for pulled-up, pulled-down and
+  plain inputs; a legend inside the body says the `BL:` meaning. The body is 7.62 mm wider and pin names sit 2.54 mm
+  in from the edge to make room.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: every port pin offers its GPIO modes as alternates, `PA9/PP` (push-pull,
   output), `PA9/OD` (open drain), `PA9/IN` (input) and `PA9/FX` (flex, bidirectional), in place of the bare `PA9`;
   the remappable pins 33 and 34 offer them for both their ports.
