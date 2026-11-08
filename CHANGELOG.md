@@ -69,6 +69,12 @@
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx` marks PC13, PC14 and PC15 `SK` in blue: they are supplied through the VBAT
   switch, which gives 3 mA in all, so they may sink but not source, at 2 MHz and 30 pF at most (DS13560 Table 12
   note 1). The legend adds that an LSE turned on keeps PC14/PC15 through every reset but power-on.
+- `VHRD_Interface_USB:USB2514B_Bi` shows its reset-time pins beside them, as on `STM32G0B1CETx`: `S` in red on the
+  four straps latched as RESET_N rises with no internal pull (CFG_SEL0, CFG_SEL1, NON_REM0, NON_REM1), `PD` / `PU` in
+  amber on the pins with an internal pull (PRTPWR/BC_EN, TEST, OCS_N), `RC` on RESET_N and `!` on VBUS_DET. A legend
+  inside the body gives their meaning and the other gotchas: port disable by D+ and D- pulled up, the errata's 100k +
+  220 nF on RESET_N, VBUS_DET from upstream VBUS, CRFILT and PLLFILT 1.2 V with 0.1 uF at most, XTALOUT's weak drive.
+  Pin names sit 2.54 mm in from the edge to make room.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: pins that act at reset say so in their name and in every alternate, whatever
   function is chosen: `PA14-BOOT0/…`, `PF2-NRST/…`, `PA13-SWDIO/…` (debug with pull-up at reset), `-DB` on the USB-C
   dead-battery pins that get an Rd pull-down at reset (PA8, PB15, PD0, PD2) and `-DBC` on the pins that switch it on
