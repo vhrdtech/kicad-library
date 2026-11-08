@@ -51,6 +51,7 @@
 "VHRD_Connector" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Connector.kicad_symdir"
 "VHRD_Converter_DCDC" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Converter_DCDC.kicad_symdir"
 "VHRD_Device" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Device.kicad_symdir"
+"VHRD_Diode" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Diode.kicad_symdir"
 "VHRD_Display_Graphic" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Display_Graphic.kicad_symdir"
 "VHRD_Graphic" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Graphic.kicad_symdir"
 "VHRD_Interface_CAN_LIN" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Interface_CAN_LIN.kicad_symdir"
