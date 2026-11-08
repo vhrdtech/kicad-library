@@ -64,6 +64,9 @@
 
 ### Changed
 
+- `VHRD_MCU_ST_STM32G0:STM32G0B1CETx` marks PC13, PC14 and PC15 `SK` in blue: they are supplied through the VBAT
+  switch, which gives 3 mA in all, so they may sink but not source, at 2 MHz and 30 pF at most (DS13560 Table 12
+  note 1). The legend adds that an LSE turned on keeps PC14/PC15 through every reset but power-on.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx`: pins that act at reset say so in their name and in every alternate, whatever
   function is chosen: `PA14-BOOT0/…`, `PF2-NRST/…`, `PA13-SWDIO/…` (debug with pull-up at reset), `-DB` on the USB-C
   dead-battery pins that get an Rd pull-down at reset (PA8, PB15, PD0, PD2) and `-DBC` on the pins that switch it on

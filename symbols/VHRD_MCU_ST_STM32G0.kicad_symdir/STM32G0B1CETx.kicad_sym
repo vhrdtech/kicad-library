@@ -244,6 +244,61 @@
 					(justify left)
 				)
 			)
+			(text "SK"
+				(at 0.635 -25.4 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 0 90 200 1)
+					)
+					(justify left)
+				)
+			)
+			(text "SK"
+				(at 0.635 -27.94 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 0 90 200 1)
+					)
+					(justify left)
+				)
+			)
+			(text "SK"
+				(at 0.635 -30.48 0)
+				(effects
+					(font
+						(size 0.75 0.75)
+						(bold yes)
+						(color 0 90 200 1)
+					)
+					(justify left)
+				)
+			)
+			(text "SK  sink only: VBAT switch, 3 mA, 2 MHz"
+				(at 1.27 -53.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 0 90 200 1)
+					)
+					(justify left)
+				)
+			)
+			(text "    LSE on survives all but power-on"
+				(at 1.27 -55.42 0)
+				(effects
+					(font
+						(size 0.9 0.9)
+						(bold yes)
+						(color 0 90 200 1)
+					)
+					(justify left)
+				)
+			)
 			(text "H"
 				(at 47.625 -7.62 0)
 				(effects
