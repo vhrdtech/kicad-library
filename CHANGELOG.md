@@ -64,6 +64,8 @@
 
 ### Changed
 
+- `VHRD_Amplifier_Current:INA181` is an amplifier triangle again, still with every pin on the left edge (VS top, then
+  IN+, IN-, REF, GND) and OUT at the tip, unnamed as on KiCad's stock symbol.
 - `VHRD_MCU_ST_STM32G0:STM32G0B1CETx` marks PC13, PC14 and PC15 `SK` in blue: they are supplied through the VBAT
   switch, which gives 3 mA in all, so they may sink but not source, at 2 MHz and 30 pF at most (DS13560 Table 12
   note 1). The legend adds that an LSE turned on keeps PC14/PC15 through every reset but power-on.
