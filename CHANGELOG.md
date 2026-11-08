@@ -19,8 +19,10 @@
   `NC/D4`; `Mpn1` TPD6S300ARUKR, `Mpn2` TPD8S300ARUKR (pin-compatible, VPWR <= 3.6 V).
 - `VHRD_TestPoint:TestPoint_Pad_D1.2mm`, `TestPoint_Pad_0.8x0.8mm`.
 - `VHRD_Connector:ARJM11D7-114-AB`, `BAT-HLD-001-THM`, recovered from board caches.
+- `VHRD_power:+3V8_DCDC`.
+- `VHRD_Amplifier_Current:INA181`: KiCad's stock symbol as is.
 - Side-pin copies of B153's stock symbols (supplies top left, ground bottom left): `STM32G0B1CETx`, `USB2514B_Bi`,
-  `INA181`, `TS5A3160DCK` (one unit; NO, NC, COM, IN), `TXS0102DCU`, `D3V3XA4B10LP`, `TLV70233_SOT23-5`.
+  `TS5A3160DCK` (one unit; NO, NC, COM, IN), `TXS0102DCU`, `D3V3XA4B10LP`, `TLV70233_SOT23-5`.
 - `STM32G0B1CETx`: pin names as DS13560 Table 12 (`PF2-NRST`, `PA14-BOOT0`, `PA11[PA9]`, OSC, VDDA/VSSA), UCPD
   dead-battery pins, pins 30/31 VSS/VDDIO2 on the `N` part.
 - `LICENSE.md` (CC-BY-SA 4.0 + KiCad library exception; `tools/kilib` MIT); `README.md` for outside users.
@@ -38,7 +40,6 @@
 
 ### Changed
 
-- `INA181`: triangle again, pins on the left edge (VS, IN+, IN-, REF, GND), OUT at the tip, unnamed.
 - `USB2514B_Bi`: reset-time markers, `S` straps without pull (CFG_SEL0/1, NON_REM0/1), `PD`/`PU` internal pulls, `RC`
   RESET_N, `!` VBUS_DET; legend with port disable, errata 100k + 220 nF, VBUS_DET, 1.2 V FILT <= 0.1 uF, weak XTALOUT;
   pins regrouped by port.
