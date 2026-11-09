@@ -119,6 +119,50 @@
 					(type background)
 				)
 			)
+			(polyline
+				(pts
+					(xy -5.587999999999999 0) (xy 5.587999999999999 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.35 0) (xy -5.587999999999999 0.381) (xy -5.587999999999999 -0.381) (xy -6.35 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.35 0) (xy 5.587999999999999 0.381) (xy 5.587999999999999 -0.381) (xy 6.35 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(text "DIR H: A→B, L: B→A"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
 		)
 		(symbol "SN74LXC1T45DCKR_1_1"
 			(pin power_in line

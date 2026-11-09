@@ -108,6 +108,94 @@
 					(type background)
 				)
 			)
+			(polyline
+				(pts
+					(xy -5.587999999999999 0) (xy 5.587999999999999 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.35 0) (xy -5.587999999999999 0.381) (xy -5.587999999999999 -0.381) (xy -6.35 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.35 0) (xy 5.587999999999999 0.381) (xy 5.587999999999999 -0.381) (xy 6.35 0)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy -5.587999999999999 -2.54) (xy 5.587999999999999 -2.54)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.35 -2.54) (xy -5.587999999999999 -2.159) (xy -5.587999999999999 -2.9210000000000003) (xy -6.35 -2.54)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.35 -2.54) (xy 5.587999999999999 -2.159) (xy 5.587999999999999 -2.9210000000000003) (xy 6.35 -2.54)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(text "VREF_B ≥ VREF_A + 0.8 V"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 0.8 0.8)
+					)
+				)
+			)
+			(text "EN H: on, L: isolated"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
 		)
 		(symbol "LSF0102DCUR_1_1"
 			(pin power_in line

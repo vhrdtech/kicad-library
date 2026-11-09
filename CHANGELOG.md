@@ -8,7 +8,7 @@
   and control pins left, P0-P7 right; `Mpn1` TCA6408ARGTR, `Mpn2` PCAL6408ABS (same pinout, VQFN-16 3x3).
 - `VHRD_Diode` symbol library (needs `kilib setup`): `BAS40-02L` on new `VHRD_Diode_SMD:D_TSLP-2-1` (Infineon land
   pattern and stencil; 3D model: stock SOD-882 scaled to 0.4 mm).
-- `VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR` (SC70-6), `Mpn2` 74AXP1T45GWH.
+- `VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR` (SC70-6), `Mpn2` 74AXP1T45GWH; A↔B arrow and DIR meaning drawn.
 - `VHRD_Logic_LevelTranslator`, one pinout and drawing each (A left, Bn facing An), one symbol per part since ranges
   and pulls differ:
   - dual-supply on VSSOP-8: `SN74LXC2T45DCUR` 1.1-5.5 V, `SN74LVC2T45DCUR` 1.65-5.5 V, `74LVC2T45DC` (Nexperia)
@@ -43,6 +43,7 @@
 
 ### Changed
 
+- `LSF0102DCUR`: A↔B arrows, EN meaning and `VREF_B ≥ VREF_A + 0.8 V` drawn in the body.
 - `USB2514B_Bi`: reset-time markers, `S` straps without pull (CFG_SEL0/1, NON_REM0/1), `PD`/`PU` internal pulls, `RC`
   RESET_N, `!` VBUS_DET; legend with port disable, errata 100k + 220 nF, VBUS_DET, 1.2 V FILT <= 0.1 uF, weak XTALOUT;
   pins regrouped by port.
