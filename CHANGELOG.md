@@ -6,6 +6,10 @@
 
 - `VHRD_Interface_Expansion` symbol library (needs `kilib setup`): `TCA6408ARGT`, stock drawing with bus, supply
   and control pins left, P0-P7 right; `Mpn1` TCA6408ARGTR, `Mpn2` PCAL6408ABS (same pinout, VQFN-16 3x3).
+- `VHRD_Diode:BZX585-C5V1`, `BZX585-C5V6` on `VHRD_Diode_SMD:D_SOD-523`; `Mpn2` BZT52C5V1T-7 / BZT52C5V6T-7 (Diodes).
+- `VHRD_Diode:PESD3V3S1UB`, `PESD5V0S1UB` unidirectional ESD on `D_SOD-523`; `Mpn2` ESD5Z3.3T1G / ESD5Z5.0T1G (onsemi).
+- `VHRD_Diode:PESD3V3U1UB` unidirectional ESD, 2.6 pF, on `D_SOD-523`.
+- `VHRD_Transistor_FET:NX3020NAKS` dual N-MOSFET from stock `Q_Dual_NMOS_S1G1D2S2G2D1`, on stock `SOT-363_SC-70-6`.
 - `VHRD_Diode` symbol library (needs `kilib setup`): `BAS40-02L` on new `VHRD_Diode_SMD:D_TSLP-2-1` (Infineon land
   pattern and stencil; 3D model: stock SOD-882 scaled to 0.4 mm).
 - `VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR` (SC70-6), `Mpn2` 74AXP1T45GWH; A↔B arrow and DIR meaning drawn.
