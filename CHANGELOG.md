@@ -8,6 +8,7 @@
   and control pins left, P0-P7 right; `Mpn1` TCA6408ARGTR, `Mpn2` PCAL6408ABS (same pinout, VQFN-16 3x3).
 - `VHRD_Diode` symbol library (needs `kilib setup`): `BAS40-02L` on new `VHRD_Diode_SMD:D_TSLP-2-1` (Infineon land
   pattern and stencil; 3D model: stock SOD-882 scaled to 0.4 mm).
+- `VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR` (SC70-6), `Mpn2` SN74AXC1T45DCKR.
 - `VHRD_Logic_LevelTranslator`, one pinout and drawing each (A left, Bn facing An), one symbol per part since ranges
   and pulls differ:
   - dual-supply on VSSOP-8: `SN74LXC2T45DCUR` 1.1-5.5 V, `SN74LVC2T45DCUR` 1.65-5.5 V, `74LVC2T45DC` (Nexperia)
@@ -21,7 +22,7 @@
   `NC/D4`; `Mpn1` TPD6S300ARUKR, `Mpn2` TPD8S300ARUKR (pin-compatible, VPWR <= 3.6 V).
 - `VHRD_TestPoint:TestPoint_Pad_D1.2mm`, `TestPoint_Pad_0.8x0.8mm`.
 - `VHRD_Connector:ARJM11D7-114-AB`, `BAT-HLD-001-THM`, recovered from board caches.
-- `VHRD_power:+3V8_DCDC`.
+- `VHRD_power:+3V8_DCDC`, `+VIO`, `+VAUX`.
 - `VHRD_Amplifier_Current:INA181`: KiCad's stock symbol as is.
 - Side-pin copies of B153's stock symbols (supplies top left, ground bottom left): `STM32G0B1CETx`, `USB2514B_Bi`,
   `TS5A3160DCK` (one unit; NO, NC, COM, IN), `TXS0102DCU`, `D3V3XA4B10LP`, `TLV70233_SOT23-5`.
