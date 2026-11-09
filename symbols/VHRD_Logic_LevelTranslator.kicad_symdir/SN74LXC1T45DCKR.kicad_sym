@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "1-bit dual-supply bus transceiver, direction by DIR (high: A to B), VCCA and VCCB 1.1-5.5 V, Schmitt-trigger inputs, weak pull-downs on DIR and the I/Os (a floating DIR gives B to A), SC70-6 (TI DCK)"
+		(property "Description" "1-bit dual-supply bus transceiver, direction by DIR (high: A to B), VCCA and VCCB 1.1-5.5 V, Schmitt-trigger inputs, weak pull-downs on DIR and the I/Os (a floating DIR gives B to A), SC70-6 (TI DCK). Mpn2 Nexperia 74AXP1T45 (SOT363-2): same pinout, DIR on VCC(A), 0.9-5.5 V, input abs max 6.5 V, no Schmitt inputs or pull-downs"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -65,6 +65,17 @@
 		)
 		(property "Mpn1" "SN74LXC1T45DCKR"
 			(at 0 -21.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mpn2" "74AXP1T45GWH"
+			(at 0 -24.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
