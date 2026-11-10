@@ -174,6 +174,24 @@
 		(fill no)
 		(layer "F.CrtYd")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(pad "1" smd roundrect
 		(at -2 0)
 		(size 2.5 1.8)

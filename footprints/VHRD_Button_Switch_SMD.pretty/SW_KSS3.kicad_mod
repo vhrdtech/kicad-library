@@ -228,6 +228,24 @@
 		(layer "F.Fab")
 		(uuid "ff50ea53-5b97-4be0-9070-a70e2acd1d5c")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(pad "1" smd rect
 		(at -2.949999 0)
 		(size 1.7018 3.7084)

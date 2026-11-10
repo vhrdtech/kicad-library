@@ -121,6 +121,24 @@
 		(layer "User.2")
 		(uuid "c8c9ed66-8ef7-4629-a891-f7806a05a2d0")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(pad "M" smd rect
 		(at 0 0)
 		(size 3.96 3.96)

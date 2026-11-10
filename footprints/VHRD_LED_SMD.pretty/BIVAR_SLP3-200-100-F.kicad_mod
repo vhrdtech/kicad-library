@@ -155,6 +155,24 @@
 		(fill no)
 		(layer "F.CrtYd")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(pad "" np_thru_hole circle
 		(at -1.25 -3.2735)
 		(size 1.3208 1.3208)
