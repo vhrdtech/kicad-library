@@ -2,15 +2,6 @@
 
 ## [Unreleased]
 
-### Changed
-
-- Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
-  visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
-  1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits
-  better, else next to the body (26 footprints: QFN/DFN with an exposed pad, 0402/0603, SOD-882, SOT-883, test
-  points, net ties). Silkscreen outlines, pin-1 marks and Value are untouched. Boards take it with "Update
-  Footprints from Library".
-
 ### Added
 
 - `kilib fab-designators [--write] [PATH...]`: checks every footprint against those rules and fixes the ones that
@@ -62,6 +53,12 @@
 
 ### Changed
 
+- Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
+  visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
+  1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits
+  better, else next to the body (26 footprints: QFN/DFN with an exposed pad, 0402/0603, SOD-882, SOT-883, test
+  points, net ties). Silkscreen outlines, pin-1 marks and Value are untouched. Boards take it with "Update
+  Footprints from Library".
 - `LSF0102DCUR`: A↔B arrows, EN meaning and `VREF_B ≥ VREF_A + 0.8 V` drawn in the body.
 - `USB2514B_Bi`: reset-time markers, `S` straps without pull (CFG_SEL0/1, NON_REM0/1), `PD`/`PU` internal pulls, `RC`
   RESET_N, `!` VBUS_DET; legend with port disable, errata 100k + 220 nF, VBUS_DET, 1.2 V FILT <= 0.1 uF, weak XTALOUT;
