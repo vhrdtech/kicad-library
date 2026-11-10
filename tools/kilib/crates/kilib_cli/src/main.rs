@@ -13,6 +13,7 @@ use clap::{CommandFactory, Parser, Subcommand, ValueHint};
 use kilib::check::{self, Finding, Report};
 use kilib::config;
 use kilib::fab;
+use kilib::layers;
 use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
 use kilib::restructure;
@@ -52,6 +53,7 @@ Examples:
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
   kilib fab-designators                 which footprints still put the designator on the silkscreen
+  kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
@@ -182,25 +184,54 @@ Examples:
     /// name, what a fresh import would change, so upstream changes are taken in deliberately.
     #[command(subcommand)]
     Stock(StockCommand),
+    /// Name the user layers kicad-library uses in boards' layer tables
+    ///
+    /// Test points, net ties and mechanical footprints carry their designator on a layer of their own (User.9/10
+    /// Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14 Ref.Mech.F/B), and User.15/16 Rooms.F/B hold hand-drawn
+    /// outlines of the circuit blocks; each pair is typed front and back, so KiCad flips a bottom-side footprint's
+    /// text onto the back layer. This adds the layers a board lacks, and names and types ones it has unnamed; a
+    /// number the board already uses under another name is left alone and reported. Only the (layers ...) table
+    /// changes. Without --write it lists what would change and exits 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib layers ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb
+  kilib layers --write templates/IO30/io30.kicad_pcb")]
+    Layers {
+        /// Boards (.kicad_pcb)
+        #[arg(required = true, value_hint = ValueHint::FilePath)]
+        boards: Vec<PathBuf>,
+        /// Write the changes
+        #[arg(long)]
+        write: bool,
+    },
     /// Put each footprint's designator on the fab layer only, centred on the body
     ///
-    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked, on the
-    /// centre of the fab outline (else of the courtyard); ${REFERENCE} texts on the silkscreen and a second one on
-    /// the fab layer go, and the Value is hidden. Pads do not matter (KiCad draws the selected fab layer on top);
-    /// the other drawing on the fab layer does: the text's box (a five-character designator, the strokes counted)
-    /// keeps 0.05 mm off it. It gets the largest size from 1 mm down to 0.3 mm that fits on the centre, level or
-    /// turned 90°; else it moves to the largest free spot inside the body nearest the centre; else it stays on the
-    /// centre at 0.3 mm and is listed as "no clean fit". Every line on F.Fab and B.Fab gets a 0.05 mm stroke. A
-    /// footprint that already follows these rules is left as it is; every other byte stays. Without --write it
-    /// lists what would change and exits 1 when anything would.
+    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint; User.9, named NetTie.Ref in the
+    /// templates, for a net tie), visible and unlocked; ${REFERENCE} texts on the silkscreen and a second one on
+    /// the fab layer go, and the Value is hidden. The text's ink, measured in KiCad's stroke font with the strokes
+    /// counted, is centred on the fab outline (else the courtyard). Pads do not matter (KiCad draws the selected
+    /// fab layer on top); the other drawing on the fab layer does: 0.02 mm stays free between the strokes. A
+    /// library footprint is sized for the longest designator of its kind (R1004, C1001, TP526, U1004). It gets the
+    /// largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°; else it moves to the
+    /// largest free spot inside the body nearest the centre; else it may go down to 0.15 mm (0201, 01005: listed as
+    /// "tiny"); else it stays on the centre at 0.2 mm and is listed as "no clean fit". Strokes are 15 % of the size,
+    /// at least 0.025 mm. Every line on F.Fab and B.Fab gets a 0.05 mm stroke. A footprint that already follows
+    /// these rules is left as it is; every other byte stays. With --board, each footprint on that board whose
+    /// Reference is already on its designator layer gets its own designator fitted the same way (a short one gets
+    /// larger text); only the Reference's position, angle, size and thickness change. Without --write it lists
+    /// what would change and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
   kilib fab-designators
-  kilib fab-designators --write footprints/VHRD_Package_SO.pretty")]
+  kilib fab-designators --write footprints/VHRD_Package_SO.pretty
+  kilib fab-designators --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --write")]
     FabDesignators {
         /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
-        #[arg(value_hint = ValueHint::AnyPath)]
+        #[arg(value_hint = ValueHint::AnyPath, conflicts_with = "board")]
         paths: Vec<PathBuf>,
+        /// Fit the designators of the footprints on this board instead, each to its own text
+        #[arg(long, value_name = "PCB", value_hint = ValueHint::FilePath)]
+        board: Option<PathBuf>,
         /// Write the changes
         #[arg(long)]
         write: bool,
@@ -341,9 +372,19 @@ fn main() -> ExitCode {
             usage::record("stock diff", &[("stat", stat), ("stock-dir", stock.stock_dir.is_some())]);
             run_stock_diff(&stock, stat)
         }
-        Command::FabDesignators { paths, write, verbose } => {
-            usage::record("fab-designators", &[("write", write), ("paths", !paths.is_empty())]);
-            run_fab(paths, write, verbose)
+        Command::Layers { boards, write } => {
+            usage::record("layers", &[("write", write)]);
+            run_layers(&boards, write)
+        }
+        Command::FabDesignators { paths, board, write, verbose } => {
+            usage::record(
+                "fab-designators",
+                &[("write", write), ("paths", !paths.is_empty()), ("board", board.is_some())],
+            );
+            match board {
+                Some(board) => run_fab_board(&board, write, verbose),
+                None => run_fab(paths, write, verbose),
+            }
         }
     };
     match result {
@@ -691,6 +732,7 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
     let items = fab::plan(&paths);
     let (mut changed, mut fine, mut skipped) = (0, 0, 0);
     let (mut moved, mut resized, mut turned, mut unclean) = (0, 0, 0, Vec::new());
+    let mut placements = Vec::new();
     for i in &items {
         match &i.outcome {
             fab::Outcome::Fine => {
@@ -727,19 +769,27 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
             }
         }
         // A footprint already fine can still be one where nothing fits cleanly.
-        let fit = match &i.outcome {
-            fab::Outcome::Change { placement, .. } => Some(placement.clean),
-            fab::Outcome::Fine => fab::read(&i.old).ok().and_then(|f| f.shape).map(|s| fab::layout(&s).clean),
+        // A mechanical footprint's designator is hidden: not sized.
+        let shown = layers::class_of(&i.id, "").shown();
+        let placed = match &i.outcome {
+            _ if !shown => None,
+            fab::Outcome::Change { placement, .. } => Some(*placement),
+            fab::Outcome::Fine => fab::read_as(&i.old, &i.id).ok().and_then(|f| f.shape).map(|s| fab::layout(&s)),
             fab::Outcome::Skipped(_) => None,
         };
+        let fit = placed.map(|p| p.clean);
         if fit == Some(false) {
             unclean.push(i.id.as_str());
+        }
+        if let Some(p) = placed {
+            placements.push((i.id.as_str(), p));
         }
     }
     eprintln!(
         "{BOLD}kilib fab-designators{BOLD:#}: {} footprints: {changed} to change ({moved} moved, {resized} resized, {turned} turned), {fine} already fine, {skipped} skipped",
         items.len()
     );
+    report_sizes(&placements);
     if !unclean.is_empty() {
         eprintln!(
             "{CYAN}no clean fit{CYAN:#} ({}: centred at {} mm over the drawing or past the body): {}",
@@ -754,6 +804,165 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
     } else if write {
         let n = fab::apply(&items)?;
         eprintln!("{GREEN}✓{GREEN:#} wrote {n} footprints");
+        Ok(ExitCode::SUCCESS)
+    } else {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+        Ok(ExitCode::from(1))
+    }
+}
+
+fn run_layers(boards: &[PathBuf], write: bool) -> Result<ExitCode, String> {
+    let mut plans = Vec::new();
+    let (mut changed, mut taken) = (0, 0);
+    for b in boards {
+        let old = std::fs::read_to_string(b).map_err(|e| format!("{}: {e}", b.display()))?;
+        let (new, changes) = layers::add_to_board(&old).map_err(|e| format!("{}: {e}", b.display()))?;
+        for c in &changes {
+            match c {
+                layers::LayerChange::Fine(_) => {}
+                layers::LayerChange::Set(l) => {
+                    println!("  {BOLD}{}{BOLD:#}: {} {} \"{}\"", b.display(), l.id, l.side, l.name)
+                }
+                layers::LayerChange::Taken { layer: l, line } => {
+                    taken += 1;
+                    println!("{YELLOW}!{YELLOW:#} {}: {} is taken ({line}); {} not added", b.display(), l.id, l.name);
+                }
+            }
+        }
+        if new != old {
+            changed += 1;
+        }
+        plans.push((b, old, new));
+    }
+    eprintln!("{BOLD}kilib layers{BOLD:#}: {} boards: {changed} to change, {taken} layers taken", boards.len());
+    if changed == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+        return Ok(if taken == 0 { ExitCode::SUCCESS } else { ExitCode::from(1) });
+    }
+    if !write {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+        return Ok(ExitCode::from(1));
+    }
+    for (b, old, new) in &plans {
+        if old == new {
+            continue;
+        }
+        let now = std::fs::read_to_string(b).map_err(|e| format!("{}: {e}", b.display()))?;
+        if &now != old {
+            return Err(format!("{} changed since it was read; run again", b.display()));
+        }
+        std::fs::write(b, new).map_err(|e| format!("{}: {e}", b.display()))?;
+    }
+    eprintln!("{GREEN}✓{GREEN:#} wrote {changed} boards");
+    Ok(if taken == 0 { ExitCode::SUCCESS } else { ExitCode::from(1) })
+}
+
+/// How many designators got each size, and which fit only below the usual floor.
+fn report_sizes(placements: &[(&str, fab::Placement)]) {
+    if placements.is_empty() {
+        return;
+    }
+    let mut sizes: Vec<(i64, usize)> = Vec::new();
+    for (_, p) in placements {
+        let k = (p.size * 100.0).round() as i64;
+        match sizes.iter_mut().find(|(s, _)| *s == k) {
+            Some((_, n)) => *n += 1,
+            None => sizes.push((k, 1)),
+        }
+    }
+    sizes.sort_by_key(|a| std::cmp::Reverse(a.0));
+    let list: Vec<String> = sizes.iter().map(|(s, n)| format!("{} mm ×{n}", fab::fmt(*s as f64 / 100.0))).collect();
+    eprintln!("{CYAN}sizes{CYAN:#}: {}", list.join(", "));
+    let tiny: Vec<String> = placements
+        .iter()
+        .filter(|(_, p)| p.clean && p.tiny())
+        .map(|(id, p)| format!("{id} ({} mm)", fab::fmt(p.size)))
+        .collect();
+    if !tiny.is_empty() {
+        eprintln!(
+            "{CYAN}tiny{CYAN:#} ({}: below {} mm, nothing larger fits): {}",
+            tiny.len(),
+            fab::fmt(fab::MIN_SIZE),
+            tiny.join(", ")
+        );
+    }
+}
+
+fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, String> {
+    let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    let plan = fab::plan_board(&text).map_err(|e| format!("{}: {e}", path.display()))?;
+    let (mut changed, mut fine, mut skipped, mut unclean) = (0, 0, Vec::new(), Vec::new());
+    let mut placements = Vec::new();
+    for i in &plan.items {
+        let name = if i.reference.is_empty() { i.id.as_str() } else { i.reference.as_str() };
+        match &i.outcome {
+            fab::BoardOutcome::Fine(p) => {
+                fine += 1;
+                placements.push((name, *p));
+                if verbose {
+                    println!("{DIM}  {name} ({}): fine{DIM:#}", i.id);
+                }
+            }
+            fab::BoardOutcome::Change { before: b, placement: p, angle } => {
+                changed += 1;
+                placements.push((name, *p));
+                let fit = if p.clean { "" } else { ", no clean fit" };
+                println!(
+                    "  {BOLD}{name}{BOLD:#}: {} mm {}° at ({}, {}){fit} {DIM}(was {} mm {}° at ({}, {}); {}){DIM:#}",
+                    fab::fmt(p.size),
+                    fab::fmt(*angle),
+                    fab::fmt(p.x),
+                    fab::fmt(p.y),
+                    fab::fmt(b.size),
+                    fab::fmt(b.angle),
+                    fab::fmt(b.x),
+                    fab::fmt(b.y),
+                    i.id
+                );
+            }
+            fab::BoardOutcome::Skipped(why) => {
+                skipped.push((name, why));
+                if verbose {
+                    println!("{DIM}  {name} ({}): skipped, {why}{DIM:#}", i.id);
+                }
+            }
+        }
+        if let fab::BoardOutcome::Fine(p) | fab::BoardOutcome::Change { placement: p, .. } = &i.outcome
+            && !p.clean
+        {
+            unclean.push(name);
+        }
+    }
+    eprintln!(
+        "{BOLD}kilib fab-designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped",
+        path.display(),
+        plan.items.len(),
+        skipped.len()
+    );
+    if !skipped.is_empty() {
+        let mut why: Vec<&String> = skipped.iter().map(|(_, w)| *w).collect();
+        why.sort();
+        why.dedup();
+        for w in why {
+            let names: Vec<&str> = skipped.iter().filter(|(_, x)| *x == w).map(|(n, _)| *n).collect();
+            eprintln!("{YELLOW}skipped{YELLOW:#} ({}: {w}): {}", names.len(), names.join(", "));
+        }
+    }
+    report_sizes(&placements);
+    if !unclean.is_empty() {
+        eprintln!(
+            "{CYAN}no clean fit{CYAN:#} ({}: centred at {} mm over the drawing or past the body): {}",
+            unclean.len(),
+            fab::fmt(fab::MIN_SIZE),
+            unclean.join(", ")
+        );
+    }
+    if changed == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+        Ok(ExitCode::SUCCESS)
+    } else if write {
+        fab::apply_board(path, &plan)?;
+        eprintln!("{GREEN}✓{GREEN:#} wrote {changed} designators to {}", path.display());
         Ok(ExitCode::SUCCESS)
     } else {
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");

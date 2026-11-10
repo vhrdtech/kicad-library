@@ -408,19 +408,25 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     }
     fp += ")\n";
     let path = dir.write("lib/footprints/VHRD_Test.pretty/P.kicad_mod", &(fp));
+    // A 1 x 0.5 body takes a five-character designator only below 0.2 mm: listed as tiny.
+    let small = fp.replace("(start -1.95 -2.45)\n\t\t(end 1.95 2.45)", "(start -0.5 -0.25)\n\t\t(end 0.5 0.25)");
+    let small = small.split("\t(pad").next().unwrap().to_string() + ")\n";
+    dir.write("lib/footprints/VHRD_Test.pretty/Small.kicad_mod", &small);
     // A body too small for any designator: centred at the smallest size, listed as no clean fit.
-    let tiny = fp.replace("(start -1.95 -2.45)\n\t\t(end 1.95 2.45)", "(start -0.5 -0.25)\n\t\t(end 0.5 0.25)");
-    let tiny = tiny.split("\t(pad").next().unwrap().to_string() + ")\n";
+    let tiny = small.replace("(start -0.5 -0.25)\n\t\t(end 0.5 0.25)", "(start -0.3 -0.15)\n\t\t(end 0.3 0.15)");
     dir.write("lib/footprints/VHRD_Test.pretty/Tiny.kicad_mod", &tiny);
     std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
 
     let out = kilib(&dir, &["fab-designators", "lib/footprints"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
-    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0, 0) (Reference on F.SilkS;"), "{t}");
-    assert!(t.contains("VHRD_Test:Tiny: 0.3 mm at (0, 0), no clean fit ("), "{t}");
-    assert!(t.contains("2 footprints: 2 to change (2 moved, 1 resized, 1 turned), 0 already fine, 0 skipped"), "{t}");
-    assert!(t.contains("no clean fit (1: centred at 0.3 mm over the drawing or past the body): VHRD_Test:Tiny"), "{t}");
+    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0.021, 0.024) (Reference on F.SilkS;"), "{t}");
+    assert!(t.contains("VHRD_Test:Small: 0.19 mm at (-0.005, 0.004) (Reference on F.SilkS;"), "{t}");
+    assert!(t.contains("VHRD_Test:Tiny: 0.2 mm at (-0.005, 0.004), no clean fit ("), "{t}");
+    assert!(t.contains("3 footprints: 3 to change (3 moved, 2 resized, 1 turned), 0 already fine, 0 skipped"), "{t}");
+    assert!(t.contains("sizes: 1 mm ×1, 0.2 mm ×1, 0.19 mm ×1"), "{t}");
+    assert!(t.contains("tiny (1: below 0.2 mm, nothing larger fits): VHRD_Test:Small (0.19 mm)"), "{t}");
+    assert!(t.contains("no clean fit (1: centred at 0.2 mm over the drawing or past the body): VHRD_Test:Tiny"), "{t}");
     assert_eq!(std::fs::read_to_string(&path).unwrap(), fp, "nothing written without --write");
 
     let out = kilib(&dir, &["fab-designators", "--write", "lib/footprints"]);
@@ -439,10 +445,59 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     let out = cmd.output().unwrap();
     let t = text(&out);
     assert_eq!(out.status.code(), Some(0), "{t}");
-    assert!(t.contains("0 to change (0 moved, 0 resized, 0 turned), 2 already fine"), "{t}");
+    assert!(t.contains("0 to change (0 moved, 0 resized, 0 turned), 3 already fine"), "{t}");
     assert!(t.contains("✓ nothing to change") && t.contains("no clean fit (1:"), "{t}");
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tfab-designators\twrite,paths\n"), "{usage}");
+}
+
+#[test]
+fn fab_designators_board_fits_each_designator_to_its_own_text() {
+    let dir = TestDir::new("cli_fab_board");
+    // Two 0402s already updated from the library (Reference on the fab layer at 0.2 mm), one turned 90° on the
+    // board, and one not updated yet (Reference on the silkscreen).
+    let part = |r: &str, at: &str, layer: &str| {
+        format!(
+            "\t(footprint \"VHRD_Resistor_SMD:R_0402_1005Metric\"\n\t\t(layer \"F.Cu\")\n\t\t(at {at})\n\t\t(property \"Reference\" \"{r}\"\n\t\t\t(at 0 0 0)\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{layer}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.2 0.2)\n\t\t\t\t\t(thickness 0.03)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t\t(fp_rect\n\t\t\t(start -0.525 -0.27)\n\t\t\t(end 0.525 0.27)\n\t\t\t(stroke\n\t\t\t\t(width 0.05)\n\t\t\t\t(type solid)\n\t\t\t)\n\t\t\t(layer \"F.Fab\")\n\t\t)\n\t\t(pad \"1\" smd rect\n\t\t\t(at -0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t\t(pad \"2\" smd rect\n\t\t\t(at 0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t)\n"
+        )
+    };
+    let board = format!(
+        "(kicad_pcb\n\t(version 20260206)\n{}{}{})\n",
+        part("R806", "10 10", "F.Fab"),
+        part("R1", "20 10 90", "F.Fab"),
+        part("R2", "30 10", "F.SilkS")
+    );
+    let path = dir.write("b.kicad_pcb", &board);
+    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    // R806 is shorter than R1004: 0.26 mm fits; R1 larger still, written upright at the board's 90°.
+    assert!(t.contains("R806: 0.26 mm 0° at ("), "{t}");
+    assert!(t.contains("R1: 0.35 mm 90° at ("), "{t}");
+    assert!(t.contains("3 footprints: 2 to change, 0 already fine, 1 skipped"), "{t}");
+    assert!(
+        t.contains("skipped (1: Reference on F.SilkS, not F.Fab (update the footprint from the library)): R2"),
+        "{t}"
+    );
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), board, "nothing written without --write");
+
+    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb", "--write"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let new = std::fs::read_to_string(&path).unwrap();
+    assert!(new.contains("(size 0.26 0.26)\n\t\t\t\t\t(thickness 0.039)"), "{new}");
+    // Only the Reference's at, size and thickness changed.
+    let strip = |s: &str| {
+        s.lines()
+            .filter(|l| !l.contains("(at ") && !l.contains("(size 0.") && !l.contains("(thickness "))
+            .collect::<Vec<_>>()
+            .join("\n")
+    };
+    assert_eq!(strip(&new), strip(&board));
+    assert_eq!(new.lines().count(), board.lines().count());
+    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("0 to change, 2 already fine, 1 skipped") && t.contains("✓ nothing to change"), "{t}");
 }
 
 #[test]
