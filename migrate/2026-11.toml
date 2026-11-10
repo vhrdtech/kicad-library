@@ -46,8 +46,10 @@
 "VHRD_TestPoint" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_TestPoint.pretty"
 "VHRD_Transformer_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Transformer_SMD.pretty"
 [libraries.symbol]
+"VHRD_74xGxx" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_74xGxx.kicad_symdir"
 "VHRD_74xx" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_74xx.kicad_symdir"
 "VHRD_Amplifier_Current" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Amplifier_Current.kicad_symdir"
+"VHRD_Amplifier_Operational" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Amplifier_Operational.kicad_symdir"
 "VHRD_Analog_Switch" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Analog_Switch.kicad_symdir"
 "VHRD_Battery_Management" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Battery_Management.kicad_symdir"
 "VHRD_Connector" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Connector.kicad_symdir"
@@ -77,6 +79,7 @@
 "VHRD_Simulation_SPICE" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Simulation_SPICE.kicad_symdir"
 "VHRD_Switch" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Switch.kicad_symdir"
 "VHRD_Transformer" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Transformer.kicad_symdir"
+"VHRD_Transistor_BJT" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Transistor_BJT.kicad_symdir"
 "VHRD_Transistor_FET" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Transistor_FET.kicad_symdir"
 "VHRD_power" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_power.kicad_symdir"
 

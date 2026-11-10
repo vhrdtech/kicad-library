@@ -1,7 +1,7 @@
-# KiCad stock footprints that boards use, copied into this library (`kilib stock import`) so their text is ours.
-# `kilib migrate --map migrate/2026-11-stock.toml BOARD_DIR` points a board's footprint ids and `Footprint` fields
-# from the stock library to the copy; the name stays, only the library changes. 3D models keep KiCad's own paths.
-# Stock footprints not listed here stay as they are.
+# KiCad stock footprints and symbols that boards use, copied into this library (`kilib stock import`) so their text
+# is ours. `kilib migrate --map migrate/2026-11-stock.toml BOARD_DIR` points a board's footprint ids, `Footprint`
+# fields, symbol ids and symbol cache from the stock library to the copy; the name stays, only the library changes.
+# 3D models keep KiCad's own paths. Stock items not listed here stay as they are.
 
 [libraries.footprint]
 "VHRD_Capacitor_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Capacitor_SMD.pretty"
@@ -36,3 +36,44 @@
 "Resistor_SMD:R_0805_2012Metric" = "VHRD_Resistor_SMD"
 "Resistor_SMD:R_1206_3216Metric" = "VHRD_Resistor_SMD"
 "TestPoint:TestPoint_Pad_D1.5mm" = "VHRD_TestPoint"
+
+# Stock symbols, copied with `kilib stock import --symbols`: standalone, the Footprint field at our footprint copy,
+# Mpn fields. Device:R and Device:C go to the library's own R and C, Connector_Generic:Conn_02x03_Odd_Even to
+# VHRD_Connector's own, power:PWR_FLAG to VHRD_power's (made by vhrd-kicad): the same pins and graphics as stock.
+
+[libraries.symbol]
+"VHRD_74xGxx" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_74xGxx.kicad_symdir"
+"VHRD_Amplifier_Operational" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Amplifier_Operational.kicad_symdir"
+"VHRD_Connector" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Connector.kicad_symdir"
+"VHRD_Device" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Device.kicad_symdir"
+"VHRD_Diode" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Diode.kicad_symdir"
+"VHRD_Mechanical" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Mechanical.kicad_symdir"
+"VHRD_power" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_power.kicad_symdir"
+"VHRD_Regulator_Linear" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Regulator_Linear.kicad_symdir"
+"VHRD_Transistor_BJT" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Transistor_BJT.kicad_symdir"
+
+[symbol]
+# "StockLib:Name" = "VHRD_StockLib" (or the VHRD library that has its own of the same name)
+"74xGxx:74LVC1G17" = "VHRD_74xGxx"
+"Amplifier_Operational:TLV9061xDCK" = "VHRD_Amplifier_Operational"
+"Connector:Conn_01x12_Pin" = "VHRD_Connector"
+"Connector:TestPoint" = "VHRD_Connector"
+"Connector:TestPoint_Probe" = "VHRD_Connector"
+"Connector_Generic:Conn_02x03_Odd_Even" = "VHRD_Connector"
+"Device:C" = "VHRD_Device"
+"Device:Crystal_GND24" = "VHRD_Device"
+"Device:D_Schottky" = "VHRD_Device"
+"Device:D_Zener" = "VHRD_Device"
+"Device:L_Iron" = "VHRD_Device"
+"Device:NetTie_2" = "VHRD_Device"
+"Device:R" = "VHRD_Device"
+"Device:SparkGap" = "VHRD_Device"
+"Diode:BAS16TW" = "VHRD_Diode"
+"Diode:BAT54CW" = "VHRD_Diode"
+"Diode:BAT54S" = "VHRD_Diode"
+"Diode:SMF22A" = "VHRD_Diode"
+"Mechanical:MountingHole" = "VHRD_Mechanical"
+"Regulator_Linear:TLV75533PDBV" = "VHRD_Regulator_Linear"
+"Transistor_BJT:BC847BPN" = "VHRD_Transistor_BJT"
+"Transistor_BJT:BC847BS" = "VHRD_Transistor_BJT"
+"power:PWR_FLAG" = "VHRD_power"

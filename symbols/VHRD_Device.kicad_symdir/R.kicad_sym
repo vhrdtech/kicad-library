@@ -55,6 +55,15 @@
 				(hide yes)
 			)
 		)
+		(property "Mpn1" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(property "Power" "? W"
 			(at 4.064 0 90)
 			(effects

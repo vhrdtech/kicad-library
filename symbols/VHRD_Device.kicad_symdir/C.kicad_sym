@@ -57,6 +57,15 @@
 				(hide yes)
 			)
 		)
+		(property "Mpn1" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(property "Voltage" "? V"
 			(at 0.762 -4.064 0)
 			(effects
