@@ -2,8 +2,8 @@
 //! bottom-side footprint), visible and unlocked, no `${REFERENCE}` text on the silkscreen and no second one on the
 //! fab layer. The text is sized and placed so that its box never touches a pad: the largest size up to
 //! [`MAX_SIZE`] that fits inside the body's outline (inside the stroke of its lines) clear of every pad, at 0° or
-//! 90°. When not even [`MIN_SIZE`] fits there, or the body lies within the pads' box (small passives, QFNs: text
-//! between or over the pads is hidden by them), it goes outside the body and the pads. Every other byte of the
+//! 90°. When not even [`MIN_SIZE`] fits there, or the body lies within the box of the pads over it (small
+//! passives, QFNs: text between or over the pads is hidden by them), it goes outside the body and the pads. Every other byte of the
 //! footprint stays as it was.
 //!
 //! [`check`] judges a footprint by these rules, so a reference placed by hand that follows them is left alone;
@@ -118,10 +118,11 @@ impl Shape {
         Rect::of_points(self.pads.iter().flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)]))
     }
 
-    /// The body lies within the pads' box (a chip resistor, a QFN): text inside it would sit between or over
-    /// the pads, so it goes outside them.
+    /// The body lies within the box of the pads over it (a chip resistor, a QFN): text inside it would sit
+    /// between or over the pads, so it goes outside them. Pads beside the body (a QFP, an SOIC) do not count.
     pub fn within_pads(&self) -> bool {
-        self.pads_box().is_some_and(|p| p.contains(&self.body))
+        let over = self.pads.iter().filter(|p| p.overlaps(&self.body));
+        Rect::of_points(over.flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)])).is_some_and(|p| p.contains(&self.body))
     }
 
     /// The body and the pads' box together: what text next to the body stays out of.
@@ -244,7 +245,7 @@ fn round3(v: f64) -> f64 {
 
 /// The best place inside the body's outline: the largest size (up to [`MAX_SIZE`]) clear of the pads, at the
 /// angle that allows it (on a tie, 90° for a body taller than wide), as near the body's centre as that size
-/// allows. None for a body within the pads' box.
+/// allows. None for a body within the box of the pads over it.
 pub fn inside(shape: &Shape) -> Option<Placement> {
     if shape.within_pads() {
         return None;
@@ -336,8 +337,8 @@ fn outside_at(shape: &Shape, around: &Rect, size: f64) -> Option<Placement> {
     best.map(|(_, p)| p)
 }
 
-/// Where the designator goes: inside the body when [`MIN_SIZE`] fits there (and the body is not within the pads'
-/// box), else next to the body and the pads.
+/// Where the designator goes: inside the body when [`MIN_SIZE`] fits there (and the body is not within the box of
+/// the pads over it), else next to the body and the pads.
 pub fn layout(shape: &Shape) -> Option<Placement> {
     inside(shape).or_else(|| outside(shape))
 }
@@ -819,6 +820,7 @@ mod tests {
         let text = footprint(3.9, 4.9, &pads, "F.SilkS", &["F.SilkS", "F.Fab"]);
         let (p, new) = changed(&text);
         assert!(p.inside);
+        assert!(!read(&text).unwrap().shape.unwrap().within_pads(), "pads beside the body do not count");
         assert_eq!(p.size, 1.0);
         assert_eq!((p.x, p.y), (0.0, 0.0));
         assert!(!new.contains("${REFERENCE}"), "{new}");
@@ -854,8 +856,8 @@ mod tests {
 
     #[test]
     fn a_body_within_the_pads_puts_the_text_outside_the_pads() {
-        // 1206: the body sits within the pads' box. There is room between the pads, but the text goes outside
-        // them, never between or over them.
+        // 1206: the body sits within the box of the pads over it. There is room between the pads, but the text
+        // goes outside them, never between or over them.
         let pads = [(-1.475, 0.0, 1.05, 1.75), (1.475, 0.0, 1.05, 1.75)];
         let (p, new) = changed(&footprint(3.2, 1.6, &pads, "F.SilkS", &["F.Fab"]));
         let fp = read(&new).unwrap();

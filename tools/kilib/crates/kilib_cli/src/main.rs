@@ -17,6 +17,7 @@ use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
 use kilib::restructure;
 use kilib::setup::{self, Line};
+use kilib::stock;
 
 const VERSION: &str = concat!(env!("CARGO_PKG_VERSION"), " (", env!("GIT_SHA"), ", commit ", env!("BUILD_TIME"), ")");
 
@@ -51,6 +52,7 @@ Examples:
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
   kilib fab-designators                 which footprints still put the designator on the silkscreen
+  kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -171,15 +173,24 @@ Examples:
         #[arg(long)]
         dry_run: bool,
     },
+    /// Copy KiCad's stock footprints into the library, and compare the copies with the current stock library
+    ///
+    /// The copies are on purpose: a KiCad update never changes our footprints unannounced. `import` copies
+    /// Lib:Name from KiCad's footprint folder to footprints/VHRD_Lib.pretty/Name.kicad_mod with the designator on
+    /// the fab layer (as fab-designators puts it) and the Value hidden; pads, graphics and the 3D model stay as in
+    /// stock. `diff` shows, for every copy with a stock footprint of the same name, what a fresh import would
+    /// change, so upstream changes are taken in deliberately.
+    #[command(subcommand)]
+    Stock(StockCommand),
     /// Put each footprint's designator on the fab layer only, clear of every pad
     ///
-    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked;
-    /// ${REFERENCE} texts on the silkscreen and a second one on the fab layer go. The text is the largest size up
-    /// to 1 mm whose box (a five-character designator, its stroke included) fits inside the fab outline's lines
-    /// at least 0.1 mm from every pad, at 0° or 90°. When not even 0.25 mm fits, or the body lies within the pads'
-    /// box (chip passives, QFNs), it goes next to the body outside the pads. A footprint that already follows
-    /// these rules is left as it is; every other byte stays. Without --write it lists what would change and exits
-    /// 1 when anything would.
+    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked; ${REFERENCE}
+    /// texts on the silkscreen and a second one on the fab layer go. The text is the largest size up to 1 mm whose
+    /// box (a five-character designator, its stroke included) fits inside the fab outline's lines at least 0.1 mm
+    /// from every pad, at 0° or 90°. When not even 0.25 mm fits, or the body lies within the box of the pads over
+    /// it (chip passives, QFNs), it goes next to the body outside the pads. A footprint that already follows these
+    /// rules is left as it is; every other byte stays. Without --write it lists what would change and exits 1 when
+    /// anything would.
     #[command(after_help = "\
 Examples:
   kilib fab-designators
@@ -195,6 +206,70 @@ Examples:
         #[arg(long, short)]
         verbose: bool,
     },
+}
+
+#[derive(Subcommand)]
+enum StockCommand {
+    /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on the fab layer, Value hidden
+    ///
+    /// Footprints the library has already are left alone (`kilib stock diff` compares them). Without --write it
+    /// lists what would be written and exits 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib stock import Resistor_SMD:R_0402_1005Metric Package_SO:VSSOP-8_2.3x2mm_P0.5mm
+  kilib stock import --write --stock-dir /usr/share/kicad/footprints Resistor_SMD:R_0402_1005Metric")]
+    Import {
+        /// Stock footprints, Lib:Name
+        #[arg(required = true, value_name = "LIB:NAME")]
+        ids: Vec<String>,
+        #[command(flatten)]
+        stock: StockArgs,
+        /// Write the copies
+        #[arg(long)]
+        write: bool,
+    },
+    /// Compare each VHRD_Lib:Name with a fresh import of stock Lib:Name; exits 1 when any differs
+    ///
+    /// Prints a unified diff from our copy to the fresh import (what taking in the stock footprint would change).
+    /// Footprints of our own that happen to share a stock name are compared too.
+    #[command(after_help = "\
+Examples:
+  kilib stock diff
+  kilib stock diff --stat")]
+    Diff {
+        #[command(flatten)]
+        stock: StockArgs,
+        /// Only the list, no diff
+        #[arg(long)]
+        stat: bool,
+    },
+}
+
+#[derive(clap::Args)]
+struct StockArgs {
+    /// KiCad's stock footprint folder (default: KICAD10_FOOTPRINT_DIR from the environment or KiCad's config, else
+    /// /usr/share/kicad/footprints)
+    #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+    stock_dir: Option<PathBuf>,
+    /// The kicad-library checkout (default: the one around the current folder)
+    #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+    library: Option<PathBuf>,
+    #[command(flatten)]
+    config: ConfigArgs,
+}
+
+impl StockArgs {
+    fn stock_dir(&self) -> Result<PathBuf, String> {
+        if let Some(d) = &self.stock_dir {
+            return Ok(d.clone());
+        }
+        let share = Path::new("/usr/share/kicad");
+        let vars = config::vars(self.config.dir().as_deref(), std::env::vars(), share.is_dir().then_some(share))?;
+        vars.get("KICAD10_FOOTPRINT_DIR")
+            .map(PathBuf::from)
+            .filter(|d| d.is_dir())
+            .ok_or_else(|| "no KiCad stock footprints found: set KICAD10_FOOTPRINT_DIR or pass --stock-dir DIR".into())
+    }
 }
 
 #[derive(clap::Args)]
@@ -255,6 +330,14 @@ fn main() -> ExitCode {
         Command::Restructure { map, vendor_dir, library, dry_run } => {
             usage::record("restructure", &[("dry-run", dry_run), ("library", library.is_some())]);
             run_restructure(&map, &vendor_dir, library, dry_run)
+        }
+        Command::Stock(StockCommand::Import { ids, stock, write }) => {
+            usage::record("stock import", &[("write", write), ("stock-dir", stock.stock_dir.is_some())]);
+            run_stock_import(&ids, &stock, write)
+        }
+        Command::Stock(StockCommand::Diff { stock, stat }) => {
+            usage::record("stock diff", &[("stat", stat), ("stock-dir", stock.stock_dir.is_some())]);
+            run_stock_diff(&stock, stat)
         }
         Command::FabDesignators { paths, write, verbose } => {
             usage::record("fab-designators", &[("write", write), ("paths", !paths.is_empty())]);
@@ -658,4 +741,79 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
         Ok(ExitCode::from(1))
     }
+}
+
+fn run_stock_import(ids: &[String], args: &StockArgs, write: bool) -> Result<ExitCode, String> {
+    let stock_dir = args.stock_dir()?;
+    let library = library_or_cwd(args.library.clone())?;
+    let imports = stock::plan_import(&stock_dir, &library.join("footprints"), ids);
+    let (mut new, mut errors) = (0, 0);
+    for i in &imports {
+        match &i.outcome {
+            stock::ImportOutcome::New { .. } => {
+                new += 1;
+                println!("  {} -> {}", i.id, shown(&i.to, std::slice::from_ref(&library)));
+            }
+            stock::ImportOutcome::Exists => println!("{DIM}  {}: in the library already{DIM:#}", i.id),
+            stock::ImportOutcome::Error(e) => {
+                errors += 1;
+                println!("{RED}✗{RED:#} {}: {e}", i.id);
+            }
+        }
+    }
+    eprintln!("{BOLD}kilib stock import{BOLD:#}: {} footprints: {new} to copy, {errors} errors", imports.len());
+    if errors > 0 {
+        eprintln!("{RED}✗{RED:#} errors: nothing written");
+        return Ok(ExitCode::from(1));
+    }
+    if new == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to copy");
+        return Ok(ExitCode::SUCCESS);
+    }
+    if !write {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to copy");
+        return Ok(ExitCode::from(1));
+    }
+    let n = stock::apply_import(&imports)?;
+    eprintln!(
+        "{GREEN}✓{GREEN:#} copied {n} footprints; a new VHRD_* library needs its row in the map's [libraries] and kilib setup"
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_stock_diff(args: &StockArgs, stat: bool) -> Result<ExitCode, String> {
+    let stock_dir = args.stock_dir()?;
+    let library = library_or_cwd(args.library.clone())?;
+    let all = stock::compare(&stock_dir, &library.join("footprints"));
+    let (mut same, mut differ, mut errors) = (0, 0, 0);
+    for c in &all {
+        match &c.outcome {
+            stock::Compared::Same => same += 1,
+            stock::Compared::Differs(d) => {
+                differ += 1;
+                if stat {
+                    println!("  {}: differs from stock", c.id);
+                    continue;
+                }
+                for line in d.lines() {
+                    match line.as_bytes().first() {
+                        Some(b'+') if !line.starts_with("+++") => println!("{GREEN}{line}{GREEN:#}"),
+                        Some(b'-') if !line.starts_with("---") => println!("{RED}{line}{RED:#}"),
+                        Some(b'@') => println!("{CYAN}{line}{CYAN:#}"),
+                        _ => println!("{line}"),
+                    }
+                }
+            }
+            stock::Compared::Error(e) => {
+                errors += 1;
+                eprintln!("{RED}✗{RED:#} {}: {e}", c.id);
+            }
+        }
+    }
+    eprintln!(
+        "{BOLD}kilib stock diff{BOLD:#}: {} footprints with a stock namesake in {}: {same} as stock, {differ} differ, {errors} errors",
+        all.len(),
+        stock_dir.display()
+    );
+    Ok(if differ + errors > 0 { ExitCode::from(1) } else { ExitCode::SUCCESS })
 }

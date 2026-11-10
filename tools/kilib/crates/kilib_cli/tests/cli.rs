@@ -437,3 +437,57 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tfab-designators\twrite,paths\n"), "{usage}");
 }
+
+#[test]
+fn stock_import_writes_copies_and_diff_shows_upstream_changes() {
+    let dir = TestDir::new("cli_stock");
+    let mut fp = String::from(
+        "(footprint \"P\"\n\t(version 20260206)\n\t(layer \"F.Cu\")\n\t(property \"Reference\" \"REF**\"\n\t\t(at 0 -3 0)\n\t\t(layer \"F.SilkS\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1 1)\n\t\t\t\t(thickness 0.15)\n\t\t\t)\n\t\t)\n\t)\n\t(property \"Value\" \"P\"\n\t\t(at 0 3 0)\n\t\t(layer \"F.Fab\")\n\t)\n\t(fp_rect\n\t\t(start -1.95 -2.45)\n\t\t(end 1.95 2.45)\n\t\t(layer \"F.Fab\")\n\t)\n",
+    );
+    for i in 0..4 {
+        let y = -1.905 + 1.27 * f64::from(i);
+        fp += &format!("\t(pad \"{}\" smd rect\n\t\t(at -2.7 {y})\n\t\t(size 1.5 0.6)\n\t)\n", i + 1);
+        fp += &format!("\t(pad \"{}\" smd rect\n\t\t(at 2.7 {y})\n\t\t(size 1.5 0.6)\n\t)\n", 8 - i);
+    }
+    fp += ")\n";
+    let stock = dir.write("stock/Package_SO.pretty/P.kicad_mod", &fp);
+    std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
+    std::fs::create_dir_all(dir.path().join("lib/footprints")).unwrap();
+    let copy = dir.path().join("lib/footprints/VHRD_Package_SO.pretty/P.kicad_mod");
+    let s = dir.path().join("stock");
+    let args = |extra: &[&'static str]| -> Vec<String> {
+        let mut a: Vec<String> = vec!["stock".into()];
+        a.extend(extra.iter().map(|s| s.to_string()));
+        a.extend(["--stock-dir".into(), p(&s).into(), "--library".into(), "lib".into()]);
+        a
+    };
+    let run = |a: Vec<String>| kilib(&dir, &a.iter().map(String::as_str).collect::<Vec<_>>());
+
+    let out = run(args(&["import", "Package_SO:P"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("Package_SO:P -> lib/footprints/VHRD_Package_SO.pretty/P.kicad_mod"), "{t}");
+    assert!(!copy.exists(), "nothing written without --write");
+
+    let out = run(args(&["import", "--write", "Package_SO:P"]));
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let new = std::fs::read_to_string(&copy).unwrap();
+    assert!(new.contains("(property \"Value\" \"P\"\n\t\t(at 0 3 0)\n\t\t(layer \"F.Fab\")\n\t\t(hide yes)"), "{new}");
+    assert!(new.contains("(unlocked yes)\n\t\t(layer \"F.Fab\")"), "{new}");
+
+    let out = run(args(&["diff"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("1 footprints with a stock namesake in") && t.contains("1 as stock, 0 differ"), "{t}");
+
+    std::fs::write(&stock, fp.replace("(size 1.5 0.6)", "(size 1.55 0.6)")).unwrap();
+    let out = run(args(&["diff"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("--- a/VHRD_Package_SO.pretty/P.kicad_mod") && t.contains("+\t\t(size 1.55 0.6)"), "{t}");
+    let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
+    assert!(
+        usage.contains("\tstock import\twrite,stock-dir\n") && usage.contains("\tstock diff\tstock-dir\n"),
+        "{usage}"
+    );
+}

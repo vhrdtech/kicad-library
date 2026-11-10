@@ -33,5 +33,10 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-10 fab-designators: every footprint's designator only on F.Fab (B.Fab for bottom-side parts), visible and
   unlocked, never on the silkscreen and never twice; sized up to 1 mm for a five-character designator and placed
   inside the fab outline's lines clear of every pad by 0.1 mm (turned 90° when that fits better), else (and always
-  for a body within the pads' box) next to the body outside the pads; `kilib fab-designators` lists what breaks
-  these rules and `--write` fixes it
+  for a body within the box of the pads over it) next to the body outside the pads; `kilib fab-designators` lists
+  what breaks these rules and `--write` fixes it
+- ✅ LIB-11 stock-copies: KiCad stock footprints that boards use are copied into `VHRD_*` libraries of the same name
+  (designator on F.Fab, Value hidden, all else as in stock), so KiCad updates never change them unannounced;
+  `kilib stock import` copies, `kilib stock diff` compares the copies with the current stock library;
+  `migrate/2026-11-stock.toml` re-points boards to the copies (21 footprints of B153: `VHRD_Resistor_SMD`,
+  `VHRD_Connector_PinSocket_2.54mm` and existing libraries)

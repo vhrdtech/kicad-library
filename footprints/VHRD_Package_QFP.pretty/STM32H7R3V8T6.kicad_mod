@@ -6,7 +6,7 @@
 	(descr "LQFP-100, 14x14mm, P0.5mm, ST STM32H7R3V8T6")
 	(tags "LQFP STM32H7R3V8T6")
 	(property "Reference" "REF**"
-		(at 0 -9 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "1dc05b69-d093-454c-82bf-ce293e55d860")

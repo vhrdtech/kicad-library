@@ -1,6 +1,7 @@
-//! The map in `migrate/` fits the library as it is: every item it sends into this checkout is there, and every
-//! library folder of the checkout has its row in `[libraries]` (that row is what `kilib setup` writes into KiCad).
-//! The library grows after the move, so an item need not be a target of the map.
+//! The maps in `migrate/` fit the library as it is: every item they send into this checkout is there, every
+//! library folder of the checkout has its row in `2026-11.toml`'s `[libraries]` (that row is what `kilib setup`
+//! writes into KiCad), and the other maps' rows say the same. The library grows after the move, so an item need
+//! not be a target of a map.
 
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
@@ -58,31 +59,52 @@ fn library(repo: &Path) -> (Named, Named) {
     (items, libs)
 }
 
+fn maps(repo: &Path) -> Vec<(PathBuf, Map)> {
+    let maps: Vec<(PathBuf, Map)> = entries(&repo.join("migrate"))
+        .into_iter()
+        .filter(|p| has_ext(p, "toml"))
+        .map(|p| {
+            let m = Map::read(&p).unwrap();
+            (p, m)
+        })
+        .collect();
+    assert!(maps.len() >= 2, "migrate/ holds 2026-11.toml and 2026-11-stock.toml");
+    maps
+}
+
 #[test]
 fn every_map_target_is_in_the_library_and_every_library_has_a_row() {
     let repo = repo();
-    let map = Map::read(&repo.join("migrate/2026-11.toml")).unwrap();
+    let setup = Map::read(&repo.join("migrate/2026-11.toml")).unwrap();
     let (items, libs) = library(&repo);
     assert!(!items.is_empty(), "nothing found under {}", repo.display());
     let mut wrong = Vec::new();
 
-    for (kind, targets) in [(ItemKind::Symbol, &map.symbol), (ItemKind::Footprint, &map.footprint)] {
-        let rows = map.libraries(kind);
-        for (key, lib) in targets {
-            // "" is dropped; a library outside this checkout is not checked here
-            if lib.is_empty() || !rows.get(lib).is_some_and(|uri| uri.starts_with(OWN)) {
-                continue;
+    for (path, map) in maps(&repo) {
+        let file = path.file_name().unwrap().to_string_lossy().to_string();
+        for (kind, targets) in [(ItemKind::Symbol, &map.symbol), (ItemKind::Footprint, &map.footprint)] {
+            let rows = map.libraries(kind);
+            for (key, lib) in targets {
+                // "" is dropped; a library outside this checkout is not checked here
+                if lib.is_empty() || !rows.get(lib).is_some_and(|uri| uri.starts_with(OWN)) {
+                    continue;
+                }
+                let name = key.split_once(':').map_or(key.as_str(), |(_, n)| n);
+                if !items.contains(&(kind, format!("{lib}:{name}"))) {
+                    wrong.push(format!("{file}: {} {key} = {lib:?}: no {lib}:{name} in the library", kind.label()));
+                }
             }
-            let name = key.split_once(':').map_or(key.as_str(), |(_, n)| n);
-            if !items.contains(&(kind, format!("{lib}:{name}"))) {
-                wrong.push(format!("{} {key} = {lib:?}: no {lib}:{name} in the library", kind.label()));
+            for (lib, uri) in rows {
+                if setup.libraries(kind).get(lib) != Some(uri) {
+                    wrong.push(format!("{file}: {} library {lib} = {uri:?} differs from 2026-11.toml", kind.label()));
+                }
             }
         }
     }
     for (kind, lib) in &libs {
-        if !map.libraries(*kind).contains_key(lib) {
+        if !setup.libraries(*kind).contains_key(lib) {
             wrong.push(format!("{} library {lib} has no row in [libraries]", kind.label()));
         }
     }
-    assert!(wrong.is_empty(), "the map does not fit the library:\n{}", wrong.join("\n"));
+    assert!(wrong.is_empty(), "the maps do not fit the library:\n{}", wrong.join("\n"));
 }

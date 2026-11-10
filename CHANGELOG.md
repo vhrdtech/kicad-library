@@ -4,6 +4,18 @@
 
 ### Added
 
+- `kilib stock import [--write] Lib:Name...` copies KiCad stock footprints into `footprints/VHRD_<Lib>.pretty` with
+  the designator on F.Fab and the Value hidden; `kilib stock diff [--stat]` compares the copies with the current
+  stock library (`--stock-dir`, else `KICAD10_FOOTPRINT_DIR`, else `/usr/share/kicad/footprints`).
+- B153's 21 stock footprints copied in from KiCad 10.0.8 (needs `kilib setup` for the two new libraries):
+  `VHRD_Resistor_SMD` (R_0402, R_0603 HandSolder, R_0805, R_1206), `VHRD_Connector_PinSocket_2.54mm`
+  (PinSocket_2x03 vertical), and into `VHRD_Capacitor_SMD` (C_0402, C_1206), `VHRD_Package_TO_SOT_SMD` (SOT-23,
+  SOT-23-5, SOT-23-6, SOT-23W, SOT-323, SOT-353, SOT-363, Texas DCK-5), `VHRD_Package_DFN_QFN` (QFN-36 6x6, Texas
+  RUK0020B WQFN-20, VQFN-16 3x3), `VHRD_Package_QFP` (LQFP-48 7x7), `VHRD_Package_SO` (VSSOP-8 2.3x2),
+  `VHRD_TestPoint` (TestPoint_Pad_D1.5mm).
+- `migrate/2026-11-stock.toml`: `kilib migrate --map migrate/2026-11-stock.toml BOARD` points a board's stock ids
+  of those 21 footprints at the copies.
+
 - `kilib fab-designators [--write] [PATH...]`: checks every footprint against those rules and fixes the ones that
   break one (default: the checkout's `footprints/`).
 - `VHRD_Interface_Expansion` symbol library (needs `kilib setup`): `TCA6408ARGT`, stock drawing with bus, supply
@@ -55,9 +67,8 @@
 
 - `kilib fab-designators` never puts the designator over a pad or across the fab outline: the text box is sized for
   five characters (`R1234`, the library's `REF**`) with its stroke, stays inside the stroke of the outline's lines,
-  and goes outside the pads (smaller where it must) when the body lies within the pads' box (chip passives, QFNs).
-  72 of the library's 174 footprints moved their designator.
-
+  and goes outside the pads (smaller where it must) when the body lies within the box of the pads over it (chip
+  passives, QFNs). 70 of the library's 174 footprints moved their designator.
 - Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
   visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
   1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits

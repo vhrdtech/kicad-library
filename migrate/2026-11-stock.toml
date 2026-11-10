@@ -1,0 +1,38 @@
+# KiCad stock footprints that boards use, copied into this library (`kilib stock import`) so their text is ours.
+# `kilib migrate --map migrate/2026-11-stock.toml BOARD_DIR` points a board's footprint ids and `Footprint` fields
+# from the stock library to the copy; the name stays, only the library changes. 3D models keep KiCad's own paths.
+# Stock footprints not listed here stay as they are.
+
+[libraries.footprint]
+"VHRD_Capacitor_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Capacitor_SMD.pretty"
+"VHRD_Connector_PinSocket_2.54mm" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Connector_PinSocket_2.54mm.pretty"
+"VHRD_Package_DFN_QFN" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_DFN_QFN.pretty"
+"VHRD_Package_QFP" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_QFP.pretty"
+"VHRD_Package_SO" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_SO.pretty"
+"VHRD_Package_TO_SOT_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_TO_SOT_SMD.pretty"
+"VHRD_Resistor_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Resistor_SMD.pretty"
+"VHRD_TestPoint" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_TestPoint.pretty"
+
+[footprint]
+# "StockLib:Name" = "VHRD_StockLib"
+"Capacitor_SMD:C_0402_1005Metric" = "VHRD_Capacitor_SMD"
+"Capacitor_SMD:C_1206_3216Metric" = "VHRD_Capacitor_SMD"
+"Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" = "VHRD_Connector_PinSocket_2.54mm"
+"Package_DFN_QFN:QFN-36-1EP_6x6mm_P0.5mm_EP3.7x3.7mm" = "VHRD_Package_DFN_QFN"
+"Package_DFN_QFN:Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias" = "VHRD_Package_DFN_QFN"
+"Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm" = "VHRD_Package_DFN_QFN"
+"Package_QFP:LQFP-48_7x7mm_P0.5mm" = "VHRD_Package_QFP"
+"Package_SO:VSSOP-8_2.3x2mm_P0.5mm" = "VHRD_Package_SO"
+"Package_TO_SOT_SMD:SOT-23" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-23-5" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-23-6" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-23W" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-323_SC-70" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-353_SC-70-5" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:SOT-363_SC-70-6" = "VHRD_Package_TO_SOT_SMD"
+"Package_TO_SOT_SMD:Texas_R-PDSO-G5_DCK-5" = "VHRD_Package_TO_SOT_SMD"
+"Resistor_SMD:R_0402_1005Metric" = "VHRD_Resistor_SMD"
+"Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" = "VHRD_Resistor_SMD"
+"Resistor_SMD:R_0805_2012Metric" = "VHRD_Resistor_SMD"
+"Resistor_SMD:R_1206_3216Metric" = "VHRD_Resistor_SMD"
+"TestPoint:TestPoint_Pad_D1.5mm" = "VHRD_TestPoint"
