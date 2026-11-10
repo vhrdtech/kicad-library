@@ -4,9 +4,10 @@
 //! - a connector: every pin;
 //! - another part with three or more pins: pin 1 and every 5th (5, 10, 15...), every 10th past [`DENSE`] pins;
 //!   pins not numbered with digits (a BGA's A1) only pin 1;
-//! - two-pin parts, test points, net ties, logos, holes: none.
+//! - two-pin parts, test points, net ties, logos, holes: none;
+//! - a pad on the copper of a pad already numbered (USB-C's B12 on A1): none of its own.
 //!
-//! Each number is a stroke text beside its pad, [`GAP`] clear of every pad and of the other numbers, level: on a
+//! Each number is a stroke text beside its pad, [`GAP`] clear of every pad and hole and of the other numbers, level: on a
 //! side with no other pad in line within [`OPEN`] (never squeezed between two pads), at the pad's outer end where
 //! the pad is long, else facing away from the middle of the pads; where none of those fits, on any side that does. The footprint gets one size
 //! for all its numbers: the largest of [`SIZES`] at which every one fits; a number that fits at none is left out
@@ -54,7 +55,12 @@ fn labelled<'a>(i: &'a Input) -> Vec<(&'a str, Rect)> {
             continue;
         }
         seen.push(&p.number);
-        pads.push((p.number.as_str(), p.outline.bbox()));
+        // A pad on the copper of one already numbered (USB-C's B12 on A1) shares its number's place.
+        let b = p.outline.bbox();
+        if pads.iter().any(|(_, q): &(&str, Rect)| overlaps(q, &b)) {
+            continue;
+        }
+        pads.push((p.number.as_str(), b));
     }
     if pads.len() < 3 {
         return Vec::new();
@@ -173,7 +179,8 @@ fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
     if labels.is_empty() {
         return (Vec::new(), Vec::new());
     }
-    let pads: Vec<Rect> = i.fp.copper_pads().map(|p| p.outline.bbox()).collect();
+    // Holes without copper are in the way too.
+    let pads: Vec<Rect> = i.fp.pads.iter().map(|p| p.outline.bbox()).collect();
     let middle = i.fp.pads_box().map_or((0.0, 0.0), |b| b.center());
     for &size in &SIZES {
         if let Ok(w) = place(&labels, &pads, middle, size, i.fp.back) {
@@ -327,5 +334,23 @@ mod tests {
             .replace("(layer \"F.Cu\")", "(layer \"B.Cu\")");
         let new = run("VHRD_Package_SO", &t, Rule::Pins).0.unwrap();
         assert!(new.contains("(layer \"User.20\")") && new.contains("(justify mirror)"), "{new}");
+    }
+
+    #[test]
+    fn a_pad_on_numbered_copper_and_holes() {
+        // B12 on A1's copper gets no number of its own; a hole beside the pads is kept clear.
+        let t = fp(
+            "USB_C_X",
+            r#"(pad "A1" smd rect (at 0 0) (size 0.6 1.2) (layers "F.Cu"))
+(pad "B12" smd rect (at 0 0) (size 0.6 1.2) (layers "F.Cu"))
+(pad "A4" smd rect (at 2 0) (size 0.6 1.2) (layers "F.Cu"))
+(pad "A5" smd rect (at 4 0) (size 0.6 1.2) (layers "F.Cu"))
+(pad "" np_thru_hole circle (at 0 -1.4) (size 0.65 0.65) (drill 0.65) (layers "*.Cu" "*.Mask"))"#,
+        );
+        let new = run("VHRD_Connector_USB", &t, Rule::Pins).0.unwrap();
+        assert_eq!(numbers(&new), ["A1", "A4", "A5"]);
+        let f = footprint::read(&new).unwrap();
+        let a1 = f.texts.iter().find(|t| t.text == "A1" && t.layer == "User.19").unwrap();
+        assert!(a1.at.1 > -0.6 || a1.at.1 < -1.4 - 0.33 - super::GAP, "{:?}", a1.at);
     }
 }
