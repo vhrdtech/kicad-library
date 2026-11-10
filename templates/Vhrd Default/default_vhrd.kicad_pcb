@@ -41,6 +41,14 @@
 		(41 "User.2" user)
 		(43 "User.3" user)
 		(45 "User.4" user)
+		(55 "User.9" front "Ref.Test.F")
+		(57 "User.10" back "Ref.Test.B")
+		(59 "User.11" front "Ref.Tie.F")
+		(61 "User.12" back "Ref.Tie.B")
+		(63 "User.13" front "Ref.Mech.F")
+		(65 "User.14" back "Ref.Mech.B")
+		(67 "User.15" front "Rooms.F")
+		(69 "User.16" back "Rooms.B")
 	)
 	(setup
 		(stackup
