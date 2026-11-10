@@ -66,6 +66,15 @@ same under `footprints/<name>.pretty` for footprints.
   `${VHRD_VENDOR_LIBRARY_DIR}` go to `DIR`. The text of each symbol and footprint stays as it was, except what
   `migrate` rewrites in it (model paths, `Footprint` fields). The old files are removed once the new ones are written.
   `--dry-run` lists every move.
+- `kilib fab-designators [PATH...]` keeps each footprint's designator on the fab layer only (default: this
+  checkout's `footprints/`). The `Reference` property goes to F.Fab (B.Fab for a bottom-side footprint), visible and
+  unlocked; `${REFERENCE}` texts on the silkscreen, and a second one on the fab layer, go. The text gets the largest
+  size up to 1 mm whose box, for a four-character designator in KiCad's stroke font, fits inside the fab outline at
+  least 0.1 mm from every pad, at 0° or 90°. When not even 0.25 mm fits there (pads under the body, an exposed pad),
+  it goes next to the body instead, level and above it where it can. A footprint without a fab outline round its
+  pads is measured by its courtyard. A footprint that already follows these rules is left alone. It lists what
+  would change and exits 1; `--write` writes it. Boards take the new footprints through pcbnew's "Update
+  Footprints from Library".
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ### Migrating an older board

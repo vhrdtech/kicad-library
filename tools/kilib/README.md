@@ -9,10 +9,11 @@ kilib check --json board.kicad_pcb
 kilib setup --dry-run             # what setup would change in this PC's KiCad config
 kilib migrate --map ../../migrate/2026-11.toml ~/git/hw         # the diff that moves boards to the new layout
 kilib restructure --map migrate/2026-11.toml --vendor-dir DIR --dry-run   # inside kicad-library: every move
+kilib fab-designators             # inside kicad-library: footprints whose designator is not on the fab layer alone
 ```
 
 - `crates/kilib`: the library (s-expression reader, library tables, path variables, the rename map, `check`, `setup`,
-  `migrate`, `restructure`).
+  `migrate`, `restructure`, `fab`).
 - `crates/kilib_cli`: the `kilib` binary.
 
 `cargo nextest run --workspace` runs the tests; they write their own fixtures and never touch a real KiCad config.

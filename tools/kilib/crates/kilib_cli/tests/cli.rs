@@ -393,3 +393,47 @@ fn restructure_dry_run_lists_every_move_then_moves() {
     let out = kilib(&dir, &args);
     assert!(text(&out).contains("✓ nothing to move"), "{}", text(&out));
 }
+
+#[test]
+fn fab_designators_lists_then_writes_then_finds_nothing() {
+    let dir = TestDir::new("cli_fab");
+    // A SOIC-like part: Reference on silk, a second ${REFERENCE} on the fab layer.
+    let mut fp = String::from(
+        "(footprint \"P\"\n\t(version 20260206)\n\t(layer \"F.Cu\")\n\t(property \"Reference\" \"REF**\"\n\t\t(at 0 -3 0)\n\t\t(layer \"F.SilkS\")\n\t\t(uuid \"r\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1 1)\n\t\t\t\t(thickness 0.15)\n\t\t\t)\n\t\t)\n\t)\n\t(fp_text user \"${REFERENCE}\"\n\t\t(at 0 0 0)\n\t\t(layer \"F.Fab\")\n\t\t(uuid \"u\")\n\t)\n\t(fp_rect\n\t\t(start -1.95 -2.45)\n\t\t(end 1.95 2.45)\n\t\t(layer \"F.Fab\")\n\t)\n",
+    );
+    for i in 0..4 {
+        let y = -1.905 + 1.27 * f64::from(i);
+        fp += &format!("\t(pad \"{}\" smd rect\n\t\t(at -2.7 {y})\n\t\t(size 1.5 0.6)\n\t)\n", i + 1);
+        fp += &format!("\t(pad \"{}\" smd rect\n\t\t(at 2.7 {y})\n\t\t(size 1.5 0.6)\n\t)\n", 8 - i);
+    }
+    fp += ")\n";
+    let path = dir.write("lib/footprints/VHRD_Test.pretty/P.kicad_mod", &(fp));
+    std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
+
+    let out = kilib(&dir, &["fab-designators", "lib/footprints"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0, 0) inside (Reference on F.SilkS;"), "{t}");
+    assert!(t.contains("1 footprints: 1 to change, 0 already fine, 0 skipped"), "{t}");
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), fp, "nothing written without --write");
+
+    let out = kilib(&dir, &["fab-designators", "--write", "lib/footprints"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let new = std::fs::read_to_string(&path).unwrap();
+    assert!(new.contains("(layer \"F.Fab\")\n\t\t(uuid \"r\")") && !new.contains("${REFERENCE}"), "{new}");
+
+    // From inside the checkout, without paths: its footprints/.
+    let mut cmd = Command::new(env!("CARGO_BIN_EXE_kilib"));
+    cmd.args(["fab-designators"])
+        .env_clear()
+        .env("HOME", dir.path().join("home"))
+        .env("XDG_STATE_HOME", dir.path().join("state"))
+        .env("NO_COLOR", "1")
+        .current_dir(dir.path().join("lib"));
+    let out = cmd.output().unwrap();
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("0 to change, 1 already fine") && t.contains("✓ nothing to change"), "{t}");
+    let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
+    assert!(usage.contains("\tfab-designators\twrite,paths\n"), "{usage}");
+}

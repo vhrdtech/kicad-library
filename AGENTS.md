@@ -17,12 +17,13 @@ look in vhrd_brand, land it there, then run `just look` here.
 ## kilib
 
 `tools/kilib` is a Cargo workspace of its own (MIT, `tools/kilib/LICENSE`): the library `kilib` (s-expression reader,
-library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`) and the CLI `kilib_cli`
+library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`, `fab`) and the CLI `kilib_cli`
 (binary `kilib`). Dependencies are pure Rust with `default-features = false`; no `-sys` crate. Tests write their own
 fixtures (`kilib::testdir`) and run with a cleared environment: they never read or write a real KiCad config, and
 never write the boards. `kilib check` and `kilib setup --dry-run` only read; `kilib setup` writes only the KiCad
 config folder, never library files. `kilib migrate` writes only with `--write`, and then only the strings its map
-matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`. The extended tests read the
+matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`. `kilib fab-designators` writes only
+with `--write`, and then only the `Reference` property and `${REFERENCE}` texts of the footprints given. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 ## FEATURES.md and CHANGELOG.md

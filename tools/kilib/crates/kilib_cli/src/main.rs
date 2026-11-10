@@ -12,6 +12,7 @@ use anstyle::{AnsiColor, Style};
 use clap::{CommandFactory, Parser, Subcommand, ValueHint};
 use kilib::check::{self, Finding, Report};
 use kilib::config;
+use kilib::fab;
 use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
 use kilib::restructure;
@@ -49,6 +50,7 @@ Examples:
   kilib check --json board.kicad_pcb    the same for one file, as JSON
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
+  kilib fab-designators                 which footprints still put the designator on the silkscreen
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -169,6 +171,29 @@ Examples:
         #[arg(long)]
         dry_run: bool,
     },
+    /// Put each footprint's designator on the fab layer only, clear of every pad
+    ///
+    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked;
+    /// ${REFERENCE} texts on the silkscreen and a second one on the fab layer go. The text is the largest size up
+    /// to 1 mm whose box (a four-character designator) fits inside the fab outline at least 0.1 mm from every
+    /// pad, at 0° or 90°; when not even 0.25 mm fits, it goes next to the body. A footprint that already follows
+    /// these rules is left as it is; every other byte stays. Without --write it lists what would change and exits
+    /// 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib fab-designators
+  kilib fab-designators --write footprints/VHRD_Package_SO.pretty")]
+    FabDesignators {
+        /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
+        #[arg(value_hint = ValueHint::AnyPath)]
+        paths: Vec<PathBuf>,
+        /// Write the changes
+        #[arg(long)]
+        write: bool,
+        /// List the footprints that are already fine too
+        #[arg(long, short)]
+        verbose: bool,
+    },
 }
 
 #[derive(clap::Args)]
@@ -229,6 +254,10 @@ fn main() -> ExitCode {
         Command::Restructure { map, vendor_dir, library, dry_run } => {
             usage::record("restructure", &[("dry-run", dry_run), ("library", library.is_some())]);
             run_restructure(&map, &vendor_dir, library, dry_run)
+        }
+        Command::FabDesignators { paths, write, verbose } => {
+            usage::record("fab-designators", &[("write", write), ("paths", !paths.is_empty())]);
+            run_fab(paths, write, verbose)
         }
     };
     match result {
@@ -569,4 +598,63 @@ fn run_restructure(map: &Path, vendor: &Path, library: Option<PathBuf>, dry_run:
         eprintln!("{GREEN}✓{GREEN:#} moved");
     }
     Ok(ExitCode::SUCCESS)
+}
+
+fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, String> {
+    let paths = if paths.is_empty() { vec![library_or_cwd(None)?.join("footprints")] } else { paths };
+    let items = fab::plan(&paths);
+    let (mut changed, mut fine, mut skipped, mut outside) = (0, 0, 0, Vec::new());
+    for i in &items {
+        match &i.outcome {
+            fab::Outcome::Fine => {
+                fine += 1;
+                if verbose {
+                    println!("{DIM}  {}: fine{DIM:#}", i.id);
+                }
+            }
+            fab::Outcome::Skipped(why) => {
+                skipped += 1;
+                println!("{YELLOW}!{YELLOW:#} {}: skipped, {why}", i.id);
+            }
+            fab::Outcome::Change { why, placement: p, body_from, .. } => {
+                changed += 1;
+                let place = if p.inside { "inside" } else { "next to the body" };
+                let angle = if p.angle == 0.0 { String::new() } else { format!(" {}°", fab::fmt(p.angle)) };
+                let from = match body_from {
+                    fab::BodyFrom::Fab => "",
+                    fab::BodyFrom::Courtyard => ", body from the courtyard",
+                    fab::BodyFrom::Pads => ", body from the pads",
+                };
+                println!(
+                    "  {BOLD}{}{BOLD:#}: {} mm{angle} at ({}, {}) {place}{from} {DIM}({}){DIM:#}",
+                    i.id,
+                    fab::fmt(p.size),
+                    fab::fmt(p.x),
+                    fab::fmt(p.y),
+                    why.join("; ")
+                );
+                if !p.inside {
+                    outside.push(i.id.as_str());
+                }
+            }
+        }
+    }
+    eprintln!(
+        "{BOLD}kilib fab-designators{BOLD:#}: {} footprints: {changed} to change, {fine} already fine, {skipped} skipped",
+        items.len()
+    );
+    if !outside.is_empty() {
+        eprintln!("{CYAN}next to the body{CYAN:#} (no room inside clear of the pads): {}", outside.join(", "));
+    }
+    if changed == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+        Ok(ExitCode::SUCCESS)
+    } else if write {
+        let n = fab::apply(&items)?;
+        eprintln!("{GREEN}✓{GREEN:#} wrote {n} footprints");
+        Ok(ExitCode::SUCCESS)
+    } else {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+        Ok(ExitCode::from(1))
+    }
 }

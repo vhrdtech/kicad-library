@@ -7,10 +7,12 @@
 //!   checkout.
 //! - [`migrate::plan`] and [`migrate::apply`]: boards rewritten to a new library layout through a [`map::Map`],
 //!   only the strings it matches.
+//! - [`fab::plan`] and [`fab::apply`]: footprints whose designator lives only on the fab layer, clear of the pads.
 //! - [`restructure::plan`] and [`restructure::apply`]: a checkout's old libraries moved into the map's new ones.
 
 pub mod check;
 pub mod config;
+pub mod fab;
 pub mod libtable;
 pub mod map;
 pub mod migrate;
