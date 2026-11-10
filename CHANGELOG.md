@@ -1,10 +1,5 @@
 # Changelog
 
-### Fixed
-
-- `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
-  number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
-
 ## [Unreleased]
 
 ### Added
@@ -187,6 +182,11 @@
   `vhrd_a4/a3.kicad_wks` (embedded now).
 - Templates RaspberryPi-HAT, RaspberryPi-uHAT, STM32_Nucleo-64_Morpho (KiCad ships them).
 - Unused footprints `TEST`, `_TEMPLATE`; `09551667812741`'s Windows-path model line.
+
+### Fixed
+
+- `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
+  number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
 
 ## [0.1.0] - 2026-10-17
 
