@@ -29,18 +29,10 @@ pub fn import_text(stock: &str) -> Result<String, String> {
 pub fn hide_value(text: &str) -> Result<String, String> {
     let fp = sexpr::parse(text).map_err(|e| e.to_string())?;
     let value = fp.children("property").find(|p| p.arg(0) == Some("Value")).ok_or("no Value property")?;
-    if let Some(h) = value.child("hide") {
-        if h.arg(0).is_none_or(|v| v == "yes") {
-            return Ok(text.to_string());
-        }
-        return Ok(apply_edits(text, &[Edit { range: h.span(), text: "(hide yes)".into() }]));
-    }
-    let after = value.child("layer").or_else(|| value.child("at")).ok_or("Value without a layer")?.span();
-    let start = text[..value.span().start].rfind('\n').map_or(0, |i| i + 1);
-    let indent = &text[start..value.span().start];
-    let indent = if indent.trim().is_empty() { format!("{indent}\t") } else { " ".into() };
-    let sep = if indent == " " { String::from(" ") } else { format!("\n{indent}") };
-    Ok(apply_edits(text, &[Edit { range: after.end..after.end, text: format!("{sep}(hide yes)") }]))
+    Ok(match fab::hide_value_edit(text, value)? {
+        Some(e) => apply_edits(text, &[e]),
+        None => text.to_string(),
+    })
 }
 
 /// `Lib:Name` split, the library given without [`PREFIX`].

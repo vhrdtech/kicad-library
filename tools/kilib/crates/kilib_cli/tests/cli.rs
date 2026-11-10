@@ -408,13 +408,19 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     }
     fp += ")\n";
     let path = dir.write("lib/footprints/VHRD_Test.pretty/P.kicad_mod", &(fp));
+    // A body too small for any designator: centred at the smallest size, listed as no clean fit.
+    let tiny = fp.replace("(start -1.95 -2.45)\n\t\t(end 1.95 2.45)", "(start -0.5 -0.25)\n\t\t(end 0.5 0.25)");
+    let tiny = tiny.split("\t(pad").next().unwrap().to_string() + ")\n";
+    dir.write("lib/footprints/VHRD_Test.pretty/Tiny.kicad_mod", &tiny);
     std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
 
     let out = kilib(&dir, &["fab-designators", "lib/footprints"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
-    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0, 0) inside (Reference on F.SilkS;"), "{t}");
-    assert!(t.contains("1 footprints: 1 to change, 0 already fine, 0 skipped"), "{t}");
+    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0, 0) (Reference on F.SilkS;"), "{t}");
+    assert!(t.contains("VHRD_Test:Tiny: 0.3 mm at (0, 0), no clean fit ("), "{t}");
+    assert!(t.contains("2 footprints: 2 to change (2 moved, 1 resized, 1 turned), 0 already fine, 0 skipped"), "{t}");
+    assert!(t.contains("no clean fit (1: centred at 0.3 mm over the drawing or past the body): VHRD_Test:Tiny"), "{t}");
     assert_eq!(std::fs::read_to_string(&path).unwrap(), fp, "nothing written without --write");
 
     let out = kilib(&dir, &["fab-designators", "--write", "lib/footprints"]);
@@ -433,7 +439,8 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     let out = cmd.output().unwrap();
     let t = text(&out);
     assert_eq!(out.status.code(), Some(0), "{t}");
-    assert!(t.contains("0 to change, 1 already fine") && t.contains("✓ nothing to change"), "{t}");
+    assert!(t.contains("0 to change (0 moved, 0 resized, 0 turned), 2 already fine"), "{t}");
+    assert!(t.contains("✓ nothing to change") && t.contains("no clean fit (1:"), "{t}");
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tfab-designators\twrite,paths\n"), "{usage}");
 }

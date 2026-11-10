@@ -182,15 +182,17 @@ Examples:
     /// change, so upstream changes are taken in deliberately.
     #[command(subcommand)]
     Stock(StockCommand),
-    /// Put each footprint's designator on the fab layer only, clear of every pad
+    /// Put each footprint's designator on the fab layer only, centred on the body
     ///
-    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked; ${REFERENCE}
-    /// texts on the silkscreen and a second one on the fab layer go. The text is the largest size up to 1 mm whose
-    /// box (a five-character designator, its stroke included) fits inside the fab outline's lines at least 0.1 mm
-    /// from every pad, at 0° or 90°. When not even 0.25 mm fits, or the body lies within the box of the pads over
-    /// it (chip passives, QFNs), it goes next to the body outside the pads. A footprint that already follows these
-    /// rules is left as it is; every other byte stays. Without --write it lists what would change and exits 1 when
-    /// anything would.
+    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked, on the
+    /// centre of the fab outline (else of the courtyard); ${REFERENCE} texts on the silkscreen and a second one on
+    /// the fab layer go, and the Value is hidden. Pads do not matter (KiCad draws the selected fab layer on top);
+    /// the other drawing on the fab layer does: the text's box (a five-character designator, the strokes counted)
+    /// keeps 0.05 mm off it. It gets the largest size from 1 mm down to 0.3 mm that fits on the centre, level or
+    /// turned 90°; else it moves to the largest free spot inside the body nearest the centre; else it stays on the
+    /// centre at 0.3 mm and is listed as "no clean fit". Every line on F.Fab and B.Fab gets a 0.05 mm stroke. A
+    /// footprint that already follows these rules is left as it is; every other byte stays. Without --write it
+    /// lists what would change and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
   kilib fab-designators
@@ -687,7 +689,8 @@ fn run_restructure(map: &Path, vendor: &Path, library: Option<PathBuf>, dry_run:
 fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, String> {
     let paths = if paths.is_empty() { vec![library_or_cwd(None)?.join("footprints")] } else { paths };
     let items = fab::plan(&paths);
-    let (mut changed, mut fine, mut skipped, mut outside) = (0, 0, 0, Vec::new());
+    let (mut changed, mut fine, mut skipped) = (0, 0, 0);
+    let (mut moved, mut resized, mut turned, mut unclean) = (0, 0, 0, Vec::new());
     for i in &items {
         match &i.outcome {
             fab::Outcome::Fine => {
@@ -702,33 +705,48 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
             }
             fab::Outcome::Change { why, placement: p, body_from, .. } => {
                 changed += 1;
-                let place = if p.inside { "inside" } else { "next to the body" };
+                let (m, r, t) = i.outcome.designator_changes();
+                moved += usize::from(m);
+                resized += usize::from(r);
+                turned += usize::from(t);
                 let angle = if p.angle == 0.0 { String::new() } else { format!(" {}°", fab::fmt(p.angle)) };
                 let from = match body_from {
                     fab::BodyFrom::Fab => "",
                     fab::BodyFrom::Courtyard => ", body from the courtyard",
                     fab::BodyFrom::Pads => ", body from the pads",
                 };
+                let fit = if p.clean { "" } else { ", no clean fit" };
                 println!(
-                    "  {BOLD}{}{BOLD:#}: {} mm{angle} at ({}, {}) {place}{from} {DIM}({}){DIM:#}",
+                    "  {BOLD}{}{BOLD:#}: {} mm{angle} at ({}, {}){from}{fit} {DIM}({}){DIM:#}",
                     i.id,
                     fab::fmt(p.size),
                     fab::fmt(p.x),
                     fab::fmt(p.y),
                     why.join("; ")
                 );
-                if !p.inside {
-                    outside.push(i.id.as_str());
-                }
             }
+        }
+        // A footprint already fine can still be one where nothing fits cleanly.
+        let fit = match &i.outcome {
+            fab::Outcome::Change { placement, .. } => Some(placement.clean),
+            fab::Outcome::Fine => fab::read(&i.old).ok().and_then(|f| f.shape).map(|s| fab::layout(&s).clean),
+            fab::Outcome::Skipped(_) => None,
+        };
+        if fit == Some(false) {
+            unclean.push(i.id.as_str());
         }
     }
     eprintln!(
-        "{BOLD}kilib fab-designators{BOLD:#}: {} footprints: {changed} to change, {fine} already fine, {skipped} skipped",
+        "{BOLD}kilib fab-designators{BOLD:#}: {} footprints: {changed} to change ({moved} moved, {resized} resized, {turned} turned), {fine} already fine, {skipped} skipped",
         items.len()
     );
-    if !outside.is_empty() {
-        eprintln!("{CYAN}next to the body{CYAN:#} (no room inside clear of the pads): {}", outside.join(", "));
+    if !unclean.is_empty() {
+        eprintln!(
+            "{CYAN}no clean fit{CYAN:#} ({}: centred at {} mm over the drawing or past the body): {}",
+            unclean.len(),
+            fab::fmt(fab::MIN_SIZE),
+            unclean.join(", ")
+        );
     }
     if changed == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
