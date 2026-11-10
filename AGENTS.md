@@ -25,6 +25,12 @@ kilib stock diff                         # what a fresh import of the current st
 migrate/2026-11-stock.toml BOARD` re-points a board (only footprint lib ids and `Footprint` fields change). A new
 `VHRD_*` library also needs its row in `migrate/2026-11.toml`'s `[libraries]` (what `kilib setup` writes).
 
+## Designator layers
+
+User.9-16 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
+ties, mechanical parts) and `Rooms` (block outlines), named in the templates and by `kilib layers`; don't use those
+numbers for anything else. Which footprint goes where is `kilib::layers::class_of`, never decided by hand.
+
 ## The look comes from vhrd_brand
 
 The drawing sheets, the colours of `VHRD_power` and the templates' embedded sheets, net class colours and power
@@ -35,7 +41,8 @@ look in vhrd_brand, land it there, then run `just look` here.
 ## kilib
 
 `tools/kilib` is a Cargo workspace of its own (MIT, `tools/kilib/LICENSE`): the library `kilib` (s-expression reader,
-library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`, `fab`, `stock`) and the CLI `kilib_cli`
+library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`, `fab`, `stroke`, `layers`,
+`stock`) and the CLI `kilib_cli`
 (binary `kilib`). Dependencies are pure Rust with `default-features = false`; no `-sys` crate. Tests write their own
 fixtures (`kilib::testdir`) and run with a cleared environment: they never read or write a real KiCad config, and
 never write the boards. `kilib check` and `kilib setup --dry-run` only read; `kilib setup` writes only the KiCad
@@ -43,7 +50,8 @@ config folder, never library files. `kilib migrate` writes only with `--write`, 
 matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`; `kilib stock import` writes only
 new files under the checkout's `footprints/`, with `--write`. `kilib fab-designators` writes only
 with `--write`, and then only the `Reference` property, `${REFERENCE}` texts, the Value's `hide` and the stroke
-widths of fab lines in the footprints given. The extended tests read the
+widths of fab lines in the footprints given; with `--board` only the Reference's `at`, `size` and `thickness` on that
+board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 ## FEATURES.md and CHANGELOG.md

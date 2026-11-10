@@ -4,6 +4,12 @@
 
 ### Added
 
+- `kilib fab-designators --board BOARD [--write]`: fits each placed footprint's own designator (a short one gets
+  larger text); only the Reference's position, angle, size and thickness change, and only where the Reference is
+  already on its layer.
+- `kilib layers [--write] BOARD...`: names the designator and room layers in a board's layer table (only there):
+  User.9/10 `Ref.Test.F/B`, User.11/12 `Ref.Tie.F/B`, User.13/14 `Ref.Mech.F/B`, User.15/16 `Rooms.F/B`, each pair
+  typed front and back so KiCad flips text with a footprint. The three templates have them.
 - `kilib stock import [--write] Lib:Name...` copies KiCad stock footprints into `footprints/VHRD_<Lib>.pretty` with
   the designator on F.Fab and the Value hidden; `kilib stock diff [--stat]` compares the copies with the current
   stock library (`--stock-dir`, else `KICAD10_FOOTPRINT_DIR`, else `/usr/share/kicad/footprints`).
@@ -64,6 +70,19 @@
 
 ### Changed
 
+- `kilib fab-designators` measures the designator in KiCad's stroke font (glyph advances and ink from KiCad's
+  newstroke font, pcbnew's line layout; checked against `kicad-cli`), centres its ink rather than its anchor on the
+  body, and sizes a library footprint for the longest designator of its kind (`R1004`, `C1001`, `TP526`, `JP104`,
+  `U1004`). 0.02 mm stays free beyond the strokes (was 0.05 mm). Sizes go down to 0.2 mm in 0.01 mm steps below
+  0.3 mm (was 0.3 mm), and to 0.15 mm for the smallest parts, reported as "tiny"; strokes are 15 % of the size, at
+  least 0.025 mm. The report gives the size distribution.
+- Designators of test points (TP) go to `Ref.Test`, of net ties, spark gaps and solder jumpers (NT, E, JP) to
+  `Ref.Tie`, of mounting holes, fiducials, logos and other graphics (H, FID) to `Ref.Mech`, hidden there; the class
+  comes from the footprint's library and name and the designator's prefix. Parts keep F.Fab / B.Fab.
+- Footprints re-swept: every designator moved by a few hundredths to centre its ink; 30 moved to the new layers.
+  0402 now fits cleanly (R_0402 0.2 mm, C_0402 0.19 mm, was 0.3 mm over the outline). Tiny (below 0.2 mm): C_0402,
+  D_SOD-323_BIDIR, D_SOD-523, D_TSLP-2-1, SPARK_GAP_015, SOT-883, TestPoint_Pad_D0.6mm. No clean fit:
+  D_SOD-882D_BIDIR, NetTie-2_SMD_Pad0.15mm, SPARK_GAP_011 (was 21 footprints).
 - `kilib fab-designators` centres the designator on the body (the fab outline's centre, else the courtyard's) and lets
   it run over the pads: KiCad draws the selected fab layer on top of them, while text outside the body runs into
   neighbouring parts. The text (sized for five characters, `R1234` or `REF**`, its stroke counted) keeps 0.05 mm off

@@ -30,14 +30,23 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   footprint library
 - ✅ LIB-9 license: `LICENSE.md`, CC-BY-SA 4.0 with KiCad's library exception, the same as KiCad's own libraries;
   `README.md` for outside users, and the repo scrubbed of tpm ids, PC names and people's names
-- ✅ LIB-10 fab-designators: every footprint's designator only on F.Fab (B.Fab for bottom-side parts), visible and
-  unlocked, never on the silkscreen and never twice, the Value hidden; centred on the body (fab outline, else
-  courtyard), pads ignored, 0.05 mm clear of the other fab drawing with the strokes counted: smaller (1 to 0.3 mm),
-  turned 90°, else the largest free spot nearest the centre, else centred at 0.3 mm and reported as no clean fit;
-  every fab line 0.05 mm; `kilib fab-designators` lists what breaks these rules with counts and `--write` fixes it
+- ✅ LIB-10 fab-designators: every footprint's designator only on its layer (F.Fab, B.Fab for bottom-side parts;
+  LIB-13's layers for test points, net ties and mechanical parts), visible and unlocked (mechanical: hidden), never on
+  the silkscreen and never twice, the Value hidden; the ink, measured in KiCad's stroke font, centred on the body
+  (fab outline, else courtyard), pads ignored, 0.02 mm clear of the other drawing on its layer beyond the strokes;
+  sized for the longest designator of the footprint's kind (R1004, C1001, TP526, U1004): smaller (1 to 0.2 mm),
+  turned 90°, else the largest free spot nearest the centre, else down to 0.15 mm reported as tiny, else centred at
+  0.2 mm and reported as no clean fit; strokes 15 % of the size, at least 0.025 mm; every fab line 0.05 mm;
+  `kilib fab-designators` lists what breaks these rules with counts and sizes and `--write` fixes it
 - ✅ LIB-11 stock-copies: KiCad stock footprints that boards use are copied into `VHRD_*` libraries of the same name
   (designator on F.Fab, fab lines 0.05 mm, Value hidden, all else as in stock), so KiCad updates never change them
   unannounced;
   `kilib stock import` copies, `kilib stock diff` compares the copies with the current stock library;
   `migrate/2026-11-stock.toml` re-points boards to the copies (21 footprints of B153: `VHRD_Resistor_SMD`,
   `VHRD_Connector_PinSocket_2.54mm` and existing libraries)
+- ✅ LIB-12 board-designators: `kilib fab-designators --board PCB` fits each placed footprint's own designator by the
+  LIB-10 rules (a short one gets larger text), writing only the Reference's position, angle (upright), size and
+  thickness, and only where the Reference is already on its layer
+- ✅ LIB-13 designator-layers: front/back pairs of user layers, typed so KiCad flips them, User.9/10 Ref.Test,
+  User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms, named in the three templates; the class of a footprint
+  from its library, name and designator prefix; `kilib layers` names them in an existing board's layer table only

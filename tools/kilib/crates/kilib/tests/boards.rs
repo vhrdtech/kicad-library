@@ -167,3 +167,45 @@ fn migrated_boards_resolve_against_the_restructured_library() {
     }
     assert!(lost.is_empty(), "in the library before the move, not found after it:\n{}", lost.join("\n"));
 }
+
+/// Every board's designators fitted (`fab-designators --board`) and the user layers named (`kilib layers`) on a
+/// temporary copy: both parse every board, change only what they own (the Reference's at, size and thickness; the
+/// layer table) and change nothing on a second run.
+#[test]
+fn board_designators_and_layers_on_a_copy_of_the_boards() {
+    let Some(from) = boards() else { return };
+    let dir = TestDir::new("boards_fab");
+    copy_boards(&from, dir.path());
+    let mut pcbs = Vec::new();
+    collect_pcbs(dir.path(), &mut pcbs);
+    assert!(!pcbs.is_empty(), "no boards in {}", from.display());
+    let owned = |l: &str| ["(at ", "(size ", "(thickness "].iter().any(|k| l.trim_start().starts_with(k));
+    for pcb in &pcbs {
+        let old = std::fs::read_to_string(pcb).unwrap();
+        let plan = kilib::fab::plan_board(&old).unwrap_or_else(|e| panic!("{}: {e}", pcb.display()));
+        assert_eq!(plan.new.lines().count(), old.lines().count(), "{}", pcb.display());
+        for (a, b) in old.lines().zip(plan.new.lines()) {
+            assert!(a == b || (owned(a) && owned(b)), "{}: {a:?} -> {b:?}", pcb.display());
+        }
+        kilib::fab::apply_board(pcb, &plan).unwrap();
+        let again = kilib::fab::plan_board(&plan.new).unwrap();
+        assert_eq!(again.new, plan.new, "{}: a second run changes nothing", pcb.display());
+
+        // A stub board without a layer table has nothing to name.
+        let Ok((named, _)) = kilib::layers::add_to_board(&plan.new) else { continue };
+        let (twice, _) = kilib::layers::add_to_board(&named).unwrap();
+        assert_eq!(twice, named, "{}", pcb.display());
+        assert!(sexpr::parse(&named).is_ok(), "{}", pcb.display());
+    }
+}
+
+fn collect_pcbs(dir: &Path, out: &mut Vec<PathBuf>) {
+    for e in std::fs::read_dir(dir).unwrap().filter_map(Result::ok) {
+        let p = e.path();
+        if p.is_dir() {
+            collect_pcbs(&p, out);
+        } else if p.extension().is_some_and(|x| x == "kicad_pcb") {
+            out.push(p);
+        }
+    }
+}
