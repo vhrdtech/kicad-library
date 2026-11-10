@@ -100,9 +100,36 @@ same under `footprints/<name>.pretty` for footprints.
   `kilib layers --write` or by hand in Board Setup > Board Editor Layers (add the user layers, name them, set
   their type to front or back). A number the board already uses under another name is left alone and reported.
   Only the layer table changes.
+- `kilib lint [PATH...]` checks footprints against the library rules (default: this checkout's `footprints/`;
+  `--rule` picks some of them) and lists, per footprint, what each fix changes and what is left for a person
+  (`--left` only that, `--json` as JSON). It exits 1 while a fix is not written; `--write` writes them. The designator
+  belongs to `fab-designators`: run it after `--write`, since a new chamfer or courtyard can move it. The rules:
+  - `pin1`: a part with three or more pins, and a polar two-pin part (diode, LED, battery, polarised capacitor; pin 1
+    is the cathode or the plus), marks pin 1 on the fab layer, and on the silkscreen where it draws one. The pads
+    often fit the part turned half or a quarter round; for each such turn the drawing must show a mark (a dot, a
+    filled shape, a chamfered corner, a diode's cathode bar, a `1` or `+`) by pin 1 and not by the pad the turn takes
+    it to. A part is never mirrored, so a SOIC's notch counts. The fix chamfers the pin-1 corner of a rectangular
+    fab outline (1 mm, at most a quarter of the shorter side) and puts a filled triangle pointing at pin 1 on the
+    silkscreen, outside the body and 0.15 mm clear of the pads. Marks that are missing elsewhere, ambiguous or by
+    the wrong pad are reported.
+  - `attrs`: test points, net ties, spark gaps, jumpers, logos and mounting holes are excluded from the BOM and the
+    position files, with no SMD or through-hole type (net ties and logos may have no courtyard); fiducials are SMD
+    and excluded from the BOM only; a part is SMD when all its copper pads are, through-hole when one is. `board_only`
+    is not set, since boards place these from the schematic. Mechanical footprints (screws, spacers, the enclosure,
+    panel features) and parts kept out of the BOM are only reported.
+  - `courtyard`: on F.CrtYd (B.CrtYd for a bottom-side footprint), closed, at least 0.25 mm from every pad and from
+    the fab drawing, 0.1 mm for 0201, 0402 and 0603 passives (IPC-7351 nominal). The fix draws a missing one as a
+    rectangle on a 0.01 mm grid, 0.05 mm wide, and grows one that is a single rectangle; other shapes are reported.
+  - `models`: every part has a 3D model under `${VHRD_3DMODEL_DIR}` or `${KICAD10_3DMODEL_DIR}`, and the file exists
+    (where the variables are set: KiCad's config, the environment, `--var NAME=DIR`; `--no-model-files` skips the
+    files). The fix moves stock models from older KiCad variables to `${KICAD10_3DMODEL_DIR}` (`.wrl` to `.step`).
+  - `silk`: lines are 0.12 mm (filled marks keep their stroke); no line reaches onto a pad's solder mask opening (the
+    pad's mask expansion, else the footprint's, else 0); no text but pin-1 marks. The fix sets the widths and cuts
+    lines, and the sides of rectangles and polygons, round the pads. Arcs and curves over a pad, and texts, are
+    reported. Logos and other artwork are left alone.
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
-  the designator placed by the fab-designators rules, the fab lines at 0.05 mm, the Value hidden, every other byte as
-  in stock (pads, other graphics, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
+  the fixes of `kilib lint`, the designator placed by the fab-designators rules, the fab lines at 0.05 mm, the Value
+  hidden, every other byte as in stock (pads, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
   else `KICAD10_FOOTPRINT_DIR` (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A
   footprint the library has already is left alone. It lists what it would copy and exits 1; `--write` copies. `kilib
   stock diff` compares every `VHRD_<Lib>:<Name>` that has a stock `<Lib>:<Name>` with a fresh import of it and prints

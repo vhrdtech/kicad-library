@@ -43,6 +43,10 @@ test-sheet base:
 check-boards *args:
     @if [ -d "{{boards}}" ]; then cargo run --quiet --release --manifest-path tools/kilib/Cargo.toml -- check {{args}} "{{boards}}"; else echo "check-boards: skipped, no boards at {{boards}} (set VHRD_BOARDS_DIR to a checkout of the boards)"; fi
 
+# The library's footprints against kilib lint's rules (ARGS passed on: --left, --rule pin1, --write); exits 1 while a fix is not written
+check-footprints *args:
+    cargo run --quiet --release --manifest-path tools/kilib/Cargo.toml -- lint {{args}} footprints
+
 # No whitespace errors in what is staged or changed; kilib formatted and without clippy warnings
 lint:
     git diff --check HEAD

@@ -10,6 +10,12 @@
 - `kilib layers [--write] BOARD...`: names the designator and room layers in a board's layer table (only there):
   User.9/10 `Ref.Test.F/B`, User.11/12 `Ref.Tie.F/B`, User.13/14 `Ref.Mech.F/B`, User.15/16 `Rooms.F/B`, each pair
   typed front and back so KiCad flips text with a footprint. The three templates have them.
+- `kilib lint [--write] [--rule R] [--left] [--json] [PATH...]`: footprints against the library rules, each a report
+  and, where the rule is clear, a fix: pin-1 and polarity marks on the fab layer and silkscreen (chamfer, triangle),
+  attributes by kind (test points, net ties, spark gaps, jumpers, logos, mounting holes out of BOM and position
+  files; fiducials in position files; SMD or through-hole as the pads), courtyards (present, closed, 0.25 mm, 0.1 mm
+  for 0201-0603 passives), 3D models (present, under `VHRD_3DMODEL_DIR` or `KICAD10_3DMODEL_DIR`, the file there),
+  silkscreen (0.12 mm lines, none onto pads, no text but pin-1 marks). `just check-footprints` runs it on the library.
 - `kilib stock import [--write] Lib:Name...` copies KiCad stock footprints into `footprints/VHRD_<Lib>.pretty` with
   the designator on F.Fab and the Value hidden; `kilib stock diff [--stat]` compares the copies with the current
   stock library (`--stock-dir`, else `KICAD10_FOOTPRINT_DIR`, else `/usr/share/kicad/footprints`).
@@ -83,6 +89,8 @@
   0402 now fits cleanly (R_0402 0.2 mm, C_0402 0.19 mm, was 0.3 mm over the outline). Tiny (below 0.2 mm): C_0402,
   D_SOD-323_BIDIR, D_SOD-523, D_TSLP-2-1, SPARK_GAP_015, SOT-883, TestPoint_Pad_D0.6mm. No clean fit:
   D_SOD-882D_BIDIR, NetTie-2_SMD_Pad0.15mm, SPARK_GAP_011 (was 21 footprints).
+- `kilib stock import` and `kilib stock diff` apply `kilib lint`'s fixes too, so the copies follow the library
+  rules and the diff still shows only upstream changes.
 - `kilib fab-designators` centres the designator on the body (the fab outline's centre, else the courtyard's) and lets
   it run over the pads: KiCad draws the selected fab layer on top of them, while text outside the body runs into
   neighbouring parts. The text (sized for five characters, `R1234` or `REF**`, its stroke counted) keeps 0.05 mm off

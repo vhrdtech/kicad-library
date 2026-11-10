@@ -12,9 +12,10 @@ map and `kilib migrate`.
 KiCad's stock footprints that a board uses are imported into the `VHRD_*` library of the same name
 (`Resistor_SMD:R_0402_1005Metric` becomes `VHRD_Resistor_SMD:R_0402_1005Metric`), so their text is ours: the
 designator centred on the fab layer (`kilib fab-designators`), the fab lines 0.05 mm, the Value hidden. Pads, other
-graphics and the 3D model (through KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock. The copies are on purpose:
-a KiCad update never changes our footprints unannounced. We compare them with the stock library and take upstream
-changes in deliberately, when the time is right:
+graphics and the 3D model (through KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock, apart from the fixes of
+`kilib lint` (courtyard, silkscreen, pin-1 marks, attributes), which `stock import` and `stock diff` apply too. The
+copies are on purpose: a KiCad update never changes our footprints unannounced. We compare them with the stock library
+and take upstream changes in deliberately, when the time is right:
 
 ```sh
 kilib stock import --write Lib:Name...   # copy stock footprints in (KICAD10_FOOTPRINT_DIR, or --stock-dir DIR)
@@ -42,7 +43,7 @@ look in vhrd_brand, land it there, then run `just look` here.
 
 `tools/kilib` is a Cargo workspace of its own (MIT, `tools/kilib/LICENSE`): the library `kilib` (s-expression reader,
 library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`, `fab`, `stroke`, `layers`,
-`stock`) and the CLI `kilib_cli`
+`stock`, `footprint`, `lint`) and the CLI `kilib_cli`
 (binary `kilib`). Dependencies are pure Rust with `default-features = false`; no `-sys` crate. Tests write their own
 fixtures (`kilib::testdir`) and run with a cleared environment: they never read or write a real KiCad config, and
 never write the boards. `kilib check` and `kilib setup --dry-run` only read; `kilib setup` writes only the KiCad
@@ -54,6 +55,9 @@ widths of fab lines in the footprints given; with `--board` only the Reference's
 board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
+`kilib lint` writes only with `--write`, and then only the items its fixes name (attributes, model paths,
+courtyards, silkscreen lines and widths, pin-1 marks) in the footprints given; it never touches the designator.
+
 ## FEATURES.md and CHANGELOG.md
 
 [FEATURES.md](FEATURES.md) tracks what exists with stable IDs (`LIB-1`); new ids come from `tpm work claim LIB`.
@@ -63,11 +67,12 @@ x.y.z` writes the version heading and the tag (there is no manifest to bump).
 ## Commands
 
 ```sh
-just look          # VHRD_power colours and the three templates (adopt --power) from vhrd-kicad
-just test          # the templates print their embedded sheets, kilib's tests (--changed: kilib only)
-just lint          # no whitespace errors, kilib fmt and clippy
-just check-boards  # kilib check on ../hw (or VHRD_BOARDS_DIR); skips without boards
-just install       # builds kilib and puts it on PATH
+just look              # VHRD_power colours and the three templates (adopt --power) from vhrd-kicad
+just test              # the templates print their embedded sheets, kilib's tests (--changed: kilib only)
+just lint              # no whitespace errors, kilib fmt and clippy
+just check-boards      # kilib check on ../hw (or VHRD_BOARDS_DIR); skips without boards
+just check-footprints  # kilib lint on footprints/: exits 1 while a fix is not written
+just install           # builds kilib and puts it on PATH
 ```
 
 ## Commits

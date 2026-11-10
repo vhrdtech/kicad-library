@@ -50,3 +50,17 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-13 designator-layers: front/back pairs of user layers, typed so KiCad flips them, User.9/10 Ref.Test,
   User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms, named in the three templates; the class of a footprint
   from its library, name and designator prefix; `kilib layers` names them in an existing board's layer table only
+- 🚧 LIB-14 pin1-marks: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the
+  silkscreen where they draw one, so no turn of the part that fits its pads leaves pin 1 in doubt; `kilib lint
+  --rule pin1` reports missing, ambiguous and misplaced marks, `--write` chamfers a rectangular fab outline's pin-1
+  corner and adds a silkscreen triangle. Next: the library sweep
+- 🚧 LIB-15 footprint-attributes: test points, net ties, spark gaps, jumpers, logos and mounting holes out of the BOM
+  and position files, fiducials in the position files only, parts SMD or through-hole as their pads are (`kilib lint
+  --rule attrs`). Next: the library sweep
+- 🚧 LIB-16 courtyard-clearance: a closed courtyard 0.25 mm from pads and body, 0.1 mm for 0201 to 0603 passives;
+  `kilib lint --rule courtyard` draws missing ones and grows rectangular ones. Next: the library sweep
+- 🚧 LIB-17 model-paths: every part has a 3D model under `${VHRD_3DMODEL_DIR}` or `${KICAD10_3DMODEL_DIR}` that exists;
+  `kilib lint --rule models` moves older KiCad variables to KICAD10 and lists missing models and files. Next: the
+  library sweep, the files checked on a PC with the models
+- 🚧 LIB-18 silk-rules: silkscreen lines 0.12 mm, none onto a pad's mask opening, no text but pin-1 marks; `kilib lint
+  --rule silk` sets widths and cuts lines round pads; `just check-footprints`. Next: the library sweep

@@ -243,15 +243,24 @@ Examples:
     },
     /// Check footprints against the library rules: pin-1 marks, attributes, courtyards, 3D models, silkscreen
     ///
-    /// pin1: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the silkscreen
-    /// where they draw one; fix: a chamfered corner on a rectangular fab outline, a filled triangle on the silkscreen.
-    /// attrs: test points, net ties, spark gaps, jumpers, logos and mounting holes out of the BOM and position
-    /// files, fiducials in the position files, parts SMD or through-hole as their pads are. courtyard: present,
-    /// closed, 0.25 mm from pads and body (0.1 mm for 0201 to 0603 passives); fix: drawn or grown when it is a
-    /// rectangle. models: every part has one under ${VHRD_3DMODEL_DIR} or ${KICAD10_3DMODEL_DIR}, and the file
-    /// exists; fix: older KiCad variables moved to KICAD10. silk: 0.12 mm lines, none on a pad's mask opening, no
-    /// text but pin-1 marks; fix: widths set, lines cut. The designator is left to `kilib fab-designators`. Lists
-    /// what each fix changes and what is left for a person; exits 1 when a fix is not yet written.
+    /// pin1: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the
+    /// silkscreen where they draw one, so that no turn of the part that fits its pads leaves pin 1 in doubt. Fix: a
+    /// chamfered pin-1 corner on a rectangular fab outline, a filled triangle pointing at pin 1 on the silkscreen.
+    ///
+    /// attrs: test points, net ties, spark gaps, jumpers, logos and mounting holes are kept out of the BOM and the
+    /// position files, fiducials out of the BOM only; a part is SMD or through-hole as its pads are. Fix: the
+    /// attributes set.
+    ///
+    /// courtyard: present, closed, 0.25 mm from the pads and the body (0.1 mm for 0201 to 0603 passives). Fix: drawn
+    /// where missing, grown where it is one rectangle.
+    ///
+    /// models: every part has one under ${VHRD_3DMODEL_DIR} or ${KICAD10_3DMODEL_DIR}, and the file exists where
+    /// the variables point. Fix: older KiCad model variables moved to KICAD10.
+    ///
+    /// silk: 0.12 mm lines, none onto a pad's mask opening, no text but pin-1 marks. Fix: widths set, lines cut.
+    ///
+    /// The designator is left to `kilib fab-designators`; run it after --write. It lists what each fix changes and
+    /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\
 Examples:
   kilib lint
