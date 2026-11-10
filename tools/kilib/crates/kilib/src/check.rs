@@ -449,7 +449,7 @@ fn stems(dir: &Path, ext: &str) -> Result<HashSet<String>, String> {
 }
 
 /// Why a model path does not resolve, or `None` when it does.
-fn model_problem(raw: &str, project: &Path, vars: &Vars) -> Option<String> {
+pub fn model_problem(raw: &str, project: &Path, vars: &Vars) -> Option<String> {
     if raw.starts_with("kicad-embed://") {
         return None; // embedded in the board itself
     }

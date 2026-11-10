@@ -553,3 +553,60 @@ fn stock_import_writes_copies_and_diff_shows_upstream_changes() {
         "{usage}"
     );
 }
+
+#[test]
+fn lint_reports_fixes_then_writes_then_only_what_is_left() {
+    let dir = TestDir::new("cli_lint");
+    // A SOIC-like part: a plain fab rectangle, no courtyard, a 0.2 mm silk line across pad 1, an old model variable.
+    let mut fp = String::from(
+        "(footprint \"P\"\n\t(version 20260206)\n\t(layer \"F.Cu\")\n\t(attr through_hole)\n\t(fp_line\n\t\t(start -3.6 -1.905)\n\t\t(end -3.6 1.905)\n\t\t(stroke\n\t\t\t(width 0.2)\n\t\t\t(type solid)\n\t\t)\n\t\t(layer \"F.SilkS\")\n\t)\n\t(fp_rect\n\t\t(start -1.95 -2.45)\n\t\t(end 1.95 2.45)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"F.Fab\")\n\t)\n",
+    );
+    for i in 0..4 {
+        let y = -1.905 + 1.27 * f64::from(i);
+        fp += &format!(
+            "\t(pad \"{}\" smd rect\n\t\t(at -2.7 {y})\n\t\t(size 1.9 0.6)\n\t\t(layers \"F.Cu\" \"F.Mask\")\n\t)\n",
+            i + 1
+        );
+        fp += &format!(
+            "\t(pad \"{}\" smd rect\n\t\t(at 2.7 {y})\n\t\t(size 1.9 0.6)\n\t\t(layers \"F.Cu\" \"F.Mask\")\n\t)\n",
+            8 - i
+        );
+    }
+    fp += "\t(model \"${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8.wrl\"\n\t)\n)\n";
+    let path = dir.write("lib/footprints/VHRD_Package_SO.pretty/P.kicad_mod", &fp);
+
+    let out = kilib(&dir, &["lint", "lib/footprints"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    for want in [
+        "VHRD_Package_SO:P (part)",
+        "fix  attrs     part attributes through_hole → smd",
+        "fix  models    3D model ${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8.wrl → ${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8.step",
+        "fix  courtyard no courtyard: drawn round the pads and body at 0.25 mm",
+        "fix  silk      silk fp_line cut clear of pad 1",
+        "fix  pin1      no pin-1 mark on F.Fab (nothing tells pin 1 from pad 5): pin-1 corner chamfered",
+        "kilib lint: 1 footprints, 1 to change; fixes: attrs 1, models 1, courtyard 1, silk 1, pin1 1; left for a person: none",
+        "3D model files not checked under VHRD_3DMODEL_DIR, KICAD10_3DMODEL_DIR",
+    ] {
+        assert!(t.contains(want), "missing {want:?} in:\n{t}");
+    }
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), fp, "nothing written without --write");
+
+    let out = kilib(&dir, &["lint", "--json", "--rule", "attrs", "lib/footprints"]);
+    let json: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+    assert_eq!(json[0]["findings"][0]["rule"], "attrs");
+    assert_eq!(json[0]["findings"].as_array().unwrap().len(), 1);
+
+    let out = kilib(&dir, &["lint", "--write", "lib/footprints"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let out = kilib(&dir, &["lint", "lib/footprints"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("✓ nothing to fix"), "{t}");
+
+    let out = kilib(&dir, &["lint", "--rule", "pins", "lib/footprints"]);
+    assert_eq!(out.status.code(), Some(2), "{}", text(&out));
+    assert!(text(&out).contains("unknown rule \"pins\": one of attrs, models, courtyard, silk, pin1"));
+    let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
+    assert!(usage.contains("\tlint\twrite\n") && usage.contains("\tlint\trule,json\n"), "{usage}");
+}

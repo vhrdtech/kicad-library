@@ -1,7 +1,8 @@
 //! KiCad's stock footprints that boards use, kept as copies of our own: `Lib:Name` from KiCad's footprint folder
 //! (`${KICAD10_FOOTPRINT_DIR}`) becomes `VHRD_Lib:Name` in the checkout's `footprints/`. The copy is the stock
-//! file with the designator and fab lines by [`crate::fab`] and the Value hidden; pads, other graphics, the 3D model
-//! (through KiCad's own path variable) and every other byte stay as they were.
+//! file with the library rules' fixes ([`crate::lint`]: pin-1 marks, attributes, courtyard, silkscreen), the
+//! designator and fab lines by [`crate::fab`] and the Value hidden; pads, the 3D model (through KiCad's own path
+//! variable) and every other byte stay as they were.
 //!
 //! The copies are on purpose: a KiCad update never changes our footprints unannounced. [`compare`] shows what a
 //! fresh import of the current stock file would change in a copy, so upstream changes are taken in deliberately.
@@ -9,6 +10,7 @@
 use std::path::{Path, PathBuf};
 
 use crate::fab;
+use crate::lint;
 use crate::migrate::{Edit, apply_edits, unified_diff};
 use crate::sexpr;
 
@@ -23,6 +25,18 @@ pub fn import_text(stock: &str) -> Result<String, String> {
         fab::Outcome::Skipped(why) => return Err(why),
     };
     hide_value(&text)
+}
+
+/// The copy of a stock footprint going into library `lib` (`VHRD_Resistor_SMD`): the library rules' fixes, then
+/// [`import_text`].
+pub fn import_into(stock: &str, lib: &str) -> Result<String, String> {
+    import_text(&lint_fixed(stock, lib)?)
+}
+
+/// The text with every fix of the library rules, as `kilib lint --write` leaves it.
+fn lint_fixed(text: &str, lib: &str) -> Result<String, String> {
+    let (_, new, _) = lint::lint_text(text, lib, &lint::Rule::ALL, &lint::Context::default())?;
+    Ok(new.unwrap_or_else(|| text.to_string()))
 }
 
 /// The text with its `Value` property hidden (`(hide yes)` after its layer, where KiCad writes it).
@@ -80,7 +94,7 @@ pub fn plan_import(stock: &Path, footprints: &Path, ids: &[String]) -> Vec<Impor
                     } else {
                         match std::fs::read_to_string(&from) {
                             Err(e) => ImportOutcome::Error(format!("{}: {e}", from.display())),
-                            Ok(t) => match import_text(&t) {
+                            Ok(t) => match import_into(&t, &format!("{PREFIX}{lib}")) {
                                 Ok(text) => ImportOutcome::New { text },
                                 Err(e) => ImportOutcome::Error(e),
                             },
@@ -156,7 +170,7 @@ pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
             let outcome = match (std::fs::read_to_string(&ours), std::fs::read_to_string(&stock_path)) {
                 (Err(e), _) => Compared::Error(format!("{}: {e}", ours.display())),
                 (_, Err(e)) => Compared::Error(format!("{}: {e}", stock_path.display())),
-                (Ok(o), Ok(s)) => match fresh(&s) {
+                (Ok(o), Ok(s)) => match fresh(&s, &lib) {
                     Err(e) => Compared::Error(e),
                     Ok(fresh) if fresh == o => Compared::Same,
                     Ok(fresh) => {
@@ -173,7 +187,8 @@ pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
 
 /// A fresh import for comparing: a footprint the designator rules cannot place (a logo without pads) is compared
 /// with its stock text, the Value hidden where it has one.
-fn fresh(stock: &str) -> Result<String, String> {
+fn fresh(stock: &str, lib: &str) -> Result<String, String> {
+    let stock = &lint_fixed(stock, lib).unwrap_or_else(|_| stock.to_string());
     match fab::fix(stock) {
         fab::Outcome::Skipped(_) if sexpr::parse(stock).is_ok() => {
             if stock.contains("(property \"Value\"") {
@@ -288,6 +303,12 @@ mod tests {
         let ours = fps.join("VHRD_Resistor_SMD.pretty/R_0402.kicad_mod");
         assert!(ours.is_file());
         assert_eq!(plan_import(&stock, &fps, &ids[..1])[0].outcome, ImportOutcome::Exists);
+        // The copy follows the library rules: the courtyard the stock fixture lacks is drawn, and nothing is left to fix.
+        let copy = std::fs::read_to_string(&ours).unwrap();
+        assert!(copy.contains("(layer \"F.CrtYd\")"), "{copy}");
+        let (_, again, _) =
+            lint::lint_text(&copy, "VHRD_Resistor_SMD", &lint::Rule::ALL, &lint::Context::default()).unwrap();
+        assert!(again.is_none(), "{again:?}");
 
         let c = compare(&stock, &fps);
         assert_eq!(c.len(), 1);

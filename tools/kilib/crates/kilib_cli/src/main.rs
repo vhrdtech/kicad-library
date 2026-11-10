@@ -1,6 +1,7 @@
 //! `kilib`: checks that KiCad boards resolve their libraries on this PC, and sets up this PC's KiCad config for
 //! kicad-library.
 
+mod lint_cmd;
 mod usage;
 
 use std::io::Write;
@@ -55,6 +56,7 @@ Examples:
   kilib fab-designators                 which footprints still put the designator on the silkscreen
   kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
+  kilib lint --left                     what the footprint rules leave for a person (pin 1, courtyards, models...)
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -239,6 +241,24 @@ Examples:
         #[arg(long, short)]
         verbose: bool,
     },
+    /// Check footprints against the library rules: pin-1 marks, attributes, courtyards, 3D models, silkscreen
+    ///
+    /// pin1: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the silkscreen
+    /// where they draw one; fix: a chamfered corner on a rectangular fab outline, a filled triangle on the silkscreen.
+    /// attrs: test points, net ties, spark gaps, jumpers, logos and mounting holes out of the BOM and position
+    /// files, fiducials in the position files, parts SMD or through-hole as their pads are. courtyard: present,
+    /// closed, 0.25 mm from pads and body (0.1 mm for 0201 to 0603 passives); fix: drawn or grown when it is a
+    /// rectangle. models: every part has one under ${VHRD_3DMODEL_DIR} or ${KICAD10_3DMODEL_DIR}, and the file
+    /// exists; fix: older KiCad variables moved to KICAD10. silk: 0.12 mm lines, none on a pad's mask opening, no
+    /// text but pin-1 marks; fix: widths set, lines cut. The designator is left to `kilib fab-designators`. Lists
+    /// what each fix changes and what is left for a person; exits 1 when a fix is not yet written.
+    #[command(after_help = "\
+Examples:
+  kilib lint
+  kilib lint --left --rule pin1,courtyard
+  kilib lint --write footprints/VHRD_Package_SO.pretty
+  kilib lint --rule models --var VHRD_3DMODEL_DIR=~/sync/kicad-3d --json > models.json")]
+    Lint(lint_cmd::LintArgs),
 }
 
 #[derive(Subcommand)]
@@ -371,6 +391,10 @@ fn main() -> ExitCode {
         Command::Stock(StockCommand::Diff { stock, stat }) => {
             usage::record("stock diff", &[("stat", stat), ("stock-dir", stock.stock_dir.is_some())]);
             run_stock_diff(&stock, stat)
+        }
+        Command::Lint(args) => {
+            usage::record("lint", &args.usage_flags());
+            lint_cmd::run(args)
         }
         Command::Layers { boards, write } => {
             usage::record("layers", &[("write", write)]);
