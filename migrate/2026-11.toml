@@ -56,6 +56,7 @@
 "VHRD_Graphic" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Graphic.kicad_symdir"
 "VHRD_Interface_CAN_LIN" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Interface_CAN_LIN.kicad_symdir"
 "VHRD_Interface_Ethernet" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Interface_Ethernet.kicad_symdir"
+"VHRD_Interface_Expansion" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Interface_Expansion.kicad_symdir"
 "VHRD_Interface_USB" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Interface_USB.kicad_symdir"
 "VHRD_Isolator" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Isolator.kicad_symdir"
 "VHRD_Logic_LevelTranslator" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Logic_LevelTranslator.kicad_symdir"
