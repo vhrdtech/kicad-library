@@ -723,7 +723,7 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
     } else {
         layer_graphics(fp, ref_layer).flat_map(|g| graphic_prims(g, stroke_width(g))).collect()
     };
-    let ref_stroke = layer_graphics(fp, ref_layer).map(|g| stroke_width(g)).fold(0.0, f64::max);
+    let ref_stroke = layer_graphics(fp, ref_layer).map(stroke_width).fold(0.0, f64::max);
     let own = !ref_lines.is_empty();
     let mut graphics = if own { ref_lines.clone() } else { lines.clone() };
     let text_layers = if ref_layer == fab {
