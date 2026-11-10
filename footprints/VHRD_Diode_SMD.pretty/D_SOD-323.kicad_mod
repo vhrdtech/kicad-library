@@ -6,14 +6,14 @@
 	(descr "SOD-323")
 	(tags "SOD-323")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "33e0d1d7-5c13-4661-8815-0d15bd5e6ba1")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.27 0.27)
+				(thickness 0.04)
 			)
 		)
 	)

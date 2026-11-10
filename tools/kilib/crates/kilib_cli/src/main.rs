@@ -175,8 +175,9 @@ Examples:
     ///
     /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint), visible and unlocked;
     /// ${REFERENCE} texts on the silkscreen and a second one on the fab layer go. The text is the largest size up
-    /// to 1 mm whose box (a four-character designator) fits inside the fab outline at least 0.1 mm from every
-    /// pad, at 0° or 90°; when not even 0.25 mm fits, it goes next to the body. A footprint that already follows
+    /// to 1 mm whose box (a five-character designator, its stroke included) fits inside the fab outline's lines
+    /// at least 0.1 mm from every pad, at 0° or 90°. When not even 0.25 mm fits, or the body lies within the pads'
+    /// box (chip passives, QFNs), it goes next to the body outside the pads. A footprint that already follows
     /// these rules is left as it is; every other byte stays. Without --write it lists what would change and exits
     /// 1 when anything would.
     #[command(after_help = "\

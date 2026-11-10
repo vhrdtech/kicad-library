@@ -6,14 +6,14 @@
 	(descr "TSSOP-8, 4.4x3mm, P0.65mm, TI PW0008A")
 	(tags "TSSOP PW0008A")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at -0.05 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fb58cb96-57ef-4202-9a51-2d0661e5be4e")
 		(effects
 			(font
-				(size 0.84 0.84)
-				(thickness 0.13)
+				(size 0.66 0.66)
+				(thickness 0.1)
 			)
 		)
 	)

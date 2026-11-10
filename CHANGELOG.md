@@ -53,6 +53,11 @@
 
 ### Changed
 
+- `kilib fab-designators` never puts the designator over a pad or across the fab outline: the text box is sized for
+  five characters (`R1234`, the library's `REF**`) with its stroke, stays inside the stroke of the outline's lines,
+  and goes outside the pads (smaller where it must) when the body lies within the pads' box (chip passives, QFNs).
+  72 of the library's 174 footprints moved their designator.
+
 - Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
   visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
   1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits

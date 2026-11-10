@@ -69,10 +69,12 @@ same under `footprints/<name>.pretty` for footprints.
 - `kilib fab-designators [PATH...]` keeps each footprint's designator on the fab layer only (default: this
   checkout's `footprints/`). The `Reference` property goes to F.Fab (B.Fab for a bottom-side footprint), visible and
   unlocked; `${REFERENCE}` texts on the silkscreen, and a second one on the fab layer, go. The text gets the largest
-  size up to 1 mm whose box, for a four-character designator in KiCad's stroke font, fits inside the fab outline at
-  least 0.1 mm from every pad, at 0° or 90°. When not even 0.25 mm fits there (pads under the body, an exposed pad),
-  it goes next to the body instead, level and above it where it can. A footprint without a fab outline round its
-  pads is measured by its courtyard. A footprint that already follows these rules is left alone. It lists what
+  size up to 1 mm whose box, for a five-character designator in KiCad's stroke font (the stroke included), fits
+  inside the fab outline (inside the stroke of its lines) at least 0.1 mm from every pad, at 0° or 90°. When not
+  even 0.25 mm fits there (pads under the body, an exposed pad), or the body lies within the pads' box (chip
+  resistors and capacitors, QFNs: text between the pads is hidden by them), it goes next to the body and outside
+  the pads instead, level and above them where it can, smaller where it must. A footprint without a fab outline
+  round its pads is measured by its courtyard. A footprint that already follows these rules is left alone. It lists what
   would change and exits 1; `--write` writes it. Boards take the new footprints through pcbnew's "Update
   Footprints from Library".
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).

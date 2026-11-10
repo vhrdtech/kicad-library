@@ -31,6 +31,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-9 license: `LICENSE.md`, CC-BY-SA 4.0 with KiCad's library exception, the same as KiCad's own libraries;
   `README.md` for outside users, and the repo scrubbed of tpm ids, PC names and people's names
 - ✅ LIB-10 fab-designators: every footprint's designator only on F.Fab (B.Fab for bottom-side parts), visible and
-  unlocked, never on the silkscreen and never twice; sized up to 1 mm and placed inside the body clear of every pad
-  by 0.1 mm (turned 90° when that fits better), else next to the body; `kilib fab-designators` lists what breaks
+  unlocked, never on the silkscreen and never twice; sized up to 1 mm for a five-character designator and placed
+  inside the fab outline's lines clear of every pad by 0.1 mm (turned 90° when that fits better), else (and always
+  for a body within the pads' box) next to the body outside the pads; `kilib fab-designators` lists what breaks
   these rules and `--write` fixes it

@@ -1,8 +1,10 @@
 //! Footprints whose designator lives only on the fab layer: the `Reference` property on F.Fab (B.Fab for a
 //! bottom-side footprint), visible and unlocked, no `${REFERENCE}` text on the silkscreen and no second one on the
 //! fab layer. The text is sized and placed so that its box never touches a pad: the largest size up to
-//! [`MAX_SIZE`] that fits inside the body clear of every pad, at 0° or 90°; when not even [`MIN_SIZE`] fits, next
-//! to the body. Every other byte of the footprint stays as it was.
+//! [`MAX_SIZE`] that fits inside the body's outline (inside the stroke of its lines) clear of every pad, at 0° or
+//! 90°. When not even [`MIN_SIZE`] fits there, or the body lies within the pads' box (small passives, QFNs: text
+//! between or over the pads is hidden by them), it goes outside the body and the pads. Every other byte of the
+//! footprint stays as it was.
 //!
 //! [`check`] judges a footprint by these rules, so a reference placed by hand that follows them is left alone;
 //! [`plan`] rewrites only the footprints that break one, and what it writes passes [`check`].
@@ -13,10 +15,12 @@ use std::path::{Path, PathBuf};
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node};
 
-/// Ink box of a four-character designator (`U123`) in KiCad's stroke font at size 1 mm and thickness 0.15 mm,
-/// from the text's anchor, as pcbnew measures it (x -1.789 to 1.837, y -0.620 to 0.530), rounded outwards: the
-/// ink sits a little right of and above the anchor. Boards mostly carry designators of two to four characters.
-pub const INK: Ink = Ink { x0: -1.80, x1: 1.85, y0: -0.63, y1: 0.54 };
+/// Ink box of a five-character designator (`R1234`, and the library's `REF**`) in KiCad's stroke font at size 1 mm
+/// and thickness 0.15 mm, the stroke included, from the text's anchor, as pcbnew plots it (x -2.242 to 2.337,
+/// y -0.668 to 0.530), rounded outwards: the ink sits a little right of and above the anchor. Boards carry
+/// designators of two to five characters (a fifth of them five). The thickness is 15 % of the size, so the box
+/// scales with it.
+pub const INK: Ink = Ink { x0: -2.25, x1: 2.35, y0: -0.67, y1: 0.54 };
 /// KiCad's convention for fab text: 1 mm, smaller to fit the part, not below 0.25 mm.
 pub const MAX_SIZE: f64 = 1.0;
 pub const MIN_SIZE: f64 = 0.25;
@@ -96,9 +100,42 @@ pub enum BodyFrom {
 /// What the layout reads of a footprint.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Shape {
+    /// The body's box, the stroke of its lines included.
     pub body: Rect,
     pub body_from: BodyFrom,
+    /// The widest stroke of the lines the body was measured by (0 for a body from the pads).
+    pub stroke: f64,
     pub pads: Vec<Rect>,
+}
+
+impl Shape {
+    /// Inside the stroke of the body's outline: where text inside the body may go.
+    pub fn inner(&self) -> Rect {
+        self.body.expand(-self.stroke)
+    }
+
+    pub fn pads_box(&self) -> Option<Rect> {
+        Rect::of_points(self.pads.iter().flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)]))
+    }
+
+    /// The body lies within the pads' box (a chip resistor, a QFN): text inside it would sit between or over
+    /// the pads, so it goes outside them.
+    pub fn within_pads(&self) -> bool {
+        self.pads_box().is_some_and(|p| p.contains(&self.body))
+    }
+
+    /// The body and the pads' box together: what text next to the body stays out of.
+    pub fn outline(&self) -> Rect {
+        match self.pads_box() {
+            Some(p) => Rect {
+                x0: self.body.x0.min(p.x0),
+                y0: self.body.y0.min(p.y0),
+                x1: self.body.x1.max(p.x1),
+                y1: self.body.y1.max(p.y1),
+            },
+            None => self.body,
+        }
+    }
 }
 
 /// A designator's size, centre and angle (0 or 90).
@@ -205,10 +242,17 @@ fn round3(v: f64) -> f64 {
     if r == 0.0 { 0.0 } else { r }
 }
 
-/// The best place inside the body: the largest size (up to [`MAX_SIZE`]) clear of the pads, at the angle that
-/// allows it (on a tie, 90° for a body taller than wide), as near the body's centre as that size allows.
+/// The best place inside the body's outline: the largest size (up to [`MAX_SIZE`]) clear of the pads, at the
+/// angle that allows it (on a tie, 90° for a body taller than wide), as near the body's centre as that size
+/// allows. None for a body within the pads' box.
 pub fn inside(shape: &Shape) -> Option<Placement> {
-    let body = &shape.body;
+    if shape.within_pads() {
+        return None;
+    }
+    let body = &shape.inner();
+    if body.w() <= 0.0 || body.h() <= 0.0 {
+        return None;
+    }
     let centre = body.center();
     let angles = if body.h() > body.w() + EPS { [90.0, 0.0] } else { [0.0, 90.0] };
     let mut best: Option<(f64, f64)> = None; // (size, angle)
@@ -240,24 +284,38 @@ pub fn inside(shape: &Shape) -> Option<Placement> {
     Some(Placement { x, y, angle, size, inside: true })
 }
 
-/// Next to the body: a size from the body's length, clear of the pads and the body, as close to the body as
-/// possible (in 0.5 mm bands); in a band level text, then above, then centred, then the closest.
+/// Next to the body: outside the body and the pads' box ([`Shape::outline`]), clear of the pads, a size from the
+/// body's length (smaller, down to [`MIN_SIZE`], where that does not fit), as close as possible (in 0.5 mm bands);
+/// in a band level text, then above, then centred, then the closest.
 pub fn outside(shape: &Shape) -> Option<Placement> {
     let body = &shape.body;
-    let size = floor2((body.w().max(body.h()) / INK.width()).clamp(MIN_SIZE, MAX_SIZE));
-    let centre = body.center();
+    let around = shape.outline();
+    let mut size = floor2((body.w().max(body.h()) / INK.width()).clamp(MIN_SIZE, MAX_SIZE));
+    loop {
+        if let Some(p) = outside_at(shape, &around, size) {
+            return Some(p);
+        }
+        if size <= MIN_SIZE + EPS {
+            return None;
+        }
+        size = floor2((size - 0.05).max(MIN_SIZE));
+    }
+}
+
+fn outside_at(shape: &Shape, around: &Rect, size: f64) -> Option<Placement> {
+    let centre = around.center();
     // (distance band, angle rank, below, off-centre, distance), smallest first.
     type Key = (i64, u8, u8, i64, i64);
     let mut best: Option<(Key, Placement)> = None;
     for (rank, angle) in [(0u8, 0.0), (1, 90.0)] {
         let probe = text_rect(0.0, 0.0, angle, size, size);
-        let area = body.expand(NEAR + probe.w().max(probe.h()));
+        let area = around.expand(NEAR + probe.w().max(probe.h()));
         for (x, y) in grid(area, centre) {
             let r = text_rect(x, y, angle, size, size);
-            if r.overlaps(body) || shape.pads.iter().any(|p| r.overlaps(&p.expand(MARGIN))) {
+            if r.overlaps(around) || shape.pads.iter().any(|p| r.overlaps(&p.expand(MARGIN))) {
                 continue;
             }
-            let d = r.distance(body);
+            let d = r.distance(around);
             if d > NEAR + EPS {
                 continue;
             }
@@ -278,7 +336,8 @@ pub fn outside(shape: &Shape) -> Option<Placement> {
     best.map(|(_, p)| p)
 }
 
-/// Where the designator goes: inside the body when [`MIN_SIZE`] fits there, else next to it.
+/// Where the designator goes: inside the body when [`MIN_SIZE`] fits there (and the body is not within the pads'
+/// box), else next to the body and the pads.
 pub fn layout(shape: &Shape) -> Option<Placement> {
     inside(shape).or_else(|| outside(shape))
 }
@@ -331,15 +390,18 @@ fn xy(n: &Node) -> Option<(f64, f64)> {
     Some((num(n.items().get(1))?, num(n.items().get(2))?))
 }
 
-/// The points a graphic item covers, its stroke included (start, end, mid, centre, pts).
-fn graphic_points(g: &Node) -> Vec<(f64, f64)> {
-    let mut pts = Vec::new();
-    let half = g
-        .child("stroke")
+/// A graphic item's line width.
+fn stroke_width(g: &Node) -> f64 {
+    g.child("stroke")
         .and_then(|s| num(s.child("width").and_then(|w| w.items().get(1))))
         .or_else(|| num(g.child("width").and_then(|w| w.items().get(1))))
         .unwrap_or(0.0)
-        / 2.0;
+}
+
+/// The points a graphic item covers, its stroke included (start, end, mid, centre, pts).
+fn graphic_points(g: &Node) -> Vec<(f64, f64)> {
+    let mut pts = Vec::new();
+    let half = stroke_width(g) / 2.0;
     let head = g.head().unwrap_or("");
     if head.ends_with("circle") {
         if let (Some(c), Some(e)) = (g.child("center").and_then(xy), g.child("end").and_then(xy)) {
@@ -361,13 +423,16 @@ fn graphic_points(g: &Node) -> Vec<(f64, f64)> {
 
 const GRAPHICS: [&str; 6] = ["fp_line", "fp_rect", "fp_circle", "fp_arc", "fp_poly", "fp_curve"];
 
-fn layer_box(fp: &Node, layer: &str) -> Option<Rect> {
-    Rect::of_points(
-        fp.items()
-            .iter()
-            .filter(|g| g.head().is_some_and(|h| GRAPHICS.contains(&h)) && g.value("layer") == Some(layer))
-            .flat_map(graphic_points),
-    )
+fn layer_graphics<'a>(fp: &'a Node, layer: &'a str) -> impl Iterator<Item = &'a Node> {
+    fp.items()
+        .iter()
+        .filter(move |g| g.head().is_some_and(|h| GRAPHICS.contains(&h)) && g.value("layer") == Some(layer))
+}
+
+/// The box of a layer's graphics, their strokes included, and the widest stroke.
+fn layer_box(fp: &Node, layer: &str) -> Option<(Rect, f64)> {
+    let body = Rect::of_points(layer_graphics(fp, layer).flat_map(graphic_points))?;
+    Some((body, layer_graphics(fp, layer).map(stroke_width).fold(0.0, f64::max)))
 }
 
 /// A pad's box: its size and drill, and a custom pad's primitives, turned by the pad's angle.
@@ -454,12 +519,12 @@ pub fn read(text: &str) -> Result<Footprint, String> {
     let pads_box = Rect::of_points(pads.iter().flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)]));
     let covers_pads =
         |b: &Rect| pads_box.is_none_or(|p| b.contains(&Rect::around(p.center().0, p.center().1, 0.0, 0.0)));
-    let shape = if let Some(body) = layer_box(&fp, fab).filter(covers_pads) {
-        Some(Shape { body, body_from: BodyFrom::Fab, pads })
-    } else if let Some(body) = layer_box(&fp, crtyd) {
-        Some(Shape { body, body_from: BodyFrom::Courtyard, pads })
+    let shape = if let Some((body, stroke)) = layer_box(&fp, fab).filter(|(b, _)| covers_pads(b)) {
+        Some(Shape { body, body_from: BodyFrom::Fab, stroke, pads })
+    } else if let Some((body, stroke)) = layer_box(&fp, crtyd) {
+        Some(Shape { body, body_from: BodyFrom::Courtyard, stroke, pads })
     } else {
-        pads_box.map(|body| Shape { body, body_from: BodyFrom::Pads, pads })
+        pads_box.map(|body| Shape { body, body_from: BodyFrom::Pads, stroke: 0.0, pads })
     };
     Ok(Footprint { back, reference, ref_texts, shape })
 }
@@ -513,11 +578,16 @@ pub fn check(fp: &Footprint) -> Vec<String> {
             out.push(format!("Reference within {MARGIN} mm of {hits} pads"));
         }
         if inside(shape).is_some() {
-            if !shape.body.contains(&rect) {
-                out.push("Reference not inside the body, where it fits".into());
+            if !shape.inner().contains(&rect) {
+                out.push("Reference not inside the body's outline, where it fits".into());
             }
-        } else if rect.distance(&shape.body) > NEAR + EPS {
-            out.push("Reference not next to the body".into());
+        } else {
+            let around = shape.outline();
+            if rect.overlaps(&around) {
+                out.push("Reference over the body or the pads".into());
+            } else if rect.distance(&around) > NEAR + EPS {
+                out.push("Reference not next to the body".into());
+            }
         }
     }
     out
@@ -765,7 +835,39 @@ mod tests {
         let pads = [(-1.1, -0.95, 0.9, 0.6), (-1.1, 0.95, 0.9, 0.6), (1.1, 0.0, 0.9, 0.6)];
         let (p, _) = changed(&footprint(1.3, 2.9, &pads, "F.SilkS", &[]));
         assert_eq!(p.angle, 90.0);
-        assert!(p.inside && p.size >= 0.7, "{p:?}");
+        assert!(p.inside && p.size >= 0.6, "{p:?}");
+    }
+
+    #[test]
+    fn text_inside_stays_off_the_outline_stroke() {
+        // A wide outline line: the text keeps inside its inner edge.
+        let pads = [(-3.0, 0.0, 1.0, 1.0), (3.0, 0.0, 1.0, 1.0)];
+        let text = footprint(4.0, 1.4, &pads, "F.SilkS", &[]).replace("(width 0.1)", "(width 0.3)");
+        let (p, new) = changed(&text);
+        let fp = read(&new).unwrap();
+        let shape = fp.shape.as_ref().unwrap();
+        assert!((shape.stroke - 0.3).abs() < 1e-9, "{shape:?}");
+        assert!(p.inside && shape.inner().contains(&p.rect()), "{p:?}");
+        assert!(Rect::around(0.0, 0.0, 1.85, 0.55).contains(&p.rect()), "off the line drawn at ±2 x ±0.7: {p:?}");
+        assert_eq!(check(&fp), Vec::<String>::new());
+    }
+
+    #[test]
+    fn a_body_within_the_pads_puts_the_text_outside_the_pads() {
+        // 1206: the body sits within the pads' box. There is room between the pads, but the text goes outside
+        // them, never between or over them.
+        let pads = [(-1.475, 0.0, 1.05, 1.75), (1.475, 0.0, 1.05, 1.75)];
+        let (p, new) = changed(&footprint(3.2, 1.6, &pads, "F.SilkS", &["F.Fab"]));
+        let fp = read(&new).unwrap();
+        let shape = fp.shape.as_ref().unwrap();
+        assert!(shape.within_pads());
+        assert!(!p.inside, "{p:?}");
+        assert!(!p.rect().overlaps(&shape.outline()), "{p:?} over {:?}", shape.outline());
+        assert!(p.rect().y1 <= -0.875 + 1e-9, "above the pads: {p:?}");
+        assert_eq!(check(&fp), Vec::<String>::new());
+        // A designator placed between the pads by hand breaks the rule.
+        let between = new.replace(&format!("(at {} {} {})", fmt(p.x), fmt(p.y), fmt(p.angle)), "(at 0 0 90)");
+        assert!(check(&read(&between).unwrap()).iter().any(|w| w.contains("over the body")));
     }
 
     #[test]

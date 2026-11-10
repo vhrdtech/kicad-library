@@ -6,7 +6,7 @@
 	(descr "QFN, 80 Pin (https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "QFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 -2.35 0)
+		(at 0 -6 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "75ea009b-2644-4ecb-839f-b16f3e7c8b26")

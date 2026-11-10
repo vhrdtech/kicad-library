@@ -6,14 +6,14 @@
 	(descr "VSSOP, 10 Pin (http://www.ti.com/lit/ds/symlink/ads1115.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "VSSOP SO")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0 0.05 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "b6777d3e-a81f-4fd3-a936-1c111dc46186")
 		(effects
 			(font
-				(size 0.83 0.83)
-				(thickness 0.12)
+				(size 0.62 0.62)
+				(thickness 0.09)
 			)
 		)
 	)
