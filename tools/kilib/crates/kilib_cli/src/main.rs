@@ -181,7 +181,7 @@ Examples:
     ///
     /// The copies are on purpose: a KiCad update never changes our footprints unannounced. `import` copies
     /// Lib:Name from KiCad's footprint folder to footprints/VHRD_Lib.pretty/Name.kicad_mod with the designator on
-    /// the fab layer and its lines at 0.05 mm (as fab-designators puts them) and the Value hidden; pads, other
+    /// the fab layer, its lines at 0.05 mm and the Value on Value.F (as fab-designators puts them); pads, other
     /// graphics and the 3D model stay as in stock. `diff` shows, for every copy with a stock footprint of the same
     /// name, what a fresh import would change, so upstream changes are taken in deliberately.
     #[command(subcommand)]
@@ -210,22 +210,26 @@ Examples:
         #[arg(long)]
         write: bool,
     },
-    /// Put each footprint's designator on the fab layer only, centred on the body
+    /// Put each footprint's designator on the fab layer only, centred on the body, and its Value beside it
     ///
-    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint; User.9, named NetTie.Ref in the
-    /// templates, for a net tie), visible and unlocked; ${REFERENCE} texts on the silkscreen and a second one on
-    /// the fab layer go, and the Value is hidden. The text's ink, measured in KiCad's stroke font with the strokes
-    /// counted, is centred on the fab outline (else the courtyard). Pads do not matter (KiCad draws the selected
-    /// fab layer on top); the other drawing on the fab layer does: 0.02 mm stays free between the strokes. A
-    /// library footprint is sized for the longest designator of its kind (R1004, C1001, TP526, U1004). It gets the
-    /// largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°; else it moves to the
-    /// largest free spot inside the body nearest the centre; else it may go down to 0.15 mm (0201, 01005: listed as
-    /// "tiny"); else it stays on the centre at 0.2 mm and is listed as "no clean fit". Strokes are 15 % of the size,
-    /// at least 0.025 mm. Every line on F.Fab and B.Fab gets a 0.05 mm stroke. A footprint that already follows
-    /// these rules is left as it is; every other byte stays. With --board, each footprint on that board whose
-    /// Reference is already on its designator layer gets its own designator fitted the same way (a short one gets
-    /// larger text); only the Reference's position, angle, size and thickness change. Without --write it lists
-    /// what would change and exits 1 when anything would.
+    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint; Ref.Test, Ref.Tie or Ref.Mech for
+    /// test points, net ties and mechanical footprints), visible and unlocked; ${REFERENCE} texts on the
+    /// silkscreen and a second one on the fab layer go. The text's ink, measured in KiCad's stroke font with the
+    /// strokes counted, is centred on the fab outline (else the courtyard). Pads do not matter (KiCad draws the
+    /// selected fab layer on top); the other drawing on the fab layer does: 0.02 mm stays free between the
+    /// strokes. A library footprint is sized for the longest designator of its kind (R1004, C1001, TP526, U1004).
+    /// It gets the largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°; else it
+    /// moves to the largest free spot inside the body nearest the centre; else it may go down to 0.15 mm (0201,
+    /// 01005: listed as "tiny"); else it stays on the centre at 0.2 mm and is listed as "no clean fit". Strokes are
+    /// 15 % of the size, at least 0.025 mm. Every line on F.Fab and B.Fab gets a 0.05 mm stroke. The Value goes to
+    /// Value.F (User.17; Value.B, User.18, on the back), shown and unlocked (a mechanical footprint's hidden),
+    /// fitted the same way for a long value of the kind (100k, 4.7uF, TPS54202DDC) with the designator's ink as one
+    /// more obstacle, so the two sit side by side when both layers are shown; where nothing fits beside it, the
+    /// Value crosses the designator, turned the other way. A footprint that already follows these rules is left as
+    /// it is; every other byte stays. With --board, each footprint on that board whose Reference is already on its
+    /// designator layer gets its own designator fitted the same way (a short one gets larger text), and its own
+    /// Value beside it where the Value is on its layer; only the two properties' position, angle, size and
+    /// thickness change. Without --write it lists what would change and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
   kilib fab-designators
@@ -235,7 +239,7 @@ Examples:
         /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
         #[arg(value_hint = ValueHint::AnyPath, conflicts_with = "board")]
         paths: Vec<PathBuf>,
-        /// Fit the designators of the footprints on this board instead, each to its own text
+        /// Fit the designators and values of the footprints on this board instead, each to its own text
         #[arg(long, value_name = "PCB", value_hint = ValueHint::FilePath)]
         board: Option<PathBuf>,
         /// Write the changes
@@ -279,7 +283,7 @@ Examples:
 
 #[derive(Subcommand)]
 enum StockCommand {
-    /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on the fab layer, Value hidden
+    /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on the fab layer, Value beside it
     ///
     /// With --symbols, copy stock symbols into symbols/VHRD_Lib.kicad_symdir instead: made standalone (a derived
     /// symbol gets its parent's pins and graphics), the Footprint field at our copy of the footprint where the
@@ -809,7 +813,7 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
     let items = fab::plan(&paths);
     let (mut changed, mut fine, mut skipped) = (0, 0, 0);
     let (mut moved, mut resized, mut turned, mut unclean) = (0, 0, 0, Vec::new());
-    let mut placements = Vec::new();
+    let (mut placements, mut value_placements) = (Vec::new(), Vec::new());
     for i in &items {
         match &i.outcome {
             fab::Outcome::Fine => {
@@ -861,6 +865,13 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
         }
         if let Some(p) = placed {
             placements.push((i.id.as_str(), p));
+            let value = match &i.outcome {
+                fab::Outcome::Change { value, .. } => *value,
+                _ => fab::read_as(&i.old, &i.id).ok().and_then(|f| f.value_placement(&p)),
+            };
+            if let Some(v) = value {
+                value_placements.push((i.id.as_str(), v));
+            }
         }
     }
     eprintln!(
@@ -875,6 +886,21 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
             fab::fmt(fab::MIN_SIZE),
             unclean.join(", ")
         );
+    }
+    let crossing: Vec<&str> = value_placements.iter().filter(|(_, v)| !v.clean).map(|(id, _)| *id).collect();
+    let sizes: Vec<f64> = value_placements.iter().filter(|(_, v)| v.clean).map(|(_, v)| v.size).collect();
+    if !sizes.is_empty() {
+        let (lo, hi) = sizes.iter().fold((f64::MAX, 0.0_f64), |(l, h), s| (l.min(*s), h.max(*s)));
+        eprintln!(
+            "values: {} beside the designator or just outside the body ({} to {} mm), {} crossing it",
+            sizes.len(),
+            fab::fmt(lo),
+            fab::fmt(hi),
+            crossing.len()
+        );
+    }
+    if !crossing.is_empty() {
+        eprintln!("{CYAN}value crossing the designator{CYAN:#} ({}): {}", crossing.len(), crossing.join(", "));
     }
     if changed == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
@@ -976,6 +1002,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let plan = fab::plan_board(&text).map_err(|e| format!("{}: {e}", path.display()))?;
     let (mut changed, mut fine, mut skipped, mut unclean) = (0, 0, Vec::new(), Vec::new());
+    let mut values = 0;
     let mut placements = Vec::new();
     for i in &plan.items {
         let name = if i.reference.is_empty() { i.id.as_str() } else { i.reference.as_str() };
@@ -1016,9 +1043,28 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
         {
             unclean.push(name);
         }
+        match &i.value {
+            fab::BoardOutcome::Change { before: b, placement: p, angle } => {
+                values += 1;
+                let fit = if p.clean { "" } else { ", crossing the designator" };
+                println!(
+                    "  {BOLD}{name}{BOLD:#} value: {} mm {}° at ({}, {}){fit} {DIM}(was {} mm {}° at ({}, {})){DIM:#}",
+                    fab::fmt(p.size),
+                    fab::fmt(*angle),
+                    fab::fmt(p.x),
+                    fab::fmt(p.y),
+                    fab::fmt(b.size),
+                    fab::fmt(b.angle),
+                    fab::fmt(b.x),
+                    fab::fmt(b.y),
+                );
+            }
+            fab::BoardOutcome::Skipped(why) if verbose => println!("{DIM}  {name} value: skipped, {why}{DIM:#}"),
+            _ => {}
+        }
     }
     eprintln!(
-        "{BOLD}kilib fab-designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped",
+        "{BOLD}kilib fab-designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change",
         path.display(),
         plan.items.len(),
         skipped.len()
@@ -1041,12 +1087,12 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
             unclean.join(", ")
         );
     }
-    if changed == 0 {
+    if changed == 0 && values == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
         Ok(ExitCode::SUCCESS)
     } else if write {
         fab::apply_board(path, &plan)?;
-        eprintln!("{GREEN}✓{GREEN:#} wrote {changed} designators to {}", path.display());
+        eprintln!("{GREEN}✓{GREEN:#} wrote {changed} designators and {values} values to {}", path.display());
         Ok(ExitCode::SUCCESS)
     } else {
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");

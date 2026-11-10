@@ -20,7 +20,7 @@ use std::f64::consts::TAU;
 use std::ops::Range;
 use std::path::{Path, PathBuf};
 
-use crate::layers::{Class, class_of};
+use crate::layers::{self, Class, class_of};
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node};
 pub use crate::stroke::Ink;
@@ -423,7 +423,61 @@ pub fn library_refs(class: Class, name: &str) -> &'static [&'static str] {
     }
 }
 
-/// The `Reference` property as the footprint has it.
+/// The values a library footprint's Value is fitted for, from its kind: a long realistic one (a board fits each
+/// footprint's own).
+pub fn library_values(class: Class, name: &str) -> &'static [&'static str] {
+    let name = name.rsplit(':').next().unwrap_or(name);
+    match class {
+        Class::Test => return &["TestPoint"],
+        Class::Tie => return &["NetTie_2"],
+        Class::Part | Class::Mech => {}
+    }
+    let starts = |p: &[&str]| p.iter().any(|p| name.starts_with(p));
+    if starts(&["R_", "RN_", "R_Array"]) {
+        &["100k"]
+    } else if starts(&["C_", "CP_"]) {
+        &["4.7uF"]
+    } else if starts(&["L_"]) {
+        &["4.7uH"]
+    } else if starts(&["D_", "LED_"]) {
+        &["SMBJ15A"]
+    } else if starts(&["Fuse"]) {
+        &["500mA"]
+    } else {
+        &["TPS54202DDC"]
+    }
+}
+
+/// Where the Value goes on a footprint whose designator sits at `by`: fitted like the designator ([`layout`]) for
+/// `values`, with the designator's ink as one more obstacle, so with both layers shown the two sit side by side,
+/// each as large as it gets. Where nothing fits beside the designator, the Value goes just outside the body
+/// ([`OUTSIDE_SIZES`], within [`OUTSIDE_REACH`]); where not even that fits, it crosses the designator: centred,
+/// turned the other way, the largest size that fits there, not clean.
+pub fn layout_value(shape: &Shape, by: &Placement, values: &[String]) -> Placement {
+    let r = shape.text_rect(by.x, by.y, by.angle, by.size);
+    let mut s = shape.clone();
+    s.texts = values.to_vec();
+    s.graphics.push(Prim::Area(r.corners().to_vec()));
+    if let Some(p) = place(&s, &sizes()).or_else(|| place(&s, &tiny_sizes())) {
+        return p;
+    }
+    // A body too small for both: the Value goes just outside it, nearest the centre.
+    let mut outside = s.clone();
+    let b = shape.body;
+    outside.region = b.expand(OUTSIDE_REACH);
+    outside.graphics.push(Prim::Area(vec![(b.x0, b.y0), (b.x1, b.y0), (b.x1, b.y1), (b.x0, b.y1)]));
+    if let Some(p) = place(&outside, &OUTSIDE_SIZES) {
+        return p;
+    }
+    s.graphics.pop();
+    let angle = if by.angle == 0.0 { 90.0 } else { 0.0 };
+    let all: Vec<f64> = sizes().into_iter().chain(tiny_sizes()).collect();
+    let (size, (x, y)) =
+        s.room(&all, s.centre(), angle).unwrap_or_else(|| (TINY_SIZE, s.anchor(s.centre(), angle, TINY_SIZE)));
+    Placement { x, y, angle, size, clean: false }
+}
+
+/// The `Reference` (or `Value`) property as the footprint has it.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Reference {
     pub value: String,
@@ -455,9 +509,11 @@ pub struct Footprint {
     /// Where its designator lives ([`class_of`]).
     pub class: Class,
     pub reference: Option<Reference>,
+    /// The `Value` property.
+    pub value: Option<Reference>,
+    /// The values the Value's text is fitted for ([`library_values`]; on a board, its own).
+    pub values: Vec<String>,
     pub ref_texts: Vec<RefText>,
-    /// The Value property is visible (false without one).
-    pub value_shown: bool,
     /// The stroke widths on F.Fab and B.Fab that are not [`FAB_STROKE`]: the `(width ...)` nodes.
     pub fab_widths: Vec<Range<usize>>,
     pub shape: Option<Shape>,
@@ -471,6 +527,16 @@ impl Footprint {
     /// The layer the designator belongs on ([`Class::layer`]).
     pub fn ref_layer(&self) -> &'static str {
         self.class.layer(self.back)
+    }
+
+    /// The layer the Value belongs on: Value.F, Value.B for a bottom-side footprint.
+    pub fn value_layer(&self) -> &'static str {
+        layers::side_of(layers::VALUE, self.back)
+    }
+
+    /// Where the Value goes beside the designator at `by` ([`layout_value`]).
+    pub fn value_placement(&self, by: &Placement) -> Option<Placement> {
+        self.shape.as_ref().map(|s| layout_value(s, by, &self.values))
     }
 }
 
@@ -647,6 +713,32 @@ fn is_ref_text(n: &Node) -> bool {
     n.head() == Some("fp_text") && n.arg(0) == Some("user") && n.arg(1).is_some_and(|t| t.contains("${REFERENCE}"))
 }
 
+/// A `Reference` or `Value` property as the footprint has it.
+fn property(n: &Node) -> Reference {
+    let at = n.child("at");
+    let effects = n.child("effects");
+    let (width, height, thickness) = font_size(effects);
+    let justify = effects
+        .and_then(|e| e.child("justify"))
+        .map(|j| j.items().iter().skip(1).filter_map(Node::as_atom).map(String::from).collect())
+        .unwrap_or_default();
+    Reference {
+        value: n.arg(1).unwrap_or("").to_string(),
+        layer: n.value("layer").unwrap_or("").to_string(),
+        hidden: hidden(n),
+        unlocked: yes(n, "unlocked"),
+        x: at.and_then(|a| num(a.items().get(1))).unwrap_or(0.0),
+        y: at.and_then(|a| num(a.items().get(2))).unwrap_or(0.0),
+        angle: at.and_then(|a| num(a.items().get(3))).unwrap_or(0.0),
+        width,
+        height,
+        thickness,
+        justify,
+        uuid: n.value("uuid").map(String::from),
+        span: n.span(),
+    }
+}
+
 /// Reads what the rules look at from a `.kicad_mod` text.
 pub fn read(text: &str) -> Result<Footprint, String> {
     read_as(text, "")
@@ -668,34 +760,11 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
     let back = fp.value("layer") == Some("B.Cu");
     let mut reference = None;
     let mut ref_texts = Vec::new();
-    let mut value_shown = false;
+    let mut value = None;
     for n in fp.items() {
         match n.head() {
-            Some("property") if n.arg(0) == Some("Reference") => {
-                let at = n.child("at");
-                let effects = n.child("effects");
-                let (width, height, thickness) = font_size(effects);
-                let justify = effects
-                    .and_then(|e| e.child("justify"))
-                    .map(|j| j.items().iter().skip(1).filter_map(Node::as_atom).map(String::from).collect())
-                    .unwrap_or_default();
-                reference = Some(Reference {
-                    value: n.arg(1).unwrap_or("").to_string(),
-                    layer: n.value("layer").unwrap_or("").to_string(),
-                    hidden: hidden(n),
-                    unlocked: yes(n, "unlocked"),
-                    x: at.and_then(|a| num(a.items().get(1))).unwrap_or(0.0),
-                    y: at.and_then(|a| num(a.items().get(2))).unwrap_or(0.0),
-                    angle: at.and_then(|a| num(a.items().get(3))).unwrap_or(0.0),
-                    width,
-                    height,
-                    thickness,
-                    justify,
-                    uuid: n.value("uuid").map(String::from),
-                    span: n.span(),
-                });
-            }
-            Some("property") if n.arg(0) == Some("Value") => value_shown = !hidden(n),
+            Some("property") if n.arg(0) == Some("Reference") => reference = Some(property(n)),
+            Some("property") if n.arg(0) == Some("Value") => value = Some(property(n)),
             _ if is_ref_text(n) => {
                 ref_texts.push(RefText { layer: n.value("layer").unwrap_or("").to_string(), span: n.span() });
             }
@@ -771,7 +840,8 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
         texts: texts.clone(),
         drawn: [0.0, 90.0],
     });
-    Footprint { back, class, reference, ref_texts, value_shown, fab_widths, shape }
+    let values = library_values(class, name).iter().map(|t| t.to_string()).collect();
+    Footprint { back, class, reference, value, values, ref_texts, fab_widths, shape }
 }
 
 fn is_silk(layer: &str) -> bool {
@@ -808,31 +878,60 @@ pub fn check(fp: &Footprint) -> Vec<String> {
             out.push(format!("{n} ${{REFERENCE}} on {l} besides the Reference"));
         }
     }
-    let mirror = r.justify.iter().any(|j| j == "mirror");
-    if r.justify.iter().any(|j| j != "mirror") || mirror != fp.back {
-        out.push(format!("Reference justified ({})", r.justify.join(" ")));
-    }
-    if fp.value_shown {
-        out.push("Value shown".into());
-    }
+    justified("Reference", r, fp.back, &mut out);
     if !fp.fab_widths.is_empty() {
         out.push(format!("{} fab lines not {FAB_STROKE} mm", fp.fab_widths.len()));
     }
-    if let Some(shape) = fp.shape.as_ref().filter(|_| fp.class.shown()) {
-        let p = layout(shape);
-        if (r.x - p.x).abs() > 5e-4 || (r.y - p.y).abs() > 5e-4 {
-            out.push(format!("Reference at ({}, {}), not ({}, {})", fmt(r.x), fmt(r.y), fmt(p.x), fmt(p.y)));
-        }
-        if (r.angle - p.angle).rem_euclid(360.0).min((p.angle - r.angle).rem_euclid(360.0)) > EPS {
-            out.push(format!("Reference at {}°, not {}°", fmt(r.angle), fmt(p.angle)));
-        }
-        if (r.width - p.size).abs() > EPS || (r.height - p.size).abs() > EPS {
-            out.push(format!("Reference size {} x {}, not {}", fmt(r.width), fmt(r.height), fmt(p.size)));
-        } else if r.thickness.is_none_or(|t| (t - thickness(p.size)).abs() > EPS) {
-            out.push(format!("Reference thickness not {}", fmt(thickness(p.size))));
+    let placed = fp.shape.as_ref().filter(|_| fp.class.shown()).map(layout);
+    if let Some(p) = &placed {
+        misplaced("Reference", r, p, &mut out);
+    }
+    // A footprint without a Value has none to fit.
+    match &fp.value {
+        None => {}
+        Some(v) => {
+            if v.layer != fp.value_layer() {
+                out.push(format!("Value on {}", v.layer));
+            }
+            if v.hidden && fp.class.shown() {
+                out.push("Value hidden".into());
+            }
+            if !v.hidden && !fp.class.shown() {
+                out.push("Value shown".into());
+            }
+            if !v.unlocked {
+                out.push("Value locked".into());
+            }
+            justified("Value", v, fp.back, &mut out);
+            if let Some(vp) = placed.and_then(|p| fp.value_placement(&p)) {
+                misplaced("Value", v, &vp, &mut out);
+            }
         }
     }
     out
+}
+
+/// A property's justification: none, mirrored on the back.
+fn justified(name: &str, r: &Reference, back: bool, out: &mut Vec<String>) {
+    let mirror = r.justify.iter().any(|j| j == "mirror");
+    if r.justify.iter().any(|j| j != "mirror") || mirror != back {
+        out.push(format!("{name} justified ({})", r.justify.join(" ")));
+    }
+}
+
+/// A property not where, at the angle or the size `p` puts it.
+fn misplaced(name: &str, r: &Reference, p: &Placement, out: &mut Vec<String>) {
+    if (r.x - p.x).abs() > 5e-4 || (r.y - p.y).abs() > 5e-4 {
+        out.push(format!("{name} at ({}, {}), not ({}, {})", fmt(r.x), fmt(r.y), fmt(p.x), fmt(p.y)));
+    }
+    if (r.angle - p.angle).rem_euclid(360.0).min((p.angle - r.angle).rem_euclid(360.0)) > EPS {
+        out.push(format!("{name} at {}°, not {}°", fmt(r.angle), fmt(p.angle)));
+    }
+    if (r.width - p.size).abs() > EPS || (r.height - p.size).abs() > EPS {
+        out.push(format!("{name} size {} x {}, not {}", fmt(r.width), fmt(r.height), fmt(p.size)));
+    } else if r.thickness.is_none_or(|t| (t - thickness(p.size)).abs() > EPS) {
+        out.push(format!("{name} thickness not {}", fmt(thickness(p.size))));
+    }
 }
 
 /// KiCad's way of writing a number: no trailing zeros, no `-0`.
@@ -842,13 +941,21 @@ pub fn fmt(v: f64) -> String {
     if s == "-0" { "0".into() } else { s.into() }
 }
 
-/// The `Reference` property at `p`, indented like the original at `indent`.
-fn property_text(r: &Reference, layer: &str, back: bool, hide: bool, p: &Placement, indent: &str) -> String {
+/// The property `name` (`Reference`, `Value`) at `p`, indented like the original at `indent`.
+fn property_text(
+    name: &str,
+    r: &Reference,
+    layer: &str,
+    back: bool,
+    hide: bool,
+    p: &Placement,
+    indent: &str,
+) -> String {
     let i1 = format!("{indent}\t");
     // KiCad writes a property's angle even when it is 0.
     let at = format!("(at {} {} {})", fmt(p.x), fmt(p.y), fmt(p.angle));
     let mut s = format!(
-        "(property \"Reference\" {}\n{i1}{at}\n{i1}(unlocked yes)\n{i1}(layer {})\n",
+        "(property \"{name}\" {}\n{i1}{at}\n{i1}(unlocked yes)\n{i1}(layer {})\n",
         sexpr::quote(&r.value),
         sexpr::quote(layer)
     );
@@ -914,8 +1021,15 @@ pub struct Before {
 pub enum Outcome {
     /// Follows every rule; nothing to change.
     Fine,
-    /// Broke `why`; rewritten with the designator at `placement`.
-    Change { why: Vec<String>, before: Before, placement: Placement, body_from: BodyFrom, new: String },
+    /// Broke `why`; rewritten with the designator at `placement` and the Value at `value`.
+    Change {
+        why: Vec<String>,
+        before: Before,
+        placement: Placement,
+        value: Option<Placement>,
+        body_from: BodyFrom,
+        new: String,
+    },
     /// Left alone.
     Skipped(String),
 }
@@ -961,13 +1075,29 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
     };
     let fab = fp.fab_layer();
     let layer = fp.ref_layer();
-    let start = text[..r.span.start].rfind('\n').map_or(0, |i| i + 1);
-    let indent = &text[start..r.span.start];
-    let indent = if indent.trim().is_empty() { indent } else { "\t" };
+    let indent_of = |span: &Range<usize>| {
+        let start = text[..span.start].rfind('\n').map_or(0, |i| i + 1);
+        let indent = &text[start..span.start];
+        if indent.trim().is_empty() { indent } else { "\t" }
+    };
     let mut edits = vec![Edit {
         range: r.span.clone(),
-        text: property_text(r, layer, fp.back, !fp.class.shown(), &placement, indent),
+        text: property_text("Reference", r, layer, fp.back, !fp.class.shown(), &placement, indent_of(&r.span)),
     }];
+    // The Value beside the designator on its own layer; a mechanical footprint's moves there hidden, where it was.
+    let value = fp.value.as_ref().map(|v| {
+        let vp = if fp.class.shown() {
+            layout_value(shape, &placement, &fp.values)
+        } else {
+            Placement { x: v.x, y: v.y, angle: v.angle, size: v.height, clean: true }
+        };
+        let hide = !fp.class.shown();
+        edits.push(Edit {
+            range: v.span.clone(),
+            text: property_text("Value", v, fp.value_layer(), fp.back, hide, &vp, indent_of(&v.span)),
+        });
+        vp
+    });
     for t in &fp.ref_texts {
         if is_silk(&t.layer) || t.layer == fab || t.layer == layer {
             edits.push(Edit { range: line_span(text, &t.span), text: String::new() });
@@ -976,18 +1106,9 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
     for w in &fp.fab_widths {
         edits.push(Edit { range: w.clone(), text: format!("(width {})", fmt(FAB_STROKE)) });
     }
-    if fp.value_shown {
-        let node = sexpr::parse(text).expect("parsed by read");
-        let value = node.children("property").find(|p| p.arg(0) == Some("Value")).expect("read found it");
-        match hide_value_edit(text, value) {
-            Ok(Some(e)) => edits.push(e),
-            Ok(None) => {}
-            Err(e) => return Outcome::Skipped(e),
-        }
-    }
     edits.sort_by_key(|e| e.range.start);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
-    Outcome::Change { why, before, placement, body_from: shape.body_from, new: apply_edits(text, &edits) }
+    Outcome::Change { why, before, placement, value, body_from: shape.body_from, new: apply_edits(text, &edits) }
 }
 
 /// One footprint file and its [`Outcome`].
@@ -1100,6 +1221,8 @@ pub struct BoardItem {
     /// `Lib:Name`.
     pub id: String,
     pub outcome: BoardOutcome,
+    /// The Value's, beside the designator.
+    pub value: BoardOutcome,
 }
 
 /// A board's designators fitted, each to its own text.
@@ -1112,9 +1235,10 @@ pub struct BoardPlan {
 
 /// Fits each footprint's own designator on a board (`.kicad_pcb` text): a footprint whose Reference already sits on
 /// its designator layer (as [`fix`] leaves it in the library) gets the size, anchor and angle [`layout`] finds for
-/// its actual text, so a short designator gets larger text. Only the Reference's `(at ...)`, `(size ...)` and
-/// `(thickness ...)` change; the angle is written as KiCad keeps it upright. Other footprints are skipped with the
-/// reason.
+/// its actual text, so a short designator gets larger text; its Value, when shown on the Value layer, gets what
+/// [`layout_value`] finds for its actual text beside that designator. Only the two properties' `(at ...)`,
+/// `(size ...)` and `(thickness ...)` change; the angle is written as KiCad keeps it upright. Other footprints are
+/// skipped with the reason.
 pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
     let pcb = sexpr::parse(text).map_err(|e| e.to_string())?;
     if pcb.head() != Some("kicad_pcb") {
@@ -1126,20 +1250,48 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
         let id = node.arg(0).unwrap_or("").to_string();
         let fp = read_node(node, &id, true);
         let reference = fp.reference.as_ref().map(|r| r.value.clone()).unwrap_or_default();
-        let outcome = match board_edits(text, node, &fp) {
+        let mut run = |r: Result<(BoardOutcome, Vec<Edit>), String>| match r {
             Ok((outcome, e)) => {
                 edits.extend(e);
                 outcome
             }
             Err(why) => BoardOutcome::Skipped(why),
         };
-        items.push(BoardItem { reference, id, outcome });
+        let outcome = run(board_edits(text, node, &fp));
+        let value = run(board_value_edits(text, node, &fp));
+        items.push(BoardItem { reference, id, outcome, value });
     }
     edits.sort_by_key(|e| e.range.start);
     Ok(BoardPlan { items, old: text.to_string(), new: apply_edits(text, &edits) })
 }
 
 fn board_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    let (_, p, phi) = board_designator(node, fp)?;
+    let r = fp.reference.as_ref().expect("board_designator checked it");
+    fit_property(text, node, "Reference", r, p, phi)
+}
+
+/// The Value's fit beside the designator: skipped where the designator is, or where the Value is not on its layer
+/// shown (a footprint not updated from the library).
+fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    let (shape, by, phi) = board_designator(node, fp)?;
+    let v = fp.value.as_ref().ok_or("no Value property")?;
+    if v.layer != fp.value_layer() {
+        return Err(format!("Value on {}, not {} (update the footprint from the library)", v.layer, fp.value_layer()));
+    }
+    if v.hidden {
+        return Err("Value hidden".into());
+    }
+    if crate::stroke::ink(&v.value, 1.0, 1.0, 0.0).is_none() {
+        return Err("empty Value".into());
+    }
+    let p = layout_value(&shape, &by, std::slice::from_ref(&v.value));
+    fit_property(text, node, "Value", v, p, phi)
+}
+
+/// The shape fitted to the footprint's own designator on the board, where [`layout`] puts it, and the footprint's
+/// angle.
+fn board_designator(node: &Node, fp: &Footprint) -> Result<(Shape, Placement, f64), String> {
     let r = fp.reference.as_ref().ok_or("no Reference property")?;
     if r.layer != fp.ref_layer() {
         return Err(format!(
@@ -1159,11 +1311,23 @@ fn board_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome,
     }
     let mut shape = fp.shape.clone().ok_or("no fab outline, courtyard or pads to place the designator by")?;
     let phi = node.child("at").and_then(|a| num(a.items().get(3))).unwrap_or(0.0);
-    let written = |rel: f64| upright(phi + rel);
     shape.texts = vec![r.value.clone()];
-    shape.drawn = [written(0.0) - phi, written(90.0) - phi];
+    shape.drawn = [upright(phi) - phi, upright(phi + 90.0) - phi];
     let p = layout(&shape);
-    let angle = written(p.angle);
+    Ok((shape, p, phi))
+}
+
+/// The edits that put property `name` (as read, `r`) at `p` on a footprint turned by `phi`: its `at` (the angle
+/// written upright), font size and thickness.
+fn fit_property(
+    text: &str,
+    node: &Node,
+    name: &str,
+    r: &Reference,
+    p: Placement,
+    phi: f64,
+) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    let angle = upright(phi + p.angle);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
     let same_angle = (r.angle - angle).rem_euclid(360.0).min((angle - r.angle).rem_euclid(360.0)) < 1e-3;
     let fine = (r.x - p.x).abs() < 5e-4
@@ -1175,11 +1339,10 @@ fn board_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome,
     if fine {
         return Ok((BoardOutcome::Fine(p), Vec::new()));
     }
-    let prop =
-        node.children("property").find(|n| n.arg(0) == Some("Reference")).expect("read_node found the Reference");
-    let at = prop.child("at").ok_or("Reference without (at ...)")?;
-    let font = prop.child("effects").and_then(|e| e.child("font")).ok_or("Reference without a font")?;
-    let size = font.child("size").ok_or("Reference without a font size")?;
+    let prop = node.children("property").find(|n| n.arg(0) == Some(name)).expect("read_node found it");
+    let at = prop.child("at").ok_or(format!("{name} without (at ...)"))?;
+    let font = prop.child("effects").and_then(|e| e.child("font")).ok_or(format!("{name} without a font"))?;
+    let size = font.child("size").ok_or(format!("{name} without a font size"))?;
     let mut edits = vec![
         Edit { range: at.span(), text: format!("(at {} {} {})", fmt(p.x), fmt(p.y), fmt(angle)) },
         Edit { range: size.span(), text: format!("(size {s} {s})", s = fmt(p.size)) },
@@ -1343,10 +1506,8 @@ mod tests {
         centred(&new, &p);
         assert!(!new.contains("${REFERENCE}"), "{new}");
         assert!(new.contains("(layer \"F.Fab\")\n\t\t(uuid \"u-ref\")"), "{new}");
-        assert!(
-            new.contains("(property \"Value\" \"T\"\n\t\t(at 0 2 0)\n\t\t(layer \"F.Fab\")\n\t\t(hide yes)\n"),
-            "{new}"
-        );
+        assert!(new.contains("(property \"Value\" \"T\"\n\t\t(at "), "{new}");
+        assert!(new.contains("(unlocked yes)\n\t\t(layer \"User.17\")\n\t\t(uuid \"u-val\")"), "{new}");
         assert!(new.contains("(width 0.05)") && !new.contains("(width 0.1)"), "{new}");
         settled(&new, &p);
     }
@@ -1518,5 +1679,89 @@ mod tests {
         let s = sizes();
         assert_eq!((s.len(), s[13], s[14], s[15], s.last()), (25, 0.35, 0.3, 0.29, Some(&MIN_SIZE)));
         assert_eq!(tiny_sizes(), vec![0.19, 0.18, 0.17, 0.16, 0.15]);
+    }
+
+    #[test]
+    fn the_value_sits_beside_the_designator_on_its_own_layer() {
+        // A SOIC-like body: the designator turned on the centre, the value beside it, both clear of each other.
+        let pads: Vec<_> = (0..4)
+            .flat_map(|i| [(-2.7, -1.905 + 1.27 * i as f64, 1.5, 0.6), (2.7, -1.905 + 1.27 * i as f64, 1.5, 0.6)])
+            .collect();
+        let (p, new) = changed(&footprint(3.9, 4.9, &pads, "F.Fab", &[]));
+        let fp = settled(&new, &p);
+        let v = fp.value.as_ref().unwrap();
+        assert!(v.layer == "User.17" && !v.hidden && v.unlocked, "{v:?}");
+        let shape = fp.shape.as_ref().unwrap();
+        let vp = fp.value_placement(&p).unwrap();
+        assert!(vp.clean, "{vp:?}");
+        let mut vs = shape.clone();
+        vs.texts = fp.values.clone();
+        let (r, vr) = (shape.text_rect(p.x, p.y, p.angle, p.size), vs.text_rect(vp.x, vp.y, vp.angle, vp.size));
+        assert!(!r.expand(GAP).overlaps(&vr), "{r:?} {vr:?}");
+        assert!(shape.region.contains(&vr) && !shape.graphics.iter().any(|g| g.hits(&vr)));
+        assert_eq!(fp.values, ["TPS54202DDC"]);
+        // On the back: Value.B, mirrored.
+        let back = footprint(4.0, 2.0, &[], "F.Fab", &[])
+            .replace("(layer \"F.Cu\")", "(layer \"B.Cu\")")
+            .replace("(layer \"F.Fab\")\n\t)", "(layer \"B.Fab\")\n\t)");
+        let (_, new) = changed(&back);
+        let v = read(&new).unwrap().value.unwrap();
+        assert!(v.layer == "User.18" && v.justify == ["mirror"], "{v:?}");
+        // A logo's Value moves to the layer hidden, where it was.
+        let Outcome::Change { new, .. } = fix_as(&footprint(3.0, 3.0, &[], "F.SilkS", &[]), "VHRD_Symbol:LOGO") else {
+            panic!()
+        };
+        assert!(
+            new.contains(
+                "(property \"Value\" \"T\"\n\t\t(at 0 2 0)\n\t\t(unlocked yes)\n\t\t(layer \"User.17\")\n\t\t(hide yes)"
+            ),
+            "{new}"
+        );
+    }
+
+    #[test]
+    fn a_value_with_no_room_beside_goes_outside_the_body() {
+        // 0402: the designator fills the body; the value goes just outside it.
+        let pads = [(-0.48, 0.0, 0.56, 0.62), (0.48, 0.0, 0.56, 0.62)];
+        let (p, new) = changed(&footprint(1.0, 0.5, &pads, "F.SilkS", &[]).replace("\"T\"", "\"R_0402\""));
+        let fp = read(&new).unwrap();
+        let vp = fp.value_placement(&p).unwrap();
+        let shape = fp.shape.as_ref().unwrap();
+        let mut vs = shape.clone();
+        vs.texts = fp.values.clone();
+        let r = vs.text_rect(vp.x, vp.y, vp.angle, vp.size);
+        let b = shape.body;
+        assert!(vp.clean && OUTSIDE_SIZES.contains(&vp.size), "{vp:?}");
+        assert!(r.y1 <= b.y0 + 1e-9 || r.y0 >= b.y1 - 1e-9 || r.x1 <= b.x0 + 1e-9 || r.x0 >= b.x1 - 1e-9, "{r:?}");
+        assert_eq!(fix(&new), Outcome::Fine);
+    }
+
+    #[test]
+    fn a_board_fits_each_value_beside_its_designator() {
+        let pads: Vec<_> = (0..4)
+            .flat_map(|i| [(-2.7, -1.905 + 1.27 * i as f64, 1.5, 0.6), (2.7, -1.905 + 1.27 * i as f64, 1.5, 0.6)])
+            .collect();
+        let (_, lib) = changed(&footprint(3.9, 4.9, &pads, "F.Fab", &[]));
+        let placed = lib
+            .replacen("(footprint \"T\"", "(footprint \"Lib:T\"\n\t(at 10 10 90)", 1)
+            .replace("\"REF**\"", "\"U1\"")
+            .replace("(property \"Value\" \"T\"", "(property \"Value\" \"LM358\"");
+        let board = format!("(kicad_pcb\n{placed})\n");
+        let plan = plan_board(&board).unwrap();
+        let item = &plan.items[0];
+        let (BoardOutcome::Change { placement: p, .. }, BoardOutcome::Change { placement: vp, angle, .. }) =
+            (&item.outcome, &item.value)
+        else {
+            panic!("{item:?}")
+        };
+        assert!(vp.clean && vp.size >= p.size.min(0.5), "{p:?} {vp:?}");
+        assert!((-90.0..=90.0).contains(angle));
+        let again = plan_board(&plan.new).unwrap();
+        assert_eq!(again.new, plan.new, "a second run changes nothing");
+        assert!(matches!(again.items[0].value, BoardOutcome::Fine(_)));
+        // A footprint not updated from the library: its value on F.Fab, hidden, is left alone.
+        let old = board.replace("(layer \"User.17\")", "(layer \"F.Fab\")");
+        let plan = plan_board(&old).unwrap();
+        assert!(matches!(&plan.items[0].value, BoardOutcome::Skipped(w) if w.contains("update the footprint")));
     }
 }

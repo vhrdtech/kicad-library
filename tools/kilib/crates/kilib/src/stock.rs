@@ -1,7 +1,7 @@
 //! KiCad's stock footprints that boards use, kept as copies of our own: `Lib:Name` from KiCad's footprint folder
 //! (`${KICAD10_FOOTPRINT_DIR}`) becomes `VHRD_Lib:Name` in the checkout's `footprints/`. The copy is the stock
 //! file with the library rules' fixes ([`crate::lint`]: pin-1 marks, attributes, courtyard, silkscreen), the
-//! designator and fab lines by [`crate::fab`] and the Value hidden; pads, the 3D model (through KiCad's own path
+//! designator, the Value and fab lines by [`crate::fab`]; pads, the 3D model (through KiCad's own path
 //! variable) and every other byte stay as they were.
 //!
 //! The copies are on purpose: a KiCad update never changes our footprints unannounced. [`compare`] shows what a
@@ -19,14 +19,13 @@ pub mod symbol;
 /// What stock libraries are prefixed with in the checkout.
 pub const PREFIX: &str = "VHRD_";
 
-/// The copy of a stock footprint's text: the designator by the fab rules, the Value hidden.
+/// The copy of a stock footprint's text: the designator and the Value by the fab rules.
 pub fn import_text(stock: &str) -> Result<String, String> {
-    let text = match fab::fix(stock) {
-        fab::Outcome::Fine => stock.to_string(),
-        fab::Outcome::Change { new, .. } => new,
-        fab::Outcome::Skipped(why) => return Err(why),
-    };
-    hide_value(&text)
+    match fab::fix(stock) {
+        fab::Outcome::Fine => Ok(stock.to_string()),
+        fab::Outcome::Change { new, .. } => Ok(new),
+        fab::Outcome::Skipped(why) => Err(why),
+    }
 }
 
 /// The copy of a stock footprint going into library `lib` (`VHRD_Resistor_SMD`): the library rules' fixes, then
@@ -254,10 +253,10 @@ mod tests {
     const STOCK: &str = "(footprint \"R_0402\"\n\t(version 20260206)\n\t(layer \"F.Cu\")\n\t(property \"Reference\" \"REF**\"\n\t\t(at 0 -1.17 0)\n\t\t(layer \"F.SilkS\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1 1)\n\t\t\t\t(thickness 0.15)\n\t\t\t)\n\t\t)\n\t)\n\t(property \"Value\" \"R_0402\"\n\t\t(at 0 1.17 0)\n\t\t(layer \"F.Fab\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1 1)\n\t\t\t\t(thickness 0.15)\n\t\t\t)\n\t\t)\n\t)\n\t(fp_rect\n\t\t(start -0.5 -0.25)\n\t\t(end 0.5 0.25)\n\t\t(stroke\n\t\t\t(width 0.1)\n\t\t\t(type solid)\n\t\t)\n\t\t(layer \"F.Fab\")\n\t)\n\t(fp_text user \"${REFERENCE}\"\n\t\t(at 0 0 0)\n\t\t(layer \"F.Fab\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 0.26 0.26)\n\t\t\t\t(thickness 0.04)\n\t\t\t)\n\t\t)\n\t)\n\t(pad \"1\" smd roundrect\n\t\t(at -0.485 0)\n\t\t(size 0.59 0.64)\n\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\n\t)\n\t(pad \"2\" smd roundrect\n\t\t(at 0.485 0)\n\t\t(size 0.59 0.64)\n\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\n\t)\n\t(model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\"\n\t)\n)\n";
 
     #[test]
-    fn import_moves_the_designator_and_hides_the_value() {
+    fn import_moves_the_designator_and_the_value() {
         let new = import_text(STOCK).unwrap();
         assert!(!new.contains("${REFERENCE}"), "{new}");
-        assert!(new.contains("\t\t(layer \"F.Fab\")\n\t\t(hide yes)\n\t\t(effects"), "{new}");
+        assert_eq!(fab::read(&new).unwrap().value.unwrap().layer, "User.17", "{new}");
         assert!(new.contains("(model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\""));
         let fp = fab::read(&new).unwrap();
         assert_eq!(fab::check(&fp), Vec::<String>::new());

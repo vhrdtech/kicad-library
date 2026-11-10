@@ -534,7 +534,7 @@ fn stock_import_writes_copies_and_diff_shows_upstream_changes() {
     let out = run(args(&["import", "--write", "Package_SO:P"]));
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     let new = std::fs::read_to_string(&copy).unwrap();
-    assert!(new.contains("(property \"Value\" \"P\"\n\t\t(at 0 3 0)\n\t\t(layer \"F.Fab\")\n\t\t(hide yes)"), "{new}");
+    assert!(new.contains("(unlocked yes)\n\t\t(layer \"User.17\")"), "{new}");
     assert!(new.contains("(unlocked yes)\n\t\t(layer \"F.Fab\")"), "{new}");
 
     let out = run(args(&["diff"]));
