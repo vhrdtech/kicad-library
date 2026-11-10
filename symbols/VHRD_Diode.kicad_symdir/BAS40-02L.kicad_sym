@@ -68,7 +68,7 @@
 				)
 			)
 		)
-		(property "Mpn1" "BAS40-02L"
+		(property "Mpn1" "BAS4002LE6327XTMA1"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

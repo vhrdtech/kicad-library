@@ -13,6 +13,7 @@
 - `VHRD_Power_Protection:PESD2CANFD24V-T` dual 24 V CAN FD TVS from stock `NUP2105L` (SOT-23, pin 3 GND); `Mpn2` ESD2CANFD24DBZRQ1, `Mpn3` ESD2CANFD24DBZR (TI, same pinout).
 - `VHRD_Diode:RB751S40` Schottky on `D_SOD-523`; `Mpn2` RB751S40T1G (onsemi, 30 mA DC).
 - `VHRD_Package_SO:SOIC4_DFG_TEX` (ISOM8600): larger pin-1 triangle and a "1" on silk, courtyard grown to fit.
+- `VHRD_Diode:BAS40-02L` `Mpn1` → orderable `BAS4002LE6327XTMA1` (the base name doesn't resolve at Digi-Key).
 - `VHRD_Diode` symbol library (needs `kilib setup`): `BAS40-02L` on new `VHRD_Diode_SMD:D_TSLP-2-1` (Infineon land
   pattern and stencil; 3D model: stock SOD-882 scaled to 0.4 mm).
 - `VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR` (SC70-6), `Mpn2` 74AXP1T45GWH; A↔B arrow and DIR meaning drawn.
