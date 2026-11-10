@@ -64,3 +64,6 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   library sweep, the files checked on a PC with the models
 - ✅ LIB-18 silk-rules: silkscreen lines 0.12 mm, none onto a pad's mask opening, no text but pin-1 marks; `kilib lint
   --rule silk` sets widths and cuts lines round pads; `just check-footprints`
+- ✅ LIB-19 ref-layer-outlines: test points draw their pad outline on Ref.Test, net ties, spark gaps and jumpers a box
+  round their pads on Ref.Tie (0.05 mm out, 0.05 mm lines; `kilib lint --rule ref-outline`), and `kilib
+  fab-designators` fits the designator to that drawing, beside it where nothing fits inside

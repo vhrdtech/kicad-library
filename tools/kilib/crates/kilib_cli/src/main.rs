@@ -259,6 +259,9 @@ Examples:
     ///
     /// silk: 0.12 mm lines, none onto a pad's mask opening, no text but pin-1 marks. Fix: widths set, lines cut.
     ///
+    /// ref-outline: test points draw their pad's outline on Ref.Test, net ties, spark gaps and jumpers a box round
+    /// their pads on Ref.Tie, 0.05 mm out and 0.05 mm wide. Fix: drawn, replacing anything else on that layer.
+    ///
     /// The designator is left to `kilib fab-designators`; run it after --write. It lists what each fix changes and
     /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\

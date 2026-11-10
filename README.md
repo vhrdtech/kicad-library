@@ -127,6 +127,12 @@ same under `footprints/<name>.pretty` for footprints.
     pad's mask expansion, else the footprint's, else 0); no text but pin-1 marks. The fix sets the widths and cuts
     lines, and the sides of rectangles and polygons, round the pads. Arcs and curves over a pad, and texts, are
     reported. Logos and other artwork are left alone.
+  - `ref-outline`: a test point draws its pad's outline on its designator layer `Ref.Test` (User.9 / User.10): a
+    circle 0.05 mm outside a round pad, else a rectangle 0.05 mm round it. A net tie, spark gap or solder jumper draws
+    a rectangle 0.05 mm round its pads on `Ref.Tie` (User.11 / User.12). Lines are 0.05 mm, and the drawing replaces
+    anything else on that layer. Mechanical footprints draw nothing on `Ref.Mech`. `fab-designators` then fits the
+    designator to this drawing as to a fab outline, and puts it beside the drawing (0.3 mm, else 0.2 mm, nearest)
+    where nothing fits inside.
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
   the fixes of `kilib lint`, the designator placed by the fab-designators rules, the fab lines at 0.05 mm, the Value
   hidden, every other byte as in stock (pads, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,

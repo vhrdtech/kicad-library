@@ -6,14 +6,14 @@
 	(descr "SMD pad as test Point, diameter 1.2mm")
 	(tags "test point SMD pad")
 	(property "Reference" "REF**"
-		(at 0.014 0.014 0)
+		(at 0.012 0.012 0)
 		(unlocked yes)
 		(layer "User.9")
 		(uuid "37904963-d2df-4f9b-a496-d7a8537dd045")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
+				(size 0.26 0.26)
+				(thickness 0.039)
 			)
 		)
 	)
@@ -67,6 +67,16 @@
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "5636fef1-3577-4d13-9d63-73d866f4bccc")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0.65 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.9")
 	)
 	(pad "1" smd circle
 		(at 0 0)

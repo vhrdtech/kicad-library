@@ -16,7 +16,7 @@ pub struct LintArgs {
     /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
     #[arg(value_hint = ValueHint::AnyPath)]
     paths: Vec<PathBuf>,
-    /// Only these rules (pin1, attrs, courtyard, models, silk; repeat or comma-separate; default: all)
+    /// Only these rules (pin1, attrs, courtyard, models, silk, ref-outline; repeat or comma-separate; default: all)
     #[arg(long, short, value_name = "RULE", value_delimiter = ',', value_parser = parse_rule)]
     rule: Vec<Rule>,
     /// Write the fixes

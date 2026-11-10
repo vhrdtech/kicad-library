@@ -4,14 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -0.113 0.003 90)
+		(at -0.709 0.004 90)
 		(unlocked yes)
 		(layer "User.11")
 		(uuid "41713180-faa6-40f2-909e-3c887b390ed6")
 		(effects
 			(font
-				(size 0.24 0.24)
-				(thickness 0.036)
+				(size 0.3 0.3)
+				(thickness 0.045)
 			)
 		)
 	)
@@ -72,6 +72,16 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
+	)
+	(fp_rect
+		(start -0.46 -0.37)
+		(end 0.2 0.37)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.11")
 	)
 	(pad "1" smd rect
 		(at 0 0)

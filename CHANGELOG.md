@@ -20,6 +20,9 @@
   clear of pads), 34 courtyards drawn or grown, 30 attribute sets, 25 model paths moved to `KICAD10_3DMODEL_DIR`,
   13 pin-1 marks added (12 fab chamfers, one silk triangle); 7 designators refitted by `kilib fab-designators`
   after it. `kilib lint --left` lists the 87 findings left for a person.
+- `kilib lint --rule ref-outline`: test points draw their pad's outline on `Ref.Test` (a circle 0.05 mm out, or a
+  rectangle for a pad that is not round), net ties, spark gaps and solder jumpers a rectangle 0.05 mm round their
+  pads on `Ref.Tie`, 0.05 mm lines. Swept: 5 test points, 5 net ties, spark gaps and jumpers.
 - `kilib stock import [--write] Lib:Name...` copies KiCad stock footprints into `footprints/VHRD_<Lib>.pretty` with
   the designator on F.Fab and the Value hidden; `kilib stock diff [--stat]` compares the copies with the current
   stock library (`--stock-dir`, else `KICAD10_FOOTPRINT_DIR`, else `/usr/share/kicad/footprints`).
@@ -80,6 +83,9 @@
 
 ### Changed
 
+- `kilib fab-designators` fits a test point's, net tie's or jumper's designator to the drawing on its own reference
+  layer when there is one (centred inside, smaller, else 0.3 or 0.2 mm beside it, nearest); the fab drawing no
+  longer counts for those. 9 designators refitted.
 - `kilib fab-designators` measures the designator in KiCad's stroke font (glyph advances and ink from KiCad's
   newstroke font, pcbnew's line layout; checked against `kicad-cli`), centres its ink rather than its anchor on the
   body, and sizes a library footprint for the longest designator of its kind (`R1004`, `C1001`, `TP526`, `JP104`,
