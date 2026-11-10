@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "750315125"
-		(at 8.2 0.2 0)
+		(at 8.228 3.789 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "f085f244-7f0a-4cfd-b286-aa1a686e30c3")
 		(effects
 			(font

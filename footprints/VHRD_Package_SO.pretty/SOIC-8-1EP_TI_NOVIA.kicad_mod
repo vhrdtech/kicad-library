@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "SOIC-8-1EP_TI_NOVIA"
-		(at 0 3.4 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.981 -0.021 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "631f6aad-ae07-41b7-ba14-c7ae5a417da8")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

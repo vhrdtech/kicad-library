@@ -18,10 +18,9 @@
 		)
 	)
 	(property "Value" "PLUG-USBC-241SMT-TH-4BC2LS"
-		(at 0 1 0)
+		(at -2.931 4.002 90)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "15e3dde7-e2de-4c55-9d08-3ba3aeeaef7b")
 		(effects
 			(font

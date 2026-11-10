@@ -18,9 +18,9 @@
 		)
 	)
 	(property "Value" "PPPC152LJBN-RC"
-		(at -5.65 38.33 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -7.616 17.732 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "2a4fadfe-53a0-4fb0-9320-432f27549333")
 		(effects
 			(font

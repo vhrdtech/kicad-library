@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "TC2050-IDC-NL"
-		(at 0 4.175 0)
+		(at 0.048 -1.231 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "a49c56d5-5504-4ccb-8692-6c6887842c06")
 		(effects
 			(font

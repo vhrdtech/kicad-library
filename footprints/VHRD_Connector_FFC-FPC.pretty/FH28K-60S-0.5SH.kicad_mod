@@ -18,10 +18,9 @@
 		)
 	)
 	(property "Value" "FH28K-60S-0.5SH"
-		(at -6.5 1.55 0)
+		(at 0.048 1.869 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "65ab0932-b1ef-4730-b4a7-46b2439c8474")
 		(effects
 			(font

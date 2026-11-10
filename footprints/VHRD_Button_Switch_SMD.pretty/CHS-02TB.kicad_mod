@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "CHS-02TB"
-		(at 0 -4.56 0)
+		(at 0.024 -0.988 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "c12902bb-4499-47c8-9d06-9f56fbca407a")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

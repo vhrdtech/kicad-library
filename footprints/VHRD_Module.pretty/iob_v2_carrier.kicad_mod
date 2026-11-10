@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "iob_v2_carrier"
-		(at 10 4 0)
+		(at 16.048 16.169 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "e4bf1585-8c2f-40aa-8e0b-fc6a215cf701")
 		(effects
 			(font

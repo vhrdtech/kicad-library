@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "CL-SB-22B-01T"
-		(at 0 5.5 0)
+		(at 0.038 -1.095 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "b0841748-2430-42f1-bf88-62c29d99b646")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.12)
 			)
 		)
 	)

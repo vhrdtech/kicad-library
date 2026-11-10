@@ -19,7 +19,7 @@
 	(property "Value" "QR_7x7_LASER"
 		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.17")
 		(hide yes)
 		(uuid "3e57f4eb-a33d-4868-8fc6-bf73d1d8e455")
 		(effects

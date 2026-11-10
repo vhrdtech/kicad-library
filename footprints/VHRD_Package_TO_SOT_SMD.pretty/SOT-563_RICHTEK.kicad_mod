@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "SOT-563_RICHTEK"
-		(at 0 1.65 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.829 -0.014 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "bd24207b-4f6f-41cd-b9cb-83cc8554e2dc")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.3 0.3)
+				(thickness 0.045)
 			)
 		)
 	)

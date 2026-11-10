@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "D_SOD-123F"
-		(at 0 2.1 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.962 0.012 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "2e60d6e3-992e-495d-bf9d-913218a820e9")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.26 0.26)
+				(thickness 0.039)
 			)
 		)
 	)

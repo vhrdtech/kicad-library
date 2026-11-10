@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "SOIC4_DFG_TEX"
-		(at 0 2.775 0)
+		(at 0.021 -0.919 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "a0868f74-eb47-458e-9677-5f4c613e0416")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "SW4_PTS815_SJM_250_SMTR_LFS_CNK"
-		(at 0 0 0)
+		(at 0.019 0.878 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "1c0800e7-c27c-40c9-9af8-ed383c328a2a")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

@@ -16,15 +16,14 @@
 		)
 	)
 	(property "Value" "PCB_JUMPER"
-		(at 0 1 0)
+		(at -3.711 -0.001 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "342e9f20-af05-49ee-8523-08dc714422c5")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

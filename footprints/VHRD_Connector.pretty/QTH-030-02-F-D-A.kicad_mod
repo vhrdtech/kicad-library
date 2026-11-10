@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "QTH-030-02-F-D-A"
-		(at 0 1 0)
+		(at 0.048 -1.143 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "6874cd00-e426-4600-b6c5-f3b9b002097d")
 		(effects
 			(font

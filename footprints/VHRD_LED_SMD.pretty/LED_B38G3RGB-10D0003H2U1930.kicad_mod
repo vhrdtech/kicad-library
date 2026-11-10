@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "LED_B38G3RGB-10D0003H2U1930"
-		(at 9.75 2.1 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -1.013 -0.038 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "61f1fa26-5e1e-4c68-8d04-a9a8b48351ae")
 		(effects
 			(font
-				(size 0.629921 0.629921)
-				(thickness 0.15)
+				(size 0.26 0.26)
+				(thickness 0.039)
 			)
 		)
 	)

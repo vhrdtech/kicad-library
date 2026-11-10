@@ -18,9 +18,9 @@
 		)
 	)
 	(property "Value" "PinHeader_2x15_P2.54mm_Horizontal"
-		(at 5.655 37.83 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 4.999 17.732 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "342f39fa-d1b9-4340-953c-78147369c7d4")
 		(effects
 			(font

@@ -19,7 +19,7 @@
 	(property "Value" "Rod 0.8 x 7.1mm"
 		(at 0 1 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.17")
 		(hide yes)
 		(uuid "83822088-fa2a-421f-a8a6-3f2960a8b97a")
 		(effects

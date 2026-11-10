@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "BIVAR_SLP3-200-100-F"
-		(at 0 -0.4 270)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.019 -0.822 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "dbdd09a6-0831-4e3d-b39a-e8b6ea1a4889")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.1)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

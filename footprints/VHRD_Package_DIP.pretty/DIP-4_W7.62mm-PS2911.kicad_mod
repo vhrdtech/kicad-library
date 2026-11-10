@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "DIP-4_W7.62mm-PS2911"
-		(at 3.81 4.87 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 3.839 0.261 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "e254f5db-26f7-457d-9d2b-6c11247c0e60")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

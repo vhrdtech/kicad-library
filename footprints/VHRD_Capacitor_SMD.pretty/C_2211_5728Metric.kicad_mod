@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "C_2211_5728Metric"
-		(at 0 2.65 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.018 -0.998 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "c6b02b7a-ee61-421b-bc1e-2ec2818dff85")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.75 0.75)
+				(thickness 0.112)
 			)
 		)
 	)

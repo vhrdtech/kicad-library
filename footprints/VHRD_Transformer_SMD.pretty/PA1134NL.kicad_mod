@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "PA1134NL"
-		(at 0 10.1 0)
+		(at 0.048 -1.237 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "9484430e-d02b-48a7-80d2-e7b91591baff")
 		(effects
 			(font

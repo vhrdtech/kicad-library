@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "VSSOP-8_2.3x2mm_P0.5mm"
-		(at 0 1.95 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.01 0.465 0)
+		(unlocked yes)
+		(layer "User.17")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.21 0.21)
+				(thickness 0.032)
 			)
 		)
 	)

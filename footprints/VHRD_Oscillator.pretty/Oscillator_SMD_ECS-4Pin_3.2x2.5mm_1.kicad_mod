@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1"
-		(at 0 2.45 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.014 -0.579 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "5e33e577-92d0-4cee-a432-07e1e580761d")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.3 0.3)
+				(thickness 0.045)
 			)
 		)
 	)

@@ -19,7 +19,7 @@
 	(property "Value" "Untitled"
 		(at 0 1 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.17")
 		(hide yes)
 		(uuid "5423759c-fb92-4aab-bc97-4519ff9a02bb")
 		(effects

@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "TC2050-IDC-FP"
-		(at 0 -4.8 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.33 -1.234 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "afd5401f-d2d7-4c79-b75e-29364200fc5d")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.95 0.95)
+				(thickness 0.143)
 			)
 		)
 	)

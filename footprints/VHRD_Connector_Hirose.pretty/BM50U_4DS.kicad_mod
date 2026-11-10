@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "BM50U_HIR"
-		(at 0 2.54 0)
+		(at 0.014 -0.779 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "2fcf4275-4ae9-48aa-84e8-18e599bc8ce1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.3 0.3)
+				(thickness 0.045)
 			)
 		)
 	)

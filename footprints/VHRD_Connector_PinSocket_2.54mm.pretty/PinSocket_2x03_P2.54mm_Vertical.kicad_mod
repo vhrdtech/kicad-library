@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "PinSocket_2x03_P2.54mm_Vertical"
-		(at -1.27 7.85 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -1.249 1.621 0)
+		(unlocked yes)
+		(layer "User.17")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "TI-PW0008A"
-		(at 0 0 0)
+		(at 0.019 -0.822 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "ef0071d5-57b2-47bf-98dc-741d8fa8d08d")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

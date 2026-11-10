@@ -18,10 +18,9 @@
 		)
 	)
 	(property "Value" "ARJM11D7-009-AB"
-		(at 0.15 21.35 0)
+		(at 0.048 7.734 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "1cd69c5b-9bae-40ca-915e-55600a6b8b9a")
 		(effects
 			(font

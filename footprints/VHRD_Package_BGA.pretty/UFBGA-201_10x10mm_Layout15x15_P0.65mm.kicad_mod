@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "UFBGA-201_10x10mm_Layout15x15_P0.65mm"
-		(at 0 6 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.045 -1.234 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "01fcd076-a2cf-4b07-82c1-de251baf7493")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.95 0.95)
+				(thickness 0.143)
 			)
 		)
 	)

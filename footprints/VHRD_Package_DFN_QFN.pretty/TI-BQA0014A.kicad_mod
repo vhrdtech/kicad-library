@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm"
-		(at 0 2.8 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.619 -0.013 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "49eaa24e-233e-4b77-8460-be155a99cfa8")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.28 0.28)
+				(thickness 0.042)
 			)
 		)
 	)

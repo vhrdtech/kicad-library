@@ -16,9 +16,9 @@
 		)
 	)
 	(property "Value" "CUI_MSD-1-A"
-		(at -0.515 -9.635 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.048 -2.206 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "ec9d59cb-fd1d-4b60-b760-18d835754a66")
 		(effects
 			(font

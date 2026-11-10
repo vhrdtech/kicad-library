@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "DIODES_QFN-12_2x2mm_P0.45mm"
-		(at 0 2.33 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.009 0.412 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "46e3fe54-9b77-4d52-8fb0-030c92136eff")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.18 0.18)
+				(thickness 0.027)
 			)
 		)
 	)

@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "DM-OLED042-647"
-		(at 3.675 9.025 0)
+		(at -4.817 -1.191 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "19ef01a4-9fde-4fa3-89c4-f0137f75d6fa")
 		(effects
 			(font

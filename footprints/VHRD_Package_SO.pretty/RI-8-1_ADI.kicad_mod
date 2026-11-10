@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "RI-8-1_ADI"
-		(at -0.2 -0.4 0)
+		(at 0.033 -1.052 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "816995b2-17a1-4cdc-90bd-d3c23ca4f178")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.7 0.7)
+				(thickness 0.105)
 			)
 		)
 	)

@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "C_1206_3216Metric"
-		(at 0 1.85 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.006 0.568 0)
+		(unlocked yes)
+		(layer "User.17")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.26 0.26)
+				(thickness 0.039)
 			)
 		)
 	)

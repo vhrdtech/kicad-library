@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "D_PowerDI-5"
-		(at 0 3 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.038 1.086 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "0e3cf3bd-2ac0-4a32-af92-01aefbc208c1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.12)
 			)
 		)
 	)

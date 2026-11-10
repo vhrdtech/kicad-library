@@ -17,15 +17,14 @@
 		)
 	)
 	(property "Value" "1054301204_RCY_NO_SILK"
-		(at -0.3 2.05 0)
+		(at -0.252 -1.218 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "4ef98089-3377-47b8-a3d5-13df8bdfcce3")
 		(effects
 			(font
-				(size 0.7 0.7)
-				(thickness 0.07)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

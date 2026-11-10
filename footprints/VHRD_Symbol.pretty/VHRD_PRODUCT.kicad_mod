@@ -19,7 +19,7 @@
 	(property "Value" "VHRD_PRODUCT"
 		(at 0 1 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.17")
 		(hide yes)
 		(uuid "873b5e84-319a-4d66-80ca-30cec09d582d")
 		(effects

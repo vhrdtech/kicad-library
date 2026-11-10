@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "NRS5030T100MMGJ"
-		(at 0 3.45 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.021 -0.919 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "bd26417a-8e82-466c-b243-7b5213673247")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

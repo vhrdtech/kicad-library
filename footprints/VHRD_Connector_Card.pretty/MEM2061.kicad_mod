@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "MEM2061"
-		(at 20.95407 9.036605 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 1.269 -0.048 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "0e516f70-448b-4816-94dc-116d8fa6572a")
 		(effects
 			(font
-				(size 1.600465 1.600465)
+				(size 1 1)
 				(thickness 0.15)
 			)
 		)

@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "Texas_S-PX2QFN-14"
-		(at 0 2.33 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.009 0.412 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "5ac5c654-4263-49c3-ba92-454cf25f2ca2")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.18 0.18)
+				(thickness 0.027)
 			)
 		)
 	)

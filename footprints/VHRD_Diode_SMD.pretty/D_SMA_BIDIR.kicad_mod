@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "D_SMA_BIDIR"
-		(at 0 2.6 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at -0.024 1.173 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "26bf8a96-04b0-416e-b8c4-6ebaf8cbc530")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

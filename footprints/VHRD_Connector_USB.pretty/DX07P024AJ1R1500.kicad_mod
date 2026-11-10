@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "DX07P024AJ1R1500"
-		(at -3.7 7.9 0)
+		(at -6.831 8.052 90)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "15f92110-59ea-4909-8300-709faa9a791a")
 		(effects
 			(font

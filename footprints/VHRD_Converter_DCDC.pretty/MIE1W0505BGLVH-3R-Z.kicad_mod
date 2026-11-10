@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "CONV_MIE1W0505BGLVH-3R-Z"
-		(at 1.9 3.2 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.121 -0.869 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "80af2bc6-474b-4606-a1c5-41d55a83eb2d")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

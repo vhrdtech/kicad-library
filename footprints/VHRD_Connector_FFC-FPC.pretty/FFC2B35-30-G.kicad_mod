@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "FFC2B35-30-G"
-		(at 0 -0.5 0)
+		(at 0.048 -0.906 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "57e20acd-c4c0-4fe8-9273-7d4bda1ae5a7")
 		(effects
 			(font

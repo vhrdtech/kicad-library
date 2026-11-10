@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "TI-RHL0024A"
-		(at 0.25 3.95 0)
+		(at 1.034 -0.024 90)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "eeeee9e6-da15-45cd-8fb1-8301eb58f448")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

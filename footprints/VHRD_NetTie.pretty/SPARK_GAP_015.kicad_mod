@@ -16,15 +16,14 @@
 		)
 	)
 	(property "Value" "SPARK_GAP_015"
-		(at -4.8 -9.1 0)
+		(at -0.601 0.007 90)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "164e9207-40d9-4fac-a521-b71eef677ebb")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.3 0.3)
+				(thickness 0.045)
 			)
 		)
 	)

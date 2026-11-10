@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "PS2911"
-		(at 0.1 0.8 0)
+		(at -0.241 1.091 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "a4663ecc-9d69-48af-8153-ca6b9395a112")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

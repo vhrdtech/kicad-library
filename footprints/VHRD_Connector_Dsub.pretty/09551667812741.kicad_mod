@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "DE9_Plug_09551667812741"
-		(at -0.05 15.1 0)
+		(at 0.048 1.719 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "8039792d-44f2-41ea-89ba-53462cc01a58")
 		(effects
 			(font

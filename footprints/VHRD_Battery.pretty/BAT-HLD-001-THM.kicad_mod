@@ -16,10 +16,9 @@
 		)
 	)
 	(property "Value" "BAT-HLD-001-THM"
-		(at 0 11.1 0)
+		(at 0.048 -1.281 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "1b566072-a3e9-44c4-bb7c-c5db19e1bf42")
 		(effects
 			(font

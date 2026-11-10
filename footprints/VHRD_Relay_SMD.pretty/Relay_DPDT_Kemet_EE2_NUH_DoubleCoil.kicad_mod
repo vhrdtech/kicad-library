@@ -18,9 +18,9 @@
 		)
 	)
 	(property "Value" "Relay_DPDT_Kemet_EE2_NUH_DoubleCoil"
-		(at -6.19 -0.06 90)
-		(layer "F.Fab")
-		(hide yes)
+		(at -2.931 -0.048 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "128c15e6-47ac-448d-b8cc-08c7ccddfb34")
 		(effects
 			(font

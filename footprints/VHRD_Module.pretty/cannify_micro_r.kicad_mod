@@ -18,9 +18,9 @@
 		)
 	)
 	(property "Value" "PinSocket_1x20_P2.54mm_Vertical"
-		(at 0 51.03 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.069 16.282 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "6d4fd172-46e5-4ee7-9e24-2557bb26e576")
 		(effects
 			(font

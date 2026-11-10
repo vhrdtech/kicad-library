@@ -16,15 +16,14 @@
 		)
 	)
 	(property "Value" "D5V0P4UR6SO-7"
-		(at -0.02 3.25 0)
+		(at 0.62 -0.014 90)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "feeddcf4-0853-4571-905b-e12ef6a1e56b")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.29 0.29)
+				(thickness 0.044)
 			)
 		)
 	)

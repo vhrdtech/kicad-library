@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "SOIC-8-ANALOG"
-		(at 0 3.4 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.981 -0.021 90)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "f2335a8f-2dff-4020-82f2-78815611867b")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

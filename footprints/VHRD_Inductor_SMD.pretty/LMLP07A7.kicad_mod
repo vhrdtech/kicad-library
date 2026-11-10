@@ -16,15 +16,14 @@
 		)
 	)
 	(property "Value" "LMLP07A7"
-		(at 0 1 0)
+		(at 0.038 -1.1 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "e4572c59-2c08-47b5-84ba-4907c37989f8")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.12)
 			)
 		)
 	)

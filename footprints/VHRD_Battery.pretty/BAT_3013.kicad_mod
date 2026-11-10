@@ -16,9 +16,9 @@
 		)
 	)
 	(property "Value" "BAT_3013"
-		(at -3.81 9.525 0)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.048 -1.731 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "3ef52838-8eff-4d22-a4c6-e23f6f407a33")
 		(effects
 			(font

@@ -19,7 +19,7 @@
 	(property "Value" "M1.2x6 screw"
 		(at 0 2.4 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.17")
 		(hide yes)
 		(uuid "0ac0755a-dcee-456d-bfc6-0d62968f5bd4")
 		(effects

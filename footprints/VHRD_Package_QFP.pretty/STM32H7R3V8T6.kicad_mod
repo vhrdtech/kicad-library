@@ -18,10 +18,9 @@
 		)
 	)
 	(property "Value" "STM32H7R3V8T6"
-		(at 0 10.65 0)
+		(at 0.048 -1.231 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "82868c0d-e898-480f-b353-030efe40b014")
 		(effects
 			(font

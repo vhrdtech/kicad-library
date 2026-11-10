@@ -18,9 +18,9 @@
 		)
 	)
 	(property "Value" "RJ45_Abracon_ARJM11_7POE_LED"
-		(at -10.795 7 270)
-		(layer "F.Fab")
-		(hide yes)
+		(at 0.048 7.734 0)
+		(unlocked yes)
+		(layer "User.17")
 		(uuid "995fc33c-26a9-47b2-9e29-ff30dddb6667")
 		(effects
 			(font

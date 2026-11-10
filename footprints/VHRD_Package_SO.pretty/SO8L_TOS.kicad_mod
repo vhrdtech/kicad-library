@@ -18,15 +18,14 @@
 		)
 	)
 	(property "Value" "SO8L_TOS"
-		(at 0 0 0)
+		(at 0.033 -1.052 0)
 		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
+		(layer "User.17")
 		(uuid "ebc11aac-8c3b-4295-be74-246b64640e94")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.7 0.7)
+				(thickness 0.105)
 			)
 		)
 	)
