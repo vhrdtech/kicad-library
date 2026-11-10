@@ -119,9 +119,11 @@ impl Shape {
     }
 
     /// The body lies within the box of the pads over it (a chip resistor, a QFN): text inside it would sit
-    /// between or over the pads, so it goes outside them. Pads beside the body (a QFP, an SOIC) do not count.
+    /// between or over the pads, so it goes outside them. A pad counts as over the body when it reaches more than
+    /// [`MARGIN`] inside the outline's lines; pads beside the body that only touch it (a QFP, an SOIC) do not.
     pub fn within_pads(&self) -> bool {
-        let over = self.pads.iter().filter(|p| p.overlaps(&self.body));
+        let deep = self.inner().expand(-MARGIN);
+        let over = self.pads.iter().filter(|p| p.overlaps(&deep));
         Rect::of_points(over.flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)])).is_some_and(|p| p.contains(&self.body))
     }
 
@@ -829,6 +831,24 @@ mod tests {
         let fp = read(&new).unwrap();
         assert_eq!(check(&fp), Vec::<String>::new());
         assert_eq!(fix(&new), Outcome::Fine, "a second run changes nothing");
+    }
+
+    #[test]
+    fn qfp_pins_reaching_just_into_the_body_keep_the_text_inside() {
+        // A 7 x 7 body with pins on all four sides reaching 0.075 mm into the outline.
+        let mut pads = Vec::new();
+        for i in 0..12 {
+            let o = -2.75 + 0.5 * f64::from(i);
+            pads.extend([
+                (-4.1625, o, 1.475, 0.3),
+                (4.1625, o, 1.475, 0.3),
+                (o, -4.1625, 0.3, 1.475),
+                (o, 4.1625, 0.3, 1.475),
+            ]);
+        }
+        let (p, new) = changed(&footprint(7.0, 7.0, &pads, "F.SilkS", &[]));
+        assert!(!read(&new).unwrap().shape.unwrap().within_pads());
+        assert!(p.inside && p.size == 1.0 && (p.x, p.y) == (0.0, 0.0), "{p:?}");
     }
 
     #[test]
