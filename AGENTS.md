@@ -11,10 +11,10 @@ map and `kilib migrate`.
 
 KiCad's stock footprints that a board uses are imported into the `VHRD_*` library of the same name
 (`Resistor_SMD:R_0402_1005Metric` becomes `VHRD_Resistor_SMD:R_0402_1005Metric`), so their text is ours: the
-designator on the fab layer (`kilib fab-designators`), the Value hidden. Pads, graphics and the 3D model (through
-KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock. The copies are on purpose: a KiCad update never changes our
-footprints unannounced. We compare them with the stock library and take upstream changes in deliberately, when the
-time is right:
+designator centred on the fab layer (`kilib fab-designators`), the fab lines 0.05 mm, the Value hidden. Pads, other
+graphics and the 3D model (through KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock. The copies are on purpose:
+a KiCad update never changes our footprints unannounced. We compare them with the stock library and take upstream
+changes in deliberately, when the time is right:
 
 ```sh
 kilib stock import --write Lib:Name...   # copy stock footprints in (KICAD10_FOOTPRINT_DIR, or --stock-dir DIR)
@@ -42,7 +42,8 @@ never write the boards. `kilib check` and `kilib setup --dry-run` only read; `ki
 config folder, never library files. `kilib migrate` writes only with `--write`, and then only the strings its map
 matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`; `kilib stock import` writes only
 new files under the checkout's `footprints/`, with `--write`. `kilib fab-designators` writes only
-with `--write`, and then only the `Reference` property and `${REFERENCE}` texts of the footprints given. The extended tests read the
+with `--write`, and then only the `Reference` property, `${REFERENCE}` texts, the Value's `hide` and the stroke
+widths of fab lines in the footprints given. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 ## FEATURES.md and CHANGELOG.md

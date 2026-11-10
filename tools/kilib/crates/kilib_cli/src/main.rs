@@ -177,9 +177,9 @@ Examples:
     ///
     /// The copies are on purpose: a KiCad update never changes our footprints unannounced. `import` copies
     /// Lib:Name from KiCad's footprint folder to footprints/VHRD_Lib.pretty/Name.kicad_mod with the designator on
-    /// the fab layer (as fab-designators puts it) and the Value hidden; pads, graphics and the 3D model stay as in
-    /// stock. `diff` shows, for every copy with a stock footprint of the same name, what a fresh import would
-    /// change, so upstream changes are taken in deliberately.
+    /// the fab layer and its lines at 0.05 mm (as fab-designators puts them) and the Value hidden; pads, other
+    /// graphics and the 3D model stay as in stock. `diff` shows, for every copy with a stock footprint of the same
+    /// name, what a fresh import would change, so upstream changes are taken in deliberately.
     #[command(subcommand)]
     Stock(StockCommand),
     /// Put each footprint's designator on the fab layer only, centred on the body

@@ -71,23 +71,27 @@ same under `footprints/<name>.pretty` for footprints.
   `--dry-run` lists every move.
 - `kilib fab-designators [PATH...]` keeps each footprint's designator on the fab layer only (default: this checkout's
   `footprints/`). The `Reference` property goes to F.Fab (B.Fab for a bottom-side footprint), visible and unlocked;
-  `${REFERENCE}` texts on the silkscreen, and a second one on the fab layer, go. The text gets the largest size up to
-  1 mm whose box, for a five-character designator in KiCad's stroke font (the stroke included), fits inside the fab
-  outline (inside the stroke of its lines) at least 0.1 mm from every pad, at 0° or 90°. When not even 0.25 mm fits
-  there (pads under the body, an exposed pad), or the body lies within the box of the pads over it (chip resistors and
-  capacitors, QFNs: text between the pads is hidden by them), it goes next to the body and outside the pads instead,
-  level and above them where it can, smaller where it must. A footprint without a fab outline round its pads is
-  measured by its courtyard. A footprint that already follows these rules is left alone. It lists what would change
-  and exits 1; `--write` writes it. Boards take the new footprints through pcbnew's "Update Footprints from Library".
+  `${REFERENCE}` texts on the silkscreen, and a second one on the fab layer, go, and the Value is hidden. The
+  designator sits on the centre of the body: the fab outline's centre, else the courtyard's. It may run over the
+  pads, since KiCad draws the selected fab layer on top of them, while text outside the body would run into the
+  neighbouring parts. Its box, for a five-character designator in KiCad's stroke font, keeps 0.05 mm off every other
+  line on its fab layer (outline, polarity and pin-1 marks, diode symbols, inner lines), the strokes of the lines
+  and of the text counted. It gets the largest size from 1 mm down to 0.3 mm that fits on the centre, level or
+  turned 90°. Where neither fits, it moves to the largest free spot inside the body nearest the centre. Where
+  nothing fits at all it stays on the centre at 0.3 mm, and the report lists the footprint as "no clean fit". Every
+  line on F.Fab and B.Fab gets a 0.05 mm stroke; the text's thickness is 15 % of its size. A footprint that already
+  follows these rules is left alone. It lists what would change, with how many designators move, get resized and
+  turn, and exits 1; `--write` writes it. Boards take the new footprints through pcbnew's "Update Footprints from
+  Library".
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
-  the designator placed by the fab-designators rules, the Value hidden, every other byte as in stock (pads, graphics,
-  the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`, else `KICAD10_FOOTPRINT_DIR`
-  (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A footprint the library has already
-  is left alone. It lists what it would copy and exits 1; `--write` copies. `kilib stock diff` compares every
-  `VHRD_<Lib>:<Name>` that has a stock `<Lib>:<Name>` with a fresh import of it and prints the unified diff (what
-  taking in the stock footprint would change; `--stat` only lists them); it exits 1 when any differs. Footprints of
-  our own that share a stock name show up there too. `migrate/2026-11-stock.toml` maps the imported stock ids to the
-  copies for `kilib migrate`.
+  the designator placed by the fab-designators rules, the fab lines at 0.05 mm, the Value hidden, every other byte as
+  in stock (pads, other graphics, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
+  else `KICAD10_FOOTPRINT_DIR` (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A
+  footprint the library has already is left alone. It lists what it would copy and exits 1; `--write` copies. `kilib
+  stock diff` compares every `VHRD_<Lib>:<Name>` that has a stock `<Lib>:<Name>` with a fresh import of it and prints
+  the unified diff (what taking in the stock footprint would change; `--stat` only lists them); it exits 1 when any
+  differs. Footprints of our own that share a stock name show up there too. `migrate/2026-11-stock.toml` maps the
+  imported stock ids to the copies for `kilib migrate`.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ### Migrating an older board

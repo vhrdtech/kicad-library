@@ -64,16 +64,21 @@
 
 ### Changed
 
-- `kilib fab-designators` never puts the designator over a pad or across the fab outline: the text box is sized for
-  five characters (`R1234`, the library's `REF**`) with its stroke, stays inside the stroke of the outline's lines,
-  and goes outside the pads (smaller where it must) when the body lies within the box of the pads over it (chip
-  passives, QFNs). 70 of the library's 174 footprints moved their designator.
-- Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
-  visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
-  1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits
-  better, else next to the body (26 footprints: QFN/DFN with an exposed pad, 0402/0603, SOD-882, SOT-883, test
-  points, net ties). Silkscreen outlines, pin-1 marks and Value are untouched. Boards take it with "Update
-  Footprints from Library".
+- `kilib fab-designators` centres the designator on the body (the fab outline's centre, else the courtyard's) and lets
+  it run over the pads: KiCad draws the selected fab layer on top of them, while text outside the body runs into
+  neighbouring parts. The text (sized for five characters, `R1234` or `REF**`, its stroke counted) keeps 0.05 mm off
+  every other line on its fab layer (outline, polarity and pin-1 marks, diode symbols). It fits by getting smaller
+  (1 mm down to 0.3 mm) or turning 90°, else it moves to the largest free spot inside the body nearest the centre.
+  Where nothing fits it stays centred at 0.3 mm, and the report lists it as "no clean fit". The report counts how many
+  designators moved, were resized and turned.
+- `kilib fab-designators` also sets every line on F.Fab and B.Fab (`fp_line`, `fp_rect`, `fp_circle`, `fp_arc`,
+  `fp_poly`) to a 0.05 mm stroke and hides a shown Value. The designator's thickness stays 15 % of its size.
+- Footprints: the designator lives only on the fab layer, once per footprint, centred on the body. 185 of the
+  library's 195 footprints changed (112 designators moved, 101 resized, 54 turned); every fab line is 0.05 mm, every
+  Value hidden. 21 footprints have no clean fit (0402 passives, SOD-323/523/882, SOD-123-size diodes with a full-body
+  symbol like D_SMF, SOT-723, SOT-883, small test points, net ties, spark gaps, rods and spacers): there the
+  designator sits centred at 0.3 mm over the drawing or past the body. The silkscreen and the pads are untouched.
+  Boards take the new footprints with "Update Footprints from Library".
 - `LSF0102DCUR`: A↔B arrows, EN meaning and `VREF_B ≥ VREF_A + 0.8 V` drawn in the body.
 - `USB2514B_Bi`: reset-time markers, `S` straps without pull (CFG_SEL0/1, NON_REM0/1), `PD`/`PU` internal pulls, `RC`
   RESET_N, `!` VBUS_DET; legend with port disable, errata 100k + 220 nF, VBUS_DET, 1.2 V FILT <= 0.1 uF, weak XTALOUT;

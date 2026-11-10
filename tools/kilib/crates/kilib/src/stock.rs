@@ -1,6 +1,6 @@
 //! KiCad's stock footprints that boards use, kept as copies of our own: `Lib:Name` from KiCad's footprint folder
 //! (`${KICAD10_FOOTPRINT_DIR}`) becomes `VHRD_Lib:Name` in the checkout's `footprints/`. The copy is the stock
-//! file with the designator on the fab layer ([`crate::fab`]) and the Value hidden; pads, graphics, the 3D model
+//! file with the designator and fab lines by [`crate::fab`] and the Value hidden; pads, other graphics, the 3D model
 //! (through KiCad's own path variable) and every other byte stay as they were.
 //!
 //! The copies are on purpose: a KiCad update never changes our footprints unannounced. [`compare`] shows what a
