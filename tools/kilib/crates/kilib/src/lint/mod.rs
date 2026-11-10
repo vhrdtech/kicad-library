@@ -11,6 +11,8 @@
 //!   the file exists ([`models`]).
 //! - [`Rule::Silk`]: one line width ([`silk::WIDTH`]), no line over a pad's mask opening, no text but pin-1 marks
 //!   ([`silk`]).
+//! - [`Rule::RefOutline`]: test points, net ties, spark gaps and jumpers drawn on their designator's reference
+//!   layer ([`refs`]).
 //!
 //! [`plan`] runs the rules in that order on each footprint, each on the text the one before left, and keeps what they
 //! fixed and what they leave for a person; [`apply`] writes the fixed footprints. The designator (its text, layer
@@ -20,6 +22,7 @@ pub mod attrs;
 pub mod courtyard;
 pub mod models;
 pub mod pin1;
+pub mod refs;
 pub mod silk;
 
 use std::fmt;
@@ -37,11 +40,12 @@ pub enum Rule {
     Courtyard,
     Silk,
     Pin1,
+    RefOutline,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 5] = [Rule::Attrs, Rule::Models, Rule::Courtyard, Rule::Silk, Rule::Pin1];
+    pub const ALL: [Rule; 6] = [Rule::Attrs, Rule::Models, Rule::Courtyard, Rule::Silk, Rule::Pin1, Rule::RefOutline];
 
     pub fn name(self) -> &'static str {
         match self {
@@ -50,6 +54,7 @@ impl Rule {
             Rule::Courtyard => "courtyard",
             Rule::Silk => "silk",
             Rule::Pin1 => "pin1",
+            Rule::RefOutline => "ref-outline",
         }
     }
 
@@ -183,6 +188,7 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Courtyard => courtyard::run(i),
         Rule::Silk => silk::run(i),
         Rule::Pin1 => pin1::run(i),
+        Rule::RefOutline => refs::run(i),
     }
 }
 

@@ -32,6 +32,10 @@ pub const MAX_SIZE: f64 = 1.0;
 pub const MIN_SIZE: f64 = 0.2;
 /// The floor for the smallest parts (0201, 01005), where nothing fits at [`MIN_SIZE`]; reported.
 pub const TINY_SIZE: f64 = 0.15;
+/// The sizes a designator takes outside a reference-layer drawing too small to hold it.
+pub const OUTSIDE_SIZES: [f64; 2] = [0.3, 0.2];
+/// How far outside a reference-layer drawing such a designator may go.
+pub const OUTSIDE_REACH: f64 = 1.5;
 /// Sizes tried from [`MAX_SIZE`] down to [`FINE_BELOW`]; finer steps below it.
 pub const SIZE_STEP: f64 = 0.05;
 /// Below this size the steps are [`FINE_STEP`].
@@ -207,6 +211,8 @@ impl Prim {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BodyFrom {
     Fab,
+    /// The drawing on the designator's own reference layer (a test point's circle, a net tie's box).
+    RefLayer,
     Courtyard,
     Pads,
 }
@@ -376,6 +382,16 @@ fn place(shape: &Shape, sizes: &[f64]) -> Option<Placement> {
 pub fn layout(shape: &Shape) -> Placement {
     if let Some(p) = place(shape, &sizes()).or_else(|| place(shape, &tiny_sizes())) {
         return p;
+    }
+    // A reference layer's drawing too small for any text: the designator goes outside it, nearest.
+    if shape.body_from == BodyFrom::RefLayer {
+        let b = shape.body;
+        let mut outside = shape.clone();
+        outside.region = b.expand(OUTSIDE_REACH);
+        outside.graphics.push(Prim::Area(vec![(b.x0, b.y0), (b.x1, b.y0), (b.x1, b.y1), (b.x0, b.y1)]));
+        if let Some(p) = place(&outside, &OUTSIDE_SIZES) {
+            return p;
+        }
     }
     let angle = if shape.region.h() > shape.region.w() + EPS { 90.0 } else { 0.0 };
     let (x, y) = shape.anchor(shape.centre(), angle, MIN_SIZE);
@@ -701,9 +717,23 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
     let ref_layer = class.layer(back);
     let stroke = |g: &Node| if board { stroke_width(g).max(EPS) } else { FAB_STROKE };
     let lines: Vec<Prim> = layer_graphics(fp, fab).flat_map(|g| graphic_prims(g, stroke(g))).collect();
-    let mut graphics = lines.clone();
-    let text_layers = if ref_layer == fab { vec![fab] } else { vec![fab, ref_layer] };
-    if ref_layer != fab {
+    // A reference layer with a drawing of its own: that drawing is the body, and the only drawing in the way.
+    let ref_lines: Vec<Prim> = if ref_layer == fab {
+        Vec::new()
+    } else {
+        layer_graphics(fp, ref_layer).flat_map(|g| graphic_prims(g, stroke_width(g))).collect()
+    };
+    let ref_stroke = layer_graphics(fp, ref_layer).map(|g| stroke_width(g)).fold(0.0, f64::max);
+    let own = !ref_lines.is_empty();
+    let mut graphics = if own { ref_lines.clone() } else { lines.clone() };
+    let text_layers = if ref_layer == fab {
+        vec![fab]
+    } else if own {
+        vec![ref_layer]
+    } else {
+        vec![fab, ref_layer]
+    };
+    if ref_layer != fab && !own {
         graphics.extend(layer_graphics(fp, ref_layer).flat_map(|g| graphic_prims(g, stroke_width(g))));
     }
     graphics.extend(
@@ -722,7 +752,9 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
         let body = prims_box(&g.iter().flat_map(|g| graphic_prims(g, stroke_width(g))).collect::<Vec<_>>())?;
         Some((body, body.expand(-stroke)))
     };
-    let shape = if let Some(body) = prims_box(&lines).filter(covers_pads) {
+    let shape = if let Some(body) = prims_box(&ref_lines) {
+        Some((body, BodyFrom::RefLayer, body.expand(-ref_stroke)))
+    } else if let Some(body) = prims_box(&lines).filter(covers_pads) {
         Some((body, BodyFrom::Fab, body))
     } else if let Some((body, region)) = courtyard() {
         Some((body, BodyFrom::Courtyard, region))
@@ -1227,6 +1259,39 @@ mod tests {
             );
         }
         s + ")\n"
+    }
+
+    #[test]
+    fn a_reference_layer_drawing_is_the_body() {
+        let circle = |r: f64| {
+            format!(
+                "\t(fp_circle\n\t\t(center 0.5 0)\n\t\t(end {} 0)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"User.9\")\n\t)\n",
+                0.5 + r
+            )
+        };
+        // A large test point circle beside the fab outline: the designator sits in the circle, the fab drawing ignored.
+        let text = with_drawing(1.0, 1.0, &[(0.5, 0.0, 1.0, 1.0)], "User.9", &[], &circle(2.0));
+        let Outcome::Change { placement: p, new, body_from, .. } = fix_as(&text, "VHRD_TestPoint:TestPoint_X") else {
+            panic!()
+        };
+        assert_eq!(body_from, BodyFrom::RefLayer);
+        let fp = read_as(&new, "VHRD_TestPoint:TestPoint_X").unwrap();
+        let shape = fp.shape.unwrap();
+        let (cx, _) = shape.text_rect(p.x, p.y, p.angle, p.size).center();
+        assert!(p.clean && (cx - 0.5).abs() < 2e-3 && p.size > 0.5, "{p:?}");
+        assert_eq!(fix_as(&new, "VHRD_TestPoint:TestPoint_X"), Outcome::Fine);
+        // A small one holds no text: the designator goes beside it, clear of the circle.
+        let text = with_drawing(0.5, 0.5, &[(0.5, 0.0, 0.5, 0.5)], "User.9", &[], &circle(0.3));
+        let Outcome::Change { placement: p, new, .. } = fix_as(&text, "VHRD_TestPoint:TestPoint_X") else { panic!() };
+        let shape = read_as(&new, "VHRD_TestPoint:TestPoint_X").unwrap().shape.unwrap();
+        let r = shape.text_rect(p.x, p.y, p.angle, p.size);
+        let b = shape.body;
+        assert!(p.clean && OUTSIDE_SIZES.contains(&p.size), "{p:?}");
+        assert!(
+            r.x1 <= b.x0 + 1e-9 || r.x0 >= b.x1 - 1e-9 || r.y1 <= b.y0 + 1e-9 || r.y0 >= b.y1 - 1e-9,
+            "{r:?} {b:?}"
+        );
+        assert_eq!(fix_as(&new, "VHRD_TestPoint:TestPoint_X"), Outcome::Fine);
     }
 
     fn line(a: (f64, f64), b: (f64, f64)) -> String {
