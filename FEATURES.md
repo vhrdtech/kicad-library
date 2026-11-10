@@ -32,14 +32,14 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   `README.md` for outside users, and the repo scrubbed of tpm ids, PC names and people's names
 - ✅ LIB-10 fab-designators: every footprint's designator only on its layer (F.Fab, B.Fab for bottom-side parts;
   LIB-13's layers for test points, net ties and mechanical parts), visible and unlocked (mechanical: hidden), never on
-  the silkscreen and never twice, the Value hidden; the ink, measured in KiCad's stroke font, centred on the body
+  the silkscreen and never twice (the Value: LIB-21); the ink, measured in KiCad's stroke font, centred on the body
   (fab outline, else courtyard), pads ignored, 0.02 mm clear of the other drawing on its layer beyond the strokes;
   sized for the longest designator of the footprint's kind (R1004, C1001, TP526, U1004): smaller (1 to 0.2 mm),
   turned 90°, else the largest free spot nearest the centre, else down to 0.15 mm reported as tiny, else centred at
   0.2 mm and reported as no clean fit; strokes 15 % of the size, at least 0.025 mm; every fab line 0.05 mm;
   `kilib fab-designators` lists what breaks these rules with counts and sizes and `--write` fixes it
 - ✅ LIB-11 stock-copies: KiCad stock footprints and symbols that boards use are copied into `VHRD_*` libraries of
-  the same name (footprints: designator on F.Fab, fab lines 0.05 mm, Value hidden, all else as in stock; symbols:
+  the same name (footprints: designator on F.Fab, fab lines 0.05 mm, Value on Value.F, all else as in stock; symbols:
   standalone, `Footprint` at our copy, `Mpn` fields, all pins and graphics as in stock), so KiCad updates never
   change them unannounced;
   `kilib stock import [--symbols]` copies, `kilib stock diff` compares the copies with the current stock library;
@@ -73,3 +73,13 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   KiCad's Dwgs.User, Cmts.User and User.2 named Dimensions, Fab.Notes and Body.F, in the three templates; `kilib
   layers` names them in an existing board (User.2 only where the board draws nothing of its own there), refuses
   boards in KiCad 8's layer numbering
+- ✅ LIB-21 value-layer: each footprint's Value on Value.F/B (User.17/18), shown and unlocked (mechanical: hidden),
+  fitted like the designator for a long value of the kind (100k, 4.7uF, TPS54202DDC) with the designator's ink as an
+  obstacle, so both read side by side; just outside the body where it holds only the designator; `kilib
+  fab-designators` checks and writes it, `--board` fits each placed footprint's own value
+- ✅ LIB-22 pin-numbers: pin numbers on Pins.F/B (User.19/20) beside the pads: every pin of a connector, pin 1 and
+  every 5th (10th past 40) of other parts with three or more pins; level, 0.1 mm clear of pads, holes and each other,
+  never between two pads in line, one size per footprint (0.5 to 0.2 mm); `kilib lint --rule pins`. 125 footprints;
+  3 with numbers that have no room are listed
+- ✅ LIB-23 centroid-cross: a 0.5 mm cross of 0.05 mm lines on Centroid.F/B (User.21/22) at the origin of every part
+  and fiducial, for checking the position file; `kilib lint --rule centroid`. 163 footprints

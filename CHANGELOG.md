@@ -8,6 +8,14 @@
   User.21/22 `Centroid.F/B`, typed front and back; KiCad's `Dwgs.User` named `Dimensions`, `Cmts.User` `Fab.Notes`
   and `User.2` `Body.F` (a part's full top view). `kilib layers` leaves User.2 unnamed on a board that draws on it
   itself and says so.
+- `kilib fab-designators`: the Value goes to `Value.F`/`Value.B`, shown, fitted beside the designator (just outside
+  the body where there is no room beside it); `--board` fits each placed footprint's own value. Swept: 193 of 195
+  footprints. Stock imports keep the Value on `Value.F` instead of hiding it.
+- `kilib lint --rule pins`: pin numbers on `Pins.F`/`Pins.B` beside the pads (connectors every pin, other multi-pin
+  parts pin 1 and every 5th, every 10th past 40 pins). Swept: 125 footprints; 3 with numbers that have no room
+  (USB-C plug PLUG-USBC-241SMT-TH-4BC2LS, QFN24_MICROCHIP pin 25, TI-BQA0014A pin 15) are listed by `kilib lint --left`.
+- `kilib lint --rule centroid`: a 0.5 mm cross on `Centroid.F`/`Centroid.B` at every part's and fiducial's origin.
+  Swept: 163 footprints.
 
 - `kilib fab-designators --board BOARD [--write]`: fits each placed footprint's own designator (a short one gets
   larger text); only the Reference's position, angle, size and thickness change, and only where the Reference is
@@ -102,6 +110,9 @@
 - `VHRD_Device:R`, `VHRD_Device:C`, `VHRD_Connector:Conn_02x03_Odd_Even`: an empty `Mpn1` field.
 
 ### Changed
+
+- Footprints keep the Value shown on its own layer (`Value.F`) instead of hidden on F.Fab; `kilib fab-designators`
+  reports a hidden Value or one on another layer.
 
 - `kilib fab-designators` fits a test point's, net tie's or jumper's designator to the drawing on its own reference
   layer when there is one (centred inside, smaller, else 0.3 or 0.2 mm beside it, nearest); the fab drawing no

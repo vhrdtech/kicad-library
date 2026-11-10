@@ -11,9 +11,9 @@ map and `kilib migrate`.
 
 KiCad's stock footprints that a board uses are imported into the `VHRD_*` library of the same name
 (`Resistor_SMD:R_0402_1005Metric` becomes `VHRD_Resistor_SMD:R_0402_1005Metric`), so their text is ours: the
-designator centred on the fab layer (`kilib fab-designators`), the fab lines 0.05 mm, the Value hidden. Pads, other
+designator centred on the fab layer (`kilib fab-designators`), the fab lines 0.05 mm, the Value beside it on `Value.F`. Pads, other
 graphics and the 3D model (through KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock, apart from the fixes of
-`kilib lint` (courtyard, silkscreen, pin-1 marks, attributes), which `stock import` and `stock diff` apply too. The
+`kilib lint` (courtyard, silkscreen, pin-1 marks, attributes, pin numbers, the centroid cross), which `stock import` and `stock diff` apply too. The
 copies are on purpose: a KiCad update never changes our footprints unannounced. We compare them with the stock library
 and take upstream changes in deliberately, when the time is right:
 
@@ -38,9 +38,11 @@ migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol l
 
 ## Designator layers
 
-User.9-16 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
-ties, mechanical parts) and `Rooms` (block outlines), named in the templates and by `kilib layers`; don't use those
-numbers for anything else. Which footprint goes where is `kilib::layers::class_of`, never decided by hand.
+User.9-22 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
+ties, mechanical parts), `Rooms` (block outlines), `Value` (each footprint's Value), `Pins` (pin numbers, `kilib lint
+--rule pins`) and `Centroid` (a cross on the origin), named in the templates and by `kilib layers`; don't use those
+numbers for anything else. KiCad's `Dwgs.User`, `Cmts.User` and `User.2` carry the names `Dimensions`, `Fab.Notes`
+and `Body.F` (a part's full top view). Which footprint goes where is `kilib::layers::class_of`, never decided by hand.
 
 ## The look comes from vhrd_brand
 
@@ -60,13 +62,14 @@ never write the boards. `kilib check` and `kilib setup --dry-run` only read; `ki
 config folder, never library files. `kilib migrate` writes only with `--write`, and then only the strings its map
 matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`; `kilib stock import` writes only
 new files under the checkout's `footprints/` (`symbols/` with `--symbols`), with `--write`. `kilib fab-designators` writes only
-with `--write`, and then only the `Reference` property, `${REFERENCE}` texts, the Value's `hide` and the stroke
-widths of fab lines in the footprints given; with `--board` only the Reference's `at`, `size` and `thickness` on that
-board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
+with `--write`, and then only the `Reference` and `Value` properties, `${REFERENCE}` texts and the stroke
+widths of fab lines in the footprints given; with `--board` only the Reference's and the Value's `at`, `size` and
+`thickness` on that board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 `kilib lint` writes only with `--write`, and then only the items its fixes name (attributes, model paths,
-courtyards, silkscreen lines and widths, pin-1 marks) in the footprints given; it never touches the designator.
+courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins and Centroid layers) in the footprints
+given; it never touches the designator or the Value.
 
 ## FEATURES.md and CHANGELOG.md
 
