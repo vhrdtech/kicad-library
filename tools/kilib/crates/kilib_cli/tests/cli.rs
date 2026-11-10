@@ -610,3 +610,60 @@ fn lint_reports_fixes_then_writes_then_only_what_is_left() {
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tlint\twrite\n") && usage.contains("\tlint\trule,json\n"), "{usage}");
 }
+
+#[test]
+fn stock_import_symbols_makes_them_standalone_and_diff_compares_them() {
+    let dir = TestDir::new("cli_stock_sym");
+    let prop = |name: &str, value: &str| {
+        format!(
+            "\t\t(property \"{name}\" \"{value}\"\n\t\t\t(at 0 0 0)\n\t\t\t(hide yes)\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n"
+        )
+    };
+    let head = "(kicad_symbol_lib\n\t(version 20251024)\n\t(generator \"kicad_symbol_editor\")\n";
+    let parent = format!(
+        "{head}\t(symbol \"D_Dual\"\n\t\t(in_bom yes)\n{}{}{}\t\t(symbol \"D_Dual_1_1\"\n\t\t\t(pin passive line\n\t\t\t\t(at 0 2.54 270)\n\t\t\t\t(length 1.27)\n\t\t\t)\n\t\t)\n\t)\n)\n",
+        prop("Reference", "D"),
+        prop("Footprint", ""),
+        prop("Description", "Dual diode"),
+    );
+    let child = format!(
+        "{head}\t(symbol \"BAS16TW\"\n\t\t(extends \"D_Dual\")\n{}{}{}\t)\n)\n",
+        prop("Reference", "D"),
+        prop("Footprint", "Package_TO_SOT_SMD:SOT-363_SC-70-6"),
+        prop("Description", "Triple diode"),
+    );
+    dir.write("stock/symbols/Diode.kicad_symdir/D_Dual.kicad_sym", &parent);
+    dir.write("stock/symbols/Diode.kicad_symdir/BAS16TW.kicad_sym", &child);
+    dir.write("lib/footprints/VHRD_Package_TO_SOT_SMD.pretty/SOT-363_SC-70-6.kicad_mod", "(footprint \"x\")\n");
+    std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
+    let (s, f) = (dir.path().join("stock/symbols"), dir.path().join("stock/footprints"));
+    std::fs::create_dir_all(&f).unwrap();
+    let copy = dir.path().join("lib/symbols/VHRD_Diode.kicad_symdir/BAS16TW.kicad_sym");
+    let args = |extra: &[&'static str]| -> Vec<String> {
+        let mut a: Vec<String> = vec!["stock".into()];
+        a.extend(extra.iter().map(|s| s.to_string()));
+        a.extend(["--stock-symbol-dir".into(), p(&s).into(), "--stock-dir".into(), p(&f).into()]);
+        a.extend(["--library".into(), "lib".into()]);
+        a
+    };
+    let run = |a: Vec<String>| kilib(&dir, &a.iter().map(String::as_str).collect::<Vec<_>>());
+
+    let out = run(args(&["import", "--symbols", "--write", "Diode:BAS16TW"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("Diode:BAS16TW -> lib/symbols/VHRD_Diode.kicad_symdir/BAS16TW.kicad_sym"), "{t}");
+    let new = std::fs::read_to_string(&copy).unwrap();
+    assert!(!new.contains("extends") && new.contains("(symbol \"BAS16TW_1_1\""), "{new}");
+    assert!(new.contains("\"VHRD_Package_TO_SOT_SMD:SOT-363_SC-70-6\"") && new.contains("\"Mpn1\" \"\""), "{new}");
+
+    let out = run(args(&["diff"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("1 symbols with a stock namesake in") && t.contains("0 footprints with"), "{t}");
+
+    dir.write("stock/symbols/Diode.kicad_symdir/D_Dual.kicad_sym", &parent.replace("(length 1.27)", "(length 2.54)"));
+    let out = run(args(&["diff", "--stat"]));
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("VHRD_Diode:BAS16TW: differs from stock"), "{t}");
+}

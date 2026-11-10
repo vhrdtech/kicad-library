@@ -11,7 +11,7 @@
 //! - [`layers::add_to_board`]: the user layers the designators of test points, net ties and mechanical parts
 //!   live on, named in a board's layer table.
 //! - [`stock::plan_import`] and [`stock::compare`]: KiCad's stock footprints copied into the checkout, and the
-//!   copies compared with the current stock library.
+//!   copies compared with the current stock library; [`stock::symbol`] the same for its stock symbols.
 //! - [`lint::plan`] and [`lint::apply`]: library-wide footprint rules (pin-1 marks, attributes, courtyards, 3D
 //!   models, silkscreen), each a check and, where the rule is clear, a fix.
 //! - [`restructure::plan`] and [`restructure::apply`]: a checkout's old libraries moved into the map's new ones.

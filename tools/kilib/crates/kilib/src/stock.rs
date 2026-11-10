@@ -14,6 +14,8 @@ use crate::lint;
 use crate::migrate::{Edit, apply_edits, unified_diff};
 use crate::sexpr;
 
+pub mod symbol;
+
 /// What stock libraries are prefixed with in the checkout.
 pub const PREFIX: &str = "VHRD_";
 
@@ -201,7 +203,7 @@ fn fresh(stock: &str, lib: &str) -> Result<String, String> {
     }
 }
 
-fn read_dir(dir: &Path) -> impl Iterator<Item = PathBuf> {
+pub(crate) fn read_dir(dir: &Path) -> impl Iterator<Item = PathBuf> {
     std::fs::read_dir(dir).into_iter().flatten().filter_map(Result::ok).map(|e| e.path())
 }
 

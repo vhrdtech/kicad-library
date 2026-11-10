@@ -277,16 +277,24 @@ Examples:
 enum StockCommand {
     /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on the fab layer, Value hidden
     ///
-    /// Footprints the library has already are left alone (`kilib stock diff` compares them). Without --write it
-    /// lists what would be written and exits 1 when anything would.
+    /// With --symbols, copy stock symbols into symbols/VHRD_Lib.kicad_symdir instead: made standalone (a derived
+    /// symbol gets its parent's pins and graphics), the Footprint field at our copy of the footprint where the
+    /// library has one, library parts of ki_fp_filters prefixed VHRD_, an empty Mpn1 field.
+    ///
+    /// Items the library has already are left alone (`kilib stock diff` compares them). Without --write it lists
+    /// what would be written and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
   kilib stock import Resistor_SMD:R_0402_1005Metric Package_SO:VSSOP-8_2.3x2mm_P0.5mm
-  kilib stock import --write --stock-dir /usr/share/kicad/footprints Resistor_SMD:R_0402_1005Metric")]
+  kilib stock import --write --stock-dir /usr/share/kicad/footprints Resistor_SMD:R_0402_1005Metric
+  kilib stock import --symbols --write Device:SparkGap Transistor_BJT:BC847BS")]
     Import {
-        /// Stock footprints, Lib:Name
+        /// Stock footprints (or with --symbols, symbols), Lib:Name
         #[arg(required = true, value_name = "LIB:NAME")]
         ids: Vec<String>,
+        /// The ids are stock symbols
+        #[arg(long)]
+        symbols: bool,
         #[command(flatten)]
         stock: StockArgs,
         /// Write the copies
@@ -295,8 +303,10 @@ Examples:
     },
     /// Compare each VHRD_Lib:Name with a fresh import of stock Lib:Name; exits 1 when any differs
     ///
-    /// Prints a unified diff from our copy to the fresh import (what taking in the stock footprint would change).
-    /// Footprints of our own that happen to share a stock name are compared too.
+    /// Prints a unified diff from our copy to the fresh import (what taking in the stock item would change).
+    /// Footprints and symbols of our own that happen to share a stock name are compared too. A symbol's fields
+    /// and flags are ours: they are laid over the fresh import, so the diff shows pins, units, graphics and fields
+    /// only stock has. A kind whose stock folder is not found is skipped with a note.
     #[command(after_help = "\
 Examples:
   kilib stock diff
@@ -316,6 +326,10 @@ struct StockArgs {
     /// /usr/share/kicad/footprints)
     #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
     stock_dir: Option<PathBuf>,
+    /// KiCad's stock symbol folder (default: KICAD10_SYMBOL_DIR from the environment or KiCad's config, else
+    /// /usr/share/kicad/symbols)
+    #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+    stock_symbol_dir: Option<PathBuf>,
     /// The kicad-library checkout (default: the one around the current folder)
     #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
     library: Option<PathBuf>,
@@ -325,15 +339,23 @@ struct StockArgs {
 
 impl StockArgs {
     fn stock_dir(&self) -> Result<PathBuf, String> {
-        if let Some(d) = &self.stock_dir {
+        self.find(&self.stock_dir, "KICAD10_FOOTPRINT_DIR", "footprints", "--stock-dir")
+    }
+
+    fn stock_symbol_dir(&self) -> Result<PathBuf, String> {
+        self.find(&self.stock_symbol_dir, "KICAD10_SYMBOL_DIR", "symbols", "--stock-symbol-dir")
+    }
+
+    fn find(&self, flag: &Option<PathBuf>, var: &str, what: &str, option: &str) -> Result<PathBuf, String> {
+        if let Some(d) = flag {
             return Ok(d.clone());
         }
         let share = Path::new("/usr/share/kicad");
         let vars = config::vars(self.config.dir().as_deref(), std::env::vars(), share.is_dir().then_some(share))?;
-        vars.get("KICAD10_FOOTPRINT_DIR")
+        vars.get(var)
             .map(PathBuf::from)
             .filter(|d| d.is_dir())
-            .ok_or_else(|| "no KiCad stock footprints found: set KICAD10_FOOTPRINT_DIR or pass --stock-dir DIR".into())
+            .ok_or_else(|| format!("no KiCad stock {what} found: set {var} or pass {option} DIR"))
     }
 }
 
@@ -396,12 +418,27 @@ fn main() -> ExitCode {
             usage::record("restructure", &[("dry-run", dry_run), ("library", library.is_some())]);
             run_restructure(&map, &vendor_dir, library, dry_run)
         }
-        Command::Stock(StockCommand::Import { ids, stock, write }) => {
-            usage::record("stock import", &[("write", write), ("stock-dir", stock.stock_dir.is_some())]);
-            run_stock_import(&ids, &stock, write)
+        Command::Stock(StockCommand::Import { ids, symbols, stock, write }) => {
+            usage::record(
+                "stock import",
+                &[
+                    ("write", write),
+                    ("symbols", symbols),
+                    ("stock-dir", stock.stock_dir.is_some()),
+                    ("stock-symbol-dir", stock.stock_symbol_dir.is_some()),
+                ],
+            );
+            run_stock_import(&ids, symbols, &stock, write)
         }
         Command::Stock(StockCommand::Diff { stock, stat }) => {
-            usage::record("stock diff", &[("stat", stat), ("stock-dir", stock.stock_dir.is_some())]);
+            usage::record(
+                "stock diff",
+                &[
+                    ("stat", stat),
+                    ("stock-dir", stock.stock_dir.is_some()),
+                    ("stock-symbol-dir", stock.stock_symbol_dir.is_some()),
+                ],
+            );
             run_stock_diff(&stock, stat)
         }
         Command::Lint(args) => {
@@ -1007,10 +1044,14 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     }
 }
 
-fn run_stock_import(ids: &[String], args: &StockArgs, write: bool) -> Result<ExitCode, String> {
-    let stock_dir = args.stock_dir()?;
+fn run_stock_import(ids: &[String], symbols: bool, args: &StockArgs, write: bool) -> Result<ExitCode, String> {
     let library = library_or_cwd(args.library.clone())?;
-    let imports = stock::plan_import(&stock_dir, &library.join("footprints"), ids);
+    let (imports, what) = if symbols {
+        let fps = library.join("footprints");
+        (stock::symbol::plan_import(&args.stock_symbol_dir()?, &library.join("symbols"), &fps, ids), "symbols")
+    } else {
+        (stock::plan_import(&args.stock_dir()?, &library.join("footprints"), ids), "footprints")
+    };
     let (mut new, mut errors) = (0, 0);
     for i in &imports {
         match &i.outcome {
@@ -1025,7 +1066,7 @@ fn run_stock_import(ids: &[String], args: &StockArgs, write: bool) -> Result<Exi
             }
         }
     }
-    eprintln!("{BOLD}kilib stock import{BOLD:#}: {} footprints: {new} to copy, {errors} errors", imports.len());
+    eprintln!("{BOLD}kilib stock import{BOLD:#}: {} {what}: {new} to copy, {errors} errors", imports.len());
     if errors > 0 {
         eprintln!("{RED}✗{RED:#} errors: nothing written");
         return Ok(ExitCode::from(1));
@@ -1040,44 +1081,64 @@ fn run_stock_import(ids: &[String], args: &StockArgs, write: bool) -> Result<Exi
     }
     let n = stock::apply_import(&imports)?;
     eprintln!(
-        "{GREEN}✓{GREEN:#} copied {n} footprints; a new VHRD_* library needs its row in the map's [libraries] and kilib setup"
+        "{GREEN}✓{GREEN:#} copied {n} {what}; a new VHRD_* library needs its row in the map's [libraries] and kilib setup"
     );
     Ok(ExitCode::SUCCESS)
 }
 
 fn run_stock_diff(args: &StockArgs, stat: bool) -> Result<ExitCode, String> {
-    let stock_dir = args.stock_dir()?;
     let library = library_or_cwd(args.library.clone())?;
-    let all = stock::compare(&stock_dir, &library.join("footprints"));
-    let (mut same, mut differ, mut errors) = (0, 0, 0);
-    for c in &all {
-        match &c.outcome {
-            stock::Compared::Same => same += 1,
-            stock::Compared::Differs(d) => {
-                differ += 1;
-                if stat {
-                    println!("  {}: differs from stock", c.id);
-                    continue;
-                }
-                for line in d.lines() {
-                    match line.as_bytes().first() {
-                        Some(b'+') if !line.starts_with("+++") => println!("{GREEN}{line}{GREEN:#}"),
-                        Some(b'-') if !line.starts_with("---") => println!("{RED}{line}{RED:#}"),
-                        Some(b'@') => println!("{CYAN}{line}{CYAN:#}"),
-                        _ => println!("{line}"),
+    let footprints = library.join("footprints");
+    let kinds = [
+        ("footprints", args.stock_dir().map(|d| (stock::compare(&d, &footprints), d))),
+        (
+            "symbols",
+            args.stock_symbol_dir().map(|d| (stock::symbol::compare(&d, &library.join("symbols"), &footprints), d)),
+        ),
+    ];
+    if let [(_, Err(a)), (_, Err(b))] = &kinds {
+        return Err(format!("{a}; {b}"));
+    }
+    let mut failed = false;
+    for (what, found) in &kinds {
+        let (all, stock_dir) = match found {
+            Ok(f) => f,
+            Err(e) => {
+                eprintln!("{YELLOW}{what} skipped{YELLOW:#}: {e}");
+                continue;
+            }
+        };
+        let (mut same, mut differ, mut errors) = (0, 0, 0);
+        for c in all {
+            match &c.outcome {
+                stock::Compared::Same => same += 1,
+                stock::Compared::Differs(d) => {
+                    differ += 1;
+                    if stat {
+                        println!("  {}: differs from stock", c.id);
+                        continue;
+                    }
+                    for line in d.lines() {
+                        match line.as_bytes().first() {
+                            Some(b'+') if !line.starts_with("+++") => println!("{GREEN}{line}{GREEN:#}"),
+                            Some(b'-') if !line.starts_with("---") => println!("{RED}{line}{RED:#}"),
+                            Some(b'@') => println!("{CYAN}{line}{CYAN:#}"),
+                            _ => println!("{line}"),
+                        }
                     }
                 }
-            }
-            stock::Compared::Error(e) => {
-                errors += 1;
-                eprintln!("{RED}✗{RED:#} {}: {e}", c.id);
+                stock::Compared::Error(e) => {
+                    errors += 1;
+                    eprintln!("{RED}✗{RED:#} {}: {e}", c.id);
+                }
             }
         }
+        failed |= differ + errors > 0;
+        eprintln!(
+            "{BOLD}kilib stock diff{BOLD:#}: {} {what} with a stock namesake in {}: {same} as stock, {differ} differ, {errors} errors",
+            all.len(),
+            stock_dir.display()
+        );
     }
-    eprintln!(
-        "{BOLD}kilib stock diff{BOLD:#}: {} footprints with a stock namesake in {}: {same} as stock, {differ} differ, {errors} errors",
-        all.len(),
-        stock_dir.display()
-    );
-    Ok(if differ + errors > 0 { ExitCode::from(1) } else { ExitCode::SUCCESS })
+    Ok(if failed { ExitCode::from(1) } else { ExitCode::SUCCESS })
 }
