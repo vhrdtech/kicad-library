@@ -80,6 +80,21 @@
     idempotent.
   - `restructure --map FILE --vendor-dir DIR`: builds the new layout from the old libraries; `--dry-run`.
 - `just check-boards`: `kilib check` on `../hw` (or `VHRD_BOARDS_DIR`).
+- `kilib stock import --symbols [--write] Lib:Name...` copies KiCad stock symbols into
+  `symbols/VHRD_<Lib>.kicad_symdir`: a derived symbol made standalone, the `Footprint` field at our footprint copy,
+  `ki_fp_filters` library parts prefixed `VHRD_`, an empty `Mpn1`. `kilib stock diff` compares symbols too
+  (`--stock-symbol-dir`, else `KICAD10_SYMBOL_DIR`), with each copy's fields and flags laid over the fresh import;
+  a kind whose stock folder is missing is skipped with a note.
+- B153's stock symbols copied in from KiCad 10.0.8 (needs `kilib setup` for the three new libraries):
+  `VHRD_Transistor_BJT` (BC847BS, BC847BPN), `VHRD_Amplifier_Operational` (TLV9061xDCK), `VHRD_74xGxx` (74LVC1G17,
+  `Footprint` Texas DCK-5), and into `VHRD_Device` (SparkGap, NetTie_2, D_Schottky, D_Zener, L_Iron, Crystal_GND24),
+  `VHRD_Connector` (TestPoint, TestPoint_Probe, Conn_01x12_Pin), `VHRD_Diode` (BAS16TW, BAT54CW, BAT54S, SMF22A),
+  `VHRD_Mechanical` (MountingHole), `VHRD_Regulator_Linear` (TLV75533PDBV). The specific parts carry B153's Mpns;
+  test points, net tie, spark gap and mounting hole are out of BOM and simulation.
+- `migrate/2026-11-stock.toml` maps those symbols, and `Device:R`, `Device:C`,
+  `Connector_Generic:Conn_02x03_Odd_Even` and `power:PWR_FLAG` to the library's own of the same name (same pins and
+  graphics), so `kilib migrate` re-points a board's symbol ids and its symbol cache.
+- `VHRD_Device:R`, `VHRD_Device:C`, `VHRD_Connector:Conn_02x03_Odd_Even`: an empty `Mpn1` field.
 
 ### Changed
 

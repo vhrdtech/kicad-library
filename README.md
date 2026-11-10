@@ -11,8 +11,8 @@ Symbols live one per file in `symbols/VHRD_<KiCad library>.kicad_symdir` (KiCad 
 `footprints/VHRD_<KiCad library>.pretty`: each library is named `VHRD_` plus the stock KiCad library it would
 belong to, e.g. `VHRD_Connector_Molex` or `VHRD_Package_DFN_QFN`. Every part, whoever drew it first, is sorted the same
 way; there is no separate vendor library (the private `VHRD_Vendor` one was folded in on 7 Nov 2026). KiCad's stock
-footprints that a board uses are copied into the `VHRD_*` library of the same name (`VHRD_Resistor_SMD`,
-`VHRD_Package_TO_SOT_SMD`), so a KiCad update never changes them unannounced; `kilib stock diff` shows what upstream
+footprints and symbols that a board uses are copied into the `VHRD_*` library of the same name (`VHRD_Resistor_SMD`,
+`VHRD_Transistor_BJT`), so a KiCad update never changes them unannounced; `kilib stock diff` shows what upstream
 changed since.
 
 ## Configuration
@@ -142,6 +142,14 @@ same under `footprints/<name>.pretty` for footprints.
   the unified diff (what taking in the stock footprint would change; `--stat` only lists them); it exits 1 when any
   differs. Footprints of our own that share a stock name show up there too. `migrate/2026-11-stock.toml` maps the
   imported stock ids to the copies for `kilib migrate`.
+- `kilib stock import --symbols Lib:Name...` does the same for stock symbols, into
+  `symbols/VHRD_<Lib>.kicad_symdir/<Name>.kicad_sym`: a derived symbol is made standalone (its parent's pins, units and
+  graphics under its own name and fields), the `Footprint` field points at our copy of the footprint where
+  `footprints/` has one, library parts of `ki_fp_filters` patterns get `VHRD_`, and an empty `Mpn1` is added. The
+  stock folder is `--stock-symbol-dir`, else `KICAD10_SYMBOL_DIR`, else `/usr/share/kicad/symbols`. `kilib stock
+  diff` compares the symbols too; a copy's fields and flags are ours, laid over the fresh import, so the diff shows
+  what stock changed in pins, units and graphics and the fields stock has that the copy has not. A kind whose stock
+  folder is not found is skipped with a note.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ### Migrating an older board

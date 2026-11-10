@@ -38,12 +38,14 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   turned 90°, else the largest free spot nearest the centre, else down to 0.15 mm reported as tiny, else centred at
   0.2 mm and reported as no clean fit; strokes 15 % of the size, at least 0.025 mm; every fab line 0.05 mm;
   `kilib fab-designators` lists what breaks these rules with counts and sizes and `--write` fixes it
-- ✅ LIB-11 stock-copies: KiCad stock footprints that boards use are copied into `VHRD_*` libraries of the same name
-  (designator on F.Fab, fab lines 0.05 mm, Value hidden, all else as in stock), so KiCad updates never change them
-  unannounced;
-  `kilib stock import` copies, `kilib stock diff` compares the copies with the current stock library;
-  `migrate/2026-11-stock.toml` re-points boards to the copies (21 footprints of B153: `VHRD_Resistor_SMD`,
-  `VHRD_Connector_PinSocket_2.54mm` and existing libraries)
+- ✅ LIB-11 stock-copies: KiCad stock footprints and symbols that boards use are copied into `VHRD_*` libraries of
+  the same name (footprints: designator on F.Fab, fab lines 0.05 mm, Value hidden, all else as in stock; symbols:
+  standalone, `Footprint` at our copy, `Mpn` fields, all pins and graphics as in stock), so KiCad updates never
+  change them unannounced;
+  `kilib stock import [--symbols]` copies, `kilib stock diff` compares the copies with the current stock library;
+  `migrate/2026-11-stock.toml` re-points boards to the copies (21 footprints and 23 symbols of B153:
+  `VHRD_Resistor_SMD`, `VHRD_Connector_PinSocket_2.54mm`, `VHRD_Transistor_BJT`, `VHRD_Amplifier_Operational`,
+  `VHRD_74xGxx` and existing libraries)
 - ✅ LIB-12 board-designators: `kilib fab-designators --board PCB` fits each placed footprint's own designator by the
   LIB-10 rules (a short one gets larger text), writing only the Reference's position, angle (upright), size and
   thickness, and only where the Reference is already on its layer

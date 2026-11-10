@@ -7,7 +7,7 @@ part, a vendor's or our own, lives in a `VHRD_*` library. Boards in `hw` depend 
 they open: keep names stable, never rename or remove a symbol or footprint a board uses; a move goes through a rename
 map and `kilib migrate`.
 
-## Stock footprints are copied in
+## Stock footprints and symbols are copied in
 
 KiCad's stock footprints that a board uses are imported into the `VHRD_*` library of the same name
 (`Resistor_SMD:R_0402_1005Metric` becomes `VHRD_Resistor_SMD:R_0402_1005Metric`), so their text is ours: the
@@ -19,12 +19,22 @@ and take upstream changes in deliberately, when the time is right:
 
 ```sh
 kilib stock import --write Lib:Name...   # copy stock footprints in (KICAD10_FOOTPRINT_DIR, or --stock-dir DIR)
+kilib stock import --symbols --write Lib:Name...   # stock symbols (KICAD10_SYMBOL_DIR, or --stock-symbol-dir DIR)
 kilib stock diff                         # what a fresh import of the current stock would change in each copy
 ```
 
+Stock symbols go the same way into `symbols/VHRD_<Lib>.kicad_symdir`, one file each: a derived symbol (`extends`)
+becomes standalone, the `Footprint` field points at our footprint copy, `ki_fp_filters` library parts get `VHRD_`,
+an empty `Mpn1` is added. Then fill in the fields by hand: the `Mpn1`.. of the specific parts, a `Footprint`
+default, `in_bom`/`exclude_from_sim` for test points, net ties and mechanical parts. Fields and flags are ours:
+`kilib stock diff` lays them over the fresh import, so it shows only pins, units, graphics and new stock fields. A
+stock symbol the library already has under the same name with the same pins (`Device:R`, `power:PWR_FLAG`) is not
+copied; the map points it at ours.
+
 `migrate/2026-11-stock.toml` maps each imported stock id to its copy; `kilib migrate --map
-migrate/2026-11-stock.toml BOARD` re-points a board (only footprint lib ids and `Footprint` fields change). A new
-`VHRD_*` library also needs its row in `migrate/2026-11.toml`'s `[libraries]` (what `kilib setup` writes).
+migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol lib ids, the symbol cache names and
+`Footprint` fields change). A new `VHRD_*` library also needs its row in `migrate/2026-11.toml`'s `[libraries]`
+(what `kilib setup` writes).
 
 ## Designator layers
 
@@ -49,7 +59,7 @@ fixtures (`kilib::testdir`) and run with a cleared environment: they never read 
 never write the boards. `kilib check` and `kilib setup --dry-run` only read; `kilib setup` writes only the KiCad
 config folder, never library files. `kilib migrate` writes only with `--write`, and then only the strings its map
 matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`; `kilib stock import` writes only
-new files under the checkout's `footprints/`, with `--write`. `kilib fab-designators` writes only
+new files under the checkout's `footprints/` (`symbols/` with `--symbols`), with `--write`. `kilib fab-designators` writes only
 with `--write`, and then only the `Reference` property, `${REFERENCE}` texts, the Value's `hide` and the stroke
 widths of fab lines in the footprints given; with `--board` only the Reference's `at`, `size` and `thickness` on that
 board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
