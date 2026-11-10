@@ -125,7 +125,7 @@
 		(start -15.25 0.65)
 		(end -14.75 1.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -135,7 +135,7 @@
 		(start -14.75 1.65)
 		(end -14.25 0.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

@@ -6,13 +6,13 @@
 	(descr "TVS_SOD-123F")
 	(tags "SOD")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at -1.05 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
 		(effects
 			(font
-				(size 0.36 0.36)
+				(size 0.35 0.35)
 				(thickness 0.05)
 			)
 		)
@@ -80,7 +80,7 @@
 		(start -1.4 -0.9)
 		(end 1.4 -0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -90,7 +90,7 @@
 		(start -1.4 0.9)
 		(end -1.4 -0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -100,7 +100,7 @@
 		(start -0.75 0)
 		(end -0.35 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -110,7 +110,7 @@
 		(start -0.35 0)
 		(end -0.35 -0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -120,7 +120,7 @@
 		(start -0.35 0)
 		(end -0.35 0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -130,7 +130,7 @@
 		(start -0.35 0)
 		(end 0.25 -0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -140,7 +140,7 @@
 		(start 0.25 -0.4)
 		(end 0.25 0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -150,7 +150,7 @@
 		(start 0.25 0)
 		(end 0.75 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -160,7 +160,7 @@
 		(start 0.25 0.4)
 		(end -0.35 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -170,7 +170,7 @@
 		(start 1.4 -0.9)
 		(end 1.4 0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -180,7 +180,7 @@
 		(start 1.4 0.9)
 		(end -1.4 0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

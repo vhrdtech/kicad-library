@@ -4,14 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fac81072-9656-4d46-872b-939bf9c7a7e5")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.9 0.9)
+				(thickness 0.14)
 			)
 		)
 	)
@@ -68,7 +68,7 @@
 		(start -2.25 -4.4735)
 		(end 2.25 -4.4735)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -78,7 +78,7 @@
 		(start -2.25 1.9265)
 		(end -2.25 -4.4735)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -88,7 +88,7 @@
 		(start -1.5 1.9265)
 		(end -2.25 1.9265)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -98,7 +98,7 @@
 		(start -1.5 4.4735)
 		(end -1.5 1.9265)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -108,7 +108,7 @@
 		(start 1.5 4.4735)
 		(end -1.5 4.4735)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -118,7 +118,7 @@
 		(start 1.5 4.4735)
 		(end 1.5 1.9265)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -128,7 +128,7 @@
 		(start 2.25 -4.4735)
 		(end 2.25 1.9265)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -138,7 +138,7 @@
 		(start 2.25 1.9265)
 		(end 1.5 1.9265)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -149,7 +149,7 @@
 			(xy -2.25 -2.3735) (xy 2.25 -2.3735) (xy 2.25 1.2265) (xy -2.25 1.2265)
 		)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

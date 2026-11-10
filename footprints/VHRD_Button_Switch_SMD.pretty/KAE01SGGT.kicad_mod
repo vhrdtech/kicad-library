@@ -6,14 +6,14 @@
 	(descr "DIP switch, SPST, 1 position, slide, SMD, E-Switch KAE01SGGT")
 	(tags "KAE01SGGT DIP switch slide")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at 0 -1.15 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "8a2e112c-6ec5-407e-b427-6c428030c0d0")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.12)
 			)
 		)
 	)
@@ -298,7 +298,7 @@
 		(start -1.816666 -0.635)
 		(end -1.816666 0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -308,7 +308,7 @@
 		(start -1.816666 0.635)
 		(end 1.803334 0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -318,7 +318,7 @@
 		(start 0.596667 0.635)
 		(end 0.596667 -0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -328,7 +328,7 @@
 		(start 1.803334 -0.635)
 		(end -1.816666 -0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -338,7 +338,7 @@
 		(start 1.803334 -0.565)
 		(end 0.596667 -0.565)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -348,7 +348,7 @@
 		(start 1.803334 -0.465)
 		(end 0.596667 -0.465)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -358,7 +358,7 @@
 		(start 1.803334 -0.365)
 		(end 0.596667 -0.365)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -368,7 +368,7 @@
 		(start 1.803334 -0.265)
 		(end 0.596667 -0.265)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -378,7 +378,7 @@
 		(start 1.803334 -0.165)
 		(end 0.596667 -0.165)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -388,7 +388,7 @@
 		(start 1.803334 -0.065)
 		(end 0.596667 -0.065)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -398,7 +398,7 @@
 		(start 1.803334 0.035)
 		(end 0.596667 0.035)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -408,7 +408,7 @@
 		(start 1.803334 0.135)
 		(end 0.596667 0.135)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -418,7 +418,7 @@
 		(start 1.803334 0.235)
 		(end 0.596667 0.235)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -428,7 +428,7 @@
 		(start 1.803334 0.335)
 		(end 0.596667 0.335)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -438,7 +438,7 @@
 		(start 1.803334 0.435)
 		(end 0.596667 0.435)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -448,7 +448,7 @@
 		(start 1.803334 0.535)
 		(end 0.596667 0.535)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -458,7 +458,7 @@
 		(start 1.803334 0.635)
 		(end 1.803334 -0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -468,7 +468,7 @@
 		(start -3.1 -1.8)
 		(end 3.1 1.8)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(fill no)

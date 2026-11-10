@@ -5,13 +5,13 @@
 	(descr "SOT, 6 Pin (JEDEC MO-178 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-178)")
 	(tags "SOT TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0.05 0.05 90)
+		(at 0 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects
 			(font
-				(size 0.6 0.6)
-				(thickness 0.09)
+				(size 0.55 0.55)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -223,7 +223,7 @@
 			(xy -0.8 -1.05)
 		)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

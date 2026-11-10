@@ -6,14 +6,14 @@
 	(descr "UQFN-10, 1.4x1.8mm, P0.4mm, TI RSW0010A")
 	(tags "UQFN RSW0010A")
 	(property "Reference" "REF**"
-		(at 0 -1.5 0)
+		(at 0.15 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "71f21c87-cb66-4fa1-a20f-00e3a64b288c")
 		(effects
 			(font
-				(size 0.53 0.53)
-				(thickness 0.08)
+				(size 0.35 0.35)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -163,7 +163,7 @@
 		(start -0.725002 -0.925002)
 		(end 0.725 -0.925002)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -173,7 +173,7 @@
 		(start -0.725002 0.924999)
 		(end -0.725002 -0.925002)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -183,7 +183,7 @@
 		(start -0.725002 0.924999)
 		(end 0.725 0.924999)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -193,7 +193,7 @@
 		(start -0.725 -0.299999)
 		(end -0.299855 -0.300185)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -203,7 +203,7 @@
 		(start -0.725 -0.1)
 		(end -0.199855 -0.100183)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -213,7 +213,7 @@
 		(start -0.299855 -0.300185)
 		(end -0.199855 -0.200185)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -223,7 +223,7 @@
 		(start -0.199855 -0.100183)
 		(end -0.199855 -0.200185)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -233,7 +233,7 @@
 		(start 0.725 0.924999)
 		(end 0.725 -0.925002)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

@@ -6,14 +6,14 @@
 	(descr "Miniature Crystal Clock Oscillator Abracon ASE series, http://www.abracon.com/Oscillators/ASEseries.pdf, 3.2x2.5mm^2 package")
 	(tags "SMD SMT crystal oscillator")
 	(property "Reference" "REF**"
-		(at 0 -1.9 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "90cb9167-0773-4fde-a4cf-de8f2298d5c6")
 		(effects
 			(font
-				(size 0.71 0.71)
-				(thickness 0.11)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)
@@ -204,7 +204,7 @@
 		(start -1.6 -1.15)
 		(end -1.5 -1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -214,7 +214,7 @@
 		(start -1.6 0.25)
 		(end -0.6 1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -224,7 +224,7 @@
 		(start -1.6 1.15)
 		(end -1.6 -1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -234,7 +234,7 @@
 		(start -1.5 -1.25)
 		(end 1.5 -1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -244,7 +244,7 @@
 		(start -1.5 1.25)
 		(end -1.6 1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -254,7 +254,7 @@
 		(start 1.5 -1.25)
 		(end 1.6 -1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -264,7 +264,7 @@
 		(start 1.5 1.25)
 		(end -1.5 1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -274,7 +274,7 @@
 		(start 1.6 -1.15)
 		(end 1.6 1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -284,7 +284,7 @@
 		(start 1.6 1.15)
 		(end 1.5 1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

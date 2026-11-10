@@ -6,14 +6,14 @@
 	(descr "PowerDI,Diode,Vishay,https://www.diodes.com/assets/Package-Files/PowerDI5.pdf")
 	(tags "PowerDI diode vishay")
 	(property "Reference" "REF**"
-		(at 1.75 0 90)
+		(at 0 -1.15 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c3d652a5-8bc2-4c40-9245-e6ff23bcaf4f")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -126,7 +126,7 @@
 		(start -2.725 -2.025)
 		(end 2.725 -2.025)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -136,7 +136,7 @@
 		(start -2.725 2.025)
 		(end -2.725 -2.025)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -146,7 +146,7 @@
 		(start -0.8 0)
 		(end -0.5 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -156,7 +156,7 @@
 		(start -0.5 0)
 		(end -0.5 -0.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -166,7 +166,7 @@
 		(start -0.5 0)
 		(end -0.5 0.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -176,7 +176,7 @@
 		(start -0.5 0)
 		(end 0.3 0.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -186,7 +186,7 @@
 		(start 0.3 -0.5)
 		(end -0.5 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -196,7 +196,7 @@
 		(start 0.3 0)
 		(end 0.7 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -206,7 +206,7 @@
 		(start 0.3 0.5)
 		(end 0.3 -0.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -216,7 +216,7 @@
 		(start 2.725 -2.025)
 		(end 2.725 2.025)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -226,7 +226,7 @@
 		(start 2.725 2.025)
 		(end -2.725 2.025)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

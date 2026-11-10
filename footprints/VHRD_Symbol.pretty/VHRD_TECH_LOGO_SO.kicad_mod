@@ -19,6 +19,7 @@
 		(at 6.6 3 0)
 		(unlocked yes)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "d8bd54f3-f848-4bcf-a6ce-86fe6b849de9")
 		(effects
 			(font
@@ -114,7 +115,7 @@
 		(start -0.2 -0.2)
 		(end 13.2 6.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(fill no)

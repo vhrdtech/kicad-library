@@ -6,14 +6,14 @@
 	(descr "Texas RSE0010A UQFN, 10 Pin (https://www.ti.com/lit/ml/mpqf186d/mpqf186d.pdf)")
 	(tags "Texas RSE0010 UQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 -1.55 0)
+		(at 0 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "0912fc52-3885-4ec0-9377-a0783632d8c2")
 		(effects
 			(font
-				(size 0.45 0.45)
-				(thickness 0.07)
+				(size 0.35 0.35)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -114,7 +114,7 @@
 		(start -0.75 -0.625)
 		(end -0.375 -1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -124,7 +124,7 @@
 		(start -0.75 1)
 		(end -0.75 -0.625)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -134,7 +134,7 @@
 		(start -0.375 -1)
 		(end 0.75 -1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -144,7 +144,7 @@
 		(start 0.75 -1)
 		(end 0.75 1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -154,7 +154,7 @@
 		(start 0.75 1)
 		(end -0.75 1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

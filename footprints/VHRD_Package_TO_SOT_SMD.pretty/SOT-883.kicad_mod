@@ -6,7 +6,7 @@
 	(descr "SOT-883, https://assets.nexperia.com/documents/outline-drawing/SOT883.pdf")
 	(tags "SOT-883")
 	(property "Reference" "REF**"
-		(at 0 -0.65 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c7eeb668-4f75-40f6-8ab9-6211e26a289c")
@@ -94,7 +94,7 @@
 		(start -0.51 0.31)
 		(end -0.51 -0.11)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -104,7 +104,7 @@
 		(start -0.31 -0.31)
 		(end -0.51 -0.11)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -114,7 +114,7 @@
 		(start -0.31 -0.31)
 		(end 0.51 -0.31)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -124,7 +124,7 @@
 		(start 0.51 -0.31)
 		(end 0.51 0.31)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -134,7 +134,7 @@
 		(start 0.51 0.31)
 		(end -0.51 0.31)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

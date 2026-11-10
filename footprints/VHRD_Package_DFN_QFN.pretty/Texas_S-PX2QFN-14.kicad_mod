@@ -6,14 +6,14 @@
 	(descr "Texas RUC0014A X2QFN, 14 Pin (https://www.ti.com/lit/ml/qfnd283a/qfnd283a.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "Texas X2QFN NoLead Texas_X2QFN-14_2x2mm_P0.4mm")
 	(property "Reference" "REF**"
-		(at 0 -1.8 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "803b519b-dd15-41f9-a51d-4534e882a0ba")
 		(effects
 			(font
-				(size 0.57 0.57)
-				(thickness 0.09)
+				(size 0.35 0.35)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -124,7 +124,7 @@
 			(xy -0.5 -1) (xy 1 -1) (xy 1 1) (xy -1 1) (xy -1 -0.5)
 		)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

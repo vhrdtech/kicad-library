@@ -5,14 +5,14 @@
 	(layer "F.Cu")
 	(tags "BGA 201 0.65")
 	(property "Reference" "REF**"
-		(at 0 -1.9 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "9687bc23-7d93-4373-b2d2-c923ce02c076")
 		(effects
 			(font
-				(size 0.64 0.64)
-				(thickness 0.1)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -82,7 +82,7 @@
 		(start -5 -4)
 		(end -4 -5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -92,7 +92,7 @@
 		(start -5 5)
 		(end -5 -4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -102,7 +102,7 @@
 		(start -4 -5)
 		(end 5 -5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -112,7 +112,7 @@
 		(start 5 -5)
 		(end 5 5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -122,7 +122,7 @@
 		(start 5 5)
 		(end -5 5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

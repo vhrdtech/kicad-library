@@ -6,13 +6,13 @@
 	(descr "Diode SMF (DO-219AB), http://www.vishay.com/docs/95572/smf_do-219ab.pdf")
 	(tags "Diode SMF (DO-214AB)")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "e04e5d51-0ab3-40a2-8297-3f857212542c")
 		(effects
 			(font
-				(size 0.36 0.36)
+				(size 0.3 0.3)
 				(thickness 0.05)
 			)
 		)
@@ -79,7 +79,7 @@
 		(start -1.4 0.9)
 		(end -1.4 -0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -89,7 +89,7 @@
 		(start -0.3 -0.4)
 		(end -0.3 0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -99,7 +99,7 @@
 		(start -0.3 0)
 		(end -0.9 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -109,7 +109,7 @@
 		(start -0.3 0)
 		(end 0.3 -0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -119,7 +119,7 @@
 		(start -0.3 0.00102)
 		(end 0.3 0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -129,7 +129,7 @@
 		(start 0.3 0)
 		(end 0.9 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -139,7 +139,7 @@
 		(start 0.3 0.4)
 		(end 0.3 -0.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -149,7 +149,7 @@
 		(start 1.4 -0.9)
 		(end -1.4 -0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start 1.4 -0.9)
 		(end 1.4 0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -169,7 +169,7 @@
 		(start 1.4 0.9)
 		(end -1.4 0.9)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

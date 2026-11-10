@@ -6,14 +6,14 @@
 	(descr "C, Disc series, Radial, pin pitch=5.00mm, , diameter*width=7*2.5mm^2, Capacitor, http://cdn-reichelt.de/documents/datenblatt/B300/DS_KERKO_TC.pdf")
 	(tags "C Disc series Radial pin pitch 5.00mm  diameter 7mm width 2.5mm Capacitor")
 	(property "Reference" "REF**"
-		(at 2.45 0 0)
+		(at 2.5 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "92fa4041-4e46-4426-9e49-e4da8f78fc12")
 		(effects
 			(font
-				(size 0.91 0.91)
-				(thickness 0.14)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -153,7 +153,7 @@
 		(start -1.5 -1.25)
 		(end -1.5 1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -163,7 +163,7 @@
 		(start -1.5 1.25)
 		(end 6.5 1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -173,7 +173,7 @@
 		(start 6.5 -1.25)
 		(end -1.5 -1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -183,7 +183,7 @@
 		(start 6.5 1.25)
 		(end 6.5 -1.25)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

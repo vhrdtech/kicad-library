@@ -165,7 +165,7 @@
 		(start -7 -6)
 		(end -6 -7)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -175,7 +175,7 @@
 		(start -7 7)
 		(end -7 -6)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -185,7 +185,7 @@
 		(start -6 -7)
 		(end 7 -7)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -195,7 +195,7 @@
 		(start 7 -7)
 		(end 7 7)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -205,7 +205,7 @@
 		(start 7 7)
 		(end -7 7)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

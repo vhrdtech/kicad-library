@@ -6,7 +6,7 @@
 	(descr "Taiyo Yuden, 4.9x4.9x3.1mm")
 	(tags "wirewound power shielded")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "297ceef7-f4b8-459f-8a81-9bbe2966ed95")
@@ -128,7 +128,7 @@
 		(start -2.5 -2.5)
 		(end 2.5 2.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

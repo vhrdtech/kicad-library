@@ -5,14 +5,14 @@
 	(layer "F.Cu")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at 0 -1.95 0)
+		(at 0 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "22f8d2d9-c4a2-4241-a843-bbb069b8a41e")
 		(effects
 			(font
-				(size 0.64 0.64)
-				(thickness 0.1)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -119,7 +119,7 @@
 		(start -1.95 -1.475)
 		(end -0.975 -2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -129,7 +129,7 @@
 		(start -1.95 2.45)
 		(end -1.95 -1.475)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -139,7 +139,7 @@
 		(start -0.975 -2.45)
 		(end 1.95 -2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -149,7 +149,7 @@
 		(start 1.95 -2.45)
 		(end 1.95 2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start 1.95 2.45)
 		(end -1.95 2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

@@ -6,7 +6,7 @@
 	(descr "Molex Nano-Fit vertical header, SMD, P2.50mm, 1x04, 105431-1204, RCY variant, no silkscreen")
 	(tags "1054311204 Nano-Fit power connector")
 	(property "Reference" "REF**"
-		(at -3.8 -4.175 0)
+		(at -3.75 -0.825 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "47cc92de-3bcd-4e98-a310-d919dd9f3460")
@@ -85,7 +85,7 @@
 		(start -10.364988 -4.95)
 		(end -10.364988 3.300001)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -95,7 +95,7 @@
 		(start -10.364988 3.300001)
 		(end 2.864985 3.300001)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -105,7 +105,7 @@
 		(start -0.635 1.15)
 		(end 0.635 1.15)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -115,7 +115,7 @@
 		(start 0 2.674)
 		(end -0.635 1.15)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -125,7 +125,7 @@
 		(start 0.635 1.15)
 		(end 0 2.674)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -135,7 +135,7 @@
 		(start 2.864985 -4.95)
 		(end -10.364988 -4.95)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -145,7 +145,7 @@
 		(start 2.864985 3.300001)
 		(end 2.864985 -4.95)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

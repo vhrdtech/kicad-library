@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -0.993 90)
+		(at 0 -0.975 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "889698d8-eaf9-488c-b049-488f7081b388")
@@ -149,7 +149,7 @@
 		(start -7.425 -7.25)
 		(end -7.425 7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start -7.425 7.25)
 		(end -6.45 7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -169,7 +169,7 @@
 		(start -6.45 7.25)
 		(end 4.55 7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -179,7 +179,7 @@
 		(start 4.55 7.25)
 		(end 7.425 7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -189,7 +189,7 @@
 		(start 7.425 -7.25)
 		(end -7.425 -7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -199,7 +199,7 @@
 		(start 7.425 7.25)
 		(end 7.425 -7.25)
 		(stroke
-			(width 0.127)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -209,7 +209,7 @@
 		(center 2.25 -9.1)
 		(end 2.35 -9.1)
 		(stroke
-			(width 0.2)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

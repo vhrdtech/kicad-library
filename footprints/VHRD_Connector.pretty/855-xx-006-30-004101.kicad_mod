@@ -4,14 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -2.1 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "cc41c55e-a239-4f30-a3ec-ab44a92ceaa9")
 		(effects
 			(font
-				(size 0.93 0.93)
-				(thickness 0.14)
+				(size 0.85 0.85)
+				(thickness 0.13)
 			)
 		)
 	)
@@ -94,7 +94,7 @@
 		(start -2.095 -1.525)
 		(end 2.095 1.525)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(fill no)

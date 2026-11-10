@@ -6,7 +6,7 @@
 	(descr "SOD-882D, DFN1006D-2, body 1.0 x 0.6 x 0.4mm, pitch 0.65mm, https://assets.nexperia.com/documents/package-information/SOD882D.pdf")
 	(tags "Diode SOD882D DFN1006D-2")
 	(property "Reference" "REF**"
-		(at 0 -0.65 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "9de9d6fd-fe17-4883-8322-442589bc59de")
@@ -72,7 +72,7 @@
 		(start -0.5 -0.3)
 		(end 0.5 -0.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -82,7 +82,7 @@
 		(start -0.5 0.3)
 		(end -0.5 -0.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -92,7 +92,7 @@
 		(start -0.3 -0.2)
 		(end 0 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -102,7 +102,7 @@
 		(start -0.3 0.2)
 		(end -0.3 -0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -112,7 +112,7 @@
 		(start 0 0)
 		(end -0.3 0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -122,7 +122,7 @@
 		(start 0 0)
 		(end 0.3 0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -132,7 +132,7 @@
 		(start 0 0.2)
 		(end 0 -0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -142,7 +142,7 @@
 		(start 0.3 -0.2)
 		(end 0 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -152,7 +152,7 @@
 		(start 0.3 0.2)
 		(end 0.3 -0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -162,7 +162,7 @@
 		(start 0.5 -0.3)
 		(end 0.5 0.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -172,7 +172,7 @@
 		(start 0.5 0.3)
 		(end -0.5 0.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

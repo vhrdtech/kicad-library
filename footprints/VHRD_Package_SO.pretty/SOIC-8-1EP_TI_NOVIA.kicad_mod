@@ -6,7 +6,7 @@
 	(descr "PowerPAD SOIC8 TI, Add thermal vias manually!")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at 0 -3.1 0)
+		(at 0 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fba715d8-bc49-400b-a63f-ff02988f5685")
@@ -149,7 +149,7 @@
 		(start -1.95 -1.475)
 		(end -0.975 -2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start -1.95 2.45)
 		(end -1.95 -1.475)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -169,7 +169,7 @@
 		(start -0.975 -2.45)
 		(end 1.95 -2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -179,7 +179,7 @@
 		(start 1.95 -2.45)
 		(end 1.95 2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -189,7 +189,7 @@
 		(start 1.95 2.45)
 		(end -1.95 2.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

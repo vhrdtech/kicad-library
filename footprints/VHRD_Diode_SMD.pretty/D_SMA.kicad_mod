@@ -6,14 +6,14 @@
 	(descr "Diode SMA (DO-214AC)")
 	(tags "Diode SMA (DO-214AC)")
 	(property "Reference" "REF**"
-		(at 0 0.05 90)
+		(at 1.95 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "f3ac1cd9-184a-496c-8c76-ec54e8919a3b")
 		(effects
 			(font
-				(size 0.62 0.62)
-				(thickness 0.09)
+				(size 0.5 0.5)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -79,7 +79,7 @@
 		(start -2.3 1.5)
 		(end -2.3 -1.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -89,7 +89,7 @@
 		(start -0.64944 -0.79908)
 		(end -0.64944 0.80112)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -99,7 +99,7 @@
 		(start -0.64944 0.00102)
 		(end -1.55114 0.00102)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -109,7 +109,7 @@
 		(start -0.64944 0.00102)
 		(end 0.50118 -0.79908)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -119,7 +119,7 @@
 		(start -0.64944 0.00102)
 		(end 0.50118 0.75032)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -129,7 +129,7 @@
 		(start 0.50118 0.00102)
 		(end 1.4994 0.00102)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -139,7 +139,7 @@
 		(start 0.50118 0.75032)
 		(end 0.50118 -0.79908)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -149,7 +149,7 @@
 		(start 2.3 -1.5)
 		(end -2.3 -1.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start 2.3 -1.5)
 		(end 2.3 1.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -169,7 +169,7 @@
 		(start 2.3 1.5)
 		(end -2.3 1.5)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

@@ -12,8 +12,8 @@
 		(uuid "6635a5f0-57b1-48d1-aa7b-9cdf37ab3eb1")
 		(effects
 			(font
-				(size 0.44 0.44)
-				(thickness 0.07)
+				(size 0.35 0.35)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -126,7 +126,7 @@
 		(start -0.675 -0.6)
 		(end -0.675 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -136,7 +136,7 @@
 		(start -0.175 -1.1)
 		(end -0.675 -0.6)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -146,7 +146,7 @@
 		(start 0.675 -1.1)
 		(end -0.175 -1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -156,7 +156,7 @@
 		(start 0.675 -1.1)
 		(end 0.675 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -166,7 +166,7 @@
 		(start 0.675 1.1)
 		(end -0.675 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

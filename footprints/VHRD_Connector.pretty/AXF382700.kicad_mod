@@ -214,7 +214,7 @@
 		(start -2.425 -1.1)
 		(end -2.425 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -224,7 +224,7 @@
 		(start -2.425 -1.1)
 		(end 2.425 -1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -234,7 +234,7 @@
 		(start 2.425 -1.1)
 		(end 2.425 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -244,7 +244,7 @@
 		(start 2.425 1.1)
 		(end -2.425 1.1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")

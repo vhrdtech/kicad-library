@@ -6,7 +6,7 @@
 	(descr "RJ45 jack with magnetics, 10/100BASE-T, Abracon ARJM11D7-009-AB")
 	(tags "ARJM11D7-009-AB RJ45 magnetics ethernet")
 	(property "Reference" "REF**"
-		(at 0 9.015 90)
+		(at 0 9.015 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "6db816f9-51e5-4dcf-a99c-359501d2d479")
@@ -155,7 +155,7 @@
 		(start -7.975 -1.66)
 		(end -7.975 19.69)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -165,7 +165,7 @@
 		(start -7.975 19.69)
 		(end 7.975 19.69)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -175,7 +175,7 @@
 		(start 6.975 0)
 		(end 7.975 -1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -185,7 +185,7 @@
 		(start 6.975 0)
 		(end 7.975 1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -195,7 +195,7 @@
 		(start 7.975 -1.66)
 		(end -7.975 -1.66)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -205,7 +205,7 @@
 		(start 7.975 -1)
 		(end 7.975 -1.66)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -215,7 +215,7 @@
 		(start 7.975 19.69)
 		(end 7.975 1)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

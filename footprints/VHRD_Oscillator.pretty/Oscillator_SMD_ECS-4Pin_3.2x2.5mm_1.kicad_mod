@@ -5,14 +5,14 @@
 	(layer "F.Cu")
 	(tags "SMD SMT crystal oscillator")
 	(property "Reference" "REF**"
-		(at 0 -2 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "5afc384d-e1cc-4b9a-bf54-1efe0ddf1180")
 		(effects
 			(font
-				(size 0.76 0.76)
-				(thickness 0.11)
+				(size 0.65 0.65)
+				(thickness 0.1)
 			)
 		)
 	)
@@ -205,7 +205,7 @@
 		(start -1.7 -1.15)
 		(end -1.5 -1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -215,7 +215,7 @@
 		(start -1.7 0.25)
 		(end -0.525 1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -225,7 +225,7 @@
 		(start -1.7 1.15)
 		(end -1.7 -1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -235,7 +235,7 @@
 		(start -1.7 1.15)
 		(end -1.5 1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -245,7 +245,7 @@
 		(start -1.5 -1.325)
 		(end 1.5 -1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -255,7 +255,7 @@
 		(start 1.5 1.325)
 		(end -1.5 1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -265,7 +265,7 @@
 		(start 1.5 1.325)
 		(end 1.7 1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -275,7 +275,7 @@
 		(start 1.7 -1.15)
 		(end 1.5 -1.325)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -285,7 +285,7 @@
 		(start 1.7 -1.15)
 		(end 1.7 1.15)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

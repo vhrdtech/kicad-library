@@ -19,6 +19,7 @@
 		(at 0 2.4 0)
 		(unlocked yes)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "09209915-da1c-4b54-ab82-553cc6260d91")
 		(effects
 			(font

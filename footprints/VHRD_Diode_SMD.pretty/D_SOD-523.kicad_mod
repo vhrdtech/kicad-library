@@ -6,7 +6,7 @@
 	(descr "http://www.diodes.com/datasheets/ap02001.pdf p.144")
 	(tags "Diode SOD523")
 	(property "Reference" "REF**"
-		(at 0 -0.7 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "ead614b3-7041-494c-b2fd-2b6f94b71e55")
@@ -79,7 +79,7 @@
 		(start -0.65 -0.45)
 		(end 0.65 -0.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -89,7 +89,7 @@
 		(start -0.65 0.45)
 		(end -0.65 -0.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -99,7 +99,7 @@
 		(start -0.2 0)
 		(end -0.35 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -109,7 +109,7 @@
 		(start -0.2 0)
 		(end 0.1 0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -119,7 +119,7 @@
 		(start -0.2 0.2)
 		(end -0.2 -0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -129,7 +129,7 @@
 		(start 0.1 -0.2)
 		(end -0.2 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -139,7 +139,7 @@
 		(start 0.1 0)
 		(end 0.25 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -149,7 +149,7 @@
 		(start 0.1 0.2)
 		(end 0.1 -0.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -159,7 +159,7 @@
 		(start 0.65 -0.45)
 		(end 0.65 0.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -169,7 +169,7 @@
 		(start 0.65 0.45)
 		(end -0.65 0.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

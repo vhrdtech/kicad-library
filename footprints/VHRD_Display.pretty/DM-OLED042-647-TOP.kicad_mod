@@ -313,7 +313,7 @@
 		(center -4.999467 -4.624501)
 		(end -4.599467 -4.624501)
 		(stroke
-			(width 0.25)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)
@@ -324,7 +324,7 @@
 		(center -4.999467 4.625499)
 		(end -4.599467 4.625499)
 		(stroke
-			(width 0.25)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

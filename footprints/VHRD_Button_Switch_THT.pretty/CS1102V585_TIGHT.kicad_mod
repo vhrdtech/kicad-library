@@ -6,7 +6,7 @@
 	(descr "Tactile switch, THT, CS1102V5.85F260, tight courtyard")
 	(tags "CS1102 tactile switch")
 	(property "Reference" "S**"
-		(at -2.2 -0.021 90)
+		(at 0 -1.271 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "24d6235f-241f-423b-b429-30145c4599e4")
@@ -87,7 +87,7 @@
 		(start -2.1 -0.628)
 		(end 2.25 -0.628)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "B.Fab")
@@ -97,7 +97,7 @@
 		(start -3.55 -3.543)
 		(end 3.55 -3.543)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -107,7 +107,7 @@
 		(start -3.55 -0.293)
 		(end -3.55 -5.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -117,7 +117,7 @@
 		(start -1.75 -0.289695)
 		(end -1.75 2.758)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -127,7 +127,7 @@
 		(start -1.75 2.758)
 		(end 1.75 2.758)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -137,7 +137,7 @@
 		(start 1.75 2.758)
 		(end 1.75 -0.284928)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -147,7 +147,7 @@
 		(start 3.55 -5.3)
 		(end 3.55 -0.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -157,7 +157,7 @@
 		(start 3.55 -0.293)
 		(end -3.55 -0.293)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -167,7 +167,7 @@
 		(start -2.75 -0.292342)
 		(end -2.15 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(fill no)
@@ -178,7 +178,7 @@
 		(start 2.75 -0.292342)
 		(end 2.15 0)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(fill no)

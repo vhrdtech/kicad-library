@@ -229,7 +229,7 @@
 		(start -6.15 -0.55)
 		(end -4.95 -0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -239,7 +239,7 @@
 		(start -6.15 3.65)
 		(end -6.15 -0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -249,7 +249,7 @@
 		(start -5.6 3.65)
 		(end -6.15 3.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -259,7 +259,7 @@
 		(start -5.6 3.85)
 		(end -5.6 3.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -269,7 +269,7 @@
 		(start -4.95 -1.2)
 		(end 4.95 -1.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -279,7 +279,7 @@
 		(start -4.95 -0.55)
 		(end -4.95 -1.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -289,7 +289,7 @@
 		(start -4.25 -1.2)
 		(end -3.75 -0.492893)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -299,7 +299,7 @@
 		(start -3.75 -0.492893)
 		(end -3.25 -1.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -309,7 +309,7 @@
 		(start 4.95 -1.2)
 		(end 4.95 -0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -319,7 +319,7 @@
 		(start 4.95 -0.55)
 		(end 6.15 -0.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -329,7 +329,7 @@
 		(start 5.6 3.65)
 		(end 5.6 3.85)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -339,7 +339,7 @@
 		(start 5.6 3.85)
 		(end -5.6 3.85)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -349,7 +349,7 @@
 		(start 6.15 -0.55)
 		(end 6.15 3.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -359,7 +359,7 @@
 		(start 6.15 3.65)
 		(end 5.6 3.65)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")

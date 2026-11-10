@@ -6,14 +6,14 @@
 	(descr "Through hole angled pin header, 2x04, 2.54mm pitch, 6mm pin length, double rows")
 	(tags "Through hole angled pin header THT 2x04 2.54mm double row")
 	(property "Reference" "REF**"
-		(at 6.13 3.81 0)
+		(at 6.13 3.81 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "f4e31baf-be0b-4abd-95a2-03aab2219cff")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.65 0.65)
+				(thickness 0.1)
 			)
 		)
 	)
@@ -301,7 +301,7 @@
 		(start -0.32 -0.32)
 		(end -0.32 0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -311,7 +311,7 @@
 		(start -0.32 -0.32)
 		(end 4.04 -0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -321,7 +321,7 @@
 		(start -0.32 0.32)
 		(end 4.04 0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -331,7 +331,7 @@
 		(start -0.32 2.22)
 		(end -0.32 2.86)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -341,7 +341,7 @@
 		(start -0.32 2.22)
 		(end 4.04 2.22)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -351,7 +351,7 @@
 		(start -0.32 2.86)
 		(end 4.04 2.86)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -361,7 +361,7 @@
 		(start -0.32 4.76)
 		(end -0.32 5.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -371,7 +371,7 @@
 		(start -0.32 4.76)
 		(end 4.04 4.76)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -381,7 +381,7 @@
 		(start -0.32 5.4)
 		(end 4.04 5.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -391,7 +391,7 @@
 		(start -0.32 7.3)
 		(end -0.32 7.94)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -401,7 +401,7 @@
 		(start -0.32 7.3)
 		(end 4.04 7.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -411,7 +411,7 @@
 		(start -0.32 7.94)
 		(end 4.04 7.94)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -421,7 +421,7 @@
 		(start 4.04 -0.635)
 		(end 4.675 -1.27)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -431,7 +431,7 @@
 		(start 4.04 8.89)
 		(end 4.04 -0.635)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -441,7 +441,7 @@
 		(start 4.675 -1.27)
 		(end 6.58 -1.27)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -451,7 +451,7 @@
 		(start 6.58 -1.27)
 		(end 6.58 8.89)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -461,7 +461,7 @@
 		(start 6.58 -0.32)
 		(end 12.58 -0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -471,7 +471,7 @@
 		(start 6.58 0.32)
 		(end 12.58 0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -481,7 +481,7 @@
 		(start 6.58 2.22)
 		(end 12.58 2.22)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -491,7 +491,7 @@
 		(start 6.58 2.86)
 		(end 12.58 2.86)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -501,7 +501,7 @@
 		(start 6.58 4.76)
 		(end 12.58 4.76)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -511,7 +511,7 @@
 		(start 6.58 5.4)
 		(end 12.58 5.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -521,7 +521,7 @@
 		(start 6.58 7.3)
 		(end 12.58 7.3)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -531,7 +531,7 @@
 		(start 6.58 7.94)
 		(end 12.58 7.94)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -541,7 +541,7 @@
 		(start 6.58 8.89)
 		(end 4.04 8.89)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -551,7 +551,7 @@
 		(start 12.58 -0.32)
 		(end 12.58 0.32)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -561,7 +561,7 @@
 		(start 12.58 2.22)
 		(end 12.58 2.86)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -571,7 +571,7 @@
 		(start 12.58 4.76)
 		(end 12.58 5.4)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -581,7 +581,7 @@
 		(start 12.58 7.3)
 		(end 12.58 7.94)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

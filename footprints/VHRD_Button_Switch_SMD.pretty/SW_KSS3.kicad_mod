@@ -6,14 +6,14 @@
 	(descr "Tactile switch, SMD, C&K KSS331G LFS")
 	(tags "KSS331GLFS tactile switch")
 	(property "Reference" "REF**"
-		(at 0 0.456 90)
+		(at 0 0.406 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "cfaee50a-326d-4140-aa65-d8259c03b6ac")
 		(effects
 			(font
-				(size 0.93 0.93)
-				(thickness 0.14)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -141,7 +141,7 @@
 		(start -3.5052 -1.7526)
 		(end -3.5052 1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -151,7 +151,7 @@
 		(start -3.5052 1.7526)
 		(end 3.5052 1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -161,7 +161,7 @@
 		(start -1.2446 1.7526)
 		(end -1.2446 2.5654)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -171,7 +171,7 @@
 		(start -1.2446 2.5654)
 		(end 1.2446 2.5654)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -181,7 +181,7 @@
 		(start 1.2446 2.5654)
 		(end 1.2446 1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -191,7 +191,7 @@
 		(start 3.5052 -1.7526)
 		(end -3.5052 -1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -201,7 +201,7 @@
 		(start 3.5052 1.7526)
 		(end 3.5052 -1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -212,7 +212,7 @@
 		(mid 0 -1.4478)
 		(end -0.3048 -1.7526)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -222,7 +222,7 @@
 		(center -1.9304 -0.889)
 		(end -1.8923 -0.889)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(fill no)

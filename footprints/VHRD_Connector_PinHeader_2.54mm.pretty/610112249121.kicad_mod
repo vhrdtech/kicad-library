@@ -6,7 +6,7 @@
 	(descr "Pin header, 2x06, P2.54mm, right angle, SMD, Würth 610112249121")
 	(tags "610112249121 pin header right angle")
 	(property "Reference" "REF**"
-		(at 0 -5.5 90)
+		(at 0 -5.5 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "2d649b4f-28bd-47d6-9a17-fa7b8bec2753")
@@ -125,7 +125,7 @@
 		(start -7.6 -7.6)
 		(end 7.6 -7.6)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -135,7 +135,7 @@
 		(start -7.6 -3.55)
 		(end -7.6 -7.6)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -145,7 +145,7 @@
 		(start 7.6 -7.6)
 		(end 7.6 -3.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -155,7 +155,7 @@
 		(start 7.6 -3.55)
 		(end -7.6 -3.55)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")

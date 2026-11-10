@@ -145,7 +145,7 @@
 		(start 0.635 -0.27)
 		(end 1.635 -1.27)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -155,7 +155,7 @@
 		(start 0.635 3.81)
 		(end 0.635 -0.27)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -165,7 +165,7 @@
 		(start 1.635 -1.27)
 		(end 6.985 -1.27)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -175,7 +175,7 @@
 		(start 6.985 -1.27)
 		(end 6.985 3.81)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -185,7 +185,7 @@
 		(start 6.985 3.81)
 		(end 0.635 3.81)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

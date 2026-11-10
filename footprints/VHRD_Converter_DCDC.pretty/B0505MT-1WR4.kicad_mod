@@ -150,7 +150,7 @@
 		(start -4.54 3.54)
 		(end -4.54 -3.54)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -160,7 +160,7 @@
 		(start -4.54 3.54)
 		(end 4.54 3.54)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -170,7 +170,7 @@
 		(start 4.54 -3.54)
 		(end -4.54 -3.54)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")
@@ -180,7 +180,7 @@
 		(start 4.54 3.54)
 		(end 4.54 -3.54)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type default)
 		)
 		(layer "F.Fab")

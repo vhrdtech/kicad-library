@@ -6,14 +6,14 @@
 	(descr "TSSOP-8, 4.4x3mm, P0.65mm, TI PW0008A")
 	(tags "TSSOP PW0008A")
 	(property "Reference" "REF**"
-		(at -0.05 0 0)
+		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fb58cb96-57ef-4202-9a51-2d0661e5be4e")
 		(effects
 			(font
-				(size 0.66 0.66)
-				(thickness 0.1)
+				(size 0.9 0.9)
+				(thickness 0.14)
 			)
 		)
 	)
@@ -103,7 +103,7 @@
 		(start -3.302 -1.1274)
 		(end -3.302 -0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -113,7 +113,7 @@
 		(start -3.302 -0.8226)
 		(end -2.2479 -0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -123,7 +123,7 @@
 		(start -3.302 -0.4774)
 		(end -3.302 -0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -133,7 +133,7 @@
 		(start -3.302 -0.1726)
 		(end -2.2479 -0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -143,7 +143,7 @@
 		(start -3.302 0.1726)
 		(end -3.302 0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -153,7 +153,7 @@
 		(start -3.302 0.4774)
 		(end -2.2479 0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -163,7 +163,7 @@
 		(start -3.302 0.8226)
 		(end -3.302 1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -173,7 +173,7 @@
 		(start -3.302 1.1274)
 		(end -2.2479 1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -183,7 +183,7 @@
 		(start -2.2479 -1.5494)
 		(end -2.2479 1.5494)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -193,7 +193,7 @@
 		(start -2.2479 -1.1274)
 		(end -3.302 -1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -203,7 +203,7 @@
 		(start -2.2479 -0.8226)
 		(end -2.2479 -1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -213,7 +213,7 @@
 		(start -2.2479 -0.4774)
 		(end -3.302 -0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -223,7 +223,7 @@
 		(start -2.2479 -0.1726)
 		(end -2.2479 -0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -233,7 +233,7 @@
 		(start -2.2479 0.1726)
 		(end -3.302 0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -243,7 +243,7 @@
 		(start -2.2479 0.4774)
 		(end -2.2479 0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -253,7 +253,7 @@
 		(start -2.2479 0.8226)
 		(end -3.302 0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -263,7 +263,7 @@
 		(start -2.2479 1.1274)
 		(end -2.2479 0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -273,7 +273,7 @@
 		(start -2.2479 1.5494)
 		(end 2.2479 1.5494)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -283,7 +283,7 @@
 		(start 2.2479 -1.5494)
 		(end -2.2479 -1.5494)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -293,7 +293,7 @@
 		(start 2.2479 -1.1274)
 		(end 2.2479 -0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -303,7 +303,7 @@
 		(start 2.2479 -0.8226)
 		(end 3.302 -0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -313,7 +313,7 @@
 		(start 2.2479 -0.4774)
 		(end 2.2479 -0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -323,7 +323,7 @@
 		(start 2.2479 -0.1726)
 		(end 3.302 -0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -333,7 +333,7 @@
 		(start 2.2479 0.1726)
 		(end 2.2479 0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -343,7 +343,7 @@
 		(start 2.2479 0.4774)
 		(end 3.302 0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -353,7 +353,7 @@
 		(start 2.2479 0.8226)
 		(end 2.2479 1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -363,7 +363,7 @@
 		(start 2.2479 1.1274)
 		(end 3.302 1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -373,7 +373,7 @@
 		(start 2.2479 1.5494)
 		(end 2.2479 -1.5494)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -383,7 +383,7 @@
 		(start 3.302 -1.1274)
 		(end 2.2479 -1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -393,7 +393,7 @@
 		(start 3.302 -0.8226)
 		(end 3.302 -1.1274)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -403,7 +403,7 @@
 		(start 3.302 -0.4774)
 		(end 2.2479 -0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -413,7 +413,7 @@
 		(start 3.302 -0.1726)
 		(end 3.302 -0.4774)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -423,7 +423,7 @@
 		(start 3.302 0.1726)
 		(end 2.2479 0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -433,7 +433,7 @@
 		(start 3.302 0.4774)
 		(end 3.302 0.1726)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -443,7 +443,7 @@
 		(start 3.302 0.8226)
 		(end 2.2479 0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -453,7 +453,7 @@
 		(start 3.302 1.1274)
 		(end 3.302 0.8226)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -464,7 +464,7 @@
 		(mid 0 -1.2446)
 		(end -0.3048 -1.5494)
 		(stroke
-			(width 0.0254)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")

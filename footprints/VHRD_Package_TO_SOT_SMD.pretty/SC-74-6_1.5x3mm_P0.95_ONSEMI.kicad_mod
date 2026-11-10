@@ -5,14 +5,14 @@
 	(layer "F.Cu")
 	(tags "SC-74 TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0 0.05 90)
+		(at 0 0 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "bb9a71ce-12e6-4f5c-b07e-95673e9f5f40")
 		(effects
 			(font
-				(size 0.6 0.6)
-				(thickness 0.09)
+				(size 0.55 0.55)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -121,7 +121,7 @@
 		(start -0.775 -1.0625)
 		(end -0.3875 -1.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -131,7 +131,7 @@
 		(start -0.775 1.45)
 		(end -0.775 -1.0625)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -141,7 +141,7 @@
 		(start -0.3875 -1.45)
 		(end 0.775 -1.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -151,7 +151,7 @@
 		(start 0.775 -1.45)
 		(end 0.775 1.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
@@ -161,7 +161,7 @@
 		(start 0.775 1.45)
 		(end -0.775 1.45)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
 		(layer "F.Fab")
