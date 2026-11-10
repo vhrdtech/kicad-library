@@ -15,7 +15,6 @@
   `VHRD_TestPoint` (TestPoint_Pad_D1.5mm).
 - `migrate/2026-11-stock.toml`: `kilib migrate --map migrate/2026-11-stock.toml BOARD` points a board's stock ids
   of those 21 footprints at the copies.
-
 - `kilib fab-designators [--write] [PATH...]`: checks every footprint against those rules and fixes the ones that
   break one (default: the checkout's `footprints/`).
 - `VHRD_Interface_Expansion` symbol library (needs `kilib setup`): `TCA6408ARGT`, stock drawing with bus, supply
