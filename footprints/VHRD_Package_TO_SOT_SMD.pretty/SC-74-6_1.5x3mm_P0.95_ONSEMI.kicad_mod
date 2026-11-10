@@ -5,14 +5,14 @@
 	(layer "F.Cu")
 	(tags "SC-74 TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.012 0.013 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "bb9a71ce-12e6-4f5c-b07e-95673e9f5f40")
 		(effects
 			(font
 				(size 0.55 0.55)
-				(thickness 0.08)
+				(thickness 0.083)
 			)
 		)
 	)

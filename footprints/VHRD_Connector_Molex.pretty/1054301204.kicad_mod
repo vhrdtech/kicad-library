@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(descr "Nano-Fit Right-Angle Header, Surface Mount, 2.50mm Pitch, Single Row, 4 Circuits, 0.38µm Gold (Au) Plating, Black, Glow-Wire Capable")
 	(property "Reference" "REF**"
-		(at -0.3 0.013 0)
+		(at -0.324 0.034 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "cf77ec30-b2a1-4ec6-bd9f-e21a6b35ad1e")

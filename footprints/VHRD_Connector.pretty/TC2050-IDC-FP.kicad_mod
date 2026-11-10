@@ -6,7 +6,7 @@
 	(descr "Tag-Connect programming header; http://www.tag-connect.com/Materials/TC2050-IDC-430%20Datasheet.pdf")
 	(tags "tag connect programming header pogo pins")
 	(property "Reference" "REF**"
-		(at -0.375 0 0)
+		(at -0.399 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fba54e13-284d-4206-8c45-4be2fd185a31")

@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(tags "BGA 201 0.65")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "9687bc23-7d93-4373-b2d2-c923ce02c076")

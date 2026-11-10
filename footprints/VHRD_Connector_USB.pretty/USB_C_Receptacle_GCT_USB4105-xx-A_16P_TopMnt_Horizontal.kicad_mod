@@ -6,7 +6,7 @@
 	(descr "USB 2.0 Type C Receptacle, GCT, 16P, top mounted, horizontal, 5A: https://gct.co/files/drawings/usb4105.pdf")
 	(tags "USB C Type-C Receptacle SMD USB 2.0 16P 16C USB4105-15-A USB4105-15-A-060 USB4105-15-A-120 USB4105-GF-A USB4105-GF-A-060 USB4105-GF-A-120")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "7b1f3c12-8a36-40a6-b14d-366bdb38aef6")

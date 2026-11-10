@@ -6,7 +6,7 @@
 	(descr "Tactile switch, SMD, C&K KSS331G LFS")
 	(tags "KSS331GLFS tactile switch")
 	(property "Reference" "REF**"
-		(at 0 0.406 0)
+		(at -0.024 0.427 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "cfaee50a-326d-4140-aa65-d8259c03b6ac")

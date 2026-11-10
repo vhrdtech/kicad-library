@@ -6,7 +6,7 @@
 	(descr "QFN, 24 Pin (http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=278), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "QFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.019 0.017 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "f9a2a949-cf5f-47a5-9502-a382b4c1270c")

@@ -6,14 +6,14 @@
 	(descr "D_SOD-123F")
 	(tags "D_SOD-123F")
 	(property "Reference" "REF**"
-		(at -1.05 0 90)
+		(at -1.026 0.017 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
 		(effects
 			(font
 				(size 0.35 0.35)
-				(thickness 0.05)
+				(thickness 0.053)
 			)
 		)
 	)

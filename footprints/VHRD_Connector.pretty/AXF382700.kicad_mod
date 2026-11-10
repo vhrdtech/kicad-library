@@ -6,7 +6,7 @@
 	(descr "Socket, 8 positions, center strip contacts, SMD, Panasonic AXF382700")
 	(tags "AXF382700 socket center strip")
 	(property "Reference" "REF*"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "a48c8912-2b24-4138-8b86-c3c0cbcb54dd")

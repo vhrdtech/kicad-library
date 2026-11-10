@@ -6,7 +6,7 @@
 	(descr "SO8L, Toshiba TLP2270")
 	(tags "SO8L TLP2270 optocoupler")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "3f1fe31f-d902-420f-925e-63964943a37e")

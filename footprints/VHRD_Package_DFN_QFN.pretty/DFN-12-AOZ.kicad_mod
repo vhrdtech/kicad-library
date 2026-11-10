@@ -6,7 +6,7 @@
 	(descr "DFN12, 3x3, 0.5P")
 	(tags "DFN 0.65")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.014 0.013 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "1c13f003-09a2-40c5-a7cc-0ba9f31f390f")

@@ -6,14 +6,14 @@
 	(descr "Diode SMF (DO-219AB), http://www.vishay.com/docs/95572/smf_do-219ab.pdf")
 	(tags "Diode SMF (DO-214AB)")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.014 -0.629 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "e04e5d51-0ab3-40a2-8297-3f857212542c")
 		(effects
 			(font
 				(size 0.3 0.3)
-				(thickness 0.05)
+				(thickness 0.045)
 			)
 		)
 	)

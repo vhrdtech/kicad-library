@@ -6,14 +6,14 @@
 	(descr "Socket, 6 positions, center strip contacts, SMD, Panasonic AXF361500")
 	(tags "AXF361500 socket center strip")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.023 0.02 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "19b518fe-9b4e-4cba-82b5-70fe402eaf34")
 		(effects
 			(font
 				(size 0.95 0.95)
-				(thickness 0.14)
+				(thickness 0.143)
 			)
 		)
 	)

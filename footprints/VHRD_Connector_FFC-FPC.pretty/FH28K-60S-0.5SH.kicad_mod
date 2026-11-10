@@ -6,7 +6,7 @@
 	(descr "FPC connector, 60 contacts, P0.5mm, Hirose FH28K-60S-0.5SH")
 	(tags "FH28K-60S-0.5SH FPC FFC")
 	(property "Reference" "REF**"
-		(at 0 3.2 0)
+		(at -0.024 3.221 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "771ac0fe-a029-46cb-9532-284cbd97287b")

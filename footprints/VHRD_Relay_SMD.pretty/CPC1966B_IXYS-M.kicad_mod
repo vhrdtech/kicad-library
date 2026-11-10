@@ -6,7 +6,7 @@
 	(descr "Solid-state relay, M package, IXYS CPC1966B")
 	(tags "CPC1966B solid state relay SSR")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "340230d4-3acd-47e7-ba73-1df2494c3d9a")

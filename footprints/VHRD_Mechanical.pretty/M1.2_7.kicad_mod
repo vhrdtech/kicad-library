@@ -4,9 +4,10 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.01 0.009 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.13")
+		(hide yes)
 		(uuid "5e2e0862-1750-49e9-800d-5bf6e6fbbbe9")
 		(effects
 			(font

@@ -6,7 +6,7 @@
 	(descr "Slide switch, SPDT, SMD, gull wing, Nidec CL-SB-12B-01T")
 	(tags "CL-SB-12B-01T slide switch SPDT")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "0ec0f53d-bfbc-486e-bcde-288515c631df")

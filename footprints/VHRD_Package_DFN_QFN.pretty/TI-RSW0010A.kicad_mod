@@ -6,14 +6,14 @@
 	(descr "UQFN-10, 1.4x1.8mm, P0.4mm, TI RSW0010A")
 	(tags "UQFN RSW0010A")
 	(property "Reference" "REF**"
-		(at 0.15 0 90)
+		(at 0.005 0.005 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "71f21c87-cb66-4fa1-a20f-00e3a64b288c")
 		(effects
 			(font
-				(size 0.35 0.35)
-				(thickness 0.05)
+				(size 0.23 0.23)
+				(thickness 0.035)
 			)
 		)
 	)

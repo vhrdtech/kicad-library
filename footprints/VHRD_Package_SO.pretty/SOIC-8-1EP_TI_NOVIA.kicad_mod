@@ -6,7 +6,7 @@
 	(descr "PowerPAD SOIC8 TI, Add thermal vias manually!")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.021 0.024 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fba715d8-bc49-400b-a63f-ff02988f5685")

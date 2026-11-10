@@ -6,7 +6,7 @@
 	(descr "Spring-loaded pin, SMD, Mill-Max 0986-1-15-20-76")
 	(tags "0986-1-15-20-76 Mill-Max spring pin pogo")
 	(property "Reference" "REF**"
-		(at 1.245 0 0)
+		(at 1.221 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "fd473d74-453d-4b3c-b9f8-a75bc285623f")

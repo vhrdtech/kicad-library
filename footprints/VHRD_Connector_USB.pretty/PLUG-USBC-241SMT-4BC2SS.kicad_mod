@@ -6,7 +6,7 @@
 	(descr "USB Type-C plug, SMD, PLUG-USBC-241SMT-4BC2SS")
 	(tags "USB C Type-C plug")
 	(property "Reference" "REF**"
-		(at 0 3.595 0)
+		(at -0.024 3.616 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "f7aedbaa-4c3e-4fdd-9d38-9528ba47ef4f")

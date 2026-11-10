@@ -6,14 +6,14 @@
 	(descr "SMD pad as test Point, diameter 1.2mm")
 	(tags "test point SMD pad")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at 0.014 0.014 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.9")
 		(uuid "37904963-d2df-4f9b-a496-d7a8537dd045")
 		(effects
 			(font
 				(size 0.3 0.3)
-				(thickness 0.05)
+				(thickness 0.045)
 			)
 		)
 	)

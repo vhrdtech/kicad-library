@@ -6,7 +6,7 @@
 	(descr "Renesas  UQFN, 20 Pin (Renesas STQFN-20L, https://www.renesas.com/en/document/dst/slg465808283-datasheet#page=200), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "Renesas UQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.013 0.014 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "cddf1fe0-3015-47ad-8225-d6acad065de3")

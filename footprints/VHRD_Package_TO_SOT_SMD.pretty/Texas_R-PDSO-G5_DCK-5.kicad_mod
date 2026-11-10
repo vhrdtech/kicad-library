@@ -6,14 +6,14 @@
 	(descr "DCK R-PDSO-G5, JEDEC MO-203C Var AA, https://www.ti.com/lit/ds/symlink/tmp20.pdf#page=23")
 	(tags "DCK R-PDSO-G5 MO-203C")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.008 0.008 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "79b7b447-0e28-4c98-b659-0ec7d5f058b5")
 		(effects
 			(font
 				(size 0.35 0.35)
-				(thickness 0.05)
+				(thickness 0.053)
 			)
 		)
 	)

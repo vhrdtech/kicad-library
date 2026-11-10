@@ -5,7 +5,7 @@
 	(descr "Through hole straight socket strip, 2x03, 2.54mm pitch, double rows (from Kicad 4.0.7), script generated")
 	(tags "Through hole socket strip THT 2x03 2.54mm double row")
 	(property "Reference" "REF**"
-		(at -1.27 2.54 0)
+		(at -1.294 2.561 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects

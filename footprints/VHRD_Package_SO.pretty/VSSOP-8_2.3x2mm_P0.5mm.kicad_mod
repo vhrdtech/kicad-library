@@ -5,13 +5,13 @@
 	(descr "VSSOP, 8 Pin (https://www.jedec.org/standards-documents/docs/mo-187-f)")
 	(tags "VSSOP SO JEDEC-MO-187-CA Texas_DCU0008A")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.011 0.01 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects
 			(font
 				(size 0.45 0.45)
-				(thickness 0.07)
+				(thickness 0.068)
 			)
 		)
 	)

@@ -6,7 +6,7 @@
 	(descr "PowerDI,Diode,Vishay,https://www.diodes.com/assets/Package-Files/PowerDI5.pdf")
 	(tags "PowerDI diode vishay")
 	(property "Reference" "REF**"
-		(at 0 -1.15 0)
+		(at -0.048 -1.081 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c3d652a5-8bc2-4c40-9245-e6ff23bcaf4f")

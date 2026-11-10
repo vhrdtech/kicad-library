@@ -6,7 +6,7 @@
 	(descr "SOIC-4 (DFG0004A), TI ISOM8600")
 	(tags "SOIC DFG0004A ISOM8600")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "bbcc2925-a804-47f2-9c98-592f1e6de6fb")

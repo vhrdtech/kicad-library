@@ -5,7 +5,7 @@
 	(descr "Texas RUK0020B WQFN, 20 Pin (https://www.ti.com/lit/ds/symlink/mspm0c1104.pdf)")
 	(tags "Texas WQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.014 0.013 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects

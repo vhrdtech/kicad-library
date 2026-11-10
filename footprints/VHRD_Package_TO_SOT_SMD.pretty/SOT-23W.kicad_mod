@@ -6,14 +6,14 @@
 	(descr "SOT-23W http://www.allegromicro.com/~/media/Files/Datasheets/A112x-Datasheet.ashx?la=en&hash=7BC461E058CC246E0BAB62433B2F1ECA104CA9D3")
 	(tags "SOT-23W")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.01 0.011 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c9b5f292-0326-4437-9124-431836185075")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)

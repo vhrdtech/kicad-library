@@ -6,7 +6,7 @@
 	(descr "Tactile switch, THT, CS1102V3.85F100")
 	(tags "CS1102 tactile switch")
 	(property "Reference" "S**"
-		(at 0 -2.271 0)
+		(at -0.024 -2.25 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "24d6235f-241f-423b-b429-30145c4599e4")

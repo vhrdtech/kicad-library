@@ -6,7 +6,7 @@
 	(descr "SOIC-8 wide body (RI-8-1), Analog Devices ADM3050E")
 	(tags "SOIC RI-8-1 ADM3050E")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "949357a1-475d-4b9d-af0d-bb4378de0c80")

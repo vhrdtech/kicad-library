@@ -6,7 +6,7 @@
 	(descr "DHWQFN, 14 Pin (JEDEC MO-241 variation WAA, https://www.ti.com/lit/ml/qfnd686/qfnd686.pdf, https://www.ti.com/lit/ds/symlink/txb0104.pdf#page=43), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "DHWQFN NoLead Texas_BQA0014A")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.013 0.014 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "b444ba7a-f148-4d8c-b881-aace5ec5c4fe")

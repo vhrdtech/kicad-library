@@ -6,14 +6,14 @@
 	(descr "Board-to-board plug, 4+2 contacts, P0.35mm, Hirose BM50U-4DP/2-0.35V(53)")
 	(tags "BM50U-4DP board-to-board plug")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.017 0.015 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c0b15ac9-59e6-4fc9-b47a-470a60e49234")
 		(effects
 			(font
 				(size 0.7 0.7)
-				(thickness 0.11)
+				(thickness 0.105)
 			)
 		)
 	)

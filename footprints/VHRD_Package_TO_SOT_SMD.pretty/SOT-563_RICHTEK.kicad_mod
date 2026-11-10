@@ -6,14 +6,14 @@
 	(descr "SOT, 6 Pin (https://www.jedec.org/system/files/docs/MO-293B.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "SOT TO_SOT_SMD JEDEC-MO-293-UAAD Texas-DRL-6")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.006 0.007 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "397f6c3a-9cc6-4091-886d-a11cae0003de")
 		(effects
 			(font
 				(size 0.3 0.3)
-				(thickness 0.05)
+				(thickness 0.045)
 			)
 		)
 	)

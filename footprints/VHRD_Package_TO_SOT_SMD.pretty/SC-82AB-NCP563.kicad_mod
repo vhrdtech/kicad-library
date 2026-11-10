@@ -6,14 +6,14 @@
 	(descr "SC-82AB")
 	(tags "SC-82AB")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.009 0.01 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "6635a5f0-57b1-48d1-aa7b-9cdf37ab3eb1")
 		(effects
 			(font
-				(size 0.35 0.35)
-				(thickness 0.05)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

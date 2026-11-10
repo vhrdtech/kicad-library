@@ -6,7 +6,7 @@
 	(descr "RJ45 jack with magnetics, 10/100BASE-T, Abracon ARJM11D7-009-AB")
 	(tags "ARJM11D7-009-AB RJ45 magnetics ethernet")
 	(property "Reference" "REF**"
-		(at 0 9.015 0)
+		(at -0.024 9.036 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "6db816f9-51e5-4dcf-a99c-359501d2d479")

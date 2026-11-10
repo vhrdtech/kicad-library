@@ -6,7 +6,7 @@
 	(descr "Slide switch, DPDT, SMD, gull wing, Nidec CL-SB-22B-01T")
 	(tags "CL-SB-22B-01T slide switch DPDT")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "0b6dd2e0-e35f-41f7-88b7-f2fc3a11fe94")

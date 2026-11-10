@@ -6,7 +6,7 @@
 	(descr "U.FL coaxial receptacle, 50 Ohm, SMD, TE 2337019-1")
 	(tags "2337019-1 U.FL UMCC coaxial")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.014 0.013 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "73e0aea4-cf33-4ef0-877e-a05f42c915f0")

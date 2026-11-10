@@ -6,7 +6,7 @@
 	(descr "Pin header, 2x06, P2.54mm, right angle, SMD, Würth 610112249121")
 	(tags "610112249121 pin header right angle")
 	(property "Reference" "REF**"
-		(at 0 -5.5 0)
+		(at -0.024 -5.479 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "2d649b4f-28bd-47d6-9a17-fa7b8bec2753")

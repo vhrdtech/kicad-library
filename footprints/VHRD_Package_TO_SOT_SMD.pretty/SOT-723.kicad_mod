@@ -6,14 +6,14 @@
 	(descr "http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV")
 	(tags "sot 723")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.005 0.005 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "516d3e89-34d3-4b82-bafb-f5dc4f43ef1e")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.05)
+				(size 0.21 0.21)
+				(thickness 0.032)
 			)
 		)
 	)

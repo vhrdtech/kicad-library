@@ -5,7 +5,7 @@
 	(descr "VQFN, 16 Pin (http://www.ti.com/lit/ds/sbos354a/sbos354a.pdf, JEDEC MO-220 variant VEED-6)")
 	(tags "VQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.014 0.013 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects

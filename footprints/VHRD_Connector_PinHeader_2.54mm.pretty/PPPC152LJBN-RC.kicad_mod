@@ -6,7 +6,7 @@
 	(descr "Socket strip, 2x15, P2.54mm, THT, Sullins PPPC152LJBN-RC")
 	(tags "PPPC152LJBN-RC socket female header")
 	(property "Reference" "REF**"
-		(at -6.285 17.78 90)
+		(at -6.264 17.804 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "c96be9e9-f196-4679-96bc-c259cf07c988")

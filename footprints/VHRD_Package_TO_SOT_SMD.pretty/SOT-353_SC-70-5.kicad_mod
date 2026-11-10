@@ -5,13 +5,13 @@
 	(descr "SOT, 5 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=171, JEDEC MO-203, variant AA, https://www.jedec.org/document_search?search_api_views_fulltext=MO-203)")
 	(tags "SOT TO_SOT_SMD SC-88A SOT-353 SC-70-5")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.009 0.01 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(effects
 			(font
-				(size 0.35 0.35)
-				(thickness 0.05)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at 0 0 90)
+		(at 0.021 0.024 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "22f8d2d9-c4a2-4241-a843-bbb069b8a41e")

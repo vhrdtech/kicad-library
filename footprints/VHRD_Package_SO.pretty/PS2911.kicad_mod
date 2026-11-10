@@ -6,7 +6,7 @@
 	(descr "Optocoupler, 4-pin flat lead (SON 1-1-F3), Renesas PS2911-1")
 	(tags "PS2911 optocoupler")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "62231481-b695-43bf-b976-17d8620dda84")

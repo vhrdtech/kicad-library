@@ -6,7 +6,7 @@
 	(descr "Through hole straight pin header, 1x12, 2.54mm pitch, single row")
 	(tags "Through hole pin header THT 1x12 2.54mm single row")
 	(property "Reference" "REF**"
-		(at 0 13.97 90)
+		(at 0.021 13.994 90)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "d56c30a9-d64f-4db9-8ee2-7c4a240d6979")

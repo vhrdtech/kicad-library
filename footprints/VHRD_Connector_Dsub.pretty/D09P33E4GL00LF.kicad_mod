@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(tags "9-pin D-Sub connector horizontal angled 90deg THT male")
 	(property "Reference" "REF**"
-		(at 5.48 7.57 0)
+		(at 5.456 7.591 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "ca94a43d-267c-4e7b-b4f1-873572f7c328")

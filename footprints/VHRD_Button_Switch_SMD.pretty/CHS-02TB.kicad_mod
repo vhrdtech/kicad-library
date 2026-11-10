@@ -6,7 +6,7 @@
 	(descr "DIP switch, SPST, 2 positions, slide, SMD, Nidec CHS-02TB")
 	(tags "CHS-02TB DIP switch slide")
 	(property "Reference" "REF**"
-		(at 0 -0.022 0)
+		(at -0.024 -0.001 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "53404f41-0c55-449a-b276-deefb6dbca9b")

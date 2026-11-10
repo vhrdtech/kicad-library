@@ -6,7 +6,7 @@
 	(descr "USB Type-C plug, SMD with THT legs, PLUG-USBC-241SMT-TH-4BC2LS")
 	(tags "USB C Type-C plug")
 	(property "Reference" "REF**"
-		(at 0 4.05 0)
+		(at -0.024 4.071 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "a2c0905b-6210-4329-b6c6-31af9b097641")

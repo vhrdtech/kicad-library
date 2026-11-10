@@ -6,7 +6,7 @@
 	(descr "Kemet signal relay, DPDT, double coil latching, https://content.kemet.com/datasheets/KEM_R7002_EC2_EE2.pdf")
 	(tags "Kemet EC2 signal relay DPDT double dual coil latching surface mount SMD")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at -0.024 0.021 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "022e34f8-609f-49a1-9e42-1daa442eec7f")
