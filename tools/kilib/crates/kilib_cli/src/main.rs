@@ -270,6 +270,14 @@ Examples:
     /// ref-outline: test points draw their pad's outline on Ref.Test, net ties, spark gaps and jumpers a box round
     /// their pads on Ref.Tie, 0.05 mm out and 0.05 mm wide. Fix: drawn, replacing anything else on that layer.
     ///
+    /// pins: pin numbers beside the pads on Pins.F (User.19): every pin of a connector; pin 1 and every 5th of
+    /// another part with three or more pins (every 10th past 40); none on two-pin parts. Level stroke text, 0.1 mm
+    /// clear of every pad and other number, one size per footprint (0.5 mm down to 0.2 mm). Fix: written,
+    /// replacing anything else on that layer; a number with no room is left for a person.
+    ///
+    /// centroid: a 0.5 mm cross of 0.05 mm lines on the origin on Centroid.F (User.21) for every part and
+    /// fiducial, the point the position file gives. Fix: drawn, replacing anything else on that layer.
+    ///
     /// The designator is left to `kilib fab-designators`; run it after --write. It lists what each fix changes and
     /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\

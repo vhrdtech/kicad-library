@@ -13,15 +13,20 @@
 //!   ([`silk`]).
 //! - [`Rule::RefOutline`]: test points, net ties, spark gaps and jumpers drawn on their designator's reference
 //!   layer ([`refs`]).
+//! - [`Rule::Pins`]: pin numbers beside the pads on Pins.F/B, every pin of a connector, pin 1 and every 5th of other
+//!   multi-pin parts ([`pins`]).
+//! - [`Rule::Centroid`]: a cross on the origin on Centroid.F/B for every placed footprint ([`centroid`]).
 //!
 //! [`plan`] runs the rules in that order on each footprint, each on the text the one before left, and keeps what they
 //! fixed and what they leave for a person; [`apply`] writes the fixed footprints. The designator (its text, layer
 //! and place) belongs to [`crate::fab`]: no rule here changes it.
 
 pub mod attrs;
+pub mod centroid;
 pub mod courtyard;
 pub mod models;
 pub mod pin1;
+pub mod pins;
 pub mod refs;
 pub mod silk;
 
@@ -41,11 +46,22 @@ pub enum Rule {
     Silk,
     Pin1,
     RefOutline,
+    Pins,
+    Centroid,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 6] = [Rule::Attrs, Rule::Models, Rule::Courtyard, Rule::Silk, Rule::Pin1, Rule::RefOutline];
+    pub const ALL: [Rule; 8] = [
+        Rule::Attrs,
+        Rule::Models,
+        Rule::Courtyard,
+        Rule::Silk,
+        Rule::Pin1,
+        Rule::RefOutline,
+        Rule::Pins,
+        Rule::Centroid,
+    ];
 
     pub fn name(self) -> &'static str {
         match self {
@@ -55,6 +71,8 @@ impl Rule {
             Rule::Silk => "silk",
             Rule::Pin1 => "pin1",
             Rule::RefOutline => "ref-outline",
+            Rule::Pins => "pins",
+            Rule::Centroid => "centroid",
         }
     }
 
@@ -189,6 +207,8 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Silk => silk::run(i),
         Rule::Pin1 => pin1::run(i),
         Rule::RefOutline => refs::run(i),
+        Rule::Pins => pins::run(i),
+        Rule::Centroid => centroid::run(i),
     }
 }
 
