@@ -6,14 +6,14 @@
 	(descr "Optocoupler, 4-pin flat lead (SON 1-1-F3), Renesas PS2911-1")
 	(tags "PS2911 optocoupler")
 	(property "Reference" "REF**"
-		(at -0.05 -2.3 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "62231481-b695-43bf-b976-17d8620dda84")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -160,17 +160,6 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "4b1eaf92-f258-4e4c-bf77-9762f3005496")
-	)
-	(fp_text user "${REFERENCE}"
-		(at -3.3 -0.6 0)
-		(layer "F.Fab")
-		(uuid "cdc057d2-70db-4bcd-922a-c7ca6105ebb1")
-		(effects
-			(font
-				(size 0.25 0.25)
-				(thickness 0.05)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -2.47 -0.635)

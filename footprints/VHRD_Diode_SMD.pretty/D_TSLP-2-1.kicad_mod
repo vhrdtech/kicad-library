@@ -6,13 +6,14 @@
 	(descr "Infineon PG-TSLP-2-1, 1.0 x 0.6 x 0.4 mm leadless 2-pin (BAS40-02L, BAS16-02L), pad 1 cathode; land pattern and stencil from Infineon's TSLP-2-1 package overview: pads 0.35 x 0.6 at 0.65 pitch, apertures 0.275 x 0.45 (paste margin 0.015, ratio -0.15)")
 	(tags "Diode TSLP-2-1 TSLP2 leadless 1006")
 	(property "Reference" "REF**"
-		(at 0 -0.95 0)
-		(layer "F.SilkS")
+		(at 0 -0.6 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "7db6ee4d-1c8a-4ae1-a9bf-85338943619d")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 0.28 0.28)
+				(thickness 0.04)
 			)
 		)
 	)
@@ -123,17 +124,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "36ad28c2-8899-46ed-b822-d38a66765f68")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "4c371243-c23b-4150-84be-e6f72301c9a9")
-		(effects
-			(font
-				(size 0.2 0.2)
-				(thickness 0.03)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -0.325 0)

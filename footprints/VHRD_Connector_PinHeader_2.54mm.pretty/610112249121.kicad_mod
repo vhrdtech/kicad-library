@@ -6,16 +6,15 @@
 	(descr "Pin header, 2x06, P2.54mm, right angle, SMD, Würth 610112249121")
 	(tags "610112249121 pin header right angle")
 	(property "Reference" "REF**"
-		(at -8.7 -7.9 270)
+		(at 0 -5.5 90)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "2d649b4f-28bd-47d6-9a17-fa7b8bec2753")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
-			(justify left)
 		)
 	)
 	(property "Value" "610112249121"
@@ -188,17 +187,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "fea646f7-dee7-4fee-9ed2-717e91b610ac")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 -5.575 0)
-		(layer "F.Fab")
-		(uuid "456eff51-3f08-45f9-9749-c3bc15c7885d")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "" np_thru_hole circle
 		(at -5.08 -6.3)

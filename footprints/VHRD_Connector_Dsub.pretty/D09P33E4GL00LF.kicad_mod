@@ -5,8 +5,9 @@
 	(layer "F.Cu")
 	(tags "9-pin D-Sub connector horizontal angled 90deg THT male")
 	(property "Reference" "REF**"
-		(at 5.48 -2.8 0)
-		(layer "F.SilkS")
+		(at 5.48 7.57 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "ca94a43d-267c-4e7b-b4f1-873572f7c328")
 		(effects
 			(font
@@ -450,17 +451,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "097e8ac0-6e9c-4a99-a9ec-20f2dae6b643")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 5.48 7.57 0)
-		(layer "F.Fab")
-		(uuid "47b587e7-5043-4a5d-a072-d5c83a61d5c4")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "0" thru_hole circle
 		(at -7.02 1.42)

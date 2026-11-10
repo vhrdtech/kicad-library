@@ -5,13 +5,14 @@
 	(layer "F.Cu")
 	(tags "capacitor")
 	(property "Reference" "REF**"
-		(at 0 -2.05 0)
-		(layer "F.SilkS")
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "de96c565-047b-4547-81b6-6ac3613be0c1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.67 0.67)
+				(thickness 0.1)
 			)
 		)
 	)
@@ -150,17 +151,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "d82b4680-d770-4a8e-9827-cbefc719eefd")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "b90dd519-6512-4e24-a64d-255a6b13b62b")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -2.05 0)

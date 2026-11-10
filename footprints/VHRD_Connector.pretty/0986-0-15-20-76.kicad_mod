@@ -6,14 +6,14 @@
 	(descr "Spring-loaded pin, SMD, Mill-Max 0986-0-15-20-76")
 	(tags "0986-0-15-20-76 Mill-Max spring pin pogo")
 	(property "Reference" "REF**"
-		(at 0 -8.9 0)
+		(at 1.84 0 90)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "e39c558a-f23c-4a27-b80a-502185e9501b")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.1)
+				(size 0.94 0.94)
+				(thickness 0.14)
 			)
 		)
 	)
@@ -86,17 +86,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "1731f485-4ff8-4a43-9b6b-39a16b18a11b")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0.74 0 0)
-		(layer "F.Fab")
-		(uuid "12bcc440-91b2-44ee-9d86-580ae5810108")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd custom
 		(at 0 0)

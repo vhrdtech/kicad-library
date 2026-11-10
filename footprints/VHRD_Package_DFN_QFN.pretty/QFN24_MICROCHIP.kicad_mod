@@ -6,8 +6,9 @@
 	(descr "QFN, 24 Pin (http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=278), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "QFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 -3.3 0)
-		(layer "F.SilkS")
+		(at 0 -2.85 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "f9a2a949-cf5f-47a5-9502-a382b4c1270c")
 		(effects
 			(font
@@ -204,17 +205,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "b46605cb-aff4-4bfb-9045-08944cba40f4")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "e4ea9641-26cd-4b83-bcc3-fb81b4cf2984")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "" smd roundrect
 		(at -0.65 -0.65)

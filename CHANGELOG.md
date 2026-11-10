@@ -2,8 +2,19 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Footprints: the designator lives only on the fab layer. In 172 of the 174 footprints the `Reference` is on F.Fab,
+  visible and unlocked, with no `${REFERENCE}` on the silkscreen and no second one on F.Fab. It is sized (0.25 to
+  1 mm) and placed so that its box never comes within 0.1 mm of a pad: inside the body, turned 90° where that fits
+  better, else next to the body (26 footprints: QFN/DFN with an exposed pad, 0402/0603, SOD-882, SOT-883, test
+  points, net ties). Silkscreen outlines, pin-1 marks and Value are untouched. Boards take it with "Update
+  Footprints from Library".
+
 ### Added
 
+- `kilib fab-designators [--write] [PATH...]`: checks every footprint against those rules and fixes the ones that
+  break one (default: the checkout's `footprints/`).
 - `VHRD_Interface_Expansion` symbol library (needs `kilib setup`): `TCA6408ARGT`, stock drawing with bus, supply
   and control pins left, P0-P7 right; `Mpn1` TCA6408ARGTR, `Mpn2` PCAL6408ABS (same pinout, VQFN-16 3x3).
 - `VHRD_Diode:BZX585-C5V1`, `BZX585-C5V6` on `VHRD_Diode_SMD:D_SOD-523`; `Mpn2` BZT52C5V1T-7 / BZT52C5V6T-7 (Diodes).

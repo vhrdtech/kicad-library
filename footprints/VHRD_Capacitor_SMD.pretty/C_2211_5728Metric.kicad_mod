@@ -6,13 +6,14 @@
 	(descr "Capacitor SMD 1812 (4532 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 	(tags "capacitor")
 	(property "Reference" "REF**"
-		(at 0 -2.65 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "de96c565-047b-4547-81b6-6ac3613be0c1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.89 0.89)
+				(thickness 0.13)
 			)
 		)
 	)
@@ -122,17 +123,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "d82b4680-d770-4a8e-9827-cbefc719eefd")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "e0743393-aaf1-4b30-9788-29608e173389")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -2.8 0)

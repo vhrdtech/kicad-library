@@ -6,8 +6,9 @@
 	(descr "4-lead though-hole mounted DIP package, row spacing 7.62 mm (300 mils)")
 	(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
 	(property "Reference" "REF**"
-		(at 3.81 -2.33 0)
-		(layer "F.SilkS")
+		(at 3.81 1.27 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "ed365f64-1a53-41b9-ab8f-bc077c00c3e0")
 		(effects
 			(font
@@ -189,17 +190,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "cdf1df61-e9c3-46bf-b4e1-d861ba039826")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 3.81 1.27 0)
-		(layer "F.Fab")
-		(uuid "07da6a10-1a24-41b5-bcb3-c7df6ef4a292")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" thru_hole rect
 		(at 0 0)

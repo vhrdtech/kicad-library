@@ -6,13 +6,14 @@
 	(descr "SOD-882D, DFN1006D-2, body 1.0 x 0.6 x 0.4mm, pitch 0.65mm, https://assets.nexperia.com/documents/package-information/SOD882D.pdf")
 	(tags "Diode SOD882D DFN1006D-2")
 	(property "Reference" "REF**"
-		(at 0 -1.35 0)
-		(layer "F.SilkS")
+		(at 0 -0.65 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "9de9d6fd-fe17-4883-8322-442589bc59de")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.3 0.3)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -176,17 +177,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "2e474f3d-68c8-4561-bbc9-e8c0e78d9eb3")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "1a0f4557-9b4d-4f6d-8b11-7a3c93456108")
-		(effects
-			(font
-				(size 0.31 0.31)
-				(thickness 0.05)
-			)
-		)
 	)
 	(pad "" smd roundrect
 		(at -0.35 0)

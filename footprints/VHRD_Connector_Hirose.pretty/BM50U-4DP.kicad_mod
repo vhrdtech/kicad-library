@@ -6,14 +6,14 @@
 	(descr "Board-to-board plug, 4+2 contacts, P0.35mm, Hirose BM50U-4DP/2-0.35V(53)")
 	(tags "BM50U-4DP board-to-board plug")
 	(property "Reference" "REF**"
-		(at 0 -2.54 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "c0b15ac9-59e6-4fc9-b47a-470a60e49234")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.34 0.34)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -176,17 +176,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "c64c31a0-1a43-449d-964e-5b2c1fdfcf20")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "98844634-63e0-42ab-8cc0-e1c9f7d34702")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -0.175001 0.647499)

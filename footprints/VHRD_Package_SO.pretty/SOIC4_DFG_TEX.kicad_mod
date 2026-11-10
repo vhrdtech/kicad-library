@@ -6,9 +6,9 @@
 	(descr "SOIC-4 (DFG0004A), TI ISOM8600")
 	(tags "SOIC DFG0004A ISOM8600")
 	(property "Reference" "REF**"
-		(at 0.35 3 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "bbcc2925-a804-47f2-9c98-592f1e6de6fb")
 		(effects
 			(font
@@ -336,17 +336,6 @@
 		(effects
 			(font
 				(size 0.8 0.8)
-				(thickness 0.15)
-			)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "80fa9fd9-04da-4ca1-970a-1335686b3eba")
-		(effects
-			(font
-				(size 1 1)
 				(thickness 0.15)
 			)
 		)

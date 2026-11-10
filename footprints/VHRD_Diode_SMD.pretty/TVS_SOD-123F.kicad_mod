@@ -6,13 +6,14 @@
 	(descr "TVS_SOD-123F")
 	(tags "SOD")
 	(property "Reference" "REF**"
-		(at -0.127 -1.905 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.51 0.51)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -184,17 +185,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "cf9cc157-b043-4118-b9f3-c253e44a1559")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "4d168340-a8bb-40fa-9630-b4e9c933f7b4")
-		(effects
-			(font
-				(size 0.86 0.86)
-				(thickness 0.129)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -1.4 0)

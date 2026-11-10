@@ -6,13 +6,14 @@
 	(descr "DHWQFN, 14 Pin (JEDEC MO-241 variation WAA, https://www.ti.com/lit/ml/qfnd686/qfnd686.pdf, https://www.ti.com/lit/ds/symlink/txb0104.pdf#page=43), generated with kicad-footprint-generator ipc_noLead_generator.py")
 	(tags "DHWQFN NoLead Texas_BQA0014A")
 	(property "Reference" "REF**"
-		(at 0 -2.8 0)
-		(layer "F.SilkS")
+		(at 0 -2.3 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "b444ba7a-f148-4d8c-b881-aace5ec5c4fe")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.84 0.84)
+				(thickness 0.13)
 			)
 		)
 	)
@@ -166,17 +167,6 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "db052f17-e8f5-4a92-b666-3b10315955cb")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 90)
-		(layer "F.Fab")
-		(uuid "28647695-2d2c-4bfb-a59a-60a7560d114a")
-		(effects
-			(font
-				(size 0.92 0.92)
-				(thickness 0.138)
-			)
-		)
 	)
 	(pad "" smd roundrect
 		(at 0 0)

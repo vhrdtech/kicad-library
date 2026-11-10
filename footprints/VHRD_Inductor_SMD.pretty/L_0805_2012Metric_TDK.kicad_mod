@@ -6,13 +6,14 @@
 	(descr "Inductor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 	(tags "inductor")
 	(property "Reference" "REF**"
-		(at 0 -1.55 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "fd28c7f3-6f0c-47ea-a875-4e78451f3890")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.27 0.27)
+				(thickness 0.04)
 			)
 		)
 	)
@@ -124,17 +125,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "8c42b9dc-802e-4211-9096-6aa9769261cf")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "af054ef4-52f6-489d-97e1-acd194a0fc41")
-		(effects
-			(font
-				(size 0.62 0.62)
-				(thickness 0.093)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -0.9 0)

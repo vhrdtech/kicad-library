@@ -6,13 +6,14 @@
 	(descr "PowerDI,Diode,Vishay,https://www.diodes.com/assets/Package-Files/PowerDI5.pdf")
 	(tags "PowerDI diode vishay")
 	(property "Reference" "REF**"
-		(at 0 -3 0)
-		(layer "F.SilkS")
+		(at 1.75 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "c3d652a5-8bc2-4c40-9245-e6ff23bcaf4f")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.53 0.53)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -230,17 +231,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "cd32ab68-96e4-4f48-8b80-4849af901bc5")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "c98bd7f4-4de8-4219-9661-2738dd00c3f8")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -1.12 0 180)

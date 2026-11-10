@@ -4,8 +4,9 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -4.325 -11.135 0)
-		(layer "F.SilkS")
+		(at 0 -0.993 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "889698d8-eaf9-488c-b049-488f7081b388")
 		(effects
 			(font
@@ -330,17 +331,6 @@
 		)
 		(layer "User.4")
 		(uuid "9634b750-da8f-482e-8f14-577009e680b3")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 -0.975 0)
-		(layer "F.Fab")
-		(uuid "08f01c51-b613-4de1-bc16-157be041c640")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "" np_thru_hole circle
 		(at -4.95 3.25)

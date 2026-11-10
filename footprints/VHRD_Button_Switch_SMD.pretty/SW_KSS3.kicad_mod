@@ -6,9 +6,9 @@
 	(descr "Tactile switch, SMD, C&K KSS331G LFS")
 	(tags "KSS331GLFS tactile switch")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at 0 0.406 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "cfaee50a-326d-4140-aa65-d8259c03b6ac")
 		(effects
 			(font
@@ -228,17 +228,6 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "ff50ea53-5b97-4be0-9070-a70e2acd1d5c")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0.406 0)
-		(layer "F.Fab")
-		(uuid "1dabe262-82aa-4686-9b4c-552ac4cdf8d4")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -2.949999 0)

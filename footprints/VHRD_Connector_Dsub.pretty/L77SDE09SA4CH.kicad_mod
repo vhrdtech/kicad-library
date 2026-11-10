@@ -4,15 +4,15 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -15.6 -3.9 0)
-		(layer "F.SilkS")
+		(at 2.31 5.782 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "6579e4cd-4c5a-4a88-99bd-43bd84579899")
 		(effects
 			(font
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
 		)
 	)
 	(property "Value" "L77SDE09SA4CH"
@@ -297,17 +297,6 @@
 				(thickness 0.1)
 			)
 			(justify mirror)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 2.31 5.8 0)
-		(layer "F.Fab")
-		(uuid "f40dca0f-ca5f-4fd3-91f4-327efd5dcdd6")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
 		)
 	)
 	(fp_text user "PCB Edge"

@@ -6,14 +6,14 @@
 	(descr "Socket, 8 positions, center strip contacts, SMD, Panasonic AXF382700")
 	(tags "AXF382700 socket center strip")
 	(property "Reference" "REF*"
-		(at 0.175 -2.4 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "a48c8912-2b24-4138-8b86-c3c0cbcb54dd")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -249,17 +249,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "41771888-6563-4960-92ec-95f7b5e2b325")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "4f84281d-7ee1-4c45-9c7c-099a589c8345")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "MP1" smd roundrect
 		(at -1.95 -1.075)

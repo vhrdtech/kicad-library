@@ -6,13 +6,14 @@
 	(descr "http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV")
 	(tags "sot 723")
 	(property "Reference" "REF**"
-		(at 0.1 -1.6 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "516d3e89-34d3-4b82-bafb-f5dc4f43ef1e")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.35 0.35)
+				(thickness 0.05)
 			)
 		)
 	)
@@ -148,17 +149,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "c1efce08-494c-4ce4-8774-e7923699481f")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 90)
-		(layer "F.Fab")
-		(uuid "a0313521-842c-4c01-836d-e3fce8d4d0cb")
-		(effects
-			(font
-				(size 0.37 0.37)
-				(thickness 0.056)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -0.575 -0.4)

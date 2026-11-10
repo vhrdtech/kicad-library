@@ -6,14 +6,14 @@
 	(descr "Tactile switch, THT, CS1102V5.85F260, tight courtyard, no edge")
 	(tags "CS1102 tactile switch")
 	(property "Reference" "S**"
-		(at 0 -1.25 0)
-		(layer "F.SilkS")
-		(hide yes)
+		(at 0 -1.271 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "bc604176-64d5-4624-a473-b15e4bc72920")
 		(effects
 			(font
-				(size 1.27 1.27)
-				(thickness 0.254)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -184,17 +184,6 @@
 		(fill no)
 		(layer "F.Fab")
 		(uuid "48ab7999-599e-4244-a57d-c23a1a1d089a")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 -1.271 0)
-		(layer "F.Fab")
-		(uuid "f5e79973-2d83-4b8b-b0cf-98fdd9cf02ad")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -2.25 -5.008)

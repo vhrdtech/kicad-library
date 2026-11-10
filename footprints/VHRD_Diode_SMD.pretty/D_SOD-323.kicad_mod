@@ -6,13 +6,14 @@
 	(descr "SOD-323")
 	(tags "SOD-323")
 	(property "Reference" "REF**"
-		(at 0 -1.85 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "33e0d1d7-5c13-4661-8815-0d15bd5e6ba1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
@@ -175,17 +176,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "b640432c-c0a9-45cf-85ce-40fc5bb6798a")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "edc15fbe-553e-4f0f-8ec8-05cbcc9ae510")
-		(effects
-			(font
-				(size 0.55 0.55)
-				(thickness 0.083)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -1.05 0)

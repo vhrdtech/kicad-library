@@ -6,13 +6,14 @@
 	(descr "Through hole straight socket strip, 1x20, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 	(tags "Through hole socket strip THT 1x20 2.54mm single row")
 	(property "Reference" "REF**"
-		(at 0 -2.77 0)
-		(layer "F.SilkS")
+		(at -0.05 19.08 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "3b41e98d-b919-4cd8-9307-10417e438799")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.53 0.53)
+				(thickness 0.08)
 			)
 		)
 	)
@@ -212,17 +213,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "8bf94243-14e5-4a47-a7fb-45507d481795")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 24.13 90)
-		(layer "F.Fab")
-		(uuid "d5aa50e1-3d72-4dec-a32d-87384ede0bef")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" thru_hole circle
 		(at 0 0)

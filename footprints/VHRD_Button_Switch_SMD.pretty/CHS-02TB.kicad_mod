@@ -6,14 +6,14 @@
 	(descr "DIP switch, SPST, 2 positions, slide, SMD, Nidec CHS-02TB")
 	(tags "CHS-02TB DIP switch slide")
 	(property "Reference" "REF**"
-		(at 0.05 -6.16 0)
+		(at 0 -0.022 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "53404f41-0c55-449a-b276-deefb6dbca9b")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -465,17 +465,6 @@
 					(xy 2.121452 -0.302821) (xy 2.216267 -0.372064) (xy 2.310606 -0.43669) (xy 1.967506 -0.43669) (xy 1.967506 -0.566823)
 					(xy 2.549 -0.566823)
 				)
-			)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 -0.022 0)
-		(layer "F.Fab")
-		(uuid "4405ce7a-7bad-4f3b-be46-5540bb8545f1")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
 			)
 		)
 	)

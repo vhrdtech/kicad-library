@@ -6,8 +6,9 @@
 	(descr "Through hole angled pin header, 2x03, 2.54mm pitch, 6mm pin length, double rows")
 	(tags "Through hole angled pin header THT 2x03 2.54mm double row")
 	(property "Reference" "REF**"
-		(at 5.655 -2.27 0)
-		(layer "F.SilkS")
+		(at 6.13 2.54 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "e1e417cb-e7ff-43de-847a-2fedba1af4c4")
 		(effects
 			(font
@@ -509,17 +510,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "5137c295-466f-4a7b-a811-f996ebc3ade4")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 6.13 2.54 0)
-		(layer "F.Fab")
-		(uuid "8be3bcb1-4ca7-4c3a-9529-90e82ad2b4a6")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" thru_hole rect
 		(at 0 0)

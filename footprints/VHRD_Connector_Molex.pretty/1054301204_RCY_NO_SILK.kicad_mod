@@ -5,17 +5,15 @@
 	(layer "F.Cu")
 	(descr "Nano-Fit Right-Angle Header, Surface Mount, 2.50mm Pitch, Single Row, 4 Circuits, 0.38µm Gold (Au) Plating, Black, Glow-Wire Capable")
 	(property "Reference" "REF**"
-		(at 4.7 -5.3 0)
+		(at -0.3 0.013 0)
 		(unlocked yes)
-		(layer "F.SilkS")
-		(hide yes)
+		(layer "F.Fab")
 		(uuid "2e81482d-046b-4112-ae88-0aff5396c722")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
-			(justify left)
 		)
 	)
 	(property "Value" "1054301204_RCY_NO_SILK"
@@ -924,17 +922,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "b453ccf8-a0e6-4162-86a7-9bdbc4ac9b5f")
-	)
-	(fp_text user "${REFERENCE}"
-		(at -0.3 0.013 0)
-		(layer "F.Fab")
-		(uuid "04cac71b-db14-4199-8aa8-02f10437ca5d")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -3.75 -4.7)

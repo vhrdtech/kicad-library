@@ -6,14 +6,14 @@
 	(descr "Battery spring contact connector, 5 positions, right angle, Kyocera AVX 009155005741006")
 	(tags "009155005741006 battery spring contact")
 	(property "Reference" "REF**"
-		(at 0 -13.5 0)
+		(at 0 2 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "10a47946-045c-4f88-b5ed-b9b0e0d82510")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -1241,17 +1241,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "72831725-fd26-4649-9958-39a291bfb763")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 2 0)
-		(layer "F.Fab")
-		(uuid "88c2aae4-fda3-4136-a3b5-65064e3315c1")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "" np_thru_hole circle
 		(at -3.000001 1.6)

@@ -5,8 +5,9 @@
 	(layer "F.Cu")
 	(tags "connector Hirose TF31 horizontal")
 	(property "Reference" "REF**"
-		(at 0 -3.7 0)
-		(layer "F.SilkS")
+		(at 0 1.325 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "30cc7018-f7a4-4885-8bb3-1a3ec5268951")
 		(effects
 			(font
@@ -387,17 +388,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "8b94a8a4-1b78-4948-a043-dd225ee7e4d3")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 1.325 0)
-		(layer "F.Fab")
-		(uuid "90ba1d91-1818-4d15-bb36-95f79eccbb1d")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -1.75 -1.85)

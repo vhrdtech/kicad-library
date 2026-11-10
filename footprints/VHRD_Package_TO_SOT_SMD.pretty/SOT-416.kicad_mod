@@ -6,13 +6,14 @@
 	(descr "SOT-416, https://www.nxp.com/docs/en/package-information/SOT416.pdf")
 	(tags "SOT-416")
 	(property "Reference" "REF**"
-		(at 0 -2.25 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "faa795a1-915a-4b04-861b-5d2aecbbf734")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.39 0.39)
+				(thickness 0.06)
 			)
 		)
 	)
@@ -164,17 +165,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "e360fc01-ba67-416a-85d2-54cf0847f47a")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 90)
-		(layer "F.Fab")
-		(uuid "6aab2b13-b17a-4202-b1b0-aa5c449feb34")
-		(effects
-			(font
-				(size 0.55 0.55)
-				(thickness 0.083)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -0.65 -0.5)

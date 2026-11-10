@@ -6,14 +6,14 @@
 	(descr "Net tie, 2 pin, 0.15mm square SMD pads")
 	(tags "net tie")
 	(property "Reference" "REF**"
-		(at 0 -1.2 0)
-		(layer "F.SilkS")
-		(hide yes)
+		(at 0 -0.35 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "2032224a-283b-4cf2-bb7f-07dab0754c68")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.25 0.25)
+				(thickness 0.04)
 			)
 		)
 	)

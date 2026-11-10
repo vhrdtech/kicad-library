@@ -6,8 +6,9 @@
 	(descr "10/100Base-T RJ45 ethernet magnetic transformer connector horizontal with green/yellow LEDs http://www.kycon.com/Pub_Eng_Draw/G7LX-A88S7-BP-GY.pdf")
 	(tags "RJ45 ethernet magnetic")
 	(property "Reference" "REF**"
-		(at 9.525 0 270)
-		(layer "F.SilkS")
+		(at 0 9.015 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "789297ae-06bd-4316-a4bf-807f832e5a07")
 		(effects
 			(font
@@ -311,17 +312,6 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "86907b1a-b144-4c49-92b6-c7f2275d07c1")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 9.015 0)
-		(layer "F.Fab")
-		(uuid "f9148fc2-b48e-4e37-a06d-530625958106")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "" np_thru_hole circle
 		(at -5.715 8.89)

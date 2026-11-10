@@ -4,15 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -0.5 0)
+		(at 0 -0.6 0)
 		(unlocked yes)
-		(layer "F.SilkS")
-		(hide yes)
+		(layer "F.Fab")
 		(uuid "5a6f258d-9de7-432f-b28c-a9e0222fe8a2")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.1)
+				(size 0.25 0.25)
+				(thickness 0.04)
 			)
 		)
 	)
@@ -66,18 +65,6 @@
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "7bd64eba-6c6f-4be4-92c3-184d600cd915")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 2.5 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(uuid "bd7e003d-dcb0-43c0-9e94-4e9c944137ff")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/own/VHRD_Mechanical.3dshapes/Rod_0.8x7.1.step"

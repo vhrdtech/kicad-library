@@ -5,13 +5,14 @@
 	(layer "F.Cu")
 	(tags "SC-74 TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0 -2.4 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "bb9a71ce-12e6-4f5c-b07e-95673e9f5f40")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.81 0.81)
+				(thickness 0.12)
 			)
 		)
 	)
@@ -165,17 +166,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "6a0a45b1-a70c-4da3-91a0-f21ffc5fc0a1")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 90)
-		(layer "F.Fab")
-		(uuid "f2c201c6-614a-4d0c-b55e-2fbd467b3264")
-		(effects
-			(font
-				(size 0.89 0.89)
-				(thickness 0.134)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -1.2 -0.95)

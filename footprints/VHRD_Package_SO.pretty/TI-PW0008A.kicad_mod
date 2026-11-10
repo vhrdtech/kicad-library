@@ -6,14 +6,14 @@
 	(descr "TSSOP-8, 4.4x3mm, P0.65mm, TI PW0008A")
 	(tags "TSSOP PW0008A")
 	(property "Reference" "REF**"
-		(at 0 0 0)
+		(at 0 0 90)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "fb58cb96-57ef-4202-9a51-2d0661e5be4e")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.84 0.84)
+				(thickness 0.13)
 			)
 		)
 	)
@@ -469,17 +469,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "5a2055d7-0ade-4abe-98cf-b19b19b2ec7e")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "02188ef4-4c89-4e91-aafc-a655461dd64d")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd rect
 		(at -2.4 -0.975)

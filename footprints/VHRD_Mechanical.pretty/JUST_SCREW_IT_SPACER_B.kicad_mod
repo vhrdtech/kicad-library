@@ -4,15 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -0.5 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
-		(hide yes)
+		(layer "F.Fab")
 		(uuid "79b26168-234f-4a54-ba86-f6affd80d544")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.1)
+				(size 0.43 0.43)
+				(thickness 0.06)
 			)
 		)
 	)
@@ -66,18 +65,6 @@
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "05cbc523-5956-4675-945e-08eebd25ec71")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 2.5 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(uuid "94231618-ae06-4f4a-97e2-1739d3586e77")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/own/VHRD_Mechanical.3dshapes/Just_Screw_It_Spacer.step"

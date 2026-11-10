@@ -4,14 +4,14 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -3.9 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "4e623a9e-b396-4b92-82ba-76e303decbe9")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -542,17 +542,6 @@
 					(xy 2.171452 -0.317821) (xy 2.266267 -0.387064) (xy 2.360606 -0.45169) (xy 2.017506 -0.45169) (xy 2.017506 -0.581823)
 					(xy 2.599 -0.581823)
 				)
-			)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "1c6ed0b5-e7b0-4d99-ac99-c7096a906102")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
 			)
 		)
 	)

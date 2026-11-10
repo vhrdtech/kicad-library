@@ -6,13 +6,14 @@
 	(descr "LED SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "LED")
 	(property "Reference" "REF**"
-		(at 0 -1.43 0)
-		(layer "F.SilkS")
+		(at 0 -0.85 0)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "6c3937d8-e56b-4bf5-b415-349b14325c54")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.46 0.46)
+				(thickness 0.07)
 			)
 		)
 	)
@@ -148,17 +149,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "07885d44-5513-49da-bf5f-4281434e4258")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "1cfc6a42-176f-4dbe-a19f-c918009bf5cb")
-		(effects
-			(font
-				(size 0.49 0.49)
-				(thickness 0.073)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -0.7875 0)

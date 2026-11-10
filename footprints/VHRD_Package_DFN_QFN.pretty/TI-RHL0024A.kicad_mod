@@ -6,9 +6,9 @@
 	(descr "VQFN-24, 3.5x5.5mm, P0.5mm, EP2x4mm, TI RHL0024A")
 	(tags "VQFN RHL0024A")
 	(property "Reference" "REF**"
-		(at 1.7 -3.75 0)
+		(at 0 -3.6 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "90703b69-f00a-4798-9b1b-179db487f85d")
 		(effects
 			(font
@@ -305,17 +305,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "5e109b0f-9f83-45a0-bdbd-5e9ff5ad81cc")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "d56d3717-dcf3-47e9-93a3-ef063ec37e5f")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -0.750001 -2.65)

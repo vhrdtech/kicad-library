@@ -6,14 +6,14 @@
 	(descr "DIP switch, SPST, 1 position, slide, SMD, E-Switch KAE01SGGT")
 	(tags "KAE01SGGT DIP switch slide")
 	(property "Reference" "REF**"
-		(at 0.3 -2.6 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "8a2e112c-6ec5-407e-b427-6c428030c0d0")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -516,17 +516,6 @@
 					(xy 2.052446 -0.415641) (xy 2.195755 -0.529702) (xy 2.35378 -0.645107) (xy 2.511011 -0.752818)
 					(xy 1.939178 -0.752818) (xy 1.939178 -0.969705) (xy 2.908334 -0.969705)
 				)
-			)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "e6bcb1d2-71fc-49f0-b56c-a8cc52c8f6b0")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
 			)
 		)
 	)

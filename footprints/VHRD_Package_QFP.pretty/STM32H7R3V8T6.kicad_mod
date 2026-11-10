@@ -6,14 +6,14 @@
 	(descr "LQFP-100, 14x14mm, P0.5mm, ST STM32H7R3V8T6")
 	(tags "LQFP STM32H7R3V8T6")
 	(property "Reference" "REF**"
-		(at -0.025 -10.4 0)
+		(at 0 0 0)
 		(unlocked yes)
-		(layer "F.SilkS")
+		(layer "F.Fab")
 		(uuid "1dc05b69-d093-454c-82bf-ce293e55d860")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -210,17 +210,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "1c84371c-6583-4ba5-9b87-646cb817dcf8")
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
-		(layer "F.Fab")
-		(uuid "4cee2171-03bc-4016-bc6a-90d481c060d0")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
 	)
 	(pad "1" smd roundrect
 		(at -7.75 -6)

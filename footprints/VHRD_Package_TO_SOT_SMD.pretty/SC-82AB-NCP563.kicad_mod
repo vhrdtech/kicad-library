@@ -6,13 +6,14 @@
 	(descr "SC-82AB")
 	(tags "SC-82AB")
 	(property "Reference" "REF**"
-		(at 0 -2.25 0)
-		(layer "F.SilkS")
+		(at 0 0 90)
+		(unlocked yes)
+		(layer "F.Fab")
 		(uuid "6635a5f0-57b1-48d1-aa7b-9cdf37ab3eb1")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.62 0.62)
+				(thickness 0.09)
 			)
 		)
 	)
@@ -182,17 +183,6 @@
 				(thickness 0.05)
 			)
 			(justify left bottom)
-		)
-	)
-	(fp_text user "${REFERENCE}"
-		(at 0 0 90)
-		(layer "F.Fab")
-		(uuid "45e28d6e-b465-4354-ba27-e93adb902cb9")
-		(effects
-			(font
-				(size 0.68 0.68)
-				(thickness 0.102)
-			)
 		)
 	)
 	(pad "1" smd roundrect
