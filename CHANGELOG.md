@@ -1,8 +1,18 @@
 # Changelog
 
+### Fixed
+
+- `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
+  number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
+
 ## [Unreleased]
 
 ### Added
+
+- More named layers (`kilib layers`, the three templates): User.17/18 `Value.F/B`, User.19/20 `Pins.F/B`,
+  User.21/22 `Centroid.F/B`, typed front and back; KiCad's `Dwgs.User` named `Dimensions`, `Cmts.User` `Fab.Notes`
+  and `User.2` `Body.F` (a part's full top view). `kilib layers` leaves User.2 unnamed on a board that draws on it
+  itself and says so.
 
 - `kilib fab-designators --board BOARD [--write]`: fits each placed footprint's own designator (a short one gets
   larger text); only the Reference's position, angle, size and thickness change, and only where the Reference is

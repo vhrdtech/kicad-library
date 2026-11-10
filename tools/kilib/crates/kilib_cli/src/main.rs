@@ -190,9 +190,13 @@ Examples:
     ///
     /// Test points, net ties and mechanical footprints carry their designator on a layer of their own (User.9/10
     /// Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14 Ref.Mech.F/B), and User.15/16 Rooms.F/B hold hand-drawn
-    /// outlines of the circuit blocks; each pair is typed front and back, so KiCad flips a bottom-side footprint's
-    /// text onto the back layer. This adds the layers a board lacks, and names and types ones it has unnamed; a
-    /// number the board already uses under another name is left alone and reported. Only the (layers ...) table
+    /// outlines of the circuit blocks. User.17/18 Value.F/B carry the Value beside the designator, User.19/20
+    /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin. Each pair is
+    /// typed front and back, so KiCad flips a bottom-side footprint's text onto the back layer. KiCad's own
+    /// Dwgs.User, Cmts.User and User.2 are named Dimensions, Fab.Notes and Body.F (a part's full top view); User.2
+    /// keeps its plain name on a board that draws on it itself. This adds the layers a board lacks, and names and
+    /// types ones it has unnamed; a number the board already uses under another name is left alone and reported.
+    /// A board in KiCad 8's layer numbering is refused (save it in KiCad 10 first). Only the (layers ...) table
     /// changes. Without --write it lists what would change and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
@@ -901,6 +905,12 @@ fn run_layers(boards: &[PathBuf], write: bool) -> Result<ExitCode, String> {
                     taken += 1;
                     println!("{YELLOW}!{YELLOW:#} {}: {} is taken ({line}); {} not added", b.display(), l.id, l.name);
                 }
+                layers::LayerChange::InUse { layer: l, items } => println!(
+                    "{CYAN}·{CYAN:#} {}: {} carries {items} items of the board's own; not named {}",
+                    b.display(),
+                    l.id,
+                    l.name
+                ),
             }
         }
         if new != old {

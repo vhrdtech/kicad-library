@@ -69,3 +69,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-19 ref-layer-outlines: test points draw their pad outline on Ref.Test, net ties, spark gaps and jumpers a box
   round their pads on Ref.Tie (0.05 mm out, 0.05 mm lines; `kilib lint --rule ref-outline`), and `kilib
   fab-designators` fits the designator to that drawing, beside it where nothing fits inside
+- ✅ LIB-20 more-layers: User.17/18 Value.F/B, User.19/20 Pins.F/B, User.21/22 Centroid.F/B (front/back pairs), and
+  KiCad's Dwgs.User, Cmts.User and User.2 named Dimensions, Fab.Notes and Body.F, in the three templates; `kilib
+  layers` names them in an existing board (User.2 only where the board draws nothing of its own there), refuses
+  boards in KiCad 8's layer numbering

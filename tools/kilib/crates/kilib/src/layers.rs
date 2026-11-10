@@ -5,7 +5,10 @@
 //! footprint's library and name and the designator's prefix. Each such layer is a front/back pair of KiCad user
 //! layers, typed `front` and `back` and numbered one after the other, so KiCad flips a bottom-side footprint's text
 //! to the back one. One more pair, Rooms, holds hand-drawn outlines of the circuit blocks (no footprint uses it).
-//! [`add_to_board`] names them in a `.kicad_pcb`'s layer table (and only there).
+//! Three pairs more carry what a fab or assembly print may want on demand: Value (the Value, fitted beside the
+//! designator), Pins (pin numbers next to the pads) and Centroid (a cross on the placement origin). A few of KiCad's
+//! own layers get a name of their own ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table
+//! (and only there).
 
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node};
@@ -25,7 +28,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 }
 
 /// The layers, front then back of each pair.
-pub const LAYERS: [Layer; 8] = [
+pub const LAYERS: [Layer; 14] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -34,7 +37,42 @@ pub const LAYERS: [Layer; 8] = [
     user(14, "back", "Ref.Mech.B", "User.14"),
     user(15, "front", "Rooms.F", "User.15"),
     user(16, "back", "Rooms.B", "User.16"),
+    user(17, "front", "Value.F", "User.17"),
+    user(18, "back", "Value.B", "User.18"),
+    user(19, "front", "Pins.F", "User.19"),
+    user(20, "back", "Pins.B", "User.20"),
+    user(21, "front", "Centroid.F", "User.21"),
+    user(22, "back", "Centroid.B", "User.22"),
 ];
+
+/// The Value pair: each footprint's Value, shown, fitted on the body beside the designator ([`crate::fab`]).
+pub const VALUE: [&str; 2] = ["User.17", "User.18"];
+/// The Pins pair: pin numbers beside the pads of connectors and multi-pin parts ([`crate::lint::pins`]).
+pub const PINS: [&str; 2] = ["User.19", "User.20"];
+/// The Centroid pair: a small cross on the footprint's placement origin ([`crate::lint::centroid`]).
+pub const CENTROID: [&str; 2] = ["User.21", "User.22"];
+
+/// The front or back layer of a pair.
+pub fn side_of(pair: [&'static str; 2], back: bool) -> &'static str {
+    pair[usize::from(back)]
+}
+
+/// Layers KiCad has anyway, given a name of their own (their type stays `user`): drawing dimensions on Dwgs.User,
+/// notes for the fab on Cmts.User, the full top view of a part (a connector's body from its STEP model) on User.2.
+pub const RENAMED: [Layer; 3] = [
+    Layer { id: "Dwgs.User", ordinal: 17, side: "user", name: "Dimensions" },
+    Layer { id: "Cmts.User", ordinal: 19, side: "user", name: "Fab.Notes" },
+    user(2, "user", "Body.F", "User.2"),
+];
+
+/// The name KiCad gives a layer by itself: such a layer counts as unnamed.
+fn default_name(id: &str) -> Option<&'static str> {
+    match id {
+        "Dwgs.User" => Some("User.Drawings"),
+        "Cmts.User" => Some("User.Comments"),
+        _ => None,
+    }
+}
 
 /// Where a footprint's designator lives.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -119,6 +157,21 @@ pub enum LayerChange {
     Set(Layer),
     /// The board uses this number for something else (another name); left alone.
     Taken { layer: Layer, line: String },
+    /// A layer KiCad has anyway ([`RENAMED`]) that the board draws on itself (`items` graphics, texts or
+    /// dimensions outside footprints): left unnamed, as that drawing may mean something else.
+    InUse { layer: Layer, items: usize },
+}
+
+/// Board items (not those inside footprints) on `layer`.
+fn board_items_on(pcb: &Node, layer: &str) -> usize {
+    pcb.items()
+        .iter()
+        .filter(|n| n.head().is_some_and(|h| h.starts_with("gr_") || h == "dimension" || h == "zone"))
+        .filter(|n| {
+            n.value("layer") == Some(layer)
+                || n.child("layers").is_some_and(|l| l.items().iter().skip(1).any(|a| a.as_atom() == Some(layer)))
+        })
+        .count()
 }
 
 /// The board text with [`LAYERS`] in its `(layers ...)` table, and what happened to each; only that table changes.
@@ -130,20 +183,32 @@ pub fn add_to_board(text: &str) -> Result<(String, Vec<LayerChange>), String> {
     let table = pcb.child("layers").ok_or("no (layers ...) table")?;
     let entries: Vec<&Node> = table.items().iter().skip(1).filter(|n| n.as_atom().is_none()).collect();
     let last = entries.last().ok_or("an empty (layers ...) table")?;
+    // KiCad 8 numbered the layers otherwise (B.Cu 31, User.1 50): its numbers would name the wrong layers.
+    if entries.iter().any(|e| e.arg(0) == Some("B.Cu") && e.head() == Some("31")) {
+        return Err("a board in KiCad 8's layer numbering (B.Cu is 31): open and save it in KiCad 10 first".into());
+    }
     let start = text[..last.span().start].rfind('\n').map_or(0, |i| i + 1);
     let indent = &text[start..last.span().start];
     let line = |l: &Layer| format!("({} {} {} {})", l.ordinal, sexpr::quote(l.id), l.side, sexpr::quote(l.name));
     let mut edits = Vec::new();
     let mut out = Vec::new();
     let mut added = String::new();
-    for l in &LAYERS {
+    for l in LAYERS.iter().chain(&RENAMED) {
         let found = entries.iter().find(|e| e.head() == Some(&l.ordinal.to_string()) || e.arg(0) == Some(l.id));
+        let in_use = if l.id == "User.2" { board_items_on(&pcb, l.id) } else { 0 };
         match found {
+            Some(e) if in_use > 0 && e.arg(2) != Some(l.name) => {
+                out.push(LayerChange::InUse { layer: *l, items: in_use })
+            }
             Some(e) => {
                 let (side, name) = (e.arg(1), e.arg(2));
                 if side == Some(l.side) && name == Some(l.name) {
                     out.push(LayerChange::Fine(*l));
-                } else if name.is_none() || name == Some(l.id) || name == Some(l.name) {
+                } else if name.is_none()
+                    || name == Some(l.id)
+                    || name == Some(l.name)
+                    || name.is_some_and(|n| default_name(l.id) == Some(n))
+                {
                     edits.push(Edit { range: e.span(), text: line(l) });
                     out.push(LayerChange::Set(*l));
                 } else {
@@ -194,15 +259,35 @@ mod tests {
             new.contains("\t\t(55 \"User.9\" front \"Ref.Test.F\")\n\t\t(57 \"User.10\" back \"Ref.Test.B\")\n"),
             "{new}"
         );
-        assert!(new.contains("(69 \"User.16\" back \"Rooms.B\")\n\t)\n\t(setup)\n)\n"), "{new}");
+        assert!(new.contains("(69 \"User.16\" back \"Rooms.B\")\n\t\t(71 \"User.17\" front \"Value.F\")"), "{new}");
+        assert!(new.contains("(81 \"User.22\" back \"Centroid.B\")"), "{new}");
+        assert!(new.contains("(41 \"User.2\" user \"Body.F\")\n\t)\n\t(setup)\n)\n"), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
         assert_eq!(again, new);
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Fine(_))));
+        // KiCad's own layers under KiCad's names are renamed; under a name of the board's they are left alone.
+        let own = board.replace(
+            "(39 \"User.1\" user)",
+            "(17 \"Dwgs.User\" user \"User.Drawings\")\n\t\t(19 \"Cmts.User\" user \"Notes\")",
+        );
+        let (new, changes) = add_to_board(&own).unwrap();
+        assert!(new.contains("(17 \"Dwgs.User\" user \"Dimensions\")") && new.contains("\"Notes\""), "{new}");
+        assert!(changes.iter().any(|c| matches!(c, LayerChange::Taken { layer, .. } if layer.id == "Cmts.User")));
         // A number used for something else is left alone and reported.
         let taken = board.replace("(55 \"User.9\" user)", "(55 \"User.9\" user \"Assembly\")");
         let (new, changes) = add_to_board(&taken).unwrap();
         assert!(new.contains("(55 \"User.9\" user \"Assembly\")") && !new.contains("Ref.Test.F"), "{new}");
         assert!(matches!(&changes[0], LayerChange::Taken { line, .. } if line.contains("Assembly")));
+        // KiCad 8's numbers are not touched.
+        let old = "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t\t(31 \"B.Cu\" signal)\n\t\t(55 \"User.6\" user)\n\t)\n)\n";
+        assert!(add_to_board(old).unwrap_err().contains("KiCad 8"));
+        // User.2 with the board's own drawing on it stays unnamed.
+        let drawn = board
+            .replace("(39 \"User.1\" user)", "(41 \"User.2\" user)")
+            .replace("\t(setup)", "\t(gr_line (start 0 0) (end 1 0) (layer \"User.2\"))\n\t(setup)");
+        let (new, changes) = add_to_board(&drawn).unwrap();
+        assert!(new.contains("(41 \"User.2\" user)\n"), "{new}");
+        assert!(changes.iter().any(|c| matches!(c, LayerChange::InUse { items: 1, .. })));
     }
 }
