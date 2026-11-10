@@ -176,7 +176,12 @@ pub fn run(i: &Input) -> Outcome {
             } else if t.kind == "Value" {
                 out.left(format!("Value shown on {layer}"));
             } else if !MARKS.contains(&t.text.trim()) {
-                out.left(format!("text {:?} on {layer}", t.text));
+                let label = t.text.trim().trim_end_matches('.');
+                if fp.pads.iter().any(|p| !p.number.is_empty() && p.number == label) {
+                    out.left(format!("pin number {:?} on {layer} (only pin 1 is marked)", t.text));
+                } else {
+                    out.left(format!("text {:?} on {layer}", t.text));
+                }
             }
         }
     }
@@ -231,6 +236,7 @@ mod tests {
         let silk = r#"(fp_rect (start -1.2 -0.5) (end 1.2 0.5) (stroke (width 0.12) (type solid)) (fill no) (layer "F.SilkS"))
 (fp_text user "1" (at -1.6 0 0) (layer "F.SilkS") (effects (font (size 0.8 0.8))))
 (fp_text user "PWR" (at 0 1 0) (layer "F.SilkS") (effects (font (size 0.8 0.8))))
+(fp_text user "2" (at 1.6 0 0) (layer "F.SilkS") (effects (font (size 0.8 0.8))))
 (fp_text user "${REFERENCE}" (at 0 -1 0) (layer "F.SilkS") (effects (font (size 0.8 0.8))))"#;
         let t = fp("X", &format!("{silk}\n{PADS}"));
         let (new, f) = run("VHRD_X", &t, Rule::Silk);
@@ -240,6 +246,7 @@ mod tests {
         assert_eq!(new.matches("(fp_line").count(), 4, "{new}");
         let msgs: Vec<&str> = f.iter().map(|f| f.message.as_str()).collect();
         assert!(msgs.contains(&"text \"PWR\" on F.SilkS"), "{msgs:?}");
+        assert!(msgs.contains(&"pin number \"2\" on F.SilkS (only pin 1 is marked)"), "{msgs:?}");
         assert!(msgs.contains(&"designator on F.SilkS (kilib fab-designators moves it)"), "{msgs:?}");
         assert!(!msgs.iter().any(|m| m.contains("\"1\"")), "{msgs:?}");
         settled("VHRD_X", &t, Rule::Silk);
