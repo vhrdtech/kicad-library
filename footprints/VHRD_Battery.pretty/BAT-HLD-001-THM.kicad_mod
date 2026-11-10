@@ -50,14 +50,14 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr through_hole)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_arc
 		(start -8.388855 -3.785638)
 		(mid 0.12 -9.199)
 		(end 8.479989 -3.55846)
 		(stroke
-			(width 0.2)
+			(width 0.12)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -68,7 +68,7 @@
 		(mid 0.12 9.198342)
 		(end -8.388855 3.78498)
 		(stroke
-			(width 0.2)
+			(width 0.12)
 			(type solid)
 		)
 		(layer "F.SilkS")

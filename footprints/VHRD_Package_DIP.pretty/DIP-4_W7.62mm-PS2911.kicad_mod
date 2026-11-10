@@ -130,17 +130,6 @@
 		(layer "F.SilkS")
 		(uuid "a909604e-7e20-46db-bc22-895a91c19bf1")
 	)
-	(fp_rect
-		(start -1.06 -1.45)
-		(end 8.68 3.99)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.CrtYd")
-		(uuid "e3e82e35-57c2-47e2-9805-8d724f97e3b1")
-	)
 	(fp_line
 		(start 0.635 -0.27)
 		(end 1.635 -1.27)
@@ -191,6 +180,16 @@
 		(layer "F.Fab")
 		(uuid "cdf1df61-e9c3-46bf-b4e1-d861ba039826")
 	)
+	(fp_rect
+		(start -1.06 -1.52)
+		(end 8.68 4.06)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
 	(pad "1" thru_hole rect
 		(at 0 0)
 		(size 1.6 1.6)
@@ -224,7 +223,7 @@
 		(uuid "0179b067-8b5b-4e8b-aa74-7428ff266a6a")
 	)
 	(embedded_fonts no)
-	(model "${KICAD8_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-4_W7.62mm.wrl"
+	(model "${KICAD10_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-4_W7.62mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

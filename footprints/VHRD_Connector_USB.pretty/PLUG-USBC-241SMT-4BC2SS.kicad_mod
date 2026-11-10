@@ -54,7 +54,7 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr through_hole)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_rect
 		(start -3.825 -1.8)
@@ -82,7 +82,7 @@
 		(start -4.4 -0.9)
 		(end -4.4 -0.4)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "F.SilkS")
@@ -92,7 +92,7 @@
 		(start -3.65 -3.035)
 		(end -3.05 -3.035)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "F.SilkS")
@@ -102,7 +102,7 @@
 		(start 3.65 -3.035)
 		(end 3.05 -3.035)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "F.SilkS")
@@ -112,7 +112,7 @@
 		(start 4.4 -0.9)
 		(end 4.4 -0.4)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "F.SilkS")

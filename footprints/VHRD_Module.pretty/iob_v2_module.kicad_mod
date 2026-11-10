@@ -51,7 +51,7 @@
 		)
 	)
 	(solder_mask_margin 0.05)
-	(attr smd)
+	(attr through_hole)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_rect
 		(start 0 0)
@@ -63,6 +63,16 @@
 		(fill no)
 		(layer "Edge.Cuts")
 		(uuid "eafc9b45-2619-4a0d-9356-e4db6a855fa8")
+	)
+	(fp_rect
+		(start -1.25 1.12)
+		(end 33.25 33.88)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
 	)
 	(pad "1" thru_hole roundrect
 		(at 0 22.5)

@@ -57,17 +57,6 @@
 	)
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_rect
-		(start -0.8 -0.5)
-		(end 0.8 0.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.CrtYd")
-		(uuid "178d3286-0e04-4137-a7b1-a2e7792e1d13")
-	)
 	(fp_line
 		(start -0.5 -0.3)
 		(end 0.5 -0.3)
@@ -178,6 +167,16 @@
 		(layer "F.Fab")
 		(uuid "2e474f3d-68c8-4561-bbc9-e8c0e78d9eb3")
 	)
+	(fp_rect
+		(start -0.9 -0.6)
+		(end 0.9 0.6)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
 	(pad "" smd roundrect
 		(at -0.35 0)
 		(size 0.3 0.6)
@@ -207,7 +206,7 @@
 		(uuid "b519c3b6-08af-4b5c-bdfe-2458af1736ef")
 	)
 	(embedded_fonts no)
-	(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-882D.step"
+	(model "${KICAD10_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-882D.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -111,17 +111,6 @@
 		(layer "Dwgs.User")
 		(uuid "cd8df72e-9875-4627-8030-19d31207d0a2")
 	)
-	(fp_rect
-		(start -1.65 -1.25)
-		(end 1.65 1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.CrtYd")
-		(uuid "dae262df-797d-4e23-96c0-2845465776b9")
-	)
 	(fp_line
 		(start -0.675 -0.6)
 		(end -0.675 1.1)
@@ -185,6 +174,16 @@
 			(justify left bottom)
 		)
 	)
+	(fp_rect
+		(start -1.65 -1.35)
+		(end 1.65 1.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
 	(pad "1" smd roundrect
 		(at -0.95 -0.65)
 		(size 0.9 0.7)
@@ -214,7 +213,7 @@
 		(uuid "d2baa259-38a6-4a1e-aab8-39eb6f1ef119")
 	)
 	(embedded_fonts no)
-	(model "${KICAD8_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SC-82AB.wrl"
+	(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SC-82AB.step"
 		(offset
 			(xyz 0 0 0)
 		)

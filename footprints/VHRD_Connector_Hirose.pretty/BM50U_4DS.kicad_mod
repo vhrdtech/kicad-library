@@ -6,14 +6,14 @@
 	(descr "Board-to-board receptacle, 4+2 contacts, P0.35mm, Hirose BM50U-4DS/2-0.35V(53)")
 	(tags "BM50U-4DS board-to-board receptacle")
 	(property "Reference" "REF**"
-		(at -0.023 0.02 0)
+		(at -0.021 0.019 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "71b43fb2-c455-41e9-8d53-68f9962c0421")
 		(effects
 			(font
-				(size 0.95 0.95)
-				(thickness 0.143)
+				(size 0.9 0.9)
+				(thickness 0.135)
 			)
 		)
 	)
@@ -77,46 +77,6 @@
 		(layer "F.CrtYd")
 		(uuid "fa70f319-5e81-4eef-ab32-252e0c2aecff")
 	)
-	(fp_line
-		(start -2.2987 -1.0541)
-		(end -2.2987 1.0541)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "3c4030aa-2e9b-4cfd-89b9-75ed1ce05dd8")
-	)
-	(fp_line
-		(start -2.2987 1.0541)
-		(end 2.2987 1.0541)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "2eb7a25f-7836-4a20-9e9f-35d9b9184ad6")
-	)
-	(fp_line
-		(start 2.2987 -1.0541)
-		(end -2.2987 -1.0541)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "34bc940d-2d19-4682-b4be-402322ab2dbd")
-	)
-	(fp_line
-		(start 2.2987 1.0541)
-		(end 2.2987 -1.0541)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "a329c1d6-1506-4494-b795-9f358ca0ca39")
-	)
 	(fp_poly
 		(pts
 			(xy -2.231 -0.941) (xy -2.245 -0.82) (xy -2.215 -0.79) (xy -2.215 -0.65) (xy -2.245 -0.65) (xy -2.245 -0.25)
@@ -136,6 +96,21 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "5f46c4b1-e8ee-4e33-9d03-a5d7b19ee0a0")
+	)
+	(fp_poly
+		(pts
+			(xy -1.7787 -1.0541)
+			(xy 2.2987 -1.0541)
+			(xy 2.2987 1.0541)
+			(xy -2.2987 1.0541)
+			(xy -2.2987 -0.5341)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
 	)
 	(pad "1" smd rect
 		(at -0.175001 -0.984999)

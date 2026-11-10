@@ -60,7 +60,7 @@
 		(start -2.095 -1.525)
 		(end 2.095 1.525)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(fill no)
@@ -90,17 +90,6 @@
 		(layer "F.CrtYd")
 		(uuid "85aa445a-c8ed-44e8-8dd3-5adc067d86eb")
 	)
-	(fp_rect
-		(start -2.095 -1.525)
-		(end 2.095 1.525)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(fill no)
-		(layer "F.Fab")
-		(uuid "e6f39ee1-8d12-4cde-a04d-4be125866a32")
-	)
 	(fp_poly
 		(pts
 			(xy -2.095 -1.524) (xy -2.095 1.524) (xy 2.095 1.524) (xy 2.095 -1.524)
@@ -112,6 +101,21 @@
 		(fill no)
 		(layer "User.2")
 		(uuid "88716c4b-985c-4ea8-a507-d808886904ee")
+	)
+	(fp_poly
+		(pts
+			(xy -1.335 -1.525)
+			(xy 2.095 -1.525)
+			(xy 2.095 1.525)
+			(xy -2.095 1.525)
+			(xy -2.095 -0.765)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
 	)
 	(pad "1" smd circle
 		(at -1.27 -0.635)

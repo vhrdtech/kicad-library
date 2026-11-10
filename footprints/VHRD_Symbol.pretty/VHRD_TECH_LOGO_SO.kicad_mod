@@ -51,7 +51,7 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_poly
 		(pts

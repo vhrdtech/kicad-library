@@ -60,7 +60,7 @@
 		(start -2.3749 1.6764)
 		(end 2.3749 1.6764)
 		(stroke
-			(width 0.1524)
+			(width 0.12)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -70,7 +70,7 @@
 		(start 2.3749 -1.6764)
 		(end -2.3749 -1.6764)
 		(stroke
-			(width 0.1524)
+			(width 0.12)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -87,17 +87,6 @@
 		(fill yes)
 		(layer "F.SilkS")
 		(uuid "103c8c5e-0c4b-4df5-add9-31d34bec934b")
-	)
-	(fp_rect
-		(start -3.47 -1.75)
-		(end 3.47 1.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.CrtYd")
-		(uuid "100961e2-8794-419c-8fee-495a05749d1e")
 	)
 	(fp_line
 		(start -3.302 -1.1274)
@@ -469,6 +458,16 @@
 		)
 		(layer "F.Fab")
 		(uuid "5a2055d7-0ade-4abe-98cf-b19b19b2ec7e")
+	)
+	(fp_rect
+		(start -3.56 -1.8)
+		(end 3.56 1.8)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
 	)
 	(pad "1" smd rect
 		(at -2.4 -0.975)

@@ -16,6 +16,10 @@
   files; fiducials in position files; SMD or through-hole as the pads), courtyards (present, closed, 0.25 mm, 0.1 mm
   for 0201-0603 passives), 3D models (present, under `VHRD_3DMODEL_DIR` or `KICAD10_3DMODEL_DIR`, the file there),
   silkscreen (0.12 mm lines, none onto pads, no text but pin-1 marks). `just check-footprints` runs it on the library.
+- Footprints swept by `kilib lint --write` (121 of 195): 191 silkscreen fixes (lines set to 0.12 mm, lines cut
+  clear of pads), 34 courtyards drawn or grown, 30 attribute sets, 25 model paths moved to `KICAD10_3DMODEL_DIR`,
+  13 pin-1 marks added (12 fab chamfers, one silk triangle); 7 designators refitted by `kilib fab-designators`
+  after it. `kilib lint --left` lists the 87 findings left for a person.
 - `kilib stock import [--write] Lib:Name...` copies KiCad stock footprints into `footprints/VHRD_<Lib>.pretty` with
   the designator on F.Fab and the Value hidden; `kilib stock diff [--stat]` compares the copies with the current
   stock library (`--stock-dir`, else `KICAD10_FOOTPRINT_DIR`, else `/usr/share/kicad/footprints`).

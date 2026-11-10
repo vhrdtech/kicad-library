@@ -60,7 +60,7 @@
 		(start -1.074992 2.874996)
 		(end -1.074992 1.8)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "F.SilkS")
@@ -82,7 +82,7 @@
 		(start -6.724992 2.874996)
 		(end -6.724992 1.8)
 		(stroke
-			(width 0.1)
+			(width 0.12)
 			(type default)
 		)
 		(layer "B.SilkS")
