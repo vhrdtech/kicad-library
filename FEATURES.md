@@ -30,7 +30,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   footprint library
 - ✅ LIB-9 license: `LICENSE.md`, CC-BY-SA 4.0 with KiCad's library exception, the same as KiCad's own libraries;
   `README.md` for outside users, and the repo scrubbed of tpm ids, PC names and people's names
-- ✅ LIB-10 fab-designators: every footprint's designator only on its layer (F.Fab, B.Fab for bottom-side parts;
+- ✅ LIB-10 fab-designators: every footprint's designator only on its layer (F.Fab, B.Fab for bottom-side parts,
+  Ref.Des since LIB-24;
   LIB-13's layers for test points, net ties and mechanical parts), visible and unlocked (mechanical: hidden), never on
   the silkscreen and never twice (the Value: LIB-21); the ink, measured in KiCad's stroke font, centred on the body
   (fab outline, else courtyard), pads ignored, 0.02 mm clear of the other drawing on its layer beyond the strokes;
@@ -77,10 +78,18 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-21 value-layer: each footprint's Value on Value.F/B (User.17/18), shown and unlocked (mechanical: hidden),
   fitted like the designator for a long value of the kind (100k, 4.7uF, TPS54202DDC) with the designator's ink as an
   obstacle, so both read side by side; just outside the body where it holds only the designator; `kilib
-  fab-designators` checks and writes it, `--board` fits each placed footprint's own value
+  fab-designators` checks and writes it, `--board` fits each placed footprint's own value (LIB-24: real parts only,
+  centred on its own)
 - ✅ LIB-22 pin-numbers: pin numbers on Pins.F/B (User.19/20) beside the pads: every pin of a connector, pin 1 and
   every 5th (10th past 40) of other parts with three or more pins; level, 0.1 mm clear of pads, holes and each other,
   never between two pads in line, one size per footprint (0.5 to 0.2 mm); `kilib lint --rule pins`. 125 footprints;
   3 with numbers that have no room are listed
 - ✅ LIB-23 centroid-cross: a 0.5 mm cross of 0.05 mm lines on Centroid.F/B (User.21/22) at the origin of every part
   and fiducial, for checking the position file; `kilib lint --rule centroid`. 163 footprints
+- ✅ LIB-24 ref-des-layer: F.Fab/B.Fab carry the drawing alone (no text); real parts' designators on User.23/24
+  Ref.Des.F/B, centred and fitted by the LIB-10 rules clear of the fab drawing of the same side; a real part's Value
+  on Value.F/B centred the same way (the designator no obstacle, the two layers shown one at a time), sized in the
+  library for the longest typical value of its kind (100K, 100nF, 4.7uH, BAS16TW, TPS54202); test points, net ties
+  and mechanical parts keep their Value hidden on the fab layer; named in the three templates and by `kilib
+  layers`; `kilib designators` (old name `fab-designators`) checks and writes it, `--board` fits each placed
+  footprint's own designator and value. 196 footprints

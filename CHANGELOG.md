@@ -4,6 +4,19 @@
 
 ### Added
 
+- `Ref.Des.F`/`Ref.Des.B` (User.23/24), a layer pair for the designators of real parts, named in the three
+  templates and by `kilib layers --write` (existing boards get it from there). F.Fab and B.Fab now carry only the
+  drawing (outline, pin-1 and polarity marks, inner lines), no text. A real part's designator moves from the fab
+  layer to Ref.Des, centred and fitted as before (no designator moved or changed size in the sweep), still clear of
+  the fab drawing of its side.
+- `kilib designators`, the new name of `kilib fab-designators` (the old name still works). A real part's Value on
+  `Value.F`/`Value.B` is now centred on the body like the designator, no longer beside it: the two layers are shown
+  one at a time. The library sizes it for the longest typical value of the kind (`100K`, `100nF`, `4.7uH`,
+  `BAS16TW`, `TPS54202`); `--board` fits each placed part's own value. Test points, net ties, spark gaps, jumpers and
+  mechanical parts keep their Value hidden on the fab layer instead of on Value. A mechanical footprint without a
+  body (a logo drawn on the silkscreen only) is no longer skipped. Swept: 196 footprints; `L77SDE09SA4CH`'s "PCB
+  Edge" note moved from F.Fab to Fab.Notes. Boards take it with `kilib layers --write`, "Update Footprints from
+  Library" and `kilib designators --board`.
 - `VHRD_Relay_SolidState:Photorelay_1A_SOP-4`, a 1 Form A MOSFET photorelay that several makers build: Mpn1
   VO1400AEFTR (Vishay), Mpn2 AQY282SX (Panasonic), Mpn3 G3VM-61VY2(TR) (Omron), Mpn4 AB37S (Comus), Mpn5/6
   ISOM8600DFGR / ISOM8610DFGR (TI), each with its datasheet (`Datasheet`, `Datasheet2`..`Datasheet6`). Made from

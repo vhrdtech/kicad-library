@@ -69,30 +69,33 @@ same under `footprints/<name>.pretty` for footprints.
   `${VHRD_VENDOR_LIBRARY_DIR}` go to `DIR`. The text of each symbol and footprint stays as it was, except what
   `migrate` rewrites in it (model paths, `Footprint` fields). The old files are removed once the new ones are written.
   `--dry-run` lists every move.
-- `kilib fab-designators [PATH...]` keeps each footprint's designator on its own layer only (default: this
-  checkout's `footprints/`). For a part that is F.Fab (B.Fab for a bottom-side footprint); test points, net ties
-  (net ties, spark gaps, solder jumpers) and mechanical or graphic footprints (mounting holes, fiducials, logos) use
-  the layers `kilib layers` names, the class decided from the footprint's library and name and the designator's
-  prefix (TP; NT, E, JP; H, FID). The `Reference` property goes there, visible and unlocked (a mechanical one
-  hidden, where it was); `${REFERENCE}` texts on the silkscreen, and a second one on the fab layer, go. The text's ink, measured in KiCad's stroke font with its strokes, sits centred on the body: the
-  fab outline, else the courtyard. It may run over the pads, since KiCad draws the selected fab layer on top of
-  them, while text outside the body would run into the neighbouring parts. A library footprint is sized for the
-  longest designator of its kind (`R1004`, `C1001`, `TP526`, `JP104`, `U1004`). 0.02 mm stays free between the
-  text's strokes and every other line on its layer (outline, polarity and pin-1 marks, diode symbols, inner lines).
-  It gets the largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°. Where neither
-  fits, it moves to the largest free spot inside the body nearest the centre. The smallest parts (0201, 01005,
-  SOD-523) may go down to 0.15 mm, and the report lists them as "tiny". Where nothing fits at all it stays on the
-  centre at 0.2 mm, and the report lists the footprint as "no clean fit". The text's stroke is 15 % of its size, at
-  least 0.025 mm. Every line on F.Fab and B.Fab gets a 0.05 mm stroke. A footprint that already follows these rules
-  is left alone. It lists what would change, with how many designators move, get resized and turn, and the sizes
-  given, and exits 1; `--write` writes it. Boards take the new footprints through pcbnew's "Update Footprints from
-  Library". The `Value` property goes to `Value.F` (User.17; `Value.B`, User.18, on the back), shown and unlocked (a
-  mechanical footprint's hidden, where it was), fitted the same way for a long value of the kind (`100k`, `4.7uF`,
-  `TPS54202DDC`) with the designator's ink as one more obstacle: with both layers shown the two sit side by side.
-  Where the body holds only the designator, the Value goes just outside the body (0.3 mm, else 0.2 mm, nearest);
-  where not even that fits, it crosses the designator, turned the other way.
-- `kilib fab-designators --board BOARD.kicad_pcb` fits each placed footprint's own designator the same way, so
-  `R7` gets larger text than `R1004` would, and each Value on `Value.F`/`Value.B` beside it for its own text (`10k`).
+- `kilib designators [PATH...]` keeps each footprint's designator on its own layer only (default: this
+  checkout's `footprints/`; `kilib fab-designators` is its old name). F.Fab and B.Fab carry the drawing alone
+  (outline, pin-1 and polarity marks, inner lines), no text. A real part's designator goes to `Ref.Des.F` (User.23;
+  `Ref.Des.B`, User.24, for a bottom-side footprint); test points, net ties (net ties, spark gaps, solder jumpers)
+  and mechanical or graphic footprints (mounting holes, fiducials, logos) use their own layers `Ref.Test`, `Ref.Tie`
+  and `Ref.Mech`, the class decided from the footprint's library and name and the designator's prefix (TP; NT, E,
+  JP; H, FID). The `Reference` property goes there, visible and unlocked (a mechanical one hidden, where it was);
+  `${REFERENCE}` texts on the silkscreen, the fab layer and the designator's layer go. The text's ink, measured in
+  KiCad's stroke font with its strokes, sits centred on the body: the fab outline, else the courtyard. It may run
+  over the pads, since KiCad draws the selected layers on top of them, while text outside the body would run into
+  the neighbouring parts. A library footprint is sized for the longest designator of its kind (`R1004`, `C1001`,
+  `TP526`, `JP104`, `U1004`). 0.02 mm stays free between the text's strokes and every line of the fab drawing of the
+  same side (outline, polarity and pin-1 marks, diode symbols, inner lines), so the two read together. It gets the
+  largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°. Where neither fits, it moves to
+  the largest free spot inside the body nearest the centre. The smallest parts (0201, 01005, SOD-523) may go down to
+  0.15 mm, and the report lists them as "tiny". Where nothing fits at all it stays on the centre at 0.2 mm, and the
+  report lists the footprint as "no clean fit". The text's stroke is 15 % of its size, at least 0.025 mm. Every line
+  on F.Fab and B.Fab gets a 0.05 mm stroke. A footprint that already follows these rules is left alone. It lists
+  what would change, with how many designators move, get resized and turn, and the sizes given, and exits 1;
+  `--write` writes it. Boards take the new footprints through pcbnew's "Update Footprints from Library". A real
+  part's `Value` property goes to `Value.F` (User.17; `Value.B`, User.18, on the back), shown and unlocked, centred
+  and fitted the same way for the longest typical value of its kind (`100K`, `100nF`, `4.7uH`, `BAS16TW`,
+  `TPS54202`). The designator is no obstacle to it: Ref.Des and Value are both centred, so they are separate layers
+  shown one at a time. The Value of a test point, net tie or mechanical footprint stays hidden on the fab layer,
+  where it was.
+- `kilib designators --board BOARD.kicad_pcb` fits each placed footprint's own designator the same way, so `R7`
+  gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
   it. `--write` writes the board.
@@ -100,8 +103,9 @@ same under `footprints/<name>.pretty` for footprints.
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
   `Ref.Mech.F`/`Ref.Mech.B` (mounting holes, fiducials, logos; designator hidden), User.15/16 `Rooms.F`/`Rooms.B`
-  (hand-drawn outlines of the circuit blocks), User.17/18 `Value.F`/`Value.B` (each footprint's Value), User.19/20
-  `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin).
+  (hand-drawn outlines of the circuit blocks), User.17/18 `Value.F`/`Value.B` (each real part's Value), User.19/20
+  `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin),
+  User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts).
   KiCad's own `Dwgs.User`, `Cmts.User` and `User.2` are named `Dimensions`, `Fab.Notes` and `Body.F` (a part's full
   top view, a connector's body from its STEP model); a board that draws on User.2 itself keeps it unnamed, and the
   report says so. A board still in KiCad 8's layer numbering is refused: open and save it in KiCad 10 first. The
@@ -112,7 +116,7 @@ same under `footprints/<name>.pretty` for footprints.
 - `kilib lint [PATH...]` checks footprints against the library rules (default: this checkout's `footprints/`;
   `--rule` picks some of them) and lists, per footprint, what each fix changes and what is left for a person
   (`--left` only that, `--json` as JSON). It exits 1 while a fix is not written; `--write` writes them. The designator
-  belongs to `fab-designators`: run it after `--write`, since a new chamfer or courtyard can move it. The rules:
+  belongs to `designators`: run it after `--write`, since a new chamfer or courtyard can move it. The rules:
   - `pin1`: a part with three or more pins, and a polar two-pin part (diode, LED, battery, polarised capacitor; pin 1
     is the cathode or the plus), marks pin 1 on the fab layer, and on the silkscreen where it draws one. The pads
     often fit the part turned half or a quarter round; for each such turn the drawing must show a mark (a dot, a
@@ -139,7 +143,7 @@ same under `footprints/<name>.pretty` for footprints.
   - `ref-outline`: a test point draws its pad's outline on its designator layer `Ref.Test` (User.9 / User.10): a
     circle 0.05 mm outside a round pad, else a rectangle 0.05 mm round it. A net tie, spark gap or solder jumper draws
     a rectangle 0.05 mm round its pads on `Ref.Tie` (User.11 / User.12). Lines are 0.05 mm, and the drawing replaces
-    anything else on that layer. Mechanical footprints draw nothing on `Ref.Mech`. `fab-designators` then fits the
+    anything else on that layer. Mechanical footprints draw nothing on `Ref.Mech`. `designators` then fits the
     designator to this drawing as to a fab outline, and puts it beside the drawing (0.3 mm, else 0.2 mm, nearest)
     where nothing fits inside.
   - `pins`: pin numbers on `Pins.F` (User.19; `Pins.B`, User.20, on the back): every pin of a connector; pin 1 and
@@ -154,7 +158,7 @@ same under `footprints/<name>.pretty` for footprints.
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
-  the fixes of `kilib lint`, the designator and the Value placed by the fab-designators rules, the fab lines at 0.05 mm, every other byte as in stock (pads, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
+  the fixes of `kilib lint`, the designator and the Value placed by the `designators` rules, the fab lines at 0.05 mm, every other byte as in stock (pads, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
   else `KICAD10_FOOTPRINT_DIR` (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A
   footprint the library has already is left alone. It lists what it would copy and exits 1; `--write` copies. `kilib
   stock diff` compares every `VHRD_<Lib>:<Name>` that has a stock `<Lib>:<Name>` with a fresh import of it and prints
