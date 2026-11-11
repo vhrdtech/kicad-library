@@ -1014,7 +1014,8 @@ pub enum Outcome {
         before: Before,
         placement: Placement,
         value: Option<Placement>,
-        body_from: BodyFrom,
+        /// What the body was read from; None for a mechanical footprint without one (its text stays where it was).
+        body_from: Option<BodyFrom>,
         new: String,
     },
     /// Left alone.
@@ -1051,14 +1052,11 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
         return Outcome::Fine;
     }
     let Some(r) = &fp.reference else { return Outcome::Skipped("no Reference property".into()) };
-    let Some(shape) = &fp.shape else {
-        return Outcome::Skipped("no fab outline, courtyard or pads to place the designator by".into());
-    };
-    // A mechanical footprint's designator only moves to its layer, hidden, where it was.
-    let placement = if fp.class.shown() {
-        layout(shape)
-    } else {
-        Placement { x: r.x, y: r.y, angle: r.angle, size: r.height, clean: true }
+    // A mechanical footprint's designator only moves to its layer, hidden, where it was: it needs no body.
+    let placement = match &fp.shape {
+        _ if !fp.class.shown() => Placement { x: r.x, y: r.y, angle: r.angle, size: r.height, clean: true },
+        Some(shape) => layout(shape),
+        None => return Outcome::Skipped("no fab outline, courtyard or pads to place the designator by".into()),
     };
     let fab = fp.fab_layer();
     let layer = fp.ref_layer();
@@ -1073,7 +1071,7 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
     }];
     // A real part's Value centred on its own layer; any other's hidden on the fab layer, where it was.
     let value = fp.value.as_ref().map(|v| {
-        let vp = if fp.value_shown() {
+        let vp = if let Some(shape) = fp.shape.as_ref().filter(|_| fp.value_shown()) {
             layout_value(shape, &fp.values)
         } else {
             Placement { x: v.x, y: v.y, angle: v.angle, size: v.height, clean: true }
@@ -1095,7 +1093,8 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
     }
     edits.sort_by_key(|e| e.range.start);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
-    Outcome::Change { why, before, placement, value, body_from: shape.body_from, new: apply_edits(text, &edits) }
+    let body_from = fp.shape.as_ref().map(|s| s.body_from);
+    Outcome::Change { why, before, placement, value, body_from, new: apply_edits(text, &edits) }
 }
 
 /// One footprint file and its [`Outcome`].
@@ -1434,7 +1433,7 @@ mod tests {
         let Outcome::Change { placement: p, new, body_from, .. } = fix_as(&text, "VHRD_TestPoint:TestPoint_X") else {
             panic!()
         };
-        assert_eq!(body_from, BodyFrom::RefLayer);
+        assert_eq!(body_from, Some(BodyFrom::RefLayer));
         let fp = read_as(&new, "VHRD_TestPoint:TestPoint_X").unwrap();
         let shape = fp.shape.unwrap();
         let (cx, _) = shape.text_rect(p.x, p.y, p.angle, p.size).center();
@@ -1620,6 +1619,13 @@ mod tests {
         let text = footprint(3.0, 3.0, &[], "F.SilkS", &[]);
         let Outcome::Change { new, .. } = fix_as(&text, "VHRD_Symbol:LOGO") else { panic!() };
         assert!(new.contains("(at 0 -2 0)\n\t\t(unlocked yes)\n\t\t(layer \"User.13\")\n\t\t(hide yes)\n"), "{new}");
+        assert_eq!(fix_as(&new, "VHRD_Symbol:LOGO"), Outcome::Fine);
+        // A logo drawn on the silkscreen alone has no body: its texts still move, hidden, where they were.
+        let bare = format!("{})\n", text.split("\t(fp_rect").next().unwrap());
+        let Outcome::Change { new, body_from: None, .. } = fix_as(&bare, "VHRD_Symbol:LOGO") else { panic!() };
+        assert!(
+            new.contains("(layer \"User.13\")\n\t\t(hide yes)") && new.contains("(layer \"F.Fab\")\n\t\t(hide yes)")
+        );
         assert_eq!(fix_as(&new, "VHRD_Symbol:LOGO"), Outcome::Fine);
         // On the back, the back layer of the pair.
         let back = footprint(3.0, 3.0, &[], "F.SilkS", &[])

@@ -844,10 +844,11 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
                 turned += usize::from(t);
                 let angle = if p.angle == 0.0 { String::new() } else { format!(" {}°", fab::fmt(p.angle)) };
                 let from = match body_from {
-                    fab::BodyFrom::Fab => "",
-                    fab::BodyFrom::RefLayer => ", body from its reference-layer drawing",
-                    fab::BodyFrom::Courtyard => ", body from the courtyard",
-                    fab::BodyFrom::Pads => ", body from the pads",
+                    Some(fab::BodyFrom::Fab) => "",
+                    Some(fab::BodyFrom::RefLayer) => ", body from its reference-layer drawing",
+                    Some(fab::BodyFrom::Courtyard) => ", body from the courtyard",
+                    Some(fab::BodyFrom::Pads) => ", body from the pads",
+                    None => ", no body (kept where it was)",
                 };
                 let fit = if p.clean { "" } else { ", no clean fit" };
                 println!(
