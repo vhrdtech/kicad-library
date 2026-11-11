@@ -282,7 +282,7 @@
 		(roundrect_rratio 0.25)
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/VSSOP-8_2.3x2mm_P0.5mm.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/VSSOP-8_2.3x2mm_P0.5mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -249,7 +249,7 @@
 		(uuid "a9e8bdb4-a4a0-4fe0-811b-5e78c3548df7")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SMA.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Diode_SMD.3dshapes/D_SMA.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -231,7 +231,7 @@
 		(uuid "a855351f-8cac-4ba1-9d03-95174071f8fd")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-6.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_TO_SOT_SMD.3dshapes/SOT-23-6.step"
 		(offset
 			(xyz 0 0 0)
 		)

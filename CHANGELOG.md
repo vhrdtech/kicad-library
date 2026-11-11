@@ -205,6 +205,19 @@
 
 - `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
   number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
+- `VHRD_Package_DFN_QFN:Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias` (U401/U501 TPD6S300A,
+  b153a): the exposed pad's `F.Mask` opening matched its copper exactly (no margin), bridging the solder mask to
+  every perimeter pad at this part's 0.4 mm pitch (33 DRC "solder mask aperture bridges" findings across the two
+  parts). `solder_mask_margin -0.05` shrinks the opening 0.05 mm inside the copper, TI's own "solder mask defined"
+  option for this land pattern (RUK0020B package drawing, `ti.com/lit/pdf/qfnd191`); confirmed against a scratch
+  copy of the board (0 bridges left).
+- Every stock-imported footprint's 3D model repointed from `${KICAD10_3DMODEL_DIR}` to
+  `${VHRD_3DMODEL_DIR}/vendor/...` (54 footprints, 47 distinct models): no footprint depends on KiCad's stock 3D
+  model package, which is not installed on these PCs. 43 of the 47 STEP files come straight from KiCad's own
+  `kicad-packages3d` (CC-BY-SA 4.0, same licence as the rest of KiCad's library); 4 have no upstream model at all
+  (`Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm`, `VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm`,
+  `SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.35x2.35mm`, `Texas_R-PDSO-G5_DCK-5`) and stay reported by `kilib lint --rule
+  models` until one is made or found.
 
 ## [0.1.0] - 2026-10-17
 

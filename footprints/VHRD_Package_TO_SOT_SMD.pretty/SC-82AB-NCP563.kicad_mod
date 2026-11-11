@@ -242,7 +242,7 @@
 		(uuid "d2baa259-38a6-4a1e-aab8-39eb6f1ef119")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SC-82AB.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_TO_SOT_SMD.3dshapes/SC-82AB.step"
 		(offset
 			(xyz 0 0 0)
 		)

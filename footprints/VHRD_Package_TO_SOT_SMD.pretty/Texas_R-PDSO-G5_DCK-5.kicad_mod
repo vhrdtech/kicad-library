@@ -256,7 +256,7 @@
 		(uuid "222967f9-2584-408d-8411-9d0a3bcd6b5a")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/Texas_R-PDSO-G5_DCK-5.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_TO_SOT_SMD.3dshapes/Texas_R-PDSO-G5_DCK-5.step"
 		(offset
 			(xyz 0 0 0)
 		)

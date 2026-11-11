@@ -168,7 +168,7 @@
 		(uuid "7a21e801-c207-4edb-8d09-62759fc6e4f6")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_Changjiang_FNR5030S.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Inductor_SMD.3dshapes/L_Changjiang_FNR5030S.step"
 		(offset
 			(xyz 0 0 0.1)
 		)

@@ -522,7 +522,7 @@
 		(uuid "abc56c5b-9efb-41e3-9399-06a7ed8643c2")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_DFN_QFN.3dshapes/QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_DFN_QFN.3dshapes/QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

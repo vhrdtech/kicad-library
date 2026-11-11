@@ -350,7 +350,7 @@
 		(uuid "c880ad76-0b4f-479f-9444-8443dc102c77")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/SO-8_3.9x4.9mm_P1.27mm.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SO-8_3.9x4.9mm_P1.27mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -252,7 +252,7 @@
 		(uuid "0179b067-8b5b-4e8b-aa74-7428ff266a6a")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_DIP.3dshapes/DIP-4_W7.62mm.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_DIP.3dshapes/DIP-4_W7.62mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

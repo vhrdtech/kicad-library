@@ -62,8 +62,9 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-16 courtyard-clearance: a closed courtyard 0.25 mm from pads and body, 0.1 mm for 0201 to 0603 passives;
   `kilib lint --rule courtyard` draws missing ones and grows rectangular ones
 - ✅ LIB-17 model-paths: every part has a 3D model under `${VHRD_3DMODEL_DIR}` or `${KICAD10_3DMODEL_DIR}` that exists;
-  `kilib lint --rule models` moves older KiCad variables to KICAD10 and lists missing models and files. Next: the
-  library sweep, the files checked on a PC with the models
+  `kilib lint --rule models` moves older KiCad variables to KICAD10 and lists missing models and files. Swept: every
+  stock-imported footprint moved off `${KICAD10_3DMODEL_DIR}` onto `${VHRD_3DMODEL_DIR}/vendor/...` (no part depends
+  on KiCad's stock 3D package); 4 of the 47 models have no upstream STEP file at all and stay reported missing
 - ✅ LIB-18 silk-rules: silkscreen lines 0.12 mm, none onto a pad's mask opening, no text but pin-1 marks; `kilib lint
   --rule silk` sets widths and cuts lines round pads; `just check-footprints`
 - ✅ LIB-19 ref-layer-outlines: test points draw their pad outline on Ref.Test, net ties, spark gaps and jumpers a box

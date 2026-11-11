@@ -565,6 +565,7 @@
 		(size 1.7 1.7)
 		(property pad_prop_heatsink)
 		(layers "F.Cu" "F.Mask")
+		(solder_mask_margin -0.05)
 		(zone_connect 2)
 	)
 	(pad "21" smd rect
@@ -591,7 +592,7 @@
 		(remove_unused_layers no)
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Package_DFN_QFN.3dshapes/Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm.step"
+	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_DFN_QFN.3dshapes/Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm.step"
 		(offset
 			(xyz 0 0 0)
 		)
