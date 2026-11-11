@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at 6.143 17.794 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "2b34f431-5c5c-421c-8f2e-6582fd7a7b4d")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "PinHeader_2x15_P2.54mm_Horizontal"
-		(at 4.999 17.732 90)
+		(at 6.175 17.749 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "342f39fa-d1b9-4340-953c-78147369c7d4")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.65 0.65)
+				(thickness 0.098)
 			)
 		)
 	)

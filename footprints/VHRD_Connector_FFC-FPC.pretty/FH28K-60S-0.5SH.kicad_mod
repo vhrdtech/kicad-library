@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 3.221 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "771ac0fe-a029-46cb-9532-284cbd97287b")
 		(effects
 			(font
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "FH28K-60S-0.5SH"
-		(at 0.048 1.869 0)
+		(at 0.048 3.269 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "65ab0932-b1ef-4730-b4a7-46b2439c8474")

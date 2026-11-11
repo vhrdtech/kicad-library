@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.286 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "f9252eae-6f3a-4f87-b91f-df40581d115a")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "Molex_Pico-Lock_504050-0491_1x04-1MP_P1.50mm_Horizontal"
-		(at 0.043 -0.923 0)
+		(at 0.048 0.334 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "449ecbf6-3c8a-4804-a2dd-a723eafad707")
 		(effects
 			(font
-				(size 0.9 0.9)
-				(thickness 0.135)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

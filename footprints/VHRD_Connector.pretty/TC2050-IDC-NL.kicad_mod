@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "d00cdff0-396a-4b71-919b-352fdcb45f3b")
 		(effects
 			(font
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "TC2050-IDC-NL"
-		(at 0.048 -1.231 0)
+		(at 0.048 0.069 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "a49c56d5-5504-4ccb-8692-6c6887842c06")

@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "18d4c0a9-4a4f-4799-a36f-c5dce2309197")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias"
-		(at 0.021 -0.919 0)
+		(at 0.031 0.045 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "3feb8947-3fee-4363-819c-cf6f92510f3e")
 		(effects
 			(font
-				(size 0.45 0.45)
-				(thickness 0.068)
+				(size 0.65 0.65)
+				(thickness 0.098)
 			)
 		)
 	)

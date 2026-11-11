@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.048 -1.081 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "c3d652a5-8bc2-4c40-9245-e6ff23bcaf4f")
 		(effects
 			(font
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "D_PowerDI-5"
-		(at -0.038 1.086 0)
+		(at -0.038 -1.014 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "0e3cf3bd-2ac0-4a32-af92-01aefbc208c1")

@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 3.071 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "38bb6cb3-1332-4557-8709-85a473243d07")
 		(effects
 			(font
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "DE9_Plug_09551667812741"
-		(at 0.048 1.719 0)
+		(at 0.048 3.119 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "8039792d-44f2-41ea-89ba-53462cc01a58")

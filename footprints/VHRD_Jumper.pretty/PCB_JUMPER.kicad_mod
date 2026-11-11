@@ -18,7 +18,8 @@
 	(property "Value" "PCB_JUMPER"
 		(at -3.711 -0.001 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
+		(hide yes)
 		(uuid "342e9f20-af05-49ee-8523-08dc714422c5")
 		(effects
 			(font

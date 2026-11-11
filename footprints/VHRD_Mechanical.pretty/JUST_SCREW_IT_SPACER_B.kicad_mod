@@ -19,7 +19,7 @@
 	(property "Value" "Just Screw It Spacer B"
 		(at 0 1 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "969c52c0-1754-41d9-83d1-52f5d3236f64")
 		(effects

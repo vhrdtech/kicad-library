@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at 15.976 17.521 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "65b713e4-1379-4606-9303-3fae884d919b")
 		(effects
 			(font
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "iob_v2_module"
-		(at 16.048 16.169 0)
+		(at 16.048 17.569 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "dc79c1cc-2b0a-43dd-baae-7c80de5751e2")

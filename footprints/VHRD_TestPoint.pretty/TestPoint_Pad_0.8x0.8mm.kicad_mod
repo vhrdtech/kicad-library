@@ -20,7 +20,8 @@
 	(property "Value" "TestPoint_Pad_0.8x0.8mm"
 		(at -0.686 0 90)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
+		(hide yes)
 		(uuid "a43b1be7-8a7d-4d69-8fab-4e062ab6978d")
 		(effects
 			(font

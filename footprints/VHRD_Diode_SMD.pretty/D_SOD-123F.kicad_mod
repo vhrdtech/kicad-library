@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -1.026 0.017 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
 		(effects
 			(font
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "D_SOD-123F"
-		(at 0.962 0.012 90)
+		(at -0.938 0.012 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2e60d6e3-992e-495d-bf9d-913218a820e9")

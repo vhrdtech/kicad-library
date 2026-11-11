@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "257654fc-fef1-4ca7-b9d8-f4edd47c8cba")
 		(effects
 			(font
@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "vb125c1_button_board"
-		(at 0.024 -0.966 0)
+		(at 0.059 -0.04 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "936700ae-a24f-41dd-a2fc-ce10c6d4d6bd")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.85 0.85)
+				(thickness 0.128)
 			)
 		)
 	)

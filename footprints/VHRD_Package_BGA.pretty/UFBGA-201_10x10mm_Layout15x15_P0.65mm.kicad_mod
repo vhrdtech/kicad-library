@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "9687bc23-7d93-4373-b2d2-c923ce02c076")
 		(effects
 			(font
@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "UFBGA-201_10x10mm_Layout15x15_P0.65mm"
-		(at 0.045 -1.234 0)
+		(at 0.048 0.069 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "01fcd076-a2cf-4b07-82c1-de251baf7493")
 		(effects
 			(font
-				(size 0.95 0.95)
-				(thickness 0.143)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

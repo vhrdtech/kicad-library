@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -1.042 0.024 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "b35f6c6e-4127-4c64-b5c7-97ec20d0dc8b")
 		(effects
 			(font
@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "DIOB_HDS10M-13"
-		(at -0.082 -0.021 90)
+		(at -1.018 -0.031 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "4e5b4f12-42ff-421b-8c87-b8113c58e385")
 		(effects
 			(font
-				(size 0.45 0.45)
-				(thickness 0.068)
+				(size 0.65 0.65)
+				(thickness 0.098)
 			)
 		)
 	)

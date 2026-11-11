@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at 0.005 0.005 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "71f21c87-cb66-4fa1-a20f-00e3a64b288c")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "TI-RSW0010A"
-		(at 0.312 -0.008 90)
+		(at 0.016 -0.011 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "8051f582-2477-4388-a87a-937c17b2b9f6")
 		(effects
 			(font
-				(size 0.17 0.17)
-				(thickness 0.026)
+				(size 0.23 0.23)
+				(thickness 0.035)
 			)
 		)
 	)

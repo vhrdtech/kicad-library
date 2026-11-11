@@ -48,6 +48,8 @@
 		(77 "User.20" back "Pins.B")
 		(79 "User.21" front "Centroid.F")
 		(81 "User.22" back "Centroid.B")
+		(83 "User.23" front "Ref.Des.F")
+		(85 "User.24" back "Ref.Des.B")
 	)
 	(setup
 		(stackup

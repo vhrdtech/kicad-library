@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at 2.286 5.821 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "6579e4cd-4c5a-4a88-99bd-43bd84579899")
 		(effects
 			(font
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "L77SDE09SA4CH"
-		(at 2.358 4.469 0)
+		(at 2.358 5.869 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "f4048409-21d2-42b3-b37b-ff5a866377c0")
@@ -301,7 +301,7 @@
 	)
 	(fp_text user "PCB Edge"
 		(at 17.485 9.36 0)
-		(layer "F.Fab")
+		(layer "Cmts.User")
 		(uuid "fc285867-3944-48a8-863a-22c0940bc33b")
 		(effects
 			(font

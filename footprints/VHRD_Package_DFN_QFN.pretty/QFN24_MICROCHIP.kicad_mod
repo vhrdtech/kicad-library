@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.019 0.017 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "f9a2a949-cf5f-47a5-9502-a382b4c1270c")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "QFN24_MICROCHIP"
-		(at 0.017 -0.726 0)
+		(at 0.024 0.034 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "b72d8a24-3629-42b8-abdc-fb8f6adb2619")
 		(effects
 			(font
-				(size 0.35 0.35)
-				(thickness 0.053)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

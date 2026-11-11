@@ -19,7 +19,7 @@
 	(property "Value" "VHRD_TECH_LOGO_M"
 		(at 0.1 -0.05 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "7f0f7719-4993-438d-862f-50aa75b489e4")
 		(effects

@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.021 0.019 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "71b43fb2-c455-41e9-8d53-68f9962c0421")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "BM50U_HIR"
-		(at 0.014 -0.779 0)
+		(at 0.029 0.041 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2fcf4275-4ae9-48aa-84e8-18e599bc8ce1")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

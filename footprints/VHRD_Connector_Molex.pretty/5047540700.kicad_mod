@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at 0.877 -1.285 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "2b823171-a64a-4ec3-9804-696ded2232fd")
 		(effects
 			(font
@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "5047540700"
-		(at 0.919 -2.177 0)
+		(at 0.929 -1.264 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "24057ec0-67ee-4ff7-a4c5-183f96ff881b")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

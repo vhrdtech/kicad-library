@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at -0.019 0.028 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(effects
 			(font
 				(size 0.4 0.4)
@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "R_0805_2012Metric"
-		(at 0 -0.389 0)
+		(at 0 0.034 0)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
 			(font
-				(size 0.24 0.24)
-				(thickness 0.036)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

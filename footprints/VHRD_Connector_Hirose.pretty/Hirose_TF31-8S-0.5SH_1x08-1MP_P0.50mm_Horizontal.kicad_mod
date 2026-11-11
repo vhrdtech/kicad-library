@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 1.346 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "30cc7018-f7a4-4885-8bb3-1a3ec5268951")
 		(effects
 			(font
@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "Hirose_FH12-8S-0.5SH_1x08-1MP_P0.50mm_Horizontal"
-		(at 0.036 0.227 0)
+		(at 0.048 1.394 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "32f5c503-00a3-4b68-9f1e-d0f2fdd8c451")
 		(effects
 			(font
-				(size 0.75 0.75)
-				(thickness 0.112)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

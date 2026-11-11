@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at 0.008 0.008 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "79b7b447-0e28-4c98-b659-0ec7d5f058b5")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "Texas_R-PDSO-G5_DCK-5"
-		(at 0.412 -0.009 90)
+		(at 0.018 -0.012 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "91d30185-1675-4630-8019-ab2236d913f0")
 		(effects
 			(font
-				(size 0.18 0.18)
-				(thickness 0.027)
+				(size 0.26 0.26)
+				(thickness 0.039)
 			)
 		)
 	)

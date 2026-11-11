@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "8afda185-5862-485f-a78e-75a079067435")
 		(effects
 			(font
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "BAT-HLD-001-THM"
-		(at 0.048 -1.281 0)
+		(at 0.048 0.069 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "1b566072-a3e9-44c4-bb7c-c5db19e1bf42")

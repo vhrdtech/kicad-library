@@ -7,7 +7,8 @@
 	(tags "Logo RoHS")
 	(property "Reference" "REF**"
 		(at 0 0 0)
-		(layer "F.SilkS")
+		(unlocked yes)
+		(layer "User.13")
 		(hide yes)
 		(uuid "43da81db-166c-4b47-a245-e999d089b4b5")
 		(effects
@@ -19,6 +20,7 @@
 	)
 	(property "Value" "RoHS-Logo_6mm_SilkScreen"
 		(at 0.75 0 0)
+		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "b996868a-08b1-4468-bc74-0847960144b8")

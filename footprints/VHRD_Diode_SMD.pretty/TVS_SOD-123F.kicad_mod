@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -1.042 0.008 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "TVS_SOD-123F"
-		(at 0.108 -0.688 0)
+		(at -0.934 -0.011 90)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2e60d6e3-992e-495d-bf9d-913218a820e9")
 		(effects
 			(font
-				(size 0.17 0.17)
-				(thickness 0.026)
+				(size 0.23 0.23)
+				(thickness 0.035)
 			)
 		)
 	)

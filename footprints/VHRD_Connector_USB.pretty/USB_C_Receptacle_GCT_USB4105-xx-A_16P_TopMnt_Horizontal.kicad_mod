@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "7b1f3c12-8a36-40a6-b14d-366bdb38aef6")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
-		(at 0.04 -1.141 0)
+		(at 0.048 0.069 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "a16704b8-f708-4be2-a8dc-773b3c8b6f67")
 		(effects
 			(font
-				(size 0.85 0.85)
-				(thickness 0.128)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

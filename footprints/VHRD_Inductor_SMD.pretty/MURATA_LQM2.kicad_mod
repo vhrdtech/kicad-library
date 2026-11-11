@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.014 0.013 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "aaa155a5-c16b-4243-a80c-1ef404d2d2a3")
 		(effects
 			(font
@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "MURATA_LQM2"
-		(at 0.013 -0.581 0)
+		(at 0.017 0.024 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "dabade54-a9ca-4bc8-a619-c8a7dafb6eed")
 		(effects
 			(font
-				(size 0.27 0.27)
-				(thickness 0.041)
+				(size 0.35 0.35)
+				(thickness 0.053)
 			)
 		)
 	)

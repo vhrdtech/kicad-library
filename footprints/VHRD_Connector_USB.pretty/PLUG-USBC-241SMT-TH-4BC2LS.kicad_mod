@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 4.071 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "a2c0905b-6210-4329-b6c6-31af9b097641")
 		(effects
 			(font
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "PLUG-USBC-241SMT-TH-4BC2LS"
-		(at -2.931 4.002 90)
+		(at 0.048 4.119 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "15e3dde7-e2de-4c55-9d08-3ba3aeeaef7b")

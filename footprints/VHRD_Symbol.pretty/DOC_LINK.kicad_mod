@@ -19,7 +19,7 @@
 	(property "Value" "DOC_LINK"
 		(at 3.5 1.1 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "ea0465fd-57d8-4908-8abf-f2e941a56112")
 		(effects

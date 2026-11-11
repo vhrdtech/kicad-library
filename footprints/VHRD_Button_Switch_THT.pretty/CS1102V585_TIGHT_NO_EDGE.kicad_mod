@@ -8,7 +8,7 @@
 	(property "Reference" "S**"
 		(at -0.024 -1.25 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "bc604176-64d5-4624-a473-b15e4bc72920")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "CS1102V585_TIGHT"
-		(at 0.031 -2.326 0)
+		(at 0.045 -1.205 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "0d870033-0da1-47e5-8139-fd772ac175c7")
 		(effects
 			(font
-				(size 0.65 0.65)
-				(thickness 0.098)
+				(size 0.95 0.95)
+				(thickness 0.143)
 			)
 		)
 	)

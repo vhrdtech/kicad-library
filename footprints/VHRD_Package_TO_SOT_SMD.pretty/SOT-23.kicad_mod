@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at 0.012 0.013 90)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(effects
 			(font
 				(size 0.55 0.55)
@@ -16,13 +16,13 @@
 		)
 	)
 	(property "Value" "SOT-23"
-		(at -0.488 -0.008 90)
+		(at 0.024 -0.017 90)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
 			(font
-				(size 0.17 0.17)
-				(thickness 0.026)
+				(size 0.35 0.35)
+				(thickness 0.053)
 			)
 		)
 	)

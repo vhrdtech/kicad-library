@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.399 0.021 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "fba54e13-284d-4206-8c45-4be2fd185a31")
 		(effects
 			(font
@@ -18,14 +18,14 @@
 		)
 	)
 	(property "Value" "TC2050-IDC-FP"
-		(at -0.33 -1.234 0)
+		(at -0.327 0.069 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "afd5401f-d2d7-4c79-b75e-29364200fc5d")
 		(effects
 			(font
-				(size 0.95 0.95)
-				(thickness 0.143)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

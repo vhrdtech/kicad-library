@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at -0.024 9.036 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "789297ae-06bd-4316-a4bf-807f832e5a07")
 		(effects
 			(font
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "RJ45_Abracon_ARJM11_7POE_LED"
-		(at 0.048 7.734 0)
+		(at 0.048 9.084 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "995fc33c-26a9-47b2-9e29-ff30dddb6667")

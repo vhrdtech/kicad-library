@@ -21,7 +21,7 @@
 	(property "Value" "MountingHole_1.8mm_M1.6"
 		(at 0 3.15 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "aa950be6-e8fd-4cce-94c8-cb68a9b96010")
 		(effects

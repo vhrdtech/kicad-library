@@ -20,7 +20,8 @@
 	(property "Value" "SolderJumper-2_0402"
 		(at -0.007 -0.601 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
+		(hide yes)
 		(uuid "47090aa3-9309-4fe1-8b8d-3a99dfbe88f2")
 		(effects
 			(font

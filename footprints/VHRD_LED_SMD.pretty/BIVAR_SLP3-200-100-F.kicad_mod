@@ -6,7 +6,7 @@
 	(property "Reference" "REF**"
 		(at -0.021 0.019 0)
 		(unlocked yes)
-		(layer "F.Fab")
+		(layer "User.23")
 		(uuid "fac81072-9656-4d46-872b-939bf9c7a7e5")
 		(effects
 			(font
@@ -16,14 +16,14 @@
 		)
 	)
 	(property "Value" "BIVAR_SLP3-200-100-F"
-		(at 0.019 -0.822 0)
+		(at 0.029 0.041 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "dbdd09a6-0831-4e3d-b39a-e8b6ea1a4889")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

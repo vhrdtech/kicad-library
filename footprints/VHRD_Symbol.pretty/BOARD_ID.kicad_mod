@@ -19,7 +19,7 @@
 	(property "Value" "BOARD_ID"
 		(at 3.5 1.1 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "b611aa19-bb3b-4cd6-8a12-3b5bcb811b1d")
 		(effects

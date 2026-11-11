@@ -20,7 +20,8 @@
 	(property "Value" "NetTie-2_SMD_Pad0.15mm"
 		(at -0.007 0.399 0)
 		(unlocked yes)
-		(layer "User.17")
+		(layer "F.Fab")
+		(hide yes)
 		(uuid "dddc8d15-4163-4ac9-825c-763e703c9522")
 		(effects
 			(font
