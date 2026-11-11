@@ -168,9 +168,9 @@ fn migrated_boards_resolve_against_the_restructured_library() {
     assert!(lost.is_empty(), "in the library before the move, not found after it:\n{}", lost.join("\n"));
 }
 
-/// Every board's designators fitted (`fab-designators --board`) and the user layers named (`kilib layers`) on a
-/// temporary copy: both parse every board, change only what they own (the Reference's at, size and thickness; the
-/// layer table) and change nothing on a second run.
+/// Every board's designators and values fitted (`designators --board`) and the user layers named (`kilib layers`)
+/// on a temporary copy: both parse every board, change only what they own (the Reference's and the Value's at, size
+/// and thickness; the layer table) and change nothing on a second run.
 #[test]
 fn board_designators_and_layers_on_a_copy_of_the_boards() {
     let Some(from) = boards() else { return };

@@ -172,7 +172,7 @@ pub fn run(i: &Input) -> Outcome {
         }
         for t in fp.texts.iter().filter(|t| t.layer == layer && !t.hidden) {
             if t.kind == "Reference" || t.text.contains("${REFERENCE}") {
-                out.left(format!("designator on {layer} (kilib fab-designators moves it)"));
+                out.left(format!("designator on {layer} (kilib designators moves it)"));
             } else if t.kind == "Value" {
                 out.left(format!("Value shown on {layer}"));
             } else if !MARKS.contains(&t.text.trim()) {
@@ -247,7 +247,7 @@ mod tests {
         let msgs: Vec<&str> = f.iter().map(|f| f.message.as_str()).collect();
         assert!(msgs.contains(&"text \"PWR\" on F.SilkS"), "{msgs:?}");
         assert!(msgs.contains(&"pin number \"2\" on F.SilkS (only pin 1 is marked)"), "{msgs:?}");
-        assert!(msgs.contains(&"designator on F.SilkS (kilib fab-designators moves it)"), "{msgs:?}");
+        assert!(msgs.contains(&"designator on F.SilkS (kilib designators moves it)"), "{msgs:?}");
         assert!(!msgs.iter().any(|m| m.contains("\"1\"")), "{msgs:?}");
         settled("VHRD_X", &t, Rule::Silk);
     }

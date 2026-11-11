@@ -395,7 +395,7 @@ fn restructure_dry_run_lists_every_move_then_moves() {
 }
 
 #[test]
-fn fab_designators_lists_then_writes_then_finds_nothing() {
+fn designators_lists_then_writes_then_finds_nothing() {
     let dir = TestDir::new("cli_fab");
     // A SOIC-like part: Reference on silk, a second ${REFERENCE} on the fab layer.
     let mut fp = String::from(
@@ -417,7 +417,7 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     dir.write("lib/footprints/VHRD_Test.pretty/Tiny.kicad_mod", &tiny);
     std::fs::create_dir_all(dir.path().join("lib/symbols")).unwrap();
 
-    let out = kilib(&dir, &["fab-designators", "lib/footprints"]);
+    let out = kilib(&dir, &["designators", "lib/footprints"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
     assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0.021, 0.024) (Reference on F.SilkS;"), "{t}");
@@ -429,14 +429,15 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     assert!(t.contains("no clean fit (1: centred at 0.2 mm over the drawing or past the body): VHRD_Test:Tiny"), "{t}");
     assert_eq!(std::fs::read_to_string(&path).unwrap(), fp, "nothing written without --write");
 
+    // The old name still works.
     let out = kilib(&dir, &["fab-designators", "--write", "lib/footprints"]);
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     let new = std::fs::read_to_string(&path).unwrap();
-    assert!(new.contains("(layer \"F.Fab\")\n\t\t(uuid \"r\")") && !new.contains("${REFERENCE}"), "{new}");
+    assert!(new.contains("(layer \"User.23\")\n\t\t(uuid \"r\")") && !new.contains("${REFERENCE}"), "{new}");
 
     // From inside the checkout, without paths: its footprints/.
     let mut cmd = Command::new(env!("CARGO_BIN_EXE_kilib"));
-    cmd.args(["fab-designators"])
+    cmd.args(["designators"])
         .env_clear()
         .env("HOME", dir.path().join("home"))
         .env("XDG_STATE_HOME", dir.path().join("state"))
@@ -448,44 +449,47 @@ fn fab_designators_lists_then_writes_then_finds_nothing() {
     assert!(t.contains("0 to change (0 moved, 0 resized, 0 turned), 3 already fine"), "{t}");
     assert!(t.contains("✓ nothing to change") && t.contains("no clean fit (1:"), "{t}");
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
-    assert!(usage.contains("\tfab-designators\twrite,paths\n"), "{usage}");
+    assert!(usage.contains("\tdesignators\twrite,paths\n"), "{usage}");
 }
 
 #[test]
-fn fab_designators_board_fits_each_designator_to_its_own_text() {
+fn designators_board_fits_each_designator_and_value_to_its_own_text() {
     let dir = TestDir::new("cli_fab_board");
-    // Two 0402s already updated from the library (Reference on the fab layer at 0.2 mm), one turned 90° on the
-    // board, and one not updated yet (Reference on the silkscreen).
-    let part = |r: &str, at: &str, layer: &str| {
+    // Two 0402s already updated from the library (Reference on Ref.Des at 0.2 mm, Value on Value), one turned 90°
+    // on the board, and one not updated yet (Reference on the silkscreen, Value hidden on the fab layer).
+    let part = |r: &str, at: &str, layer: &str, value: &str| {
         format!(
-            "\t(footprint \"VHRD_Resistor_SMD:R_0402_1005Metric\"\n\t\t(layer \"F.Cu\")\n\t\t(at {at})\n\t\t(property \"Reference\" \"{r}\"\n\t\t\t(at 0 0 0)\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{layer}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.2 0.2)\n\t\t\t\t\t(thickness 0.03)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t\t(fp_rect\n\t\t\t(start -0.525 -0.27)\n\t\t\t(end 0.525 0.27)\n\t\t\t(stroke\n\t\t\t\t(width 0.05)\n\t\t\t\t(type solid)\n\t\t\t)\n\t\t\t(layer \"F.Fab\")\n\t\t)\n\t\t(pad \"1\" smd rect\n\t\t\t(at -0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t\t(pad \"2\" smd rect\n\t\t\t(at 0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t)\n"
+            "\t(footprint \"VHRD_Resistor_SMD:R_0402_1005Metric\"\n\t\t(layer \"F.Cu\")\n\t\t(at {at})\n\t\t(property \"Reference\" \"{r}\"\n\t\t\t(at 0 0 0)\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{layer}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.2 0.2)\n\t\t\t\t\t(thickness 0.03)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t\t(property \"Value\" \"10K\"\n\t\t\t(at 0 0 0)\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{value}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.2 0.2)\n\t\t\t\t\t(thickness 0.03)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t\t(fp_rect\n\t\t\t(start -0.525 -0.27)\n\t\t\t(end 0.525 0.27)\n\t\t\t(stroke\n\t\t\t\t(width 0.05)\n\t\t\t\t(type solid)\n\t\t\t)\n\t\t\t(layer \"F.Fab\")\n\t\t)\n\t\t(pad \"1\" smd rect\n\t\t\t(at -0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t\t(pad \"2\" smd rect\n\t\t\t(at 0.48 0)\n\t\t\t(size 0.56 0.62)\n\t\t)\n\t)\n"
         )
     };
     let board = format!(
         "(kicad_pcb\n\t(version 20260206)\n{}{}{})\n",
-        part("R806", "10 10", "F.Fab"),
-        part("R1", "20 10 90", "F.Fab"),
-        part("R2", "30 10", "F.SilkS")
+        part("R806", "10 10", "User.23", "User.17"),
+        part("R1", "20 10 90", "User.23", "User.17"),
+        part("R2", "30 10", "F.SilkS", "F.Fab")
     );
     let path = dir.write("b.kicad_pcb", &board);
-    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb"]);
+    let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
     // R806 is shorter than R1004: 0.26 mm fits; R1 larger still, written upright at the board's 90°.
     assert!(t.contains("R806: 0.26 mm 0° at ("), "{t}");
     assert!(t.contains("R1: 0.35 mm 90° at ("), "{t}");
+    // Each 10K value centred on its own, larger than its designator.
+    assert!(t.contains("R806 value: 0.35 mm 0° at (0, 0.016)") && t.contains("R1 value: 0.35 mm 90° at ("), "{t}");
+    assert!(t.contains("1 skipped; 2 values to change"), "{t}");
     assert!(t.contains("3 footprints: 2 to change, 0 already fine, 1 skipped"), "{t}");
     assert!(
-        t.contains("skipped (1: Reference on F.SilkS, not F.Fab (update the footprint from the library)): R2"),
+        t.contains("skipped (1: Reference on F.SilkS, not User.23 (update the footprint from the library)): R2"),
         "{t}"
     );
     assert_eq!(std::fs::read_to_string(&path).unwrap(), board, "nothing written without --write");
 
-    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb", "--write"]);
+    let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb", "--write"]);
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     let new = std::fs::read_to_string(&path).unwrap();
     assert!(new.contains("(size 0.26 0.26)\n\t\t\t\t\t(thickness 0.039)"), "{new}");
-    // Only the Reference's at, size and thickness changed.
+    // Only the Reference's and the Value's at, size and thickness changed.
     let strip = |s: &str| {
         s.lines()
             .filter(|l| !l.contains("(at ") && !l.contains("(size 0.") && !l.contains("(thickness "))
@@ -494,7 +498,7 @@ fn fab_designators_board_fits_each_designator_to_its_own_text() {
     };
     assert_eq!(strip(&new), strip(&board));
     assert_eq!(new.lines().count(), board.lines().count());
-    let out = kilib(&dir, &["fab-designators", "--board", "b.kicad_pcb"]);
+    let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(0), "{t}");
     assert!(t.contains("0 to change, 2 already fine, 1 skipped") && t.contains("✓ nothing to change"), "{t}");
@@ -535,7 +539,7 @@ fn stock_import_writes_copies_and_diff_shows_upstream_changes() {
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     let new = std::fs::read_to_string(&copy).unwrap();
     assert!(new.contains("(unlocked yes)\n\t\t(layer \"User.17\")"), "{new}");
-    assert!(new.contains("(unlocked yes)\n\t\t(layer \"F.Fab\")"), "{new}");
+    assert!(new.contains("(unlocked yes)\n\t\t(layer \"User.23\")"), "{new}");
 
     let out = run(args(&["diff"]));
     let t = text(&out);

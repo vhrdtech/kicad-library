@@ -53,7 +53,7 @@ Examples:
   kilib check --json board.kicad_pcb    the same for one file, as JSON
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
-  kilib fab-designators                 which footprints still put the designator on the silkscreen
+  kilib designators                     which footprints' designators and values are not yet on their layers
   kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
   kilib lint --left                     what the footprint rules leave for a person (pin 1, courtyards, models...)
@@ -181,16 +181,17 @@ Examples:
     ///
     /// The copies are on purpose: a KiCad update never changes our footprints unannounced. `import` copies
     /// Lib:Name from KiCad's footprint folder to footprints/VHRD_Lib.pretty/Name.kicad_mod with the designator on
-    /// the fab layer, its lines at 0.05 mm and the Value on Value.F (as fab-designators puts them); pads, other
+    /// Ref.Des.F, the Value on Value.F and the fab lines at 0.05 mm (as `designators` puts them); pads, other
     /// graphics and the 3D model stay as in stock. `diff` shows, for every copy with a stock footprint of the same
     /// name, what a fresh import would change, so upstream changes are taken in deliberately.
     #[command(subcommand)]
     Stock(StockCommand),
     /// Name the user layers kicad-library uses in boards' layer tables
     ///
-    /// Test points, net ties and mechanical footprints carry their designator on a layer of their own (User.9/10
-    /// Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14 Ref.Mech.F/B), and User.15/16 Rooms.F/B hold hand-drawn
-    /// outlines of the circuit blocks. User.17/18 Value.F/B carry the Value beside the designator, User.19/20
+    /// Real parts carry their designator on User.23/24 Ref.Des.F/B; test points, net ties and mechanical
+    /// footprints on a layer of their own (User.9/10 Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14
+    /// Ref.Mech.F/B); F.Fab and B.Fab keep the drawing alone. User.15/16 Rooms.F/B hold hand-drawn outlines of the
+    /// circuit blocks. User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
     /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin. Each pair is
     /// typed front and back, so KiCad flips a bottom-side footprint's text onto the back layer. KiCad's own
     /// Dwgs.User, Cmts.User and User.2 are named Dimensions, Fab.Notes and Body.F (a part's full top view); User.2
@@ -210,32 +211,36 @@ Examples:
         #[arg(long)]
         write: bool,
     },
-    /// Put each footprint's designator on the fab layer only, centred on the body, and its Value beside it
+    /// Put each footprint's designator on its designator layer and a real part's Value on Value, both centred
     ///
-    /// The Reference property goes to F.Fab (B.Fab on a bottom-side footprint; Ref.Test, Ref.Tie or Ref.Mech for
-    /// test points, net ties and mechanical footprints), visible and unlocked; ${REFERENCE} texts on the
-    /// silkscreen and a second one on the fab layer go. The text's ink, measured in KiCad's stroke font with the
-    /// strokes counted, is centred on the fab outline (else the courtyard). Pads do not matter (KiCad draws the
-    /// selected fab layer on top); the other drawing on the fab layer does: 0.02 mm stays free between the
-    /// strokes. A library footprint is sized for the longest designator of its kind (R1004, C1001, TP526, U1004).
-    /// It gets the largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°; else it
-    /// moves to the largest free spot inside the body nearest the centre; else it may go down to 0.15 mm (0201,
-    /// 01005: listed as "tiny"); else it stays on the centre at 0.2 mm and is listed as "no clean fit". Strokes are
-    /// 15 % of the size, at least 0.025 mm. Every line on F.Fab and B.Fab gets a 0.05 mm stroke. The Value goes to
-    /// Value.F (User.17; Value.B, User.18, on the back), shown and unlocked (a mechanical footprint's hidden),
-    /// fitted the same way for a long value of the kind (100k, 4.7uF, TPS54202DDC) with the designator's ink as one
-    /// more obstacle, so the two sit side by side when both layers are shown; where nothing fits beside it, the
-    /// Value crosses the designator, turned the other way. A footprint that already follows these rules is left as
-    /// it is; every other byte stays. With --board, each footprint on that board whose Reference is already on its
-    /// designator layer gets its own designator fitted the same way (a short one gets larger text), and its own
-    /// Value beside it where the Value is on its layer; only the two properties' position, angle, size and
-    /// thickness change. Without --write it lists what would change and exits 1 when anything would.
-    #[command(after_help = "\
+    /// The Reference property goes to Ref.Des.F (User.23; Ref.Des.B, User.24, on a bottom-side footprint; Ref.Test,
+    /// Ref.Tie or Ref.Mech for test points, net ties and mechanical footprints), visible and unlocked; ${REFERENCE}
+    /// texts on the silkscreen, the fab layer and the designator's layer go, so F.Fab and B.Fab keep the drawing
+    /// alone. The text's ink, measured in KiCad's stroke font with the strokes counted, is centred on the fab
+    /// outline (else the courtyard). Pads do not matter (KiCad draws the selected layers on top); the drawing on the
+    /// fab layer of the same side does: 0.02 mm stays free between the strokes. A library footprint is sized for the
+    /// longest designator of its kind (R1004, C1001, TP526, U1004). It gets the largest size from 1 mm down to
+    /// 0.2 mm that fits on the centre, level or turned 90°; else it moves to the largest free spot inside the body
+    /// nearest the centre; else it may go down to 0.15 mm (0201, 01005: listed as "tiny"); else it stays on the
+    /// centre at 0.2 mm and is listed as "no clean fit". Strokes are 15 % of the size, at least 0.025 mm. Every line
+    /// on F.Fab and B.Fab gets a 0.05 mm stroke. A real part's Value goes to Value.F (User.17; Value.B, User.18, on
+    /// the back), shown and unlocked, fitted the same way for the longest typical value of its kind (100K, 100nF,
+    /// 4.7uH, BAS16TW, TPS54202); the designator is no obstacle, as Ref.Des and Value are shown one at a time. The
+    /// Value of a test point, net tie or mechanical footprint stays hidden on the fab layer, where it was. A
+    /// footprint that already follows these rules is left as it is; every other byte stays. With --board, each
+    /// footprint on that board whose Reference is already on its designator layer gets its own designator fitted
+    /// the same way (a short one gets larger text), and a real part whose Value is on Value its own value; only the
+    /// two properties' position, angle, size and thickness change. Without --write it lists what would change and
+    /// exits 1 when anything would. `fab-designators` is the old name of this command.
+    #[command(
+        visible_alias = "fab-designators",
+        after_help = "\
 Examples:
-  kilib fab-designators
-  kilib fab-designators --write footprints/VHRD_Package_SO.pretty
-  kilib fab-designators --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --write")]
-    FabDesignators {
+  kilib designators
+  kilib designators --write footprints/VHRD_Package_SO.pretty
+  kilib designators --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --write"
+    )]
+    Designators {
         /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
         #[arg(value_hint = ValueHint::AnyPath, conflicts_with = "board")]
         paths: Vec<PathBuf>,
@@ -278,7 +283,7 @@ Examples:
     /// centroid: a 0.5 mm cross of 0.05 mm lines on the origin on Centroid.F (User.21) for every part and
     /// fiducial, the point the position file gives. Fix: drawn, replacing anything else on that layer.
     ///
-    /// The designator is left to `kilib fab-designators`; run it after --write. It lists what each fix changes and
+    /// The designator and the Value are left to `kilib designators`; run it after --write. It lists what each fix changes and
     /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\
 Examples:
@@ -291,7 +296,7 @@ Examples:
 
 #[derive(Subcommand)]
 enum StockCommand {
-    /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on the fab layer, Value beside it
+    /// Copy stock footprints (Lib:Name) into footprints/VHRD_Lib.pretty, designator on Ref.Des, Value on Value
     ///
     /// With --symbols, copy stock symbols into symbols/VHRD_Lib.kicad_symdir instead: made standalone (a derived
     /// symbol gets its parent's pins and graphics), the Footprint field at our copy of the footprint where the
@@ -465,11 +470,8 @@ fn main() -> ExitCode {
             usage::record("layers", &[("write", write)]);
             run_layers(&boards, write)
         }
-        Command::FabDesignators { paths, board, write, verbose } => {
-            usage::record(
-                "fab-designators",
-                &[("write", write), ("paths", !paths.is_empty()), ("board", board.is_some())],
-            );
+        Command::Designators { paths, board, write, verbose } => {
+            usage::record("designators", &[("write", write), ("paths", !paths.is_empty()), ("board", board.is_some())]);
             match board {
                 Some(board) => run_fab_board(&board, write, verbose),
                 None => run_fab(paths, write, verbose),
@@ -861,10 +863,11 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
         // A footprint already fine can still be one where nothing fits cleanly.
         // A mechanical footprint's designator is hidden: not sized.
         let shown = layers::class_of(&i.id, "").shown();
+        let read = fab::read_as(&i.old, &i.id).ok();
         let placed = match &i.outcome {
             _ if !shown => None,
             fab::Outcome::Change { placement, .. } => Some(*placement),
-            fab::Outcome::Fine => fab::read_as(&i.old, &i.id).ok().and_then(|f| f.shape).map(|s| fab::layout(&s)),
+            fab::Outcome::Fine => read.as_ref().and_then(|f| f.shape.as_ref()).map(fab::layout),
             fab::Outcome::Skipped(_) => None,
         };
         let fit = placed.map(|p| p.clean);
@@ -873,17 +876,18 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
         }
         if let Some(p) = placed {
             placements.push((i.id.as_str(), p));
-            let value = match &i.outcome {
+            // Only a real part's Value is shown and fitted.
+            let value = read.as_ref().filter(|f| f.value_shown()).and_then(|f| match &i.outcome {
                 fab::Outcome::Change { value, .. } => *value,
-                _ => fab::read_as(&i.old, &i.id).ok().and_then(|f| f.value_placement(&p)),
-            };
+                _ => f.value_placement(),
+            });
             if let Some(v) = value {
                 value_placements.push((i.id.as_str(), v));
             }
         }
     }
     eprintln!(
-        "{BOLD}kilib fab-designators{BOLD:#}: {} footprints: {changed} to change ({moved} moved, {resized} resized, {turned} turned), {fine} already fine, {skipped} skipped",
+        "{BOLD}kilib designators{BOLD:#}: {} footprints: {changed} to change ({moved} moved, {resized} resized, {turned} turned), {fine} already fine, {skipped} skipped",
         items.len()
     );
     report_sizes(&placements);
@@ -895,20 +899,20 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
             unclean.join(", ")
         );
     }
-    let crossing: Vec<&str> = value_placements.iter().filter(|(_, v)| !v.clean).map(|(id, _)| *id).collect();
+    let unclean_values: Vec<&str> = value_placements.iter().filter(|(_, v)| !v.clean).map(|(id, _)| *id).collect();
     let sizes: Vec<f64> = value_placements.iter().filter(|(_, v)| v.clean).map(|(_, v)| v.size).collect();
     if !sizes.is_empty() {
         let (lo, hi) = sizes.iter().fold((f64::MAX, 0.0_f64), |(l, h), s| (l.min(*s), h.max(*s)));
         eprintln!(
-            "values: {} beside the designator or just outside the body ({} to {} mm), {} crossing it",
+            "values: {} centred on the body ({} to {} mm), {} with no clean fit",
             sizes.len(),
             fab::fmt(lo),
             fab::fmt(hi),
-            crossing.len()
+            unclean_values.len()
         );
     }
-    if !crossing.is_empty() {
-        eprintln!("{CYAN}value crossing the designator{CYAN:#} ({}): {}", crossing.len(), crossing.join(", "));
+    if !unclean_values.is_empty() {
+        eprintln!("{CYAN}value with no clean fit{CYAN:#} ({}): {}", unclean_values.len(), unclean_values.join(", "));
     }
     if changed == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
@@ -1054,7 +1058,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
         match &i.value {
             fab::BoardOutcome::Change { before: b, placement: p, angle } => {
                 values += 1;
-                let fit = if p.clean { "" } else { ", crossing the designator" };
+                let fit = if p.clean { "" } else { ", no clean fit" };
                 println!(
                     "  {BOLD}{name}{BOLD:#} value: {} mm {}° at ({}, {}){fit} {DIM}(was {} mm {}° at ({}, {})){DIM:#}",
                     fab::fmt(p.size),
@@ -1072,7 +1076,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
         }
     }
     eprintln!(
-        "{BOLD}kilib fab-designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change",
+        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change",
         path.display(),
         plan.items.len(),
         skipped.len()

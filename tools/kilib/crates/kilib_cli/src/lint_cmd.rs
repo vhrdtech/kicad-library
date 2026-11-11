@@ -110,7 +110,7 @@ pub fn run(args: LintArgs) -> Result<ExitCode, String> {
     } else if args.write {
         let n = lint::apply(&items)?;
         eprintln!(
-            "{GREEN}✓{GREEN:#} wrote {n} footprints; run kilib fab-designators after it, the designator may need to move"
+            "{GREEN}✓{GREEN:#} wrote {n} footprints; run kilib designators after it, the designator and the Value may need to move"
         );
         Ok(ExitCode::SUCCESS)
     } else {

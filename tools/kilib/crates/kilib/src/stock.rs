@@ -260,7 +260,7 @@ mod tests {
         assert!(new.contains("(model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\""));
         let fp = fab::read(&new).unwrap();
         assert_eq!(fab::check(&fp), Vec::<String>::new());
-        assert_eq!(fp.reference.as_ref().unwrap().layer, "F.Fab");
+        assert_eq!(fp.reference.as_ref().unwrap().layer, "User.23");
         // Everything from the pads on stays byte for byte.
         let tail = &STOCK[STOCK.find("\t(pad \"1\"").unwrap()..];
         assert!(new.ends_with(tail));

@@ -1,14 +1,15 @@
 //! The user layers kicad-library's footprints and templates use, and which footprint's designator goes where.
 //!
-//! Real parts carry their designator on F.Fab / B.Fab. Test points, net ties and mechanical or graphic footprints
-//! put theirs on a layer of their own, so the fab print of the parts stays readable: [`Class`] decides from the
-//! footprint's library and name and the designator's prefix. Each such layer is a front/back pair of KiCad user
+//! F.Fab / B.Fab carry only the drawing of a part (outline, pin-1 and polarity marks, inner lines), no text. Real
+//! parts carry their designator on Ref.Des; test points, net ties and mechanical or graphic footprints put theirs on
+//! a layer of their own (Ref.Test, Ref.Tie, Ref.Mech), so a print shows one kind at a time: [`Class`] decides from
+//! the footprint's library and name and the designator's prefix. Each such layer is a front/back pair of KiCad user
 //! layers, typed `front` and `back` and numbered one after the other, so KiCad flips a bottom-side footprint's text
 //! to the back one. One more pair, Rooms, holds hand-drawn outlines of the circuit blocks (no footprint uses it).
-//! Three pairs more carry what a fab or assembly print may want on demand: Value (the Value, fitted beside the
-//! designator), Pins (pin numbers next to the pads) and Centroid (a cross on the placement origin). A few of KiCad's
-//! own layers get a name of their own ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table
-//! (and only there).
+//! Three pairs more carry what a fab or assembly print may want on demand: Value (a real part's Value, centred on
+//! the body like the designator, so Ref.Des and Value are shown one at a time), Pins (pin numbers next to the pads)
+//! and Centroid (a cross on the placement origin). A few of KiCad's own layers get a name of their own
+//! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table (and only there).
 
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node};
@@ -28,7 +29,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 }
 
 /// The layers, front then back of each pair.
-pub const LAYERS: [Layer; 14] = [
+pub const LAYERS: [Layer; 16] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -43,9 +44,14 @@ pub const LAYERS: [Layer; 14] = [
     user(20, "back", "Pins.B", "User.20"),
     user(21, "front", "Centroid.F", "User.21"),
     user(22, "back", "Centroid.B", "User.22"),
+    user(23, "front", "Ref.Des.F", "User.23"),
+    user(24, "back", "Ref.Des.B", "User.24"),
 ];
 
-/// The Value pair: each footprint's Value, shown, fitted on the body beside the designator ([`crate::fab`]).
+/// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
+pub const REF_DES: [&str; 2] = ["User.23", "User.24"];
+
+/// The Value pair: a real part's Value, shown, centred on the body like its designator ([`crate::fab`]).
 pub const VALUE: [&str; 2] = ["User.17", "User.18"];
 /// The Pins pair: pin numbers beside the pads of connectors and multi-pin parts ([`crate::lint::pins`]).
 pub const PINS: [&str; 2] = ["User.19", "User.20"];
@@ -77,7 +83,7 @@ fn default_name(id: &str) -> Option<&'static str> {
 /// Where a footprint's designator lives.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Class {
-    /// A real part (R C L D Q U Y LD SW, connectors): on F.Fab / B.Fab.
+    /// A real part (R C L D Q U Y LD SW, connectors): on Ref.Des, its Value on Value.
     Part,
     /// A test point (TP): on Ref.Test.
     Test,
@@ -92,13 +98,7 @@ impl Class {
     pub fn layer(self, back: bool) -> &'static str {
         let pair = |i: usize| LAYERS[i + usize::from(back)].id;
         match self {
-            Class::Part => {
-                if back {
-                    "B.Fab"
-                } else {
-                    "F.Fab"
-                }
-            }
+            Class::Part => side_of(REF_DES, back),
             Class::Test => pair(0),
             Class::Tie => pair(2),
             Class::Mech => pair(4),
@@ -248,7 +248,7 @@ mod tests {
         assert_eq!(class_of("Connector:Pins", "JP3"), Class::Part, "a pin-header jumper is a part");
         assert_eq!(class_of("Some:Pad", "TPS1"), Class::Part);
         assert_eq!((Class::Test.layer(false), Class::Test.layer(true)), ("User.9", "User.10"));
-        assert_eq!((Class::Mech.layer(true), Class::Part.layer(true)), ("User.14", "B.Fab"));
+        assert_eq!((Class::Mech.layer(true), Class::Part.layer(true)), ("User.14", "User.24"));
     }
 
     #[test]
@@ -260,7 +260,11 @@ mod tests {
             "{new}"
         );
         assert!(new.contains("(69 \"User.16\" back \"Rooms.B\")\n\t\t(71 \"User.17\" front \"Value.F\")"), "{new}");
-        assert!(new.contains("(81 \"User.22\" back \"Centroid.B\")"), "{new}");
+        assert!(
+            new.contains("(81 \"User.22\" back \"Centroid.B\")\n\t\t(83 \"User.23\" front \"Ref.Des.F\")"),
+            "{new}"
+        );
+        assert!(new.contains("(85 \"User.24\" back \"Ref.Des.B\")"), "{new}");
         assert!(new.contains("(41 \"User.2\" user \"Body.F\")\n\t)\n\t(setup)\n)\n"), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
