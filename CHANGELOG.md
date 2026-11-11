@@ -4,6 +4,15 @@
 
 ### Added
 
+- `VHRD_Relay_SolidState:Photorelay_1A_SOP-4`, a 1 Form A MOSFET photorelay that several makers build: Mpn1
+  VO1400AEFTR (Vishay), Mpn2 AQY282SX (Panasonic), Mpn3 G3VM-61VY2(TR) (Omron), Mpn4 AB37S (Comus), Mpn5/6
+  ISOM8600DFGR / ISOM8610DFGR (TI), each with its datasheet (`Datasheet`, `Datasheet2`..`Datasheet6`). Made from
+  stock `AQY282S` (pin 1 anode, 2 cathode, 3 and 4 the switch, the same on every part).
+- `VHRD_Package_SO:SOP-4_4.4x4.3mm_P2.54mm`, one land pattern for all of them: 1.4 x 0.8 mm pads at x ±3.2 mm,
+  P2.54, 5.0 mm between the input and output pads, 7.8 mm overall. No pad edge is more than 0.3 mm from a maker's
+  recommended pattern (Vishay 1.375 x 0.9 at ±3.24; Panasonic and Omron 1.2 x 0.8 at ±3.0 to ±3.15; TI DFG's
+  isolation option 1.25 x 0.6 at ±3.125), and the pads reach past the longest leads (7.3 mm span). Stock `SO-4_4.4x4.3mm_P2.54mm`'s body, silkscreen and 3D model; its
+  1.2 mm pads stop at 3.6 mm, short of the Vishay and TI lead tips.
 - More named layers (`kilib layers`, the three templates): User.17/18 `Value.F/B`, User.19/20 `Pins.F/B`,
   User.21/22 `Centroid.F/B`, typed front and back; KiCad's `Dwgs.User` named `Dimensions`, `Cmts.User` `Fab.Notes`
   and `User.2` `Body.F` (a part's full top view). `kilib layers` leaves User.2 unnamed on a board that draws on it
