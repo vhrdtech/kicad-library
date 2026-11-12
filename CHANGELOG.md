@@ -4,6 +4,8 @@
 
 ### Added
 
+- `VHRD_Transistor_FET:BSS138W`: a small multi-source logic-level N-MOSFET in SOT-323 (Diodes BSS138W-7-F,
+  Nexperia BSS138BKW,115).
 - `Ref.Des.F`/`Ref.Des.B` (User.23/24), a layer pair for the designators of real parts, named in the three
   templates and by `kilib layers --write` (existing boards get it from there). F.Fab and B.Fab now carry only the
   drawing (outline, pin-1 and polarity marks, inner lines), no text. A real part's designator moves from the fab
