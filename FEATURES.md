@@ -93,3 +93,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   and mechanical parts keep their Value hidden on the fab layer; named in the three templates and by `kilib
   layers`; `kilib designators` (old name `fab-designators`) checks and writes it, `--board` fits each placed
   footprint's own designator and value. 196 footprints
+- ✅ LIB-25 stock-decoupled: the library needs none of KiCad's stock libraries: every symbol's `Footprint` field and
+  `ki_fp_filters` library is a `VHRD_*` library of the checkout, kept so by `tests/decoupled.rs`; `kilib check
+  --only VHRD_` flags anything from another library on a board too (symbols, footprints, Footprint fields, the
+  schematic's embedded symbols, filters); the stock map's `[filter_lib]` moves filter libraries. B153a is the first
+  board on it. Next: the templates (power symbols and logos still stock, from vhrd_brand), the other boards

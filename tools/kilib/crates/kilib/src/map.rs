@@ -4,6 +4,8 @@
 //! A symbol or footprint id `old_lib:name` is looked up in `[symbol]` / `[footprint]` first, then its library
 //! in `[symbol_lib]` / `[footprint_lib]` (for items only a board still has). The name stays; only the library
 //! changes. A footprint mapped to `""` was dropped. A model path is the part after `${VHRD_3DMODEL_DIR}/`.
+//! `[filter_lib]` renames the library part of `ki_fp_filters` patterns (`"Connector*" = "VHRD_Connector*"`), for
+//! libraries a filter names that no id of the map does.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
@@ -22,6 +24,9 @@ pub struct Map {
     pub symbol_lib: BTreeMap<String, String>,
     #[serde(default)]
     pub footprint_lib: BTreeMap<String, String>,
+    /// The library part of a `ki_fp_filters` pattern, old to new; looked up before the footprint ids.
+    #[serde(default)]
+    pub filter_lib: BTreeMap<String, String>,
     #[serde(default)]
     pub symbol: BTreeMap<String, String>,
     #[serde(default)]

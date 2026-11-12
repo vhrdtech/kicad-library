@@ -364,6 +364,9 @@ impl Rewriter<'_> {
 
     fn filter(&mut self, token: &str) -> Option<String> {
         let (lib, pat) = token.split_once(':')?;
+        if let Some(new) = self.map.filter_lib.get(lib) {
+            return Some(format!("{new}:{pat}"));
+        }
         if lib.contains(['*', '?']) || !self.map.is_old_lib(ItemKind::Footprint, lib) {
             return None;
         }
@@ -615,6 +618,19 @@ mod tests {
         assert!(glob("r_*", "R_0402"));
         assert!(!glob("SOT?23", "SOT-23-5"));
         assert!(glob("*_1x??_*", "PinHeader_1x04_P2.54mm"));
+    }
+
+    #[test]
+    fn filter_libraries_are_renamed_by_filter_lib() {
+        let map =
+            Map::parse("[filter_lib]\n\"Connector*\" = \"VHRD_Connector*\"\n\"LED_SMD\" = \"VHRD_LED_SMD\"\n").unwrap();
+        let text =
+            r#"(kicad_symbol_lib (symbol "D" (property "ki_fp_filters" "LED* LED_SMD:* Connector*:*_1x??_* X:Y")))"#;
+        let r = rewrite_text(&map, Path::new("x.kicad_sym"), text).unwrap();
+        let new = apply_edits(text, &r.edits);
+        assert!(new.contains(r#""LED* VHRD_LED_SMD:* VHRD_Connector*:*_1x??_* X:Y""#), "{new}");
+        assert_eq!(r.counts.filters, 2);
+        assert!(rewrite_text(&map, Path::new("x.kicad_sym"), &new).unwrap().edits.is_empty(), "a second run");
     }
 
     #[test]

@@ -97,3 +97,10 @@
 "Transistor_BJT:BC847BPN" = "VHRD_Transistor_BJT"
 "Transistor_BJT:BC847BS" = "VHRD_Transistor_BJT"
 "power:PWR_FLAG" = "VHRD_power"
+
+[filter_lib]
+# The library part of ki_fp_filters patterns in stock symbols (and boards' copies of them): the VHRD_ library
+# of the same name, as `kilib stock import --symbols` writes it.
+"Connector*" = "VHRD_Connector*"
+"LED_SMD" = "VHRD_LED_SMD"
+"LED_THT" = "VHRD_LED_THT"

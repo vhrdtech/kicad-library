@@ -8,6 +8,9 @@
   footprint or `Footprint` field from another library is a problem, and so are a schematic's embedded symbols
   (`lib_symbols`, with their `Footprint` fields) and the library part of `ki_fp_filters` patterns, so nothing from
   KiCad's stock libraries goes unnoticed.
+- `[filter_lib]` in a rename map renames the library part of `ki_fp_filters` patterns (`"Connector*" =
+  "VHRD_Connector*"`), for libraries no id of the map names; `migrate/2026-11-stock.toml` has `Connector*`, `LED_SMD`
+  and `LED_THT`, so `kilib migrate` moves a board's embedded copies of stock symbols fully onto the library.
 - From stock, for the symbols that named them (and boards that use them): `VHRD_Package_QFP:LQFP-100_14x14mm_P0.5mm`,
   `VHRD_Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm`,
   `SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm_ThermalVias`, `TSSOP-8_3x3mm_P0.65mm`,

@@ -13,7 +13,8 @@ belong to, e.g. `VHRD_Connector_Molex` or `VHRD_Package_DFN_QFN`. Every part, wh
 way; there is no separate vendor library (the private `VHRD_Vendor` one was folded in on 7 Nov 2026). KiCad's stock
 footprints and symbols that a board uses are copied into the `VHRD_*` library of the same name (`VHRD_Resistor_SMD`,
 `VHRD_Transistor_BJT`), so a KiCad update never changes them unannounced; `kilib stock diff` shows what upstream
-changed since.
+changed since. No symbol of the library names a stock footprint or library: KiCad's stock libraries
+need not be installed (`kilib check --only VHRD_`).
 
 ## Configuration
 
@@ -43,7 +44,10 @@ same under `footprints/<name>.pretty` for footprints.
   (`KICAD_CONFIG_HOME`, else `~/.config/kicad`, the newest version), each project's own tables, `${KIPRJMOD}`, the
   environment (which wins, as in KiCad) and the older `KICAD6..9_3DMODEL_DIR` falling back to the newest set. It exits
   1 with the list of what does not resolve; `--json` gives the same as JSON. `--config-dir`, `--sym-lib-table`,
-  `--fp-lib-table` and `--var NAME=VALUE` check against another PC's setup.
+  `--fp-lib-table` and `--var NAME=VALUE` check against another PC's setup. `--only VHRD_` also fails on anything
+  from a library whose name does not start with the prefix: a symbol, footprint or `Footprint` field, a schematic's
+  embedded symbols (`lib_symbols`) and the library part of `ki_fp_filters`, so a board that still needs KiCad's stock
+  libraries shows.
 - `just check-boards` runs it on the hw checkout beside this one (or `VHRD_BOARDS_DIR`) and skips with a note where
   there is none.
 - `kilib setup --dry-run` shows what `kilib setup` would write into this PC's KiCad config. The library rows go
@@ -58,7 +62,8 @@ same under `footprints/<name>.pretty` for footprints.
   `lib_symbols` cache), `Footprint` fields, `ki_fp_filters` entries, footprint ids, `${VHRD_3DMODEL_DIR}` model paths
   (and absolute paths into a `kicad-library/3dmodels` folder), and the old `vhrd_*` rows of a project's
   `sym-lib-table` and `fp-lib-table`, which become the rows of the new libraries. An id is looked up in `[symbol]` /
-  `[footprint]` first, then its old library in `[symbol_lib]` / `[footprint_lib]`. It prints a unified diff (`git
+  `[footprint]` first, then its old library in `[symbol_lib]` / `[footprint_lib]`. `[filter_lib]` renames the library part of
+  `ki_fp_filters` patterns (`"Connector*" = "VHRD_Connector*"`). It prints a unified diff (`git
   apply` takes it inside the folder given); `--write` applies it and `--stat` shows only the summary. A footprint the
   map dropped (`""`) that a board still uses, or two cached symbols that would get one name, is an error: it exits 1
   and writes nothing. Names the map does not know are listed and left as they are. A second run changes nothing.

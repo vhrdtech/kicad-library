@@ -37,6 +37,9 @@ migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol l
 `Footprint` fields change). A new `VHRD_*` library also needs its row in `migrate/2026-11.toml`'s `[libraries]`
 (what `kilib setup` writes).
 
+Nothing in `symbols/` or `footprints/` names a stock library: a symbol's `Footprint` field and its `ki_fp_filters`
+libraries are `VHRD_*` of this checkout (`tests/decoupled.rs`). A stock footprint a symbol needs is imported first.
+
 ## Designator layers
 
 User.9-24 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
