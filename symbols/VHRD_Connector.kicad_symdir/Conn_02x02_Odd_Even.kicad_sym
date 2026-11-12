@@ -62,7 +62,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_fp_filters" "Connector*:*_2x??_*"
+		(property "ki_fp_filters" "VHRD_Connector*:*_2x??_*"
 			(at 0 0 0)
 			(effects
 				(font

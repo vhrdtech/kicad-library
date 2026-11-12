@@ -32,7 +32,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:SOT-23-5"
 			(at 0 8.255 0)
 			(show_name no)
 			(do_not_autoplace no)

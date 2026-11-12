@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-563"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:SOT-563"
 			(at 26.67 -13.97 0)
 			(show_name no)
 			(do_not_autoplace no)

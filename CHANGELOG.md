@@ -238,6 +238,16 @@
 
 ### Fixed
 
+- No symbol names a KiCad stock library any more: the 37 symbols whose `Footprint` field named a stock footprint
+  (side-pin copies made before the stock footprints were copied in, e.g. `STM32G0B1CETx` at
+  `Package_QFP:LQFP-48_7x7mm_P0.5mm`) point at the `VHRD_*` copy (`kilib migrate --map migrate/2026-11-stock.toml
+  symbols`), and 43 `ki_fp_filters` patterns name `VHRD_Connector*`, `VHRD_LED_SMD` and `VHRD_LED_THT` instead of
+  the stock libraries. A test (`tests/decoupled.rs`, `kilib check --only VHRD_` over `symbols/` and
+  `footprints/`) keeps it so, and that every `Footprint` field resolves in the checkout.
+- 14 symbols named footprints that never existed under those names since the restructure (`vhrd_generic:` names
+  of TI parts): `TS3A5223RSWR` now `VHRD_Package_DFN_QFN:TI-RSW0010A`, `SN74AC595BQBR` `TI-BQB0016A`, the ten
+  `BQ769x2PFBR` `VHRD_Package_QFP:TI-PFB0048A`, `TCAN1044VDDF` `VHRD_Package_TO_SOT_SMD:TI-DDF0008A`,
+  `LMR54410DBVR` `TI-DBV0006A`.
 - `kilib stock import` writes a copy's 3D model as `${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/...`, where
   the library keeps its copies of KiCad's models, instead of KiCad's own `${KICAD10_3DMODEL_DIR}`, and `kilib stock
   diff` compares the same way: 31 of 60 copies now show as stock (2 before), the model path no longer counted as a

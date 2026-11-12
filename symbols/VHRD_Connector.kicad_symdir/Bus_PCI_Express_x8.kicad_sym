@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PCBEdge:BUS_PCIexpress_x8"
+		(property "Footprint" "VHRD_Connector_PCBEdge:BUS_PCIexpress_x8"
 			(at 22.606 -131.572 0)
 			(effects
 				(font

@@ -57,7 +57,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_fp_filters" "Connector*:*_1x??-1MP*"
+		(property "ki_fp_filters" "VHRD_Connector*:*_1x??-1MP*"
 			(at 0 0 0)
 			(effects
 				(font

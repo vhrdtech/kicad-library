@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:Texas_R-PDSO-N6_DRL-6"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:Texas_R-PDSO-N6_DRL-6"
 			(at 1.778 15.748 0)
 			(show_name no)
 			(do_not_autoplace no)

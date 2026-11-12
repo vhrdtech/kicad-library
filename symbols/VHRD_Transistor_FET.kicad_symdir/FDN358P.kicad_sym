@@ -27,7 +27,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:SOT-23"
 			(at 5.08 -1.905 0)
 			(effects
 				(font

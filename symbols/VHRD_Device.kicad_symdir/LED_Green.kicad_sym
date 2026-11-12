@@ -74,7 +74,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+		(property "ki_fp_filters" "LED* VHRD_LED_SMD:* VHRD_LED_THT:*"
 			(at 0 0 0)
 			(effects
 				(font

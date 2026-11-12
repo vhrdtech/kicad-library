@@ -6,7 +6,7 @@
     (property "Value" "LTC4267" (at 12.7 2.54 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DFN_QFN:DFN-16-1EP_3x5mm_P0.5mm_EP1.66x4.4mm" (at 11.43 -48.26 0)
+    (property "Footprint" "VHRD_Package_DFN_QFN:DFN-16-1EP_3x5mm_P0.5mm_EP1.66x4.4mm" (at 11.43 -48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 0 0 0)

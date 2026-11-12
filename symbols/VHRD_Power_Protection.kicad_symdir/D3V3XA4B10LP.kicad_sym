@@ -31,7 +31,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:Diodes_UDFN-10_1x2.5mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_DFN_QFN:Diodes_UDFN-10_1x2.5mm_P0.5mm"
 			(at -24.13 -10.16 0)
 			(show_name no)
 			(do_not_autoplace no)

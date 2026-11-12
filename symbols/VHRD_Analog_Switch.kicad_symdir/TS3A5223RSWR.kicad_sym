@@ -31,7 +31,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_TO_SOT_SMD:RSW0010A"
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI-RSW0010A"
 			(at 5.08 -38.1 0)
 			(show_name no)
 			(do_not_autoplace no)

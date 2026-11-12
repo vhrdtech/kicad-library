@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:VSSOP-8_2.3x2mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_SO:VSSOP-8_2.3x2mm_P0.5mm"
 			(at 11.43 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)

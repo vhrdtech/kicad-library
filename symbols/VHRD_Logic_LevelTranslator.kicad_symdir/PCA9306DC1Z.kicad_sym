@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:VSSOP-8_2.3x2mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_SO:VSSOP-8_2.3x2mm_P0.5mm"
 			(at 0 -16.51 0)
 			(show_name no)
 			(do_not_autoplace no)

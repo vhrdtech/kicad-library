@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_QFP:LQFP-100_14x14mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_QFP:LQFP-100_14x14mm_P0.5mm"
 			(at 11.43 -58.42 0)
 			(effects
 				(font
