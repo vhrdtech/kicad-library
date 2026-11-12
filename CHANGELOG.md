@@ -4,6 +4,7 @@
 
 ### Added
 
+- `VHRD_Capacitor_SMD:C_0805_2012Metric`, from stock, its 3D model in the vendor folder.
 - `VHRD_Transistor_FET:BSS138W`: a small multi-source logic-level N-MOSFET in SOT-323 (Diodes BSS138W-7-F,
   Nexperia BSS138BKW,115).
 - `Ref.Des.F`/`Ref.Des.B` (User.23/24), a layer pair for the designators of real parts, named in the three

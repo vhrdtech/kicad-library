@@ -16,6 +16,7 @@
 [footprint]
 # "StockLib:Name" = "VHRD_StockLib"
 "Capacitor_SMD:C_0402_1005Metric" = "VHRD_Capacitor_SMD"
+"Capacitor_SMD:C_0805_2012Metric" = "VHRD_Capacitor_SMD"
 "Capacitor_SMD:C_1206_3216Metric" = "VHRD_Capacitor_SMD"
 "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" = "VHRD_Connector_PinSocket_2.54mm"
 "Package_DFN_QFN:QFN-36-1EP_6x6mm_P0.5mm_EP3.7x3.7mm" = "VHRD_Package_DFN_QFN"
