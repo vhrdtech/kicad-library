@@ -132,6 +132,8 @@
 
 ### Changed
 
+- `Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1`: no pin-1 mark (silk triangle, fab chamfer). The 4-pad crystal is the same
+  turned 180°, so the mark suggested an orientation that does not matter; the designator grows to 0.7 mm.
 - Footprints keep the Value shown on its own layer (`Value.F`) instead of hidden on F.Fab; `kilib fab-designators`
   reports a hidden Value or one on another layer.
 - `kilib fab-designators` fits a test point's, net tie's or jumper's designator to the drawing on its own reference
