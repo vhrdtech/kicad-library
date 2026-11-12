@@ -158,7 +158,7 @@ same under `footprints/<name>.pretty` for footprints.
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
-  the fixes of `kilib lint`, the designator and the Value placed by the `designators` rules, the fab lines at 0.05 mm, every other byte as in stock (pads, the 3D model through `${KICAD10_3DMODEL_DIR}`). The stock folder is `--stock-dir`,
+  the fixes of `kilib lint`, the designator and the Value placed by the `designators` rules, the fab lines at 0.05 mm, the 3D model at the library's copy of KiCad's model, `${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/` (the STEP file is copied there by hand), every other byte as in stock (pads). The stock folder is `--stock-dir`,
   else `KICAD10_FOOTPRINT_DIR` (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A
   footprint the library has already is left alone. It lists what it would copy and exits 1; `--write` copies. `kilib
   stock diff` compares every `VHRD_<Lib>:<Name>` that has a stock `<Lib>:<Name>` with a fresh import of it and prints

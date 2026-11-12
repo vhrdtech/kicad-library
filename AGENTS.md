@@ -13,7 +13,7 @@ KiCad's stock footprints that a board uses are imported into the `VHRD_*` librar
 (`Resistor_SMD:R_0402_1005Metric` becomes `VHRD_Resistor_SMD:R_0402_1005Metric`), so their text is ours: the
 designator centred on `Ref.Des.F` and the Value centred on `Value.F` (`kilib designators`), the fab lines 0.05 mm and no
 text on the fab layer. Pads, other
-graphics and the 3D model (through KiCad's own `${KICAD10_3DMODEL_DIR}`) stay as in stock, apart from the fixes of
+graphics stay as in stock, the 3D model is the library's copy of KiCad's (`${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/`, the STEP copied there by hand), apart from the fixes of
 `kilib lint` (courtyard, silkscreen, pin-1 marks, attributes, pin numbers, the centroid cross), which `stock import` and `stock diff` apply too. The
 copies are on purpose: a KiCad update never changes our footprints unannounced. We compare them with the stock library
 and take upstream changes in deliberately, when the time is right:

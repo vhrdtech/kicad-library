@@ -1,8 +1,8 @@
 //! KiCad's stock footprints that boards use, kept as copies of our own: `Lib:Name` from KiCad's footprint folder
 //! (`${KICAD10_FOOTPRINT_DIR}`) becomes `VHRD_Lib:Name` in the checkout's `footprints/`. The copy is the stock
 //! file with the library rules' fixes ([`crate::lint`]: pin-1 marks, attributes, courtyard, silkscreen), the
-//! designator, the Value and fab lines by [`crate::fab`]; pads, the 3D model (through KiCad's own path
-//! variable) and every other byte stay as they were.
+//! designator, the Value and fab lines by [`crate::fab`], the 3D model in the library's copy of KiCad's models
+//! ([`vendor_models`]); pads and every other byte stay as they were.
 //!
 //! The copies are on purpose: a KiCad update never changes our footprints unannounced. [`compare`] shows what a
 //! fresh import of the current stock file would change in a copy, so upstream changes are taken in deliberately.
@@ -31,7 +31,28 @@ pub fn import_text(stock: &str) -> Result<String, String> {
 /// The copy of a stock footprint going into library `lib` (`VHRD_Resistor_SMD`): the library rules' fixes, then
 /// [`import_text`].
 pub fn import_into(stock: &str, lib: &str) -> Result<String, String> {
-    import_text(&lint_fixed(stock, lib)?)
+    import_text(&vendor_models(&lint_fixed(stock, lib)?)?)
+}
+
+/// KiCad's own model path, as stock footprints name their 3D model.
+const STOCK_MODELS: &str = "${KICAD10_3DMODEL_DIR}/";
+
+/// The text with each 3D model of KiCad's model package (`${KICAD10_3DMODEL_DIR}/Lib.3dshapes/x.step`) taken from
+/// the library's copy of it instead (`${VHRD_3DMODEL_DIR}/vendor/VHRD_Lib.3dshapes/x.step`), so a PC needs no
+/// stock model package. The STEP file itself is copied there by hand.
+pub fn vendor_models(text: &str) -> Result<String, String> {
+    let fp = sexpr::parse(text).map_err(|e| e.to_string())?;
+    let edits: Vec<Edit> = fp
+        .children("model")
+        .filter_map(|m| {
+            let atom = m.items().get(1)?;
+            let path = atom.as_atom()?;
+            let rest = path.strip_prefix(STOCK_MODELS)?;
+            let new = format!("${{VHRD_3DMODEL_DIR}}/vendor/{PREFIX}{rest}");
+            Some(Edit { range: atom.span(), text: text[atom.span()].replacen(path, &new, 1) })
+        })
+        .collect();
+    Ok(apply_edits(text, &edits))
 }
 
 /// The text with every fix of the library rules, as `kilib lint --write` leaves it.
@@ -190,6 +211,7 @@ pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
 /// with its stock text, the Value hidden where it has one.
 fn fresh(stock: &str, lib: &str) -> Result<String, String> {
     let stock = &lint_fixed(stock, lib).unwrap_or_else(|_| stock.to_string());
+    let stock = &vendor_models(stock).unwrap_or_else(|_| stock.to_string());
     match fab::fix(stock) {
         fab::Outcome::Skipped(_) if sexpr::parse(stock).is_ok() => {
             if stock.contains("(property \"Value\"") {
@@ -258,6 +280,12 @@ mod tests {
         assert!(!new.contains("${REFERENCE}"), "{new}");
         assert_eq!(fab::read(&new).unwrap().value.unwrap().layer, "User.17", "{new}");
         assert!(new.contains("(model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\""));
+        let copy = import_into(STOCK, "VHRD_Resistor_SMD").unwrap();
+        assert!(
+            copy.contains("(model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Resistor_SMD.3dshapes/R_0402_1005Metric.step\""),
+            "{copy}"
+        );
+        assert_eq!(import_into(&copy, "VHRD_Resistor_SMD").unwrap(), copy, "a copy imported again stays");
         let fp = fab::read(&new).unwrap();
         assert_eq!(fab::check(&fp), Vec::<String>::new());
         assert_eq!(fp.reference.as_ref().unwrap().layer, "User.23");

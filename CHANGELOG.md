@@ -8,6 +8,19 @@
   footprint or `Footprint` field from another library is a problem, and so are a schematic's embedded symbols
   (`lib_symbols`, with their `Footprint` fields) and the library part of `ki_fp_filters` patterns, so nothing from
   KiCad's stock libraries goes unnoticed.
+- From stock, for the symbols that named them (and boards that use them): `VHRD_Package_QFP:LQFP-100_14x14mm_P0.5mm`,
+  `VHRD_Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm`,
+  `SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm_ThermalVias`, `TSSOP-8_3x3mm_P0.65mm`,
+  `VSSOP-10_3x3mm_P0.5mm`, `VHRD_Package_TO_SOT_SMD:SOT-563`, `Texas_R-PDSO-N6_DRL-6`,
+  `VHRD_Package_DFN_QFN:DFN-16-1EP_3x5mm_P0.5mm_EP1.66x4.4mm`, `DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm`,
+  `Diodes_UDFN-10_1x2.5mm_P0.5mm`, `Texas_UQFN-10_1.5x2mm_P0.5mm`, the new libraries
+  `VHRD_Package_SON:Winbond_USON-8-1EP_3x2mm_P0.5mm_EP0.2x1.6mm` and `VHRD_Connector_PCBEdge:BUS_PCIexpress_x8`,
+  and `VHRD_Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm` with its symbol
+  `VHRD_Jumper:SolderJumper_2_Open` (b153a). `VSSOP-10_3x3mm_P0.5mm` left KiCad's library in January 2026 (merged
+  into `TSSOP-10_3x3mm_P0.5mm`); the copy is the last stock version, with the TSSOP-10 model. All are in
+  `migrate/2026-11-stock.toml`, the new libraries in `migrate/2026-11.toml`. Their 3D models go in the vendor
+  folder (`vendor/VHRD_<Lib>.3dshapes/`); KiCad has none for `Texas_UQFN-10`, `DHWQFN-14`, `Texas_R-PDSO-N6_DRL-6`
+  and the `SOIC-8-1EP ... Mask2.71x3.4mm` variant.
 - `VHRD_Capacitor_SMD:C_0805_2012Metric`, from stock, its 3D model in the vendor folder.
 - `VHRD_Transistor_FET:BSS138W`: a small multi-source logic-level N-MOSFET in SOT-323 (Diodes BSS138W-7-F,
   Nexperia BSS138BKW,115).
@@ -224,6 +237,11 @@
 - Unused footprints `TEST`, `_TEMPLATE`; `09551667812741`'s Windows-path model line.
 
 ### Fixed
+
+- `kilib stock import` writes a copy's 3D model as `${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/...`, where
+  the library keeps its copies of KiCad's models, instead of KiCad's own `${KICAD10_3DMODEL_DIR}`, and `kilib stock
+  diff` compares the same way: 31 of 60 copies now show as stock (2 before), the model path no longer counted as a
+  change.
 
 - `VHRD_Power_Protection:TPD6S300A`: RPD_G1 / RPD_G2 are passive pins (they are tied to C_CCx or GND, not driven), so ERC no longer reports the RPD_G2-to-GND tie.
 - `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
