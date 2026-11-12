@@ -5,26 +5,26 @@
 	(layer "F.Cu")
 	(tags "SMD SMT crystal oscillator")
 	(property "Reference" "REF**"
-		(at -0.014 0.013 0)
+		(at -0.017 0.015 0)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "5afc384d-e1cc-4b9a-bf54-1efe0ddf1180")
 		(effects
 			(font
-				(size 0.6 0.6)
-				(thickness 0.09)
+				(size 0.7 0.7)
+				(thickness 0.105)
 			)
 		)
 	)
 	(property "Value" "Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1"
-		(at 0.019 0.028 0)
+		(at 0.021 0.031 0)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "5e33e577-92d0-4cee-a432-07e1e580761d")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.45 0.45)
+				(thickness 0.068)
 			)
 		)
 	)
@@ -86,7 +86,7 @@
 	)
 	(fp_line
 		(start -2 1.65)
-		(end -0.6 1.65)
+		(end -1.287986 1.65)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -133,18 +133,6 @@
 		)
 		(layer "F.SilkS")
 		(uuid "dfe5bca1-a311-4cdf-9965-bdaab3ddfa49")
-	)
-	(fp_poly
-		(pts
-			(xy -1.15 1.71) (xy -0.91 2.04) (xy -1.39 2.04)
-		)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.SilkS")
-		(uuid "4790b26a-07ac-486d-849f-883945327220")
 	)
 	(fp_circle
 		(center 0 0)
@@ -210,16 +198,6 @@
 		)
 		(layer "F.Fab")
 		(uuid "e2b4a4b6-f7b9-4cb0-a5bf-2c3e75f275e5")
-	)
-	(fp_line
-		(start -1.7 0.25)
-		(end -0.525 1.325)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "5eeebe9b-d582-4c88-bdf1-eac76bdd084c")
 	)
 	(fp_line
 		(start -1.7 1.15)
