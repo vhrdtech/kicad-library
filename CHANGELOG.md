@@ -221,6 +221,7 @@
 
 ### Fixed
 
+- `VHRD_Power_Protection:TPD6S300A`: RPD_G1 / RPD_G2 are passive pins (they are tied to C_CCx or GND, not driven), so ERC no longer reports the RPD_G2-to-GND tie.
 - `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
   number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
 - `VHRD_Package_DFN_QFN:Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias` (U401/U501 TPD6S300A,
