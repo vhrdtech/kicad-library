@@ -150,6 +150,7 @@ fn migrated_boards_resolve_against_the_restructured_library() {
         global_sym: Some(table(TableKind::Symbol, ItemKind::Symbol)),
         global_fp: Some(table(TableKind::Footprint, ItemKind::Footprint)),
         vars,
+        only: None,
     };
     let report = check::check(&[copy], &setup);
     // What a board names in a new library and the library lacks must have been missing before the move too.

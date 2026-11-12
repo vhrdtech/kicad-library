@@ -4,6 +4,10 @@
 
 ### Added
 
+- `kilib check --only VHRD_`: every library a board or the library names must start with the prefix. A symbol,
+  footprint or `Footprint` field from another library is a problem, and so are a schematic's embedded symbols
+  (`lib_symbols`, with their `Footprint` fields) and the library part of `ki_fp_filters` patterns, so nothing from
+  KiCad's stock libraries goes unnoticed.
 - `VHRD_Capacitor_SMD:C_0805_2012Metric`, from stock, its 3D model in the vendor folder.
 - `VHRD_Transistor_FET:BSS138W`: a small multi-source logic-level N-MOSFET in SOT-323 (Diodes BSS138W-7-F,
   Nexperia BSS138BKW,115).

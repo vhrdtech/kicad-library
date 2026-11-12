@@ -70,7 +70,8 @@ enum Command {
 Examples:
   kilib check ~/git/hw
   kilib check --config-dir /tmp/kicad-cfg/10.0 --var KICAD10_3DMODEL_DIR=/mnt/kicad-packages3D ~/git/hw
-  kilib check --json ~/git/hw > report.json")]
+  kilib check --json ~/git/hw > report.json
+  kilib check --only VHRD_ ~/git/hw/b153_typec_serial    no symbol or footprint from KiCad's stock libraries")]
     Check {
         /// Boards: .kicad_sch, .kicad_pcb, .kicad_sym or .kicad_mod files, or folders searched for them
         #[arg(required = true, value_hint = ValueHint::AnyPath)]
@@ -86,6 +87,10 @@ Examples:
         /// A path variable, over every other source (repeatable)
         #[arg(long = "var", value_name = "NAME=VALUE", value_parser = parse_var)]
         vars: Vec<(String, String)>,
+        /// Every library named must start with PREFIX: symbols, footprints, Footprint fields, a schematic's
+        /// embedded symbols and the library part of ki_fp_filters (`--only VHRD_`: nothing from KiCad's stock)
+        #[arg(long, value_name = "PREFIX")]
+        only: Option<String>,
         /// Print the report as JSON
         #[arg(long)]
         json: bool,
@@ -411,12 +416,17 @@ fn main() -> ExitCode {
         ColorWhen::Never => anstream::ColorChoice::Never.write_global(),
     }
     let result = match cli.command {
-        Command::Check { paths, config, sym_lib_table, fp_lib_table, vars, json } => {
+        Command::Check { paths, config, sym_lib_table, fp_lib_table, vars, only, json } => {
             usage::record(
                 "check",
-                &[("json", json), ("var", !vars.is_empty()), ("config-dir", config.config_dir.is_some())],
+                &[
+                    ("json", json),
+                    ("var", !vars.is_empty()),
+                    ("config-dir", config.config_dir.is_some()),
+                    ("only", only.is_some()),
+                ],
             );
-            run_check(&paths, &config, sym_lib_table, fp_lib_table, vars, json)
+            run_check(&paths, &config, sym_lib_table, fp_lib_table, vars, only, json)
         }
         Command::Setup { library, config, map, vendor_dir, models_dir, stock_tables, dry_run } => {
             usage::record(
@@ -493,6 +503,7 @@ fn run_check(
     sym_lib_table: Option<PathBuf>,
     fp_lib_table: Option<PathBuf>,
     extra: Vec<(String, String)>,
+    only: Option<String>,
     json: bool,
 ) -> Result<ExitCode, String> {
     let dir = config.dir();
@@ -514,6 +525,7 @@ fn run_check(
         global_sym: table(TableKind::Symbol, sym_lib_table)?,
         global_fp: table(TableKind::Footprint, fp_lib_table)?,
         vars,
+        only,
     };
     let report = check::check(paths, &setup);
     if json {
@@ -555,6 +567,9 @@ fn print_report(report: &Report, roots: &[PathBuf], setup: &check::Setup, dir: O
         table_note(&setup.global_fp, TableKind::Footprint),
         dir.map_or("none found".into(), |d| d.display().to_string())
     );
+    if let Some(prefix) = &setup.only {
+        println!("{DIM}only {prefix}* libraries, the schematics' embedded symbols and footprint filters too{DIM:#}");
+    }
 
     let libs = report.broken_libraries();
     for ((kind, lib), findings) in &libs {

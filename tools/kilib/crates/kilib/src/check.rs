@@ -22,6 +22,9 @@ pub struct Setup {
     pub global_fp: Option<LibTable>,
     /// Path variables, without `KIPRJMOD` (set per project).
     pub vars: Vars,
+    /// Every library named must start with this (`VHRD_`): a symbol, footprint or `Footprint` field from another
+    /// library is a problem, and so are the schematic's embedded symbols and the library part of `ki_fp_filters`.
+    pub only: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
@@ -33,6 +36,10 @@ pub enum Kind {
     FootprintField,
     /// A footprint's library id in a board.
     Footprint,
+    /// A symbol of a schematic's `lib_symbols`, the copy it carries (checked only with [`Setup::only`]).
+    EmbeddedSymbol,
+    /// The library part of a `ki_fp_filters` pattern (checked only with [`Setup::only`]).
+    FootprintFilter,
     /// A 3D model path in a board or a footprint.
     Model,
     /// A board file that could not be read.
@@ -45,6 +52,8 @@ impl Kind {
             Kind::Symbol => "symbol",
             Kind::FootprintField => "Footprint field",
             Kind::Footprint => "footprint",
+            Kind::EmbeddedSymbol => "embedded symbol",
+            Kind::FootprintFilter => "footprint filter",
             Kind::Model => "3D model",
             Kind::File => "file",
         }
@@ -252,10 +261,14 @@ impl Checker<'_> {
                     }
                     self.footprint_field(&ctx, sym, counts);
                 }
+                for cached in root.children("lib_symbols").flat_map(|l| l.children("symbol")) {
+                    self.embedded(&ctx, cached);
+                }
             }
             Some("kicad_symbol_lib") => {
                 for sym in root.children("symbol") {
                     self.footprint_field(&ctx, sym, counts);
+                    self.filters(&ctx, sym);
                 }
             }
             Some("kicad_pcb") => {
@@ -283,6 +296,50 @@ impl Checker<'_> {
         }
     }
 
+    /// With [`Setup::only`], a schematic's embedded symbol: its name, `Footprint` field and filters name only such
+    /// libraries. Nothing here is resolved: the placed symbols and the board are.
+    fn embedded(&mut self, ctx: &Ctx, sym: &Node) {
+        if self.setup.only.is_none() {
+            return;
+        }
+        if let Some(id) = sym.arg(0) {
+            self.foreign(ctx, Kind::EmbeddedSymbol, id);
+        }
+        for prop in sym.children("property") {
+            if prop.arg(0) == Some("Footprint")
+                && let Some(value) = prop.arg(1).filter(|v| !v.trim().is_empty())
+            {
+                self.foreign(ctx, Kind::FootprintField, value);
+            }
+        }
+        self.filters(ctx, sym);
+    }
+
+    /// With [`Setup::only`], the library part of each `ki_fp_filters` pattern.
+    fn filters(&mut self, ctx: &Ctx, sym: &Node) {
+        if self.setup.only.is_none() {
+            return;
+        }
+        let filters = sym.children("property").find(|p| p.arg(0) == Some("ki_fp_filters")).and_then(|p| p.arg(1));
+        for token in filters.unwrap_or("").split_whitespace() {
+            if token.contains(':') {
+                self.foreign(ctx, Kind::FootprintFilter, token);
+            }
+        }
+    }
+
+    /// Notes `id` when [`Setup::only`] is set and its library does not start with it; true when it was noted.
+    fn foreign(&mut self, ctx: &Ctx, kind: Kind, id: &str) -> bool {
+        let Some(prefix) = &self.setup.only else { return false };
+        let Some((lib, _)) = id.split_once(':').filter(|(l, _)| !l.is_empty()) else { return false };
+        if lib.starts_with(prefix.as_str()) {
+            return false;
+        }
+        let reason = format!("library {lib} is not a {prefix} library");
+        self.note(kind, id, reason, Some(lib), false, ctx.file);
+        true
+    }
+
     fn models(&mut self, ctx: &Ctx, fp: &Node, counts: &mut Counts) {
         for model in fp.children("model") {
             let Some(raw) = model.arg(0).filter(|m| !m.is_empty()) else { continue };
@@ -304,6 +361,9 @@ impl Checker<'_> {
         };
         if lib == "clipboard" && kind == Kind::Footprint {
             return self.note(kind, id, "pasted from the clipboard, no library link".into(), None, true, ctx.file);
+        }
+        if self.foreign(ctx, kind, id) {
+            return;
         }
         let path = match self.resolve(ctx, table, lib) {
             Lib::Found(p) => p,
@@ -519,6 +579,7 @@ mod tests {
             global_sym: LibTable::read_optional(TableKind::Symbol, &cfg.join("sym-lib-table")).unwrap(),
             global_fp: LibTable::read_optional(TableKind::Footprint, &cfg.join("fp-lib-table")).unwrap(),
             vars: crate::config::vars(Some(&cfg), crate::testdir::fixture_env(&dir), None).unwrap(),
+            only: None,
         };
         let report = check(&[dir.path().join("boards"), dir.path().join("home/lib")], &setup);
         (dir, report)
@@ -565,6 +626,51 @@ mod tests {
         assert_eq!(names, vec!["off", "unset", "vhrd_connector_debug"]);
         // b1.kicad_sch, b1.kicad_pcb, local.kicad_sym, vhrd_power.kicad_sym, SOT-23.kicad_mod; not the backups
         assert_eq!(report.files, 5);
+    }
+
+    #[test]
+    fn only_flags_every_other_library() {
+        let dir = crate::testdir::TestDir::new("check_only");
+        let b = dir.path().join("b");
+        std::fs::create_dir_all(&b).unwrap();
+        std::fs::write(
+            b.join("b.kicad_sch"),
+            r#"(kicad_sch (version 20250114)
+  (lib_symbols
+    (symbol "Jumper:SolderJumper_2_Open"
+      (property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open" (at 0 0 0))
+      (property "ki_fp_filters" "SolderJumper*Open* Connector*:*_1x??_* VHRD_Jumper:*" (at 0 0 0)))
+    (symbol "VHRD_Device:R" (property "Footprint" "" (at 0 0 0))))
+  (symbol (lib_id "Jumper:SolderJumper_2_Open") (property "Footprint" "VHRD_Jumper:SJ" (at 0 0 0)))
+  (symbol (lib_id "VHRD_Device:R") (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 0 0 0))))
+"#,
+        )
+        .unwrap();
+        std::fs::write(b.join("b.kicad_pcb"), r#"(kicad_pcb (footprint "Jumper:SJ") (footprint "VHRD_R:R"))"#).unwrap();
+        let only = |only: Option<&str>| {
+            let setup = Setup { only: only.map(str::to_string), ..Setup::default() };
+            let mut found: Vec<(Kind, String)> = check(std::slice::from_ref(&b), &setup)
+                .problems
+                .into_iter()
+                .filter(|f| f.reason.contains("is not a VHRD_ library"))
+                .map(|f| (f.kind, f.id))
+                .collect();
+            found.sort();
+            found
+        };
+        assert_eq!(only(None), vec![]);
+        let s = |k: Kind, id: &str| (k, id.to_string());
+        assert_eq!(
+            only(Some("VHRD_")),
+            vec![
+                s(Kind::Symbol, "Jumper:SolderJumper_2_Open"),
+                s(Kind::FootprintField, "Jumper:SolderJumper-2_P1.3mm_Open"),
+                s(Kind::FootprintField, "Resistor_SMD:R_0402_1005Metric"),
+                s(Kind::Footprint, "Jumper:SJ"),
+                s(Kind::EmbeddedSymbol, "Jumper:SolderJumper_2_Open"),
+                s(Kind::FootprintFilter, "Connector*:*_1x??_*"),
+            ]
+        );
     }
 
     #[test]
