@@ -255,7 +255,6 @@
   the library keeps its copies of KiCad's models, instead of KiCad's own `${KICAD10_3DMODEL_DIR}`, and `kilib stock
   diff` compares the same way: 31 of 60 copies now show as stock (2 before), the model path no longer counted as a
   change.
-
 - `VHRD_Power_Protection:TPD6S300A`: RPD_G1 / RPD_G2 are passive pins (they are tied to C_CCx or GND, not driven), so ERC no longer reports the RPD_G2-to-GND tie.
 - `kilib layers` refuses a board in KiCad 8's layer numbering (B.Cu 31) instead of naming the wrong layers by
   number (it turned `User.6` into a second `User.9`); open and save such a board in KiCad 10 first.
