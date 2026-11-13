@@ -1,0 +1,365 @@
+# Nominal body dimensions and common heights of chip R, C and L (mm), the input of the chip footprint and STEP model generator.
+# One footprint per (kind, size, height). Decided 13 Nov 2026: 0201..1210 for R, C and L; 2010 and 2512 for R; 1812 for C; no 01005.
+# A height is listed when at least two makers list it, or one maker's main series does (said in the size's note).
+# Dimensions are the makers' nominals; where makers differ in the second decimal the value matching the metric code is used.
+
+# ---------------------------------------------------------------- capacitors (MLCC)
+# Makers: Murata GRM (C02E), Samsung CL, Yageo CC (DOC012001660), TDK C/CGA (1735392).
+
+# 0201: Yageo and TDK list only 0.3.
+[[chip]]
+kind = "C"
+size = "0201"
+metric = "0603"
+style = "mlcc"
+length = 0.6
+width = 0.3
+band = 0.15
+heights = [0.3]
+sources = [
+  "Yageo CC general purpose MLCC, DOC012001660 V.10 (8 Jul 2014), Table 1 p.4, Table 6 p.9",
+  "TDK CGA series general, 003-01/20130611, p.2 (dimensions), p.3 (standard thickness)",
+  "Murata GRM general, C02E (Mar 2020), p.6, length and width only",
+]
+
+# 0402: Murata, Samsung CL05, Yageo and TDK agree on 0.5. A 0.35 low-profile 0402 (Roman's example) was not found in any
+# of the four general-purpose catalogues, so it is not listed.
+[[chip]]
+kind = "C"
+size = "0402"
+metric = "1005"
+style = "mlcc"
+length = 1.0
+width = 0.5
+band = 0.25
+heights = [0.5]
+sources = [
+  "Samsung CL05A105KQ5NNNC spec, dimension table",
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 2 p.5, Table 6 p.9",
+  "TDK CGA series general, 003-01/20130611, p.4 (standard thickness 0.50)",
+]
+
+# 0603: Samsung CL10, Yageo and TDK agree on 0.8. Left out: 0.6 (Yageo only, few packaging options).
+[[chip]]
+kind = "C"
+size = "0603"
+metric = "1608"
+style = "mlcc"
+length = 1.6
+width = 0.8
+band = 0.3
+heights = [0.8]
+sources = [
+  "Samsung CL10A475KA8NQNC spec, dimension table",
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 3 p.6, Table 6 p.9",
+  "TDK CGA series general, 003-01/20130611, p.5 (standard thickness 0.80)",
+]
+
+# 0805: Yageo and TDK both list 0.6, 0.85 and 1.25; Samsung CL21 confirms 1.25. Nothing left out.
+[[chip]]
+kind = "C"
+size = "0805"
+metric = "2012"
+style = "mlcc"
+length = 2.0
+width = 1.25
+band = 0.5
+heights = [0.6, 0.85, 1.25]
+sources = [
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 3 p.6",
+  "TDK CGA series general, 003-01/20130611, p.6 (standard thickness 0.60/0.85/1.25)",
+  "Samsung CL21A225KBFNNNE spec and CL21A226KOQNNNE datasheet, dimension tables (1.25 class)",
+]
+
+# 1206: TDK and Yageo main table list 0.85, 1.15 and 1.6. Left out: 0.6 (TDK only), 0.7 and 1.0 (Yageo only, few packaging
+# options). Samsung CL31 reportedly uses 0.85/1.25/1.6, not file-verified (its PDF was behind a bot wall): 1.25 is open.
+[[chip]]
+kind = "C"
+size = "1206"
+metric = "3216"
+style = "mlcc"
+length = 3.2
+width = 1.6
+band = 0.5
+heights = [0.85, 1.15, 1.6]
+sources = [
+  "TDK CGA series general, 003-01/20130611, p.7 (standard thickness 0.60/0.85/1.15/1.60)",
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 4 p.7, Table 6 p.9",
+  "Samsung CL31 series (web summary only, not file-verified)",
+]
+
+# 1210: TDK and Yageo both list 1.6, 2.0 and 2.5. 1.25 is also listed by both and would qualify by the two-makers rule;
+# it is left out to follow Roman's example list. Left out as one maker's thin or thick specials: 0.85, 1.15, 1.5, 1.9, 2.3.
+# Samsung CL32 suggested a band of 0.6 (web summary only).
+[[chip]]
+kind = "C"
+size = "1210"
+metric = "3225"
+style = "mlcc"
+length = 3.2
+width = 2.5
+band = 0.5
+heights = [1.6, 2.0, 2.5]
+sources = [
+  "TDK CGA series general, 003-01/20130611, p.8 (standard thickness 1.25/1.60/2.00/2.30/2.50)",
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 5 p.8, Table 6 p.9",
+  "Samsung CL32 series (web summary only, not file-verified)",
+]
+
+# 1812: the shared subset of TDK and Yageo. Left out: 2.3, 2.8, 3.2 (TDK only, thick high-voltage types) and 0.6..1.5
+# (Yageo only, thin). The band 0.5 follows 1206 and 1210 and was not read from a drawing.
+[[chip]]
+kind = "C"
+size = "1812"
+metric = "4532"
+style = "mlcc"
+length = 4.5
+width = 3.2
+band = 0.5
+heights = [1.6, 2.0, 2.5]
+sources = [
+  "TDK CGA series general, 003-01/20130611, p.9 (standard thickness 1.60/2.00/2.30/2.50/2.80/3.20)",
+  "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 5 p.8, Table 6 p.9",
+]
+
+# ---------------------------------------------------------------- resistors
+# Makers: Samsung RC and Yageo RC_L, both thick film, one height per size. The band is the bottom-face termination length;
+# where the makers differ it is the mean. Where L, W differ by 0.05..0.1 the value matching the metric code is used (Samsung).
+# The height is the same for both makers except 0805 (Yageo 0.50, Samsung 0.55; 0.55 used, as on every larger size).
+
+[[chip]]
+kind = "R"
+size = "0201"
+metric = "0603"
+style = "resistor"
+length = 0.6
+width = 0.3
+band = 0.15
+heights = [0.23]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10",
+]
+
+[[chip]]
+kind = "R"
+size = "0402"
+metric = "1005"
+style = "resistor"
+length = 1.0
+width = 0.5
+band = 0.25
+heights = [0.35]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10",
+]
+
+[[chip]]
+kind = "R"
+size = "0603"
+metric = "1608"
+style = "resistor"
+length = 1.6
+width = 0.8
+band = 0.3
+heights = [0.45]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (bottom band 0.25)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10 (bottom band 0.35)",
+]
+
+[[chip]]
+kind = "R"
+size = "0805"
+metric = "2012"
+style = "resistor"
+length = 2.0
+width = 1.25
+band = 0.35
+heights = [0.55]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (height 0.50)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10 (height 0.55)",
+]
+
+[[chip]]
+kind = "R"
+size = "1206"
+metric = "3216"
+style = "resistor"
+length = 3.2
+width = 1.6
+band = 0.4
+heights = [0.55]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (length 3.10)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10",
+]
+
+[[chip]]
+kind = "R"
+size = "1210"
+metric = "3225"
+style = "resistor"
+length = 3.2
+width = 2.5
+band = 0.45
+heights = [0.55]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (3.10 x 2.60, bottom band 0.50)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10 (3.20 x 2.55, bottom band 0.40)",
+]
+
+[[chip]]
+kind = "R"
+size = "2010"
+metric = "5025"
+style = "resistor"
+length = 5.0
+width = 2.5
+band = 0.55
+heights = [0.55]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (bottom band 0.50)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10 (bottom band 0.60)",
+]
+
+[[chip]]
+kind = "R"
+size = "2512"
+metric = "6332"
+style = "resistor"
+length = 6.3
+width = 3.2
+band = 0.55
+heights = [0.55]
+sources = [
+  "Yageo RC_L general purpose chip resistors, product spec V.11 (7 Jul 2020), Table I p.4 (6.35 x 3.10, bottom band 0.50)",
+  "Samsung Electro-Mechanics Chip Resistors catalogue (Mar 2022), General_Standard(RC) dimensions p.10 (6.30 x 3.20, bottom band 0.60)",
+]
+
+# ---------------------------------------------------------------- inductors
+# Coilcraft HP (0402HP, 0603HP, 0805HP) has bodies larger than the EIA size it is named after (0402HP A max 1.09,
+# 0603HP A max 1.75, 0805HP 2.21 x 1.73 x 1.55 max), so no nominal is taken from it; it is only a cross-check.
+# Not listed: wirewound 0402, 0603 and 0805 (Murata LQW air-core RF types only, one maker, weakly sourced), and a
+# multilayer 1210 (no maker lists one). TDK has no wirewound chip inductor at 0603..1206.
+# Murata sources are sections of the "Chip Coils" catalogue, library file Murata/MURA-LQ.PDF (distributor copy, no page numbers).
+
+# 0201: Murata LQP03T and TDK MLG0603S, both 0.6 x 0.3 x 0.3, end 0.15.
+[[chip]]
+kind = "L"
+size = "0201"
+metric = "0603"
+style = "l_multilayer"
+length = 0.6
+width = 0.3
+band = 0.15
+heights = [0.3]
+colour = "ceramic"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQP03T_04 section",
+  "TDK MLG series, 1838670.pdf (Mar 2014), MLG0603S",
+]
+
+# 0402: Murata LQG15H and TDK MLG1005S, both 1.0 x 0.5 x 0.5. TDK MLF1005-J is the ferrite version of the same body.
+# Left out: 0.4 (Murata LQP15T film type, one maker).
+[[chip]]
+kind = "L"
+size = "0402"
+metric = "1005"
+style = "l_multilayer"
+length = 1.0
+width = 0.5
+band = 0.25
+heights = [0.5]
+colour = "ceramic"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQG15H section",
+  "TDK MLG series, 1838670.pdf (Mar 2014), MLG1005S",
+  "TDK MLF-J, e511_mlf-j-270633.pdf (Sep 2013), MLF1005-J (end electrode given as 0.10 min only)",
+]
+
+# 0603: Murata LQG18H, LQM18N, LQM18F and TDK MLG1608, MLF1608-J are all 1.6 x 0.8 x 0.8; ceramic and ferrite types share
+# the body, so one row, coloured ferrite.
+[[chip]]
+kind = "L"
+size = "0603"
+metric = "1608"
+style = "l_multilayer"
+length = 1.6
+width = 0.8
+band = 0.3
+heights = [0.8]
+colour = "ferrite"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQG18H, LQM18N and LQM18F sections",
+  "TDK MLG series, 1838670.pdf (Mar 2014), MLG1608",
+  "TDK MLF-J, e511_mlf-j-270633.pdf (Sep 2013), MLF1608-J",
+]
+
+# 0805: Murata LQM21N, LQM21D, LQM21F and TDK MLF2012-J both list 0.85 and 1.25.
+[[chip]]
+kind = "L"
+size = "0805"
+metric = "2012"
+style = "l_multilayer"
+length = 2.0
+width = 1.25
+band = 0.5
+heights = [0.85, 1.25]
+colour = "ferrite"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQM21N, LQM21D and LQM21F sections",
+  "TDK MLF-J, e511_mlf-j-270633.pdf (Sep 2013), MLF2012-J",
+  "TDK MLZ2012-A, 3097874.pdf",
+]
+
+# 1206 multilayer: Murata only (LQM31P 0.85, LQM31F 1.0), taken as Murata's two main 1206 series. TDK and Coilcraft have none.
+# The band 0.65 is the mean of LQM31P (0.6) and LQM31F (0.7).
+[[chip]]
+kind = "L"
+size = "1206"
+metric = "3216"
+style = "l_multilayer"
+length = 3.2
+width = 1.6
+band = 0.65
+heights = [0.85, 1.0]
+colour = "ferrite"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQM31P and LQM31F sections",
+]
+
+# 1206 wirewound: Murata only (LQH31M, LQH31C, LQH31H, all 1.8 high, end 0.7 min), taken as Murata's main series.
+[[chip]]
+kind = "L"
+size = "1206"
+metric = "3216"
+style = "l_wirewound"
+length = 3.2
+width = 1.6
+band = 0.7
+heights = [1.8]
+colour = "ferrite"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQH31M, LQH31C and LQH31H sections",
+]
+
+# 1210 wirewound: Murata LQH32M and LQH32C (2.0) and TDK NLV32 / NLCV32 (2.2), each one maker's main series.
+# Left out: 1.55 (Murata LQH32C_53 low-profile sub-series). The band 0.9 is Murata's; TDK's was not read.
+# One TDK listing shows 2.4 for NLVC32, so 2.2 may differ by part.
+[[chip]]
+kind = "L"
+size = "1210"
+metric = "3225"
+style = "l_wirewound"
+length = 3.2
+width = 2.5
+band = 0.9
+heights = [2.0, 2.2]
+colour = "ferrite"
+sources = [
+  "Murata Chip Coils catalogue MURA-LQ.PDF, LQH32M and LQH32C_23 sections",
+  "TDK NLV32T-6R8J-EF datasheet, nlv32t-6r8j-ef.pdf",
+]
