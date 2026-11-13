@@ -83,6 +83,7 @@
 "Device:Crystal_GND24" = "VHRD_Device"
 "Device:D_Schottky" = "VHRD_Device"
 "Device:D_Zener" = "VHRD_Device"
+"Device:L" = "VHRD_Device"
 "Device:L_Iron" = "VHRD_Device"
 "Device:NetTie_2" = "VHRD_Device"
 "Device:R" = "VHRD_Device"

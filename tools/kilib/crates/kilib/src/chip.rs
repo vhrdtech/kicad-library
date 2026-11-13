@@ -219,6 +219,24 @@ impl Part {
         }
     }
 
+    /// `Lib:Name` of the footprint.
+    pub fn footprint_id(&self) -> String {
+        format!("{}:{}", self.library(), self.name)
+    }
+
+    /// The generic symbol a board places it with (`VHRD_Device:C`), and the per-package symbol of this footprint
+    /// (`VHRD_Device:C_0805_H1.25`), as `migrate/2026-11-packages.toml` names them.
+    pub fn symbols(&self) -> (String, String) {
+        let h = mm(self.height);
+        match &self.body {
+            Body::Chip(c) => (format!("VHRD_Device:{:?}", c.kind), format!("VHRD_Device:{:?}_{}_H{h}", c.kind, c.size)),
+            Body::Power(p) => (
+                "VHRD_Device:L_Iron".into(),
+                format!("VHRD_Device:L_Iron_{:?}_{}x{}mm_H{h}", p.family, mm(p.length), mm(p.width)),
+            ),
+        }
+    }
+
     /// The footprint's model path, under `${VHRD_3DMODEL_DIR}`.
     pub fn model_ref(&self) -> String {
         format!("${{VHRD_3DMODEL_DIR}}/{MODEL_SUBDIR}/{}.3dshapes/{}.step", self.library(), self.name)
