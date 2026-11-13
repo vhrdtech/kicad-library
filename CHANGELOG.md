@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-13
+
 ### Added
 
 - `kilib model chip` (LIB-27): STEP models of chip passives and power inductors from the tables in `generate/`, one
