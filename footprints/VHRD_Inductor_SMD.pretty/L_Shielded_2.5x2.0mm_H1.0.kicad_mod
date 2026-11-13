@@ -1,0 +1,110 @@
+(footprint "L_Shielded_2.5x2.0mm_H1.0"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Shielded power inductor, body 2.5 x 2.0 x 1.0 mm, land from Sunlord SWPA series datasheet (Revised 2019/04/01, p.2), SWPA2520: recommended land a 0.8 / b 0.85 / c 2.0; the same land as Sunlord WPN2520H and TDK VLS252010CX-1 (0.85 / 0.8 / 0.85, 2.0), fits Sunlord SWPA252010S/252012S, Sunlord WPN252010H/HS, WPN252012H/HS/E, Bourns SRN2510/2512, TDK VLS252010CX-1/252012CX-1, VLS252010HBX-1/252012HBX-1, Würth WE-LQS 2512 (74404024...), model by kilib model chip")
+	(tags "inductor power shielded")
+	(property "Reference" "REF**"
+		(at -0.024 0.034 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(property "Value" "L_Shielded_2.5x2.0mm_H1.0"
+		(at 0.013 0.038 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 0.55 0.55)
+				(thickness 0.083)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.35 -1.1)
+		(end 1.35 -1.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -1.35 1.1)
+		(end 1.35 1.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 1.25 -1) (xy 1.25 1) (xy -1.25 1) (xy -1.25 -1))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -1.5 -1.25)
+		(end 1.5 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -0.825 0)
+		(size 0.85 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 0.825 0)
+		(size 0.85 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Inductor_SMD.3dshapes/L_Shielded_2.5x2.0mm_H1.0.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

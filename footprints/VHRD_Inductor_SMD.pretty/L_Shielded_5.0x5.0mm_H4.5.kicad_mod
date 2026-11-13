@@ -1,0 +1,110 @@
+(footprint "L_Shielded_5.0x5.0mm_H4.5"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Shielded power inductor, body 5.0 x 5.0 x 4.5 mm, land from Bourns SRN5040 datasheet (REV. 08/17, p.1): recommended layout 5.1 / 1.5 / 4.0 (span / pad / width); identical in TDK VLS5045EX (1.5 / 2.1 / 1.5, 4.0) and Taiyo Yuden LSXN5050 (1.5, pitch 3.6, 4.0), fits Bourns SRN5020TA/5040, TDK VLS5045EX, Taiyo Yuden LSXN5050 (4.9x4.9; old NR/NRS 50xx), Sunlord SWPA5012S/5020S/5040S/5045S, Würth WE-LQS 5020/5040 (74404052.../54...), model by kilib model chip")
+	(tags "inductor power shielded")
+	(property "Reference" "REF**"
+		(at -0.048 0.069 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "L_Shielded_5.0x5.0mm_H4.5"
+		(at 0.024 0.069 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -2.6 -2.6)
+		(end 2.6 -2.6)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -2.6 2.6)
+		(end 2.6 2.6)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 1.5 -2.5) (xy 2.5 -1.5) (xy 2.5 1.5) (xy 1.5 2.5) (xy -1.5 2.5) (xy -2.5 1.5) (xy -2.5 -1.5) (xy -1.5 -2.5))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -2.8 -2.75)
+		(end 2.8 2.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -1.8 0)
+		(size 1.5 4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 1.8 0)
+		(size 1.5 4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Inductor_SMD.3dshapes/L_Shielded_5.0x5.0mm_H4.5.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

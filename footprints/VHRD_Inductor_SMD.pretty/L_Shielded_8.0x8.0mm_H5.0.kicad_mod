@@ -1,0 +1,110 @@
+(footprint "L_Shielded_8.0x8.0mm_H5.0"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Shielded power inductor, body 8.0 x 8.0 x 5.0 mm, land from Sunlord SWPA series datasheet (Revised 2019/04/01, p.2), SWPA8040: recommended land a 3.8 / b 2.2 / c 7.5; Würth WE-LQS 8040 (3.8 / 2.4 / 7.5) and Taiyo Yuden LSXN8080 (C 7.5) agree, fits Sunlord SWPA8040S/8050S/8060S/8065S, Würth WE-LQS 8040 (74404084...), Taiyo Yuden LSXN8080 (old NR/NRS 80xx), model by kilib model chip")
+	(tags "inductor power shielded")
+	(property "Reference" "REF**"
+		(at -0.048 0.069 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "L_Shielded_8.0x8.0mm_H5.0"
+		(at 0.024 0.069 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -4.1 -4.1)
+		(end 4.1 -4.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -4.1 4.1)
+		(end 4.1 4.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 3.2 -4) (xy 4 -3.2) (xy 4 3.2) (xy 3.2 4) (xy -3.2 4) (xy -4 3.2) (xy -4 -3.2) (xy -3.2 -4))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -4.35 -4.25)
+		(end 4.35 4.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -3 0)
+		(size 2.2 7.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 3 0)
+		(size 2.2 7.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Inductor_SMD.3dshapes/L_Shielded_8.0x8.0mm_H5.0.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

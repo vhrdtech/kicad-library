@@ -1,0 +1,110 @@
+(footprint "L_Molded_2.5x2.0mm_H1.0"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Molded power inductor, body 2.5 x 2.0 x 1.0 mm, land from Murata DFE252012F reference specification (JETE243A-0017D-01, p.5): recommended PCB pattern 2.8 / 1.2 / 2.0 (span / gap / width); the same in Bourns SRP2510A, Taiyo Yuden LSAN2520 and Sunlord WPN252010U, fits Murata DFE252010F, DFE252012F/P, Bourns SRP2510A, Taiyo Yuden LSAN2520, LSEN2520 (old MAKK, MEKK), Sunlord WPN252010U/UF, TDK TFM252012ALMA, Würth WE-MAPI 2506/2508/2510/2512 (74438321.../22.../23.../24...), model by kilib model chip")
+	(tags "inductor power molded")
+	(property "Reference" "REF**"
+		(at -0.024 0.034 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(property "Value" "L_Molded_2.5x2.0mm_H1.0"
+		(at 0.013 0.038 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 0.55 0.55)
+				(thickness 0.083)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.35 -1.1)
+		(end 1.35 -1.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -1.35 1.1)
+		(end 1.35 1.1)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 1.15 -1) (xy 1.188268 -0.992388) (xy 1.220711 -0.970711) (xy 1.242388 -0.938268) (xy 1.25 -0.9) (xy 1.25 0.9) (xy 1.242388 0.938268) (xy 1.220711 0.970711) (xy 1.188268 0.992388) (xy 1.15 1) (xy -1.15 1) (xy -1.188268 0.992388) (xy -1.220711 0.970711) (xy -1.242388 0.938268) (xy -1.25 0.9) (xy -1.25 -0.9) (xy -1.242388 -0.938268) (xy -1.220711 -0.970711) (xy -1.188268 -0.992388) (xy -1.15 -1))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -1.65 -1.25)
+		(end 1.65 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -1 0)
+		(size 0.8 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 1 0)
+		(size 0.8 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Inductor_SMD.3dshapes/L_Molded_2.5x2.0mm_H1.0.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

@@ -1,0 +1,110 @@
+(footprint "L_Molded_7.1x6.5mm_H4.0"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Molded power inductor, body 7.1 x 6.5 x 4.0 mm, land from Bourns SRP6540 datasheet (REV. 03/18, p.1): recommended layout 7.40 / 3.70 / 3.40 (span / gap / width); identical in TDK SPM6530, fits Bourns SRP6540 (7.2x6.5), TDK SPM6530 (7.1x6.5), Sunlord MWSA 6.6x7.0 body, model by kilib model chip")
+	(tags "inductor power molded")
+	(property "Reference" "REF**"
+		(at -0.048 0.069 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "L_Molded_7.1x6.5mm_H4.0"
+		(at 0.024 0.069 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -3.65 -3.35)
+		(end 3.65 -3.35)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -3.65 3.35)
+		(end 3.65 3.35)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 3.25 -3.25) (xy 3.364805 -3.227164) (xy 3.462132 -3.162132) (xy 3.527164 -3.064805) (xy 3.55 -2.95) (xy 3.55 2.95) (xy 3.527164 3.064805) (xy 3.462132 3.162132) (xy 3.364805 3.227164) (xy 3.25 3.25) (xy -3.25 3.25) (xy -3.364805 3.227164) (xy -3.462132 3.162132) (xy -3.527164 3.064805) (xy -3.55 2.95) (xy -3.55 -2.95) (xy -3.527164 -3.064805) (xy -3.462132 -3.162132) (xy -3.364805 -3.227164) (xy -3.25 -3.25))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -3.95 -3.5)
+		(end 3.95 3.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -2.775 0)
+		(size 1.85 3.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 2.775 0)
+		(size 1.85 3.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Inductor_SMD.3dshapes/L_Molded_7.1x6.5mm_H4.0.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

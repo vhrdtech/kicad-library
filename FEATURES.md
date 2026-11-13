@@ -105,12 +105,17 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   `kilib migrate` moves placed symbols by their footprint (the schematic's cache gets the copies);
   `tests/per_package.rs` keeps the library and the map in step. 22 symbols for b153a's 15 generics. Next: the
   other boards
-- 🚧 LIB-27 chip-step-models: `kilib model chip` writes STEP models of chip passives and power inductors from the
+- ✅ LIB-27 chip-step-models: `kilib model chip` writes STEP models of chip passives and power inductors from the
   tables in `generate/` (one per size and height) into `${VHRD_3DMODEL_DIR}/generated/`; a STEP writer of kilib's
   own (`kilib::step`, AP214, coloured prism solids), no CAD kernel. KiCad's 3D viewer reads them with their colours
-- 🚧 LIB-28 chip-footprints: chip R, C and L footprints, one per size and body height (`C_0805_2012Metric_H1.25`):
+- ✅ LIB-28 chip-footprints: chip R, C and L footprints, one per size and body height (`C_0805_2012Metric_H1.25`):
   KiCad's stock IPC-7351 nominal land of the size, the generated model of that height (LIB-27); sizes and heights
   from the makers' tables in `generate/chip-passives.toml` (R 0201-2512, C 0201-1812, L 0201-1210, multilayer and
   wire-wound); `kilib footprint chip` makes them, each with its per-package symbol (`VHRD_Device:C_0805_H1.25`,
   LIB-26) on the generic `R`, `C` or `L`; `tests/chip_tables.rs` keeps tables, footprints and map in step. 34
   footprints
+- ✅ LIB-29 power-inductors: shielded (ferrite drum: Sunlord SWPA, Bourns SRN, TDK VLS, Würth LQS) and moulded
+  (metal composite: Murata DFE, Coilcraft XAL/XFL, Würth MAPI/XHMI, Cyntec, Bourns SRP, TDK SPM) power inductors,
+  one footprint per body and height (`L_Shielded_4.0x4.0mm_H2.0`, `L_Molded_4.0x4.0mm_H3.1`), the land of the maker
+  named in the description with the series it fits; bodies, electrodes and lands in `generate/power-inductors.toml`,
+  generated models, per-package symbols on `VHRD_Device:L_Iron`. 68 footprints over 17 bodies
