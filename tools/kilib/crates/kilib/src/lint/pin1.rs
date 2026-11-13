@@ -58,9 +58,11 @@ pub fn pin1(fp: &Footprint) -> Option<&Pad> {
     ["1", "A1", "K", "+"].iter().find_map(|n| fp.copper_pads().find(|p| p.number == *n))
 }
 
-/// The part has a pin 1 to mark.
+/// The part has a pin 1 to mark. A footprint tagged `symmetric` has none: its pins swap without harm when the part is
+/// turned (a crystal with the crystal on pins 1 and 3 and ground on 2 and 4, a bidirectional TVS), and a mark would
+/// only make people look for an orientation that does not matter.
 pub fn needs_mark(lib: &str, fp: &Footprint) -> bool {
-    if pin1(fp).is_none() {
+    if pin1(fp).is_none() || fp.tags.split_whitespace().any(|t| t.eq_ignore_ascii_case("symmetric")) {
         return false;
     }
     let mut numbers: Vec<&str> = fp.copper_pads().map(|p| p.number.as_str()).filter(|n| !n.is_empty()).collect();
@@ -653,5 +655,12 @@ mod tests {
         let bidir = diode(outline).replace("D_SOD-523", "D_SOD-523_BIDIR");
         assert!(run("VHRD_Diode_SMD", &bidir, Rule::Pin1).1.is_empty());
         assert!(run("VHRD_Resistor_SMD", &diode(outline).replace("D_SOD-523", "R_0402"), Rule::Pin1).1.is_empty());
+    }
+
+    #[test]
+    fn a_symmetric_part_wants_no_mark() {
+        assert!(!run("VHRD_Package_SO", &soic(RECT), Rule::Pin1).1.is_empty());
+        let tagged = soic(&format!("(tags \"crystal Symmetric\")\n{RECT}"));
+        assert!(run("VHRD_Package_SO", &tagged, Rule::Pin1).1.is_empty());
     }
 }

@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- kilib lint pin1: a footprint tagged `symmetric` wants no pin-1 mark (its pins swap without harm); the ECS 3.2x2.5 crystal and the D_*_BIDIR footprints carry the tag, so `just check-footprints` passes again.
+
 ## [0.3.0] - 2026-11-13
 
 ### Added

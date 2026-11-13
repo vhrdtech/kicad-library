@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(descr "Diode SMA (DO-214AC)")
-	(tags "Diode SMA (DO-214AC)")
+	(tags "Diode SMA (DO-214AC) symmetric")
 	(property "Reference" "REF**"
 		(at -0.024 -1.116 0)
 		(unlocked yes)
