@@ -142,6 +142,7 @@ pub struct Tables {
     pub power: Vec<Power>,
     #[serde(default)]
     pub shunt: Vec<Shunt>,
+    #[serde(default)]
     pub led: Vec<led::Led>,
 }
 
