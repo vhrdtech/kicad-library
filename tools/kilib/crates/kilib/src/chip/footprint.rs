@@ -102,7 +102,31 @@ pub fn make(footprints: &Path, stock: Option<&Path>, part: &Part) -> Result<Stri
             );
             derive(&text, part, &descr)
         }
-        Body::Power(_) => power(part),
+        Body::Power(p) => {
+            let mut descr = format!(
+                "{:?} power inductor, body {} x {} x {} mm",
+                p.family,
+                mm(p.length),
+                mm(p.width),
+                mm(part.height)
+            );
+            if !p.land_source.is_empty() {
+                descr.push_str(&format!(", land from {}", p.land_source));
+            }
+            if !p.fits.is_empty() {
+                descr.push_str(&format!(", fits {}", p.fits.join(", ")));
+            }
+            descr.push_str(", model by kilib model chip");
+            let tags = format!("inductor power {}", format!("{:?}", p.family).to_lowercase());
+            let land = Land { x: p.pad_x, length: p.pad_length, width: p.pad_width };
+            two_pads(part, &outline(p), land, &descr, &tags)
+        }
+        Body::Shunt(s) => {
+            let (x, y) = (s.length / 2.0, s.width / 2.0);
+            let body = [[x, -y], [x, y], [-x, y], [-x, -y]];
+            let land = Land { x: s.pad_x(), length: s.pad_length, width: s.pad_width };
+            two_pads(part, &body, land, &s.description(part.height), "resistor shunt current sense")
+        }
     }
 }
 
@@ -143,16 +167,24 @@ fn derive(text: &str, part: &Part, descr: &str) -> Result<String, String> {
     Ok(apply_edits(text, &edits))
 }
 
-/// A power inductor's footprint, drawn from its row and finished by the import (lint fixes, designator, Value).
-fn power(part: &Part) -> Result<String, String> {
-    let Body::Power(p) = &part.body else { unreachable!() };
+/// Two pads at -x and +x, each `length` along x and `width` across.
+struct Land {
+    x: f64,
+    length: f64,
+    width: f64,
+}
+
+/// A footprint drawn from a table row: two pads, the body outline on the fab layer and silkscreen along the long
+/// sides, finished by the import (lint fixes, designator, Value).
+fn two_pads(part: &Part, body: &[[f64; 2]], land: Land, descr: &str, tags: &str) -> Result<String, String> {
     let lib = part.library();
     let mut fab = String::new();
-    for c in outline(p) {
+    for c in body {
         fab.push_str(&format!(" (xy {} {})", mm6(c[0]), mm6(c[1])));
     }
     // Silkscreen along the long sides, 0.1 mm outside the body; the lint fix cuts it round the pads.
-    let (sx, sy) = (p.length / 2.0 + 0.1, p.width / 2.0 + 0.1);
+    let (lx, ly) = body.iter().fold((0f64, 0f64), |(x, y), c| (x.max(c[0].abs()), y.max(c[1].abs())));
+    let (sx, sy) = (lx + 0.1, ly + 0.1);
     let silk = |y: f64| {
         format!(
             "\t(fp_line\n\t\t(start {} {})\n\t\t(end {} {})\n\t\t(stroke\n\t\t\t(width 0.12)\n\t\t\t(type solid)\n\t\t)\n\t\t(layer \"F.SilkS\")\n\t)\n",
@@ -166,20 +198,10 @@ fn power(part: &Part) -> Result<String, String> {
         format!(
             "\t(pad \"{n}\" smd roundrect\n\t\t(at {} 0)\n\t\t(size {} {})\n\t\t(layers \"F.Cu\" \"F.Mask\" \"F.Paste\")\n\t\t(roundrect_rratio 0.1)\n\t)\n",
             mm6(x),
-            mm6(p.pad_length),
-            mm6(p.pad_width)
+            mm6(land.length),
+            mm6(land.width)
         )
     };
-    let mut descr =
-        format!("{:?} power inductor, body {} x {} x {} mm", p.family, mm(p.length), mm(p.width), mm(part.height));
-    if !p.land_source.is_empty() {
-        descr.push_str(&format!(", land from {}", p.land_source));
-    }
-    if !p.fits.is_empty() {
-        descr.push_str(&format!(", fits {}", p.fits.join(", ")));
-    }
-    descr.push_str(", model by kilib model chip");
-    let tags = format!("inductor power {}", format!("{:?}", p.family).to_lowercase());
     let text = format!(
         "(footprint {name}\n\t(version 20260206)\n\t(generator \"kilib\")\n\t(layer \"F.Cu\")\n\t(descr {descr})\n\t(tags {tags})\n\
          \t(property \"Reference\" \"REF**\"\n\t\t(at 0 0 0)\n\t\t(layer \"F.SilkS\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1 1)\n\t\t\t\t(thickness 0.15)\n\t\t\t)\n\t\t)\n\t)\n\
@@ -189,12 +211,12 @@ fn power(part: &Part) -> Result<String, String> {
          {pad1}{pad2}\t(embedded_fonts no)\n\
          \t(model {model}\n\t\t(offset\n\t\t\t(xyz 0 0 0)\n\t\t)\n\t\t(scale\n\t\t\t(xyz 1 1 1)\n\t\t)\n\t\t(rotate\n\t\t\t(xyz 0 0 0)\n\t\t)\n\t)\n)\n",
         name = quote(&part.name),
-        descr = quote(&descr),
-        tags = quote(&tags),
+        descr = quote(descr),
+        tags = quote(tags),
         top = silk(-sy),
         bottom = silk(sy),
-        pad1 = pad(1, -p.pad_x),
-        pad2 = pad(2, p.pad_x),
+        pad1 = pad(1, -land.x),
+        pad2 = pad(2, land.x),
         model = quote(&part.model_ref()),
     );
     stock::import_into(&text, lib)
@@ -240,6 +262,20 @@ pad_length = 1.5
 pad_width = 3.6
 land_source = "Sunlord SWPA4020S"
 fits = ["Sunlord SWPA4020S"]
+
+[[shunt]]
+size = "1206"
+metric = "3216"
+length = 3.2
+width = 1.6
+heights = [0.6]
+term = 1.15
+pad_length = 2.8
+pad_width = 1.84
+gap = 0.6
+range = "5–8 mΩ"
+land_source = "Yageo PE V.2 Table 7"
+fits = ["Yageo PE1206 5–8 mΩ"]
 "#;
 
     /// A stock-like base: what KiCad's generator writes, cut down.
@@ -290,7 +326,7 @@ fits = ["Sunlord SWPA4020S"]
     #[test]
     fn power_footprints_are_drawn_and_linted() {
         let (dir, parts) = setup();
-        let items = plan(dir.path(), None, &parts[2..]);
+        let items = plan(dir.path(), None, &parts[2..3]);
         let Outcome::New(text) = &items[0].outcome else { panic!("{:?}", items[0].outcome) };
         let fp = crate::footprint::read(text).unwrap();
         assert_eq!(fp.name, "L_Shielded_4.0x4.0mm_H2.0");
@@ -303,6 +339,31 @@ fits = ["Sunlord SWPA4020S"]
         let (_, new, _) = crate::lint::lint_text(
             text,
             "VHRD_Inductor_SMD",
+            &crate::lint::Rule::ALL,
+            &crate::lint::Context::default(),
+        )
+        .unwrap();
+        assert!(new.is_none(), "lint would still change it");
+    }
+
+    #[test]
+    fn shunt_footprints_have_the_makers_land() {
+        let (dir, parts) = setup();
+        let items = plan(dir.path(), None, &parts[3..]);
+        let Outcome::New(text) = &items[0].outcome else { panic!("{:?}", items[0].outcome) };
+        let fp = crate::footprint::read(text).unwrap();
+        assert_eq!(fp.name, "R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm");
+        // Pads 2.8 long, 0.6 apart: centres at 0.3 + 1.4 = 1.7, span 6.2.
+        assert!(text.contains("(at -1.7 0)") && text.contains("(at 1.7 0)") && text.contains("(size 2.8 1.84)"));
+        assert!(text.contains(
+            "land 2.80 x 1.84 mm pads 0.60 mm apart for 5–8 mΩ, land from Yageo PE V.2 Table 7, fits Yageo PE1206 5–8 mΩ"
+        ));
+        assert!(text.contains(
+            "generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm.step"
+        ));
+        let (_, new, _) = crate::lint::lint_text(
+            text,
+            "VHRD_Resistor_SMD",
             &crate::lint::Rule::ALL,
             &crate::lint::Context::default(),
         )

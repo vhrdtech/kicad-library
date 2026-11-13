@@ -6,6 +6,8 @@
 //!   width, termination band and the heights, from the makers' tables.
 //! - `generate/power-inductors.toml`: shielded and moulded power inductors (`[[power]]`), body, bottom
 //!   terminations and the maker's recommended land.
+//! - `generate/current-sense.toml`: metal-element current-sense resistors (`[[shunt]]`, [`shunt`]), body,
+//!   termination length and the maker's land per resistance range.
 //!
 //! A chip part is named after KiCad's stock footprint of its size with the height added
 //! (`C_0805_2012Metric_H1.25`), a power inductor by its family and body (`L_Shielded_4.0x4.0mm_H2.0`). Models
@@ -18,11 +20,15 @@ use serde::Deserialize;
 use crate::step::{Rgb, Solid};
 
 pub mod footprint;
+pub mod shunt;
+
+pub use shunt::Shunt;
 
 /// The folder of the tables in a checkout.
 pub const TABLE_DIR: &str = "generate";
 pub const CHIP_TABLE: &str = "chip-passives.toml";
 pub const POWER_TABLE: &str = "power-inductors.toml";
+pub const SHUNT_TABLE: &str = "current-sense.toml";
 /// Where the models go under `${VHRD_3DMODEL_DIR}`.
 pub const MODEL_SUBDIR: &str = "generated";
 
@@ -133,6 +139,8 @@ pub struct Tables {
     pub chip: Vec<Chip>,
     #[serde(default)]
     pub power: Vec<Power>,
+    #[serde(default)]
+    pub shunt: Vec<Shunt>,
 }
 
 impl Tables {
@@ -140,7 +148,7 @@ impl Tables {
     pub fn load(library: &Path) -> Result<Tables, String> {
         let dir = library.join(TABLE_DIR);
         let mut all = Tables::default();
-        for name in [CHIP_TABLE, POWER_TABLE] {
+        for name in [CHIP_TABLE, POWER_TABLE, SHUNT_TABLE] {
             let path = dir.join(name);
             if !path.exists() {
                 continue;
@@ -148,6 +156,7 @@ impl Tables {
             let t = Tables::read(&path)?;
             all.chip.extend(t.chip);
             all.power.extend(t.power);
+            all.shunt.extend(t.shunt);
         }
         Ok(all)
     }
@@ -169,6 +178,11 @@ impl Tables {
         for p in &self.power {
             for &h in &p.heights {
                 parts.push(Part { name: power_name(p, h), height: h, body: Body::Power(p.clone()) });
+            }
+        }
+        for s in &self.shunt {
+            for &h in &s.heights {
+                parts.push(Part { name: s.name(h), height: h, body: Body::Shunt(s.clone()) });
             }
         }
         let mut seen = std::collections::BTreeSet::new();
@@ -201,6 +215,7 @@ fn power_name(p: &Power, h: f64) -> String {
 pub enum Body {
     Chip(Chip),
     Power(Power),
+    Shunt(Shunt),
 }
 
 /// One footprint and model: a body in one height.
@@ -216,6 +231,7 @@ impl Part {
         match &self.body {
             Body::Chip(c) => c.kind.library(),
             Body::Power(_) => Kind::L.library(),
+            Body::Shunt(_) => Kind::R.library(),
         }
     }
 
@@ -234,6 +250,7 @@ impl Part {
                 "VHRD_Device:L_Iron".into(),
                 format!("VHRD_Device:L_Iron_{:?}_{}x{}mm_H{h}", p.family, mm(p.length), mm(p.width)),
             ),
+            Body::Shunt(s) => ("VHRD_Device:R".into(), s.symbol(self.height)),
         }
     }
 
@@ -279,6 +296,11 @@ impl Part {
                     return bad("the pads must have a size and must not meet");
                 }
             }
+            Body::Shunt(s) => {
+                if let Err(e) = s.check(h) {
+                    return bad(&e);
+                }
+            }
         }
         Ok(())
     }
@@ -301,6 +323,8 @@ pub mod colour {
     pub const FERRITE: Rgb = Rgb(0.24, 0.24, 0.26);
     /// Power inductor bodies.
     pub const POWER: Rgb = Rgb(0.20, 0.20, 0.22);
+    /// A current-sense resistor's metal element (manganin, copper-nickel).
+    pub const ELEMENT: Rgb = Rgb(0.72, 0.52, 0.34);
 }
 
 /// The model of a part: its solids, in mm, on z = 0.
@@ -308,11 +332,12 @@ pub fn model(part: &Part) -> Vec<Solid> {
     match &part.body {
         Body::Chip(c) => chip_model(c, part.height),
         Body::Power(p) => power_model(p, part.height),
+        Body::Shunt(s) => shunt::model(s, part.height),
     }
 }
 
 /// A box centred in y, from x0 to x1 and z0 to z1, `width` wide.
-fn slab(name: &str, x: (f64, f64), width: f64, z: (f64, f64), colour: Rgb) -> Solid {
+pub(crate) fn slab(name: &str, x: (f64, f64), width: f64, z: (f64, f64), colour: Rgb) -> Solid {
     Solid::cuboid(name, [x.0, -width / 2.0, z.0], [x.1, width / 2.0, z.1], colour)
 }
 
@@ -466,6 +491,18 @@ term_x = 1.6
 pad_x = 1.7
 pad_length = 1.4
 pad_width = 3.4
+
+[[shunt]]
+size = "1206"
+metric = "3216"
+length = 3.2
+width = 1.6
+heights = [0.6]
+term = 1.15
+pad_length = 2.8
+pad_width = 1.84
+gap = 0.6
+range = "5–8 mΩ"
 "#;
 
     #[test]
@@ -484,8 +521,15 @@ pad_width = 3.4
                 "L_Shielded_4.0x4.0mm_H1.8",
                 "L_Shielded_4.0x4.0mm_H2.0",
                 "L_Molded_4.3x4.3mm_H3.0",
+                "R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm",
             ]
         );
+        let shunt = t.parts().unwrap().pop().unwrap();
+        assert_eq!(
+            shunt.symbols(),
+            ("VHRD_Device:R".into(), "VHRD_Device:R_Shunt_1206_H0.6_Pad2.80x1.84mm_Gap0.60mm".into())
+        );
+        assert_eq!(shunt.library(), "VHRD_Resistor_SMD");
         assert_eq!(mm(2.0), "2.0");
         assert_eq!(mm(0.35), "0.35");
         assert_eq!(mm(1.25), "1.25");
@@ -526,6 +570,7 @@ pad_width = 3.4
             let (l, w) = match &part.body {
                 Body::Chip(c) => (c.length, c.width),
                 Body::Power(p) => (p.length, p.width),
+                Body::Shunt(s) => (s.length, s.width),
             };
             let want = ([-l / 2.0, -w / 2.0, 0.0], [l / 2.0, w / 2.0, part.height]);
             for k in 0..3 {
@@ -549,5 +594,8 @@ pad_width = 3.4
         let t: Tables = toml::from_str(&wide).unwrap();
         assert!(t.parts().unwrap_err().contains("band"));
         assert!(toml::from_str::<Tables>(&TABLE.replace("band = 0.5\n", "band = 0.5\nfoo = 1\n")).is_err());
+        let long = TABLE.replace("term = 1.15", "term = 1.6");
+        let t: Tables = toml::from_str(&long).unwrap();
+        assert!(t.parts().unwrap_err().contains("R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm: term"));
     }
 }

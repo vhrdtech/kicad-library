@@ -104,7 +104,8 @@ pub enum FootprintCommand {
     /// else a fresh import of KiCad's stock one) under the new name, its description naming the body and height
     /// and its 3D model at ${VHRD_3DMODEL_DIR}/generated/ (`kilib model chip`); pads and drawing stay the base's.
     /// A power inductor (L_Shielded_4.0x4.0mm_H2.0) is drawn from its row: the maker's land, the body on the fab
-    /// layer, then the fixes of `kilib lint` and the designator and Value of `kilib designators`. Only new files
+    /// layer, then the fixes of `kilib lint` and the designator and Value of `kilib designators`; a current-sense
+    /// resistor (R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm) the same way. Only new files
     /// are written; one that differs from what would be made is reported. Without --write it lists what it would
     /// write and exits 1 when anything would.
     #[command(after_help = "\
