@@ -197,6 +197,14 @@ same under `footprints/<name>.pretty` for footprints.
   inductors with their bottom electrodes. The STEP file is written by kilib itself (AP214, straight prisms as
   B-rep solids with a colour each), no CAD kernel involved. It lists what it would write and exits 1; `--write`
   writes.
+- `kilib footprint chip [NAME...]` makes the footprints of the same tables, one per size and height. A chip part
+  (`C_0805_2012Metric_H1.25`) is its size's base footprint (`C_0805_2012Metric`, the checkout's copy, else a fresh
+  `stock import` of KiCad's IPC-7351 nominal one from `--stock-dir`) under the new name, its description naming body
+  and height, its model the generated one; pads and drawing stay the base's. A power inductor
+  (`L_Shielded_4.0x4.0mm_H2.0`) is drawn from its row (the maker's land, the body on the fab layer) and finished with
+  the fixes of `kilib lint` and the designator and Value of `kilib designators`. Only new files are written; one
+  that differs from what would be made is reported and left. It lists what it would write and exits 1; `--write`
+  writes.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ### Migrating an older board

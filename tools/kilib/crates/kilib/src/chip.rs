@@ -17,6 +17,8 @@ use serde::Deserialize;
 
 use crate::step::{Rgb, Solid};
 
+pub mod footprint;
+
 /// The folder of the tables in a checkout.
 pub const TABLE_DIR: &str = "generate";
 pub const CHIP_TABLE: &str = "chip-passives.toml";
@@ -336,7 +338,7 @@ fn chip_model(c: &Chip, h: f64) -> Vec<Solid> {
 
 /// The body outline seen from the top, counter-clockwise; a chamfer cuts each corner straight, a round corner is
 /// drawn with four straight pieces.
-fn outline(p: &Power) -> Vec<[f64; 2]> {
+pub(crate) fn outline(p: &Power) -> Vec<[f64; 2]> {
     use std::f64::consts::FRAC_PI_2;
     let (x, y, c) = (p.length / 2.0, p.width / 2.0, p.corner);
     let steps = match p.corners {

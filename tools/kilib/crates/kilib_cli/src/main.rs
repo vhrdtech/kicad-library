@@ -1,8 +1,8 @@
 //! `kilib`: checks that KiCad boards resolve their libraries on this PC, and sets up this PC's KiCad config for
 //! kicad-library.
 
+mod chip_cmd;
 mod lint_cmd;
-mod model_cmd;
 mod usage;
 
 use std::io::Write;
@@ -61,6 +61,7 @@ Examples:
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
   kilib lint --left                     what the footprint rules leave for a person (pin 1, courtyards, models...)
   kilib model chip --write              STEP models of the chip passives in generate/*.toml
+  kilib footprint chip --write          their footprints, one per size and height
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -330,7 +331,10 @@ Examples:
     Lint(lint_cmd::LintArgs),
     /// Generate 3D models from data (chip passives, power inductors)
     #[command(subcommand)]
-    Model(model_cmd::ModelCommand),
+    Model(chip_cmd::ModelCommand),
+    /// Generate footprints from data (chip passives, power inductors)
+    #[command(subcommand)]
+    Footprint(chip_cmd::FootprintCommand),
 }
 
 #[derive(Subcommand)]
@@ -520,7 +524,12 @@ fn main() -> ExitCode {
         Command::Model(cmd) => {
             let (name, flags) = cmd.usage();
             usage::record(name, &flags);
-            model_cmd::run(cmd)
+            chip_cmd::run(cmd)
+        }
+        Command::Footprint(cmd) => {
+            let (name, flags) = cmd.usage();
+            usage::record(name, &flags);
+            chip_cmd::run_footprints(cmd)
         }
         Command::Layers { boards, write } => {
             usage::record("layers", &[("write", write)]);
