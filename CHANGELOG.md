@@ -19,7 +19,6 @@
 - `kilib per-package --map FILE [BOARD...]`: makes the per-package symbols a map names that the checkout lacks
   (`--write`), checks those there, and lists the generic symbols the boards place by footprint with the map's
   symbol for each.
-
 - `kilib check --only VHRD_`: every library a board or the library names must start with the prefix. A symbol,
   footprint or `Footprint` field from another library is a problem, and so are a schematic's embedded symbols
   (`lib_symbols`, with their `Footprint` fields) and the library part of `ki_fp_filters` patterns, so nothing from
