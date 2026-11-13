@@ -20,13 +20,21 @@ pub struct Solid {
     pub z0: f64,
     pub z1: f64,
     pub colour: Rgb,
+    /// 0 opaque .. 1 invisible: a clear lens is drawn see-through (`SURFACE_STYLE_TRANSPARENT`, which KiCad's
+    /// 3D viewer renders).
+    pub transparency: f64,
 }
 
 impl Solid {
     /// An axis-aligned box from `min` to `max`.
     pub fn cuboid(name: &str, min: [f64; 3], max: [f64; 3], colour: Rgb) -> Solid {
         let outline = vec![[min[0], min[1]], [max[0], min[1]], [max[0], max[1]], [min[0], max[1]]];
-        Solid { name: name.into(), outline, z0: min[2], z1: max[2], colour }
+        Solid { name: name.into(), outline, z0: min[2], z1: max[2], colour, transparency: 0.0 }
+    }
+
+    /// The solid drawn see-through, `t` from 0 (opaque) to 1.
+    pub fn transparent(self, t: f64) -> Solid {
+        Solid { transparency: t, ..self }
     }
 
     /// Why the solid cannot be written: fewer than three corners, no height, a corner repeated, or an outline
@@ -38,6 +46,9 @@ impl Solid {
         }
         if self.z1 - self.z0 <= 1e-9 {
             return Err(format!("{}: no height ({} to {})", self.name, self.z0, self.z1));
+        }
+        if !(0.0..1.0).contains(&self.transparency) {
+            return Err(format!("{}: transparency {} is not in 0..1", self.name, self.transparency));
         }
         for i in 0..n {
             let [a, b, c] = [self.outline[i], self.outline[(i + 1) % n], self.outline[(i + 2) % n]];
@@ -219,7 +230,13 @@ pub fn write(name: &str, solids: &[Solid]) -> Result<String, String> {
         let fill_colour = w.add(format!("FILL_AREA_STYLE_COLOUR('',#{colour})"));
         let fill = w.add(format!("FILL_AREA_STYLE('',(#{fill_colour}))"));
         let surface_fill = w.add(format!("SURFACE_STYLE_FILL_AREA(#{fill})"));
-        let side = w.add(format!("SURFACE_SIDE_STYLE('',(#{surface_fill}))"));
+        let side = if s.transparency > 0.0 {
+            let t = w.add(format!("SURFACE_STYLE_TRANSPARENT({})", real(s.transparency)));
+            let render = w.add(format!("SURFACE_STYLE_RENDERING_WITH_PROPERTIES(.NORMAL_SHADING.,#{colour},(#{t}))"));
+            w.add(format!("SURFACE_SIDE_STYLE('',(#{surface_fill},#{render}))"))
+        } else {
+            w.add(format!("SURFACE_SIDE_STYLE('',(#{surface_fill}))"))
+        };
         let usage = w.add(format!("SURFACE_STYLE_USAGE(.BOTH.,#{side})"));
         let assign = w.add(format!("PRESENTATION_STYLE_ASSIGNMENT((#{usage}))"));
         styled.push(w.add(format!("STYLED_ITEM('color',(#{assign}),#{brep})")));
@@ -262,7 +279,7 @@ mod tests {
             [-2.0, 1.0],
             [-2.0, -1.0],
         ];
-        Solid { name: "oct".into(), outline, z0: 0.1, z1: 1.0, colour: GREY }
+        Solid { name: "oct".into(), outline, z0: 0.1, z1: 1.0, colour: GREY, transparency: 0.0 }
     }
 
     #[test]
@@ -354,5 +371,15 @@ mod tests {
         let flat = Solid::cuboid("flat", [0.0; 3], [1.0, 1.0, 0.0], GREY);
         assert!(write("x", &[flat]).unwrap_err().contains("no height"));
         assert!(write("x", &[]).is_err());
+        let ghost = Solid::cuboid("ghost", [0.0; 3], [1.0; 3], GREY).transparent(1.0);
+        assert!(write("x", &[ghost]).unwrap_err().contains("transparency"));
+    }
+
+    #[test]
+    fn a_transparent_solid_says_so() {
+        let lens = Solid::cuboid("lens", [0.0; 3], [1.0; 3], GREY).transparent(0.5);
+        let text = write("x", &[lens, octagon()]).unwrap();
+        assert_eq!(text.matches("SURFACE_STYLE_TRANSPARENT(0.5)").count(), 1);
+        assert_eq!(text.matches("SURFACE_STYLE_RENDERING_WITH_PROPERTIES(.NORMAL_SHADING.,").count(), 1);
     }
 }

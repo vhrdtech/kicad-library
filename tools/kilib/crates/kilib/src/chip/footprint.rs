@@ -10,7 +10,7 @@
 
 use std::path::{Path, PathBuf};
 
-use crate::chip::{Body, Part, mm, outline};
+use crate::chip::{Body, Part, led, mm, outline};
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node, quote};
 use crate::stock;
@@ -79,19 +79,7 @@ pub fn make(footprints: &Path, stock: Option<&Path>, part: &Part) -> Result<Stri
     match &part.body {
         Body::Chip(c) => {
             let base = format!("{:?}_{}_{}Metric", c.kind, c.size, c.metric);
-            let lib = part.library();
-            let ours = footprints.join(format!("{lib}.pretty")).join(format!("{base}.kicad_mod"));
-            let text = match std::fs::read_to_string(&ours) {
-                Ok(t) => t,
-                Err(_) => {
-                    let stock =
-                        stock.ok_or(format!("{lib}:{base} is not in the checkout and no stock folder given"))?;
-                    let stock_lib = lib.strip_prefix(stock::PREFIX).unwrap_or(lib);
-                    let from = stock.join(format!("{stock_lib}.pretty")).join(format!("{base}.kicad_mod"));
-                    let t = std::fs::read_to_string(&from).map_err(|e| format!("{}: {e}", from.display()))?;
-                    stock::import_into(&t, lib)?
-                }
-            };
+            let text = base_text(footprints, stock, part.library(), &base)?;
             let descr = format!(
                 "{}, body {} x {} x {} mm (height {} mm), model by kilib model chip",
                 c.kind_name(),
@@ -127,7 +115,34 @@ pub fn make(footprints: &Path, stock: Option<&Path>, part: &Part) -> Result<Stri
             let land = Land { x: s.land.pad_x(), length: s.land.pad_length(), width: s.land.width };
             two_pads(part, &body, land, &s.description(part.height), "resistor shunt current sense")
         }
+        Body::Led(l, c) => {
+            let text = led::footprint_base(&base_text(footprints, stock, part.library(), &l.base())?, l)?;
+            let descr = format!(
+                "LED SMD {} ({} Metric), {}, IPC-7351 nominal land, body {} x {} x {} mm, model by kilib model chip",
+                l.size,
+                l.metric,
+                c.name().to_lowercase(),
+                mm(l.length),
+                mm(l.width),
+                mm(l.height)
+            );
+            // The new silkscreen and the name go through the library rules' fixes again.
+            stock::import_into(&derive(&text, part, &descr)?, part.library())
+        }
     }
+}
+
+/// The base footprint `base` of library `lib`: the checkout's copy, else a fresh import of the stock one.
+fn base_text(footprints: &Path, stock: Option<&Path>, lib: &str, base: &str) -> Result<String, String> {
+    let ours = footprints.join(format!("{lib}.pretty")).join(format!("{base}.kicad_mod"));
+    if let Ok(t) = std::fs::read_to_string(&ours) {
+        return Ok(t);
+    }
+    let stock = stock.ok_or(format!("{lib}:{base} is not in the checkout and no stock folder given"))?;
+    let stock_lib = lib.strip_prefix(stock::PREFIX).unwrap_or(lib);
+    let from = stock.join(format!("{stock_lib}.pretty")).join(format!("{base}.kicad_mod"));
+    let t = std::fs::read_to_string(&from).map_err(|e| format!("{}: {e}", from.display()))?;
+    stock::import_into(&t, lib)
 }
 
 impl crate::chip::Chip {

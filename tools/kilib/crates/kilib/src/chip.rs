@@ -23,6 +23,7 @@ pub mod footprint;
 pub mod shunt;
 
 pub use shunt::{Shunt, ShuntPart};
+pub mod led;
 
 /// The folder of the tables in a checkout.
 pub const TABLE_DIR: &str = "generate";
@@ -141,6 +142,7 @@ pub struct Tables {
     pub power: Vec<Power>,
     #[serde(default)]
     pub shunt: Vec<Shunt>,
+    pub led: Vec<led::Led>,
 }
 
 impl Tables {
@@ -148,7 +150,7 @@ impl Tables {
     pub fn load(library: &Path) -> Result<Tables, String> {
         let dir = library.join(TABLE_DIR);
         let mut all = Tables::default();
-        for name in [CHIP_TABLE, POWER_TABLE, SHUNT_TABLE] {
+        for name in [CHIP_TABLE, POWER_TABLE, SHUNT_TABLE, led::TABLE] {
             let path = dir.join(name);
             if !path.exists() {
                 continue;
@@ -157,6 +159,7 @@ impl Tables {
             all.chip.extend(t.chip);
             all.power.extend(t.power);
             all.shunt.extend(t.shunt);
+            all.led.extend(t.led);
         }
         Ok(all)
     }
@@ -182,6 +185,11 @@ impl Tables {
         }
         for (name, height, s) in shunt::parts(&self.shunt)? {
             parts.push(Part { name, height, body: Body::Shunt(s) });
+        }
+        for l in &self.led {
+            for &c in &l.colours {
+                parts.push(Part { name: l.name(c), height: l.height, body: Body::Led(l.clone(), c) });
+            }
         }
         let mut seen = std::collections::BTreeSet::new();
         for p in &parts {
@@ -214,6 +222,7 @@ pub enum Body {
     Chip(Chip),
     Power(Power),
     Shunt(ShuntPart),
+    Led(led::Led, led::Emission),
 }
 
 /// One footprint and model: a body in one height.
@@ -230,6 +239,7 @@ impl Part {
             Body::Chip(c) => c.kind.library(),
             Body::Power(_) => Kind::L.library(),
             Body::Shunt(_) => Kind::R.library(),
+            Body::Led(..) => led::LIBRARY,
         }
     }
 
@@ -249,6 +259,7 @@ impl Part {
                 format!("VHRD_Device:L_Iron_{:?}_{}x{}mm_H{h}", p.family, mm(p.length), mm(p.width)),
             ),
             Body::Shunt(s) => ("VHRD_Device:R".into(), s.symbol(self.height)),
+            Body::Led(l, c) => l.symbols(*c),
         }
     }
 
@@ -295,6 +306,7 @@ impl Part {
                 }
             }
             Body::Shunt(_) => {}
+            Body::Led(l, _) => l.check(&self.name)?,
         }
         Ok(())
     }
@@ -327,6 +339,7 @@ pub fn model(part: &Part) -> Vec<Solid> {
         Body::Chip(c) => chip_model(c, part.height),
         Body::Power(p) => power_model(p, part.height),
         Body::Shunt(s) => shunt::model(s, part.height),
+        Body::Led(l, c) => led::model(l, *c),
     }
 }
 
@@ -401,7 +414,14 @@ pub(crate) fn outline(p: &Power) -> Vec<[f64; 2]> {
 fn power_model(p: &Power, h: f64) -> Vec<Solid> {
     // The electrodes stand a little proud of the body's bottom, as on the real part.
     let t = 0.05;
-    let mut solids = vec![Solid { name: "body".into(), outline: outline(p), z0: t, z1: h, colour: colour::POWER }];
+    let mut solids = vec![Solid {
+        name: "body".into(),
+        outline: outline(p),
+        z0: t,
+        z1: h,
+        colour: colour::POWER,
+        transparency: 0.0,
+    }];
     for (i, sx) in [(1, -1.0), (2, 1.0)] {
         let x = sx * p.term_x;
         let (x0, x1) = (x - p.term_length / 2.0, x + p.term_length / 2.0);
@@ -564,6 +584,7 @@ maker_land = { pad_length = 2.8, pad_width = 1.84, gap = 0.6, source = "PE V.2 T
                 Body::Chip(c) => (c.length, c.width),
                 Body::Power(p) => (p.length, p.width),
                 Body::Shunt(s) => (s.model.length.nominal, s.model.width.nominal),
+                Body::Led(l, _) => (l.length, l.width),
             };
             let want = ([-l / 2.0, -w / 2.0, 0.0], [l / 2.0, w / 2.0, part.height]);
             for k in 0..3 {
