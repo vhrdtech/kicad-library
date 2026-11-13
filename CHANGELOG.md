@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-13
+
 ### Added
 
 - Chip LED footprints (LIB-31), 48 of them, each with its generated model and its per-package symbol: 0402 (H0.2,
