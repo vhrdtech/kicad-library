@@ -1,0 +1,568 @@
+# Power inductors: body sizes, bottom electrodes and land patterns (LIB-29).
+#
+# One [[power]] table per family and body. The footprint name is
+# L_<family>_<length>x<width>mm_H<height>, one footprint per height.
+# Read from the makers' datasheets on 13 Nov 2026 (session power-l-table).
+#
+# Families:
+# - Shielded: ferrite drum core with magnetic resin or a ferrite sleeve
+#   (Sunlord SWPA/WPN, Taiyo Yuden LSXN = old NR/NRS, Bourns SRN, TDK VLS,
+#   Würth WE-LQS).
+# - Molded: metal-composite moulded body (Coilcraft XAL/XFL/XEL/XGL, Würth
+#   WE-MAPI/WE-XHMI, Murata DFE, TDK SPM/TFM, Bourns SRP, Cyntec, Sunlord MWSA,
+#   Taiyo Yuden LSEN/LSAN). Molded parts come in two land styles that need
+#   different bodies: wide bottom-only electrodes (Coilcraft, Würth XHMI) and
+#   narrow L-shaped lead-frame terminals (Bourns SRP, Cyntec, TDK SPM,
+#   Sunlord MWSA). They differ in body size too, so they get separate rows.
+#
+# Rules used for every row:
+# - Both families get a row where both sell the body, even where the lands
+#   agree (2016): the 3D model differs.
+# - The land is the one most makers share; where none is shared, the most
+#   conservative one that covers every listed part's bottom electrode. A part
+#   is in `fits` only when its electrode lies on the chosen pads (an inner
+#   overhang of up to 0.15 mm is said in a comment).
+# - Heights are the maximum heights the makers sell in that body (nominal +
+#   tolerance where only a nominal is printed). Values within 0.1 mm are one
+#   height: the value most makers print (ties: the higher one), so a model can
+#   be up to 0.1 mm lower than the part.
+# - No datasheet dimensions the corner chamfers or radii: every `corner` is an
+#   estimate from the drawings.
+# - The electrode (term_*) is what one representative series draws; it is
+#   for the 3D model only.
+#
+# Left out:
+# - Bourns SRN6045, SRN8040: D-shaped electrodes, not two rectangles.
+# - Coilcraft XFL2006/2010 (1.9x2.0), Taiyo Yuden LSXN 2020/2424: one maker
+#   per body.
+# - Coilcraft XEL3515/3520, XGL3530 (3.2x3.5) and Bourns SRP3020TA (3.5x3.2):
+#   no shared body (the electrodes sit on different axes).
+# - TDK SPM3012/3015/3020 (3.2x3.0, narrow L-terminals): one maker.
+# - TDK SPM4030 (4.2x4.0): electrode reaches 0.95 mm from centre, 0.15 inside
+#   the L-terminal 4.4x4.2 pads, and its body has lugged chamfers.
+# - Würth WE-MAPI5020/5030 (5.4x5.4): 1.6 mm electrodes reach 2.7 mm out,
+#   0.45 past the Coilcraft 5.3x5.5 pads; one maker for its own land.
+# - Bourns SRP6030CA (6.4x6.6): its terminals sit 1.8..3.2 mm out, off the
+#   Coilcraft 6.4x6.6 pads; one maker.
+# - Cyntec VCMT063T (6.95x6.6): gap 3.3 against 3.7 of the 7.1x6.5 row.
+# - Coilcraft XAL7020/7030 (7.5x7.5), Würth WE-XHMI8080, Sunlord SWRB (12 mm):
+#   one maker per body.
+#
+# Not filed in the library: alma-1b has no ~/sync. Every URL below can be
+# fetched into it with `tpm lib fetch URL` (or `tpm lib add`) on a PC that has
+# it. Datasheet URL bases:
+# - Bourns: https://www.bourns.com/docs/Product-Datasheets/<name>.pdf
+# - Würth: https://www.we-online.com/components/products/datasheet/<order code>.pdf
+# - TDK: https://product.tdk.com/system/files/dam/doc/product/inductor/inductor/smd/catalog/<file>
+# - Murata: https://pim.murata.com/asset/pim4/inductor/JETE243A-<nnnn>_PDF_INDUCTOR
+# - Coilcraft: https://www.coilcraft.com/getmedia/<id>/<name>.pdf
+
+# ---------------------------------------------------------------- Shielded
+
+[[power]]
+family = "Shielded"
+length = 2.0
+width = 1.6
+heights = [1.0, 1.2]          # SRN2010 1.02, SRN2012 1.2, VLS2016 1.0/1.2, LQS2010 1.0, WPN 1.0/1.2
+corners = "square"
+corner = 0.0
+term_length = 0.6             # Bourns SRN2010: 0.6 REF, full width, gap 0.8 REF
+term_width = 1.6
+term_x = 0.7
+pad_x = 0.8
+pad_length = 0.8
+pad_width = 1.8
+land_source = "Bourns SRN2010 datasheet (REV. 12/14, p.1): recommended layout 2.4 / 0.8 / 1.8 (span / gap / width)"
+fits = [
+    "Bourns SRN2010/2012",
+    "TDK VLS201610CX-1/201612CX-1, VLS201610HBX-1/201612HBX-1",
+    "Würth WE-LQS 2010 (74404020...)",
+    "Sunlord WPN201610H/HS/M/U, WPN201612H",
+]
+sources = [
+    "Bourns srn2010.pdf, srn2012.pdf (REV. 12/14), p.1",
+    "TDK inductor_commercial_power_vls201610cx-1_en.pdf, ..._vls201612cx-1_en.pdf, ..._vls201610hbx-1_en.pdf, ..._vls201612hbx-1_en.pdf (2018), p.3",
+    "Würth 74404020010.pdf (002.002, 2022-02-17), p.1",
+    "Sunlord WPN series (Revised 2017/07/15), p.2: https://www.ickey.cn/static-pf/datasheet/51/e4/172a/51/cae5e25d273eede767e34f84c4f4745d.pdf",
+]
+
+[[power]]
+family = "Shielded"
+length = 2.5
+width = 2.0
+heights = [1.0, 1.2]          # SWPA252010/252012, SRN2510 1.02/2512 1.2, VLS252010/252012, LQS2512 1.2
+corners = "square"            # Sunlord draws small notches at the wire tabs
+corner = 0.0
+term_length = 0.8             # Sunlord SWPA2520: E 0.80, gap 0.80, D 2.0
+term_width = 2.0
+term_x = 0.8
+pad_x = 0.825
+pad_length = 0.85
+pad_width = 2.0
+land_source = "Sunlord SWPA series datasheet (Revised 2019/04/01, p.2), SWPA2520: recommended land a 0.8 / b 0.85 / c 2.0; the same land as Sunlord WPN2520H and TDK VLS252010CX-1 (0.85 / 0.8 / 0.85, 2.0)"
+fits = [
+    "Sunlord SWPA252010S/252012S",
+    "Sunlord WPN252010H/HS, WPN252012H/HS/E",
+    "Bourns SRN2510/2512",
+    "TDK VLS252010CX-1/252012CX-1, VLS252010HBX-1/252012HBX-1",
+    "Würth WE-LQS 2512 (74404024...)",
+]
+sources = [
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Sunlord WPN series (Revised 2017/07/15), p.2: https://www.ickey.cn/static-pf/datasheet/51/e4/172a/51/cae5e25d273eede767e34f84c4f4745d.pdf",
+    "Bourns srn2510.pdf, srn2512.pdf (REV. 12/14), p.1",
+    "TDK inductor_commercial_power_vls252010cx-1_en.pdf, ..._vls252012cx-1_en.pdf, ..._vls252010hbx-1_en.pdf, ..._vls252012hbx-1_en.pdf (2018), p.3",
+    "Würth 74404024010.pdf (003.001, 2022-02-17), p.1",
+]
+
+[[power]]
+family = "Shielded"
+length = 3.0
+width = 3.0
+heights = [1.0, 1.2, 1.5]
+corners = "chamfer"
+corner = 0.3                  # estimate: small chamfers, not dimensioned
+term_length = 0.9             # TDK VLS3012CX-1 / TY LSXN3030: 0.9, gap 1.2
+term_width = 2.6
+term_x = 1.05
+pad_x = 1.05
+pad_length = 1.1
+pad_width = 3.2
+# The makers' lands disagree (Sunlord pads start 0.75 from centre, Bourns
+# 0.5); this one covers every electrode: 0.5..1.6 from centre.
+land_source = "Bourns SRN3012TA datasheet (REV. 06/25, p.1): recommended layout 3.2 / 1.0 / 3.2 (span / gap / width); the most conservative land, covers all listed electrodes"
+fits = [
+    "Bourns SRN3010TA/3012TA/3015",
+    "Sunlord SWPA3010S/3012S/3015S",
+    "Sunlord WPN3010HS/3012H/HS",
+    "Taiyo Yuden LSXN3030 (old NR/NRS 30xx)",
+    "TDK VLS3010CX-1/3012CX-1/3015CX-1, VLS3012HBX",
+    "Würth WE-LQS 3015 (74404032...)",
+]
+sources = [
+    "Bourns srn3010ta.pdf, srn3012ta.pdf (REV. 06/25), srn3015.pdf (REV. 06/19), p.1",
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Taiyo Yuden LSXB/LSXN/LSXP catalog i_smd_NR_S_e-E10R01 (2022), p.4: https://www.farnell.com/datasheets/3757088.pdf",
+    "TDK inductor_commercial_power_vls3010cx-1_en.pdf, ..._vls3012cx-1_en.pdf, ..._vls3015cx-1_en.pdf (2020), ..._vls3012hbx_en.pdf (2019), p.3",
+    "Würth 74404032010.pdf (001.007, 2024-05-20), p.1",
+]
+
+[[power]]
+family = "Shielded"
+length = 4.0
+width = 4.0
+# 1.0 SWPA4010/WPN4010/LSXN; 1.2 all; 1.5 VLS4015CX-H; 1.8 SWPA4018, SRN4018
+# (1.80/1.88), LQS4018, LSXN; 2.0 SWPA4020, VLS4020CX-H, WPN4020H; 2.5 SRN4026,
+# LQS4025, SWPA4026 (2.6); 3.0 SWPA4030.
+heights = [1.0, 1.2, 1.5, 1.8, 2.0, 2.5, 3.0]
+corners = "chamfer"
+corner = 0.6                  # estimate: octagonal top, not dimensioned
+term_length = 0.95            # Sunlord SWPA4020: E 0.95, gap 2.1, D 3.3 (= Würth LQS 0.95 x 3.3)
+term_width = 3.3
+term_x = 1.525
+pad_x = 1.525
+pad_length = 1.5
+pad_width = 3.6
+# TY LSXN4040's electrode starts 0.70 from centre, 0.075 inside these pads.
+land_source = "Bourns SRN4018 datasheet (REV. 10/26, p.1): recommended layout 4.55 / 1.5 / 3.6 (span / pad / width); identical in Bourns SRN4026 and Würth WE-LQS 4012/4018/4025"
+fits = [
+    "Bourns SRN4012T/4018/4026",
+    "Würth WE-LQS 4012/4018/4025 (74404041.../42.../43...)",
+    "Sunlord SWPA4010S/4012S/4018S/4020S/4026S/4030S",
+    "Sunlord WPN4010HS/4012H/HS/4020H",
+    "Taiyo Yuden LSXN4040 (old NR/NRS 40xx; NRS4018 = LSXND4040TK)",
+    "TDK VLS4012CX-1, VLS4012HBX, VLS4015CX-H/4020CX-H",
+]
+sources = [
+    "Bourns srn4018.pdf, srn4026.pdf (REV. 10/26), SRN4012T.pdf (REV. 05/26), p.1",
+    "Würth 74404041010.pdf (001.005), 74404042010.pdf (002.002), both 2024-11-20, 74404043010A.pdf (001.003, 2019-11-26), p.1",
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Taiyo Yuden LSXB/LSXN/LSXP catalog i_smd_NR_S_e-E10R01 (2022), p.4: https://www.farnell.com/datasheets/3757088.pdf",
+    "TDK inductor_commercial_power_vls4012cx-1_en.pdf (2020), ..._vls4012hbx_en.pdf (2020), inductor_automotive_power_vls4015cx-h_en.pdf, ..._vls4020cx-h_en.pdf (2022), p.3",
+]
+
+[[power]]
+family = "Shielded"
+length = 5.0
+width = 5.0
+# 1.0/1.2/1.4 LSXN5050 and SWPA5012 (1.2); 2.0 SWPA5020, SRN5020TA (1.8±0.2),
+# LQS5020, LSXN; 2.5 LSXN (2.4/2.5); 3.0 LSXN (3.0/3.1); 4.0 SWPA5040, SRN5040,
+# LQS5040, LSXN (4.0/4.1); 4.5 SWPA5045, VLS5045EX.
+heights = [1.0, 1.2, 1.4, 2.0, 2.5, 3.0, 4.0, 4.5]
+corners = "chamfer"
+corner = 1.0                  # estimate: large chamfers (octagon), not dimensioned
+term_length = 1.25            # Sunlord SWPA5020: E 1.25, gap 2.5, D 4.0 (= Würth LQS5040)
+term_width = 4.0
+term_x = 1.875
+pad_x = 1.8
+pad_length = 1.5
+pad_width = 4.0
+land_source = "Bourns SRN5040 datasheet (REV. 08/17, p.1): recommended layout 5.1 / 1.5 / 4.0 (span / pad / width); identical in TDK VLS5045EX (1.5 / 2.1 / 1.5, 4.0) and Taiyo Yuden LSXN5050 (1.5, pitch 3.6, 4.0)"
+fits = [
+    "Bourns SRN5020TA/5040",
+    "TDK VLS5045EX",
+    "Taiyo Yuden LSXN5050 (4.9x4.9; old NR/NRS 50xx)",
+    "Sunlord SWPA5012S/5020S/5040S/5045S",
+    "Würth WE-LQS 5020/5040 (74404052.../54...)",
+]
+sources = [
+    "Bourns srn5040.pdf (REV. 08/17), SRN5020TA.pdf (REV. 06/24), p.1",
+    "TDK inductor_commercial_power_vls5045ex_en.pdf (20250630), p.4",
+    "Taiyo Yuden LSXB/LSXN/LSXP catalog i_smd_NR_S_e-E10R01 (2022), p.5: https://www.farnell.com/datasheets/3757088.pdf",
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Würth 74404052010.pdf (002.001, 2023-02-28), 74404054010.pdf (001.006, 2022-10-01), p.1",
+]
+
+[[power]]
+family = "Shielded"
+length = 6.0
+width = 6.0
+# 1.0/1.2/1.4 LSXN6060; 2.0 SWPA6020, LSXN; 2.8 SWPA6028, LQS6028, SRN6028C
+# (2.6±0.2), LSXN; 4.0 SWPA6040; 4.5 SWPA6045, LQS6045, VLS6045EX, LSXN.
+heights = [1.0, 1.2, 1.4, 2.0, 2.8, 4.0, 4.5]
+corners = "chamfer"
+corner = 0.8                  # estimate: Sunlord draws small chamfers, TY an octagon
+term_length = 1.55            # Sunlord SWPA6028: E 1.55, gap 2.9, D 4.9 (= Würth LQS6028)
+term_width = 4.9
+term_x = 2.225
+pad_x = 2.25
+pad_length = 1.7
+pad_width = 5.7
+# Electrode inner edges inside these pads: SRN6028C 0.15, VLS6045EX 0.1,
+# LSXN6060 0.075 mm.
+land_source = "Sunlord SWPA series datasheet (Revised 2019/04/01, p.2), SWPA6028: recommended land a 2.8 / b 1.7 / c 5.7; Würth WE-LQS 6028/6045 has the same gap and width with 1.8 pads"
+fits = [
+    "Sunlord SWPA6020S/6028S/6040S/6045S",
+    "Würth WE-LQS 6028/6045 (74404063.../64...)",
+    "Bourns SRN6028C",
+    "Taiyo Yuden LSXN6060 (old NR/NRS 60xx)",
+    "TDK VLS6045EX",
+]
+sources = [
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Würth 74404063010.pdf (001.006, 2022-02-17), 74404064010.pdf (002.003, 2022-05-24), p.1",
+    "Bourns srn6028c.pdf (REV. 04/23), p.1",
+    "Taiyo Yuden LSXB/LSXN/LSXP catalog i_smd_NR_S_e-E10R01 (2022), p.5: https://www.farnell.com/datasheets/3757088.pdf",
+    "TDK inductor_commercial_power_vls6045ex_en.pdf (20250630), p.4",
+]
+
+[[power]]
+family = "Shielded"
+length = 8.0
+width = 8.0
+heights = [3.0, 4.0, 4.2, 5.0, 6.0, 6.5]  # LSXN8080 3.0/4.0/4.2; SWPA8040 4.2, 8050/8060/8065; LQS8040 4.2
+corners = "chamfer"
+corner = 0.8                  # estimate, not dimensioned
+term_length = 2.0             # Sunlord SWPA8040: E 2.00, gap 4.0, D 6.3 (= Würth LQS8040)
+term_width = 6.3
+term_x = 3.0
+pad_x = 3.0
+pad_length = 2.2
+pad_width = 7.5
+land_source = "Sunlord SWPA series datasheet (Revised 2019/04/01, p.2), SWPA8040: recommended land a 3.8 / b 2.2 / c 7.5; Würth WE-LQS 8040 (3.8 / 2.4 / 7.5) and Taiyo Yuden LSXN8080 (C 7.5) agree"
+fits = [
+    "Sunlord SWPA8040S/8050S/8060S/8065S",
+    "Würth WE-LQS 8040 (74404084...)",
+    "Taiyo Yuden LSXN8080 (old NR/NRS 80xx)",
+]
+sources = [
+    "Sunlord SWPA series (Revised 2019/04/01), p.2: https://atta.szlcsc.com/upload/public/pdf/source/20260722/2E1AF3DDC73E718387934E6B7AB7AF01.pdf (LCSC mirror)",
+    "Würth 74404084010.pdf (002.000, 2023-03-27), p.1",
+    "Taiyo Yuden LSXB/LSXN/LSXP catalog i_smd_NR_S_e-E10R01 (2022), p.4: https://www.farnell.com/datasheets/3757088.pdf",
+]
+
+# ------------------------------------------------------------------ Molded
+
+[[power]]
+family = "Molded"
+length = 2.0
+width = 1.6
+heights = [1.0, 1.2]          # DFE201610E/P, TFM201610, SRP2010, MAPI2010, LSEN/LSAN 1.0; DFE201612E, TFM201612 1.2
+corners = "round"
+corner = 0.1                  # estimate: small radii, not dimensioned
+term_length = 0.5             # Murata DFE201610E: end electrodes 0.5±0.3
+term_width = 1.6
+term_x = 0.75
+pad_x = 0.8
+pad_length = 0.8
+pad_width = 1.8
+# The same land as the Shielded 2.0x1.6 row (Bourns SRN2010).
+land_source = "Murata DFE201610E reference specification (JETE243A-0001E-01, p.5): recommended PCB pattern 2.4 / 0.8 / 1.8 (span / gap / width)"
+fits = [
+    "Murata DFE201610E/P, DFE201612E",
+    "TDK TFM201610ALM, TFM201612ALMA",
+    "Bourns SRP2010",
+    "Würth WE-MAPI 2010 (74438343...)",
+    "Taiyo Yuden LSEN2016, LSAN2016 (old MEKK, MAKK)",
+]
+sources = [
+    "Murata JETE243A-0001 (DFE201610E), -0025 (DFE201610P), -0006 (DFE201612E), p.1 and p.5",
+    "TDK inductor_commercial_power_tfm201610alm_en.pdf (2023), inductor_automotive_power_tfm201612alma_en.pdf (2025), p.3",
+    "Bourns SRP2010.pdf (REV. 01/16), p.1",
+    "Würth 74438343010.pdf (003.001, 2024-03-11), p.1",
+    "Taiyo Yuden i_wound_ME_S_e (LSEN), i_wound_MA_S_e (LSAN), p.1: https://www.mouser.com/datasheet/3/940/1/i_wound_ME_S_e.pdf",
+]
+
+[[power]]
+family = "Molded"
+length = 2.5
+width = 2.0
+heights = [0.6, 0.8, 1.0, 1.2]  # MAPI2506/2508; DFE252010F, SRP2510A, LSEN/LSAN, MAPI2510 1.0; DFE252012F/P, TFM252012, LSAN, MAPI2512 1.2
+corners = "round"
+corner = 0.1                  # estimate
+term_length = 0.6             # Murata DFE252012F: 0.6±0.2
+term_width = 2.0
+term_x = 0.95
+pad_x = 1.0
+pad_length = 0.8
+pad_width = 2.0
+land_source = "Murata DFE252012F reference specification (JETE243A-0017D-01, p.5): recommended PCB pattern 2.8 / 1.2 / 2.0 (span / gap / width); the same in Bourns SRP2510A, Taiyo Yuden LSAN2520 and Sunlord WPN252010U"
+fits = [
+    "Murata DFE252010F, DFE252012F/P",
+    "Bourns SRP2510A",
+    "Taiyo Yuden LSAN2520, LSEN2520 (old MAKK, MEKK)",
+    "Sunlord WPN252010U/UF",
+    "TDK TFM252012ALMA",
+    "Würth WE-MAPI 2506/2508/2510/2512 (74438321.../22.../23.../24...)",
+]
+sources = [
+    "Murata JETE243A-0012 (DFE252010F), -0017 (DFE252012F), -0024 (DFE252012P), p.1 and p.5",
+    "Bourns srp2510a.pdf (REV. 07/26), p.1",
+    "Taiyo Yuden i_wound_MA_S_e (LSAN), i_wound_ME_S_e (LSEN), p.1: https://www.mouser.com/datasheet/3/940/1/i_wound_ME_S_e.pdf",
+    "Sunlord WPN series (Revised 2017/07/15), p.2: https://www.ickey.cn/static-pf/datasheet/51/e4/172a/51/cae5e25d273eede767e34f84c4f4745d.pdf",
+    "TDK inductor_automotive_power_tfm252012alma_en.pdf (2025), p.3",
+    "Würth 74438321010.pdf, 74438322010.pdf, 74438323010.pdf, 74438324010.pdf (003.001, 2024-03-11), p.1",
+]
+
+[[power]]
+family = "Molded"
+length = 3.2
+width = 2.5
+heights = [1.2, 2.0]          # DFE322512F, TFM322512, HMLQ32251B 1.2; DFE322520F 2.0
+corners = "round"
+corner = 0.1                  # estimate
+term_length = 0.6             # Murata DFE322520F: 0.6±0.3
+term_width = 2.5
+term_x = 1.3
+pad_x = 1.325
+pad_length = 0.95
+pad_width = 2.8
+land_source = "Murata DFE322520F reference specification (JETE243A-0040D-01, p.5): recommended PCB pattern 3.7 / 1.8 / 2.8 (span / gap / width); DFE322512F has gap 1.9"
+fits = [
+    "Murata DFE322512F/322520F",
+    "TDK TFM322512ALMA",
+    "Cyntec HMLQ32251B",
+]
+sources = [
+    "Murata JETE243A-0019 (DFE322512F), -0040 (DFE322520F), p.1 and p.5",
+    "TDK inductor_automotive_power_tfm322512alma_en.pdf (2025), p.3",
+    "Cyntec HMLQ32251B-000 A1 (Oct 2019), p.1: https://www.mouser.com/datasheet/2/632/HMLQ32251B_000__A1_-3357457.pdf",
+]
+
+[[power]]
+family = "Molded"
+length = 3.0
+width = 3.0
+# 1.1: MAPI3010 1.0, XFL3010 1.1; 1.3: MAPI3012 1.2, XFL3012 1.3;
+# 1.5: XGL3014 1.4, MAPI3015 1.5; 2.0: MAPI3020, XGL3020.
+heights = [1.1, 1.3, 1.5, 2.0]
+corners = "round"
+corner = 0.2                  # estimate
+term_length = 0.77            # Coilcraft XFL3012: 0.77 x 2.69, gap 1.26
+term_width = 2.69
+term_x = 1.015
+pad_x = 1.05
+pad_length = 1.3
+pad_width = 3.4
+# Coilcraft's own XFL land (pads 0.515..1.515) leaves the WE-MAPI electrode
+# 0.2 mm inside; this one covers both. XGL3014/3020 electrodes (0.57..1.07)
+# lie on the inner half of these pads.
+land_source = "Würth WE-MAPI 3015 datasheet 74438335010 (004.001, 2024-03-12, p.1): recommended land 3.4 / 0.8 / 3.4 (span / gap / width); the most conservative land, covers Coilcraft XFL/XGL electrodes too"
+fits = [
+    "Würth WE-MAPI 3010/3012/3015/3020 (74438333.../34.../35.../36...)",
+    "Coilcraft XFL3010/3012",
+    "Coilcraft XGL3014/3020",
+]
+sources = [
+    "Würth 74438333047.pdf, 74438334010.pdf, 74438335010.pdf, 74438336010.pdf (2024-03-12), p.1",
+    "Coilcraft XFL3010 Document 727-1 (03/10/26): https://www.coilcraft.com/getmedia/0118859e-f2e2-4063-93cf-e50ed636ea4e/xfl3010.pdf",
+    "Coilcraft XFL3012 Document 747-1 (03/10/26): https://www.coilcraft.com/getmedia/f76a3c9b-4fff-4397-8028-ef8e043eb200/xfl3012.pdf",
+    "Coilcraft XGL3014 Document 1703-3 (02/19/26): https://www.coilcraft.com/getmedia/5ed35358-a29d-4c1b-9b81-e790870678a3/xgl3014.pdf",
+    "Coilcraft XGL3020 Document 1776-3 (02/19/26): https://www.coilcraft.com/getmedia/fee1ff20-0e12-4f38-8784-9e56e5878423/xgl3020.pdf",
+]
+
+[[power]]
+family = "Molded"
+length = 4.0
+width = 4.0
+# 1.6 XFL4015; 2.1 XAL/XFL/XGL4020, XEL4020 (2.1/2.2), MAPI4020, XHMI4020 (2.0±0.2);
+# 3.1 XAL/XFL/XGL4030, XEL4030 (3.1/3.2), MAPI4030, XHMI4030 (3.0±0.2); 4.1 XAL4040.
+heights = [1.6, 2.1, 3.1, 4.1]
+corners = "round"
+corner = 0.3                  # estimate: small radii, not dimensioned
+term_length = 0.82            # Coilcraft XAL40xx: 0.82 x 3.25, gap 1.57
+term_width = 3.25
+term_x = 1.195
+pad_x = 1.185
+pad_length = 0.98
+pad_width = 3.4
+land_source = "Coilcraft XAL40xx datasheet (Document 806-4, 02/25/26): recommended land 0.98 x 3.4, 2.37 centre to centre; Würth WE-MAPI 4020/4030 gives the same (3.35 / 1.39, width 3.7)"
+fits = [
+    "Coilcraft XAL4020/4030/4040",
+    "Coilcraft XFL4015/4020/4030",
+    "Coilcraft XEL4020/4030, XGL4020/4030",
+    "Würth WE-MAPI 4020/4030 (74438356.../57..., 4.1x4.1)",
+    "Würth WE-XHMI 4020/4030 (74439323.../24..., 4.3x4.3)",
+]
+sources = [
+    "Coilcraft XAL40xx Document 806-4: https://www.coilcraft.com/getmedia/6adcb47d-8b55-416c-976e-1e22e0d2848c/xal4000.pdf",
+    "Coilcraft XFL4015 Document 769-2: https://www.coilcraft.com/getmedia/84927b8b-f089-421b-a7f4-a0fa23afe908/xfl4015.pdf",
+    "Coilcraft XFL4020 Document 745-3: https://www.coilcraft.com/getmedia/50632d43-da1b-4cdb-8ab4-3029cab51df3/xfl4020.pdf",
+    "Coilcraft XFL4030 Document 1048-2: https://www.coilcraft.com/getmedia/d12f7f67-cfc1-404a-9993-f09a1451b0a9/xfl4030.pdf",
+    "Coilcraft XEL4020 Document 1302-3: https://www.coilcraft.com/getmedia/3c7caaa2-c1ed-4ff8-84e5-0b1b14a30417/xel4020.pdf",
+    "Coilcraft XEL4030 Document 1321-3: https://www.coilcraft.com/getmedia/8245f050-f190-4295-8c41-7c03d662ee3d/xel4030.pdf",
+    "Coilcraft XGL4020 Document 1529-3: https://www.coilcraft.com/getmedia/76c9c081-4945-4c85-9129-9356e1ad6734/xgl4020.pdf",
+    "Coilcraft XGL4030 Document 1575-4: https://www.coilcraft.com/getmedia/032d9c73-4222-482f-b6bc-7808590e27c9/xgl4030.pdf",
+    "Würth 74438356010.pdf, 74438357010.pdf (003.002, 2026-09-01), p.1",
+    "Würth 74439323010.pdf, 74439324010.pdf (001.002, 2024-10-26), p.1",
+]
+
+[[power]]
+family = "Molded"
+length = 4.4
+width = 4.2
+heights = [1.2, 1.5, 2.0]     # SRP4012TA, MWSA (1.0±0.2), SPM4012 1.2; SPM4015 1.5; SRP4020TA, MWSA (1.8±0.2), SPM4020 2.0, VCHA042A 2.1
+corners = "round"
+corner = 0.3                  # estimate
+term_length = 0.8             # Bourns SRP4020TA: L-terminal 0.76 x 2.0 on the bottom
+term_width = 2.0
+term_x = 1.8
+pad_x = 1.85
+pad_length = 1.5
+pad_width = 3.5
+# Bourns SRP4020TA and Sunlord MWSA have the same span and gap (5.2 / 2.2)
+# with 2.4..2.5 wide pads; Cyntec's 3.5 also covers its 3.0 terminal.
+land_source = "Cyntec VCHA042A datasheet (CYNVC-175-016 A6, Jan 2020, p.2): recommended land 5.2 / 2.2 / 3.5 (span / gap / width); the most conservative land, same span and gap as Bourns SRP4020TA and Sunlord MWSA"
+fits = [
+    "Bourns SRP4012TA/4020TA (4.45x4.06)",
+    "Cyntec VCHA042A (4.2x4.0)",
+    "Sunlord MWSA 4.4x4.2 body",
+    "TDK SPM4012-LR/4015-LR/4020-LR (4.4x4.1)",
+]
+sources = [
+    "Cyntec VCHA042A CYNVC-175-016 A6, p.2: https://atta.szlcsc.com/upload/public/pdf/source/20211022/4255E274C7F46BB86A6DDB5AF16AF75C.pdf (LCSC mirror)",
+    "Bourns srp4012ta.pdf (REV. 06/24), srp4020ta.pdf (REV. 07/20), p.1",
+    "Sunlord MWSA series (Revised 2018/11/30), p.2: https://static.chipdip.ru/lib/821/DOC012821173.pdf",
+    "TDK inductor_commercial_power_spm4012-lr_en.pdf, ..._spm4015-lr_en.pdf, ..._spm4020-lr_en.pdf (20260423), p.3",
+]
+
+[[power]]
+family = "Molded"
+length = 5.3
+width = 5.5
+# 2.1: XAL5020 2.0, XGL5020 2.1, XHMI5020 2.0±0.2; 3.1: XAL5030, XEL5030 and
+# XGL5030 (3.1/3.2), XHMI5030 3.0±0.2; 5.1: XAL5050.
+heights = [2.1, 3.1, 5.1]
+corners = "round"
+corner = 0.3                  # estimate
+term_length = 1.0             # Coilcraft XAL50xx: 1.0 x 4.2, gap 2.31
+term_width = 4.2
+term_x = 1.655
+pad_x = 1.655
+pad_length = 1.18
+pad_width = 4.7
+land_source = "Coilcraft XAL50xx datasheet (Document 908-4, 02/26/26): recommended land 1.18 x 4.70, 3.31 centre to centre; Würth WE-XHMI 5020/5030 is within 0.1 mm (1.3 / 2.05 / 4.8)"
+fits = [
+    "Coilcraft XAL5020/5030/5050 (5.28x5.48)",
+    "Coilcraft XEL5030, XGL5020/5030",
+    "Würth WE-XHMI 5020/5030 (74439333.../34..., 5.35x5.55)",
+]
+sources = [
+    "Coilcraft XAL50xx Document 908-4: https://www.coilcraft.com/getmedia/49bc46c8-4b2c-45b9-9b6c-2eaa235ea698/xal50xx.pdf",
+    "Coilcraft XAL5020 Document 991-2: https://www.coilcraft.com/getmedia/1941eff1-c018-493c-8cd6-d88d2edf5029/xal5020.pdf",
+    "Coilcraft XEL5030 Document 1412-2: https://www.coilcraft.com/getmedia/38f73356-5dfa-4ba3-b406-5d8b038c37d2/xel5030.pdf",
+    "Coilcraft XGL5020 Document 1620-1: https://www.coilcraft.com/getmedia/f4ad7632-6af8-4627-8552-8f98d2469221/xgl5020.pdf",
+    "Coilcraft XGL5030 Document 1576-1: https://www.coilcraft.com/getmedia/e64ac115-95f2-45c7-b798-1b3769b91583/xgl5030.pdf",
+    "Würth 74439333010.pdf, 74439334010.pdf (001.002, 2024-10-26), p.1",
+]
+
+[[power]]
+family = "Molded"
+length = 5.4
+width = 5.2
+heights = [1.8, 2.0, 3.0]     # MWSA (1.6±0.2) 1.8; SRP5020TA (1.8±0.2), SPM5020 2.0; VCMT053T (2.8±0.2), SRP5030T, MWSA, SPM5030 3.0
+corners = "round"
+corner = 0.3                  # estimate
+term_length = 1.2             # TDK SPM5020-LR: 1.2 x 2.5 (Sunlord MWSA 1.2 x 2.2)
+term_width = 2.5
+term_x = 2.1
+pad_x = 2.05
+pad_length = 1.9
+pad_width = 3.3
+land_source = "Cyntec VCMT053T datasheet (CYNVC-176-012 A1, Mar 2018, p.1): recommended land 6.0 / 2.2 / 3.3 (span / gap / width); the most conservative land, same gap as Bourns SRP5020TA and Sunlord MWSA"
+fits = [
+    "Cyntec VCMT053T (5.45x5.25)",
+    "Bourns SRP5020TA/5030T (5.7x5.2)",
+    "Sunlord MWSA 5.4x5.2 body",
+    "TDK SPM5020-LR (5.4x5.1), SPM5030 (5.2x5.0)",
+]
+sources = [
+    "Cyntec VCMT053T CYNVC-176-012 A1, p.1: https://www.mouser.lt/datasheet/3/1208/1/VCMT053T.pdf",
+    "Bourns srp5020ta.pdf (REV. 06/24), srp5030t.pdf, p.1",
+    "Sunlord MWSA series (Revised 2018/11/30), p.2: https://static.chipdip.ru/lib/821/DOC012821173.pdf",
+    "TDK inductor_commercial_power_spm5020-lr_en.pdf, ..._spm5030_en.pdf (20260423), p.3",
+]
+
+[[power]]
+family = "Molded"
+length = 6.4
+width = 6.6
+# 2.1 XAL6020; 3.1: XAL6030, XEL6030 (3.1/3.2), XGL6030, XHMI6030 (3.0 +0.3);
+# 6.1: XAL6060, XHMI6060 (5.8±0.3).
+heights = [2.1, 3.1, 6.1]
+corners = "round"
+corner = 0.3                  # estimate
+term_length = 1.25            # Coilcraft XAL60xx: 1.25 x 5.0, gap 2.79
+term_width = 5.0
+term_x = 2.02
+pad_x = 2.02
+pad_length = 1.43
+pad_width = 5.5
+land_source = "Coilcraft XAL60xx datasheet (Document 887-4, 02/25/26): recommended land 1.43 x 5.50, 4.04 centre to centre; the same in XGL6030 and within 0.03 mm in Würth WE-XHMI 6030 (1.45 / 2.55 / 5.5)"
+fits = [
+    "Coilcraft XAL6020/6030/6060 (6.36x6.56)",
+    "Coilcraft XEL6030, XGL6030 (6.51x6.71)",
+    "Würth WE-XHMI 6030/6060 (74439344.../46..., 6.45x6.65)",
+]
+sources = [
+    "Coilcraft XAL60xx Document 887-4: https://www.coilcraft.com/getmedia/ea51f14b-7f32-4dc6-8dfe-d4b70549040f/xal60xx.pdf",
+    "Coilcraft XAL6020 Document 801-3: https://www.coilcraft.com/getmedia/467ff589-8942-4e57-92d0-5bef6e04ce09/xal6020.pdf",
+    "Coilcraft XEL6030 Document 1353-3: https://www.coilcraft.com/getmedia/ed8d0314-5cbb-4be3-85da-32235c3701c8/xel6030.pdf",
+    "Coilcraft XGL6030 Document 1635-1: https://www.coilcraft.com/getmedia/9bfb2606-51aa-49a6-98ad-d20f3504c8ae/xgl6030.pdf",
+    "Würth 74439344010.pdf (004.002, 2024-10-26), 74439346010.pdf, p.1",
+]
+
+[[power]]
+family = "Molded"
+length = 7.1
+width = 6.5
+heights = [1.8, 2.4, 3.0, 4.0, 5.0]  # MWSA 6.6x7.0 (1.6/2.2/2.8/3.8/4.8 ±0.2); SPM6530 3.0; SRP6540 4.0
+corners = "round"
+corner = 0.3                  # estimate
+term_length = 1.7             # Bourns SRP6540: 1.70 x 3.00 L-terminal
+term_width = 3.0
+term_x = 2.7
+pad_x = 2.775
+pad_length = 1.85
+pad_width = 3.4
+land_source = "Bourns SRP6540 datasheet (REV. 03/18, p.1): recommended layout 7.40 / 3.70 / 3.40 (span / gap / width); identical in TDK SPM6530"
+fits = [
+    "Bourns SRP6540 (7.2x6.5)",
+    "TDK SPM6530 (7.1x6.5)",
+    "Sunlord MWSA 6.6x7.0 body",
+]
+sources = [
+    "Bourns SRP6540.pdf (REV. 03/18), p.1",
+    "TDK inductor_commercial_power_spm6530_en.pdf (20260423), p.3",
+    "Sunlord MWSA series (Revised 2018/11/30), p.2: https://static.chipdip.ru/lib/821/DOC012821173.pdf",
+]
