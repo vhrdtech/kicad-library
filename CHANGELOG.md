@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-13
+
 ### Added
 
 - Current-sense resistor footprints (LIB-30), 42 of them, each with its generated model and its per-package symbol
