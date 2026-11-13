@@ -311,7 +311,7 @@ fn migrate_prints_a_diff_and_writes_with_write() {
         "--- a/b.kicad_pcb\n+++ b/b.kicad_pcb\n@@ -1,5 +1,5 @@\n (kicad_pcb\n-\t(footprint \"vhrd_generic:SOIC-8\"\n-\t\t(model \"${VHRD_3DMODEL_DIR}/ic/SOIC-8.STEP\")\n+\t(footprint \"VHRD_Package_SO:SOIC-8\"\n+\t\t(model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SOIC-8.step\")\n \t)\n )\n\
 --- a/b.kicad_sch\n+++ b/b.kicad_sch\n@@ -1,6 +1,6 @@\n (kicad_sch\n \t(symbol\n-\t\t(lib_id \"vhrd_device:R\")\n-\t\t(property \"Footprint\" \"vhrd_generic:SOIC-8\")\n+\t\t(lib_id \"VHRD_Device:R\")\n+\t\t(property \"Footprint\" \"VHRD_Package_SO:SOIC-8\")\n \t)\n )\n"
     );
-    assert!(stderr.contains("kilib migrate: 2 files read, 2 to change: 1 symbol ids, 1 Footprint fields, 1 footprints, 0 filters, 1 3D models, 0 table rows"), "{stderr}");
+    assert!(stderr.contains("kilib migrate: 2 files read, 2 to change: 1 symbol ids, 0 per-package symbols, 1 Footprint fields, 1 footprints, 0 filters, 1 3D models, 0 table rows"), "{stderr}");
     assert!(stderr.contains("not written: run with --write to apply"), "{stderr}");
     assert_eq!(std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap(), before);
 
@@ -344,6 +344,60 @@ fn migrate_refuses_a_dropped_footprint_in_use_and_a_bad_map() {
     let out = kilib(&dir, &["migrate", "--map", "bad.toml", "b"]);
     assert_eq!(out.status.code(), Some(2));
     assert!(text(&out).contains("targets not in [libraries]: symbol vhrd_x:A = \"VHRD_Nowhere\""), "{}", text(&out));
+}
+
+#[test]
+fn per_package_lists_placed_generics_and_makes_their_symbols() {
+    let dir = TestDir::new("cli_per_package");
+    dir.write(
+        "lib/symbols/VHRD_Device.kicad_symdir/R.kicad_sym",
+        "(kicad_symbol_lib\n\t(version 20241209)\n\t(symbol \"R\"\n\t\t(property \"Footprint\" \"\")\n\t\t(property \"ki_fp_filters\" \"R_*\")\n\t\t(symbol \"R_0_1\")\n\t)\n)\n",
+    );
+    dir.write(
+        "lib/footprints/VHRD_Resistor_SMD.pretty/R_0402_1005Metric.kicad_mod",
+        "(footprint \"R_0402_1005Metric\")\n",
+    );
+    dir.write(
+        "map.toml",
+        "[libraries.symbol]\n\"VHRD_Device\" = \"${VHRD_LIBRARY_DIR}/symbols/VHRD_Device.kicad_symdir\"\n[per_package.\"VHRD_Device:R\"]\n\"VHRD_Resistor_SMD:R_0402_1005Metric\" = \"VHRD_Device:R_0402\"\n",
+    );
+    let placed = |r: &str, fp: &str| {
+        format!(
+            "\t(symbol\n\t\t(lib_id \"VHRD_Device:R\")\n\t\t(property \"Reference\" \"{r}\")\n\t\t(property \"Footprint\" \"{fp}\")\n\t)\n"
+        )
+    };
+    let sch = format!(
+        "(kicad_sch\n{}{}{})\n",
+        placed("R10", "VHRD_Resistor_SMD:R_0402_1005Metric"),
+        placed("R9", "VHRD_Resistor_SMD:R_0402_1005Metric"),
+        placed("R1", "VHRD_Resistor_SMD:R_0603_1608Metric")
+    );
+    dir.write("b/b.kicad_sch", &sch);
+    let args = ["per-package", "--map", "map.toml", "--library", "lib", "b"];
+    let out = kilib(&dir, &args);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    for want in [
+        "  VHRD_Device:R VHRD_Resistor_SMD:R_0402_1005Metric ×2 → VHRD_Device:R_0402 R9 R10\n",
+        "  VHRD_Device:R VHRD_Resistor_SMD:R_0603_1608Metric ×1 not in the map R1\n",
+        "kilib per-package: 1 generic symbols placed with 2 footprints, 1 not in the map",
+        "+ VHRD_Device:R_0402 extends VHRD_Device:R, VHRD_Resistor_SMD:R_0402_1005Metric (symbols/VHRD_Device.kicad_symdir/R_0402.kicad_sym)",
+        "kilib per-package: 1 per-package symbols in the map, 1 to make",
+        "not written: run with --write to make them",
+    ] {
+        assert!(t.contains(want), "missing {want:?} in:\n{t}");
+    }
+    let made = dir.path().join("lib/symbols/VHRD_Device.kicad_symdir/R_0402.kicad_sym");
+    assert!(!made.exists());
+    let out = kilib(&dir, &["per-package", "--map", "map.toml", "--library", "lib", "--write"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let r_0402 = std::fs::read_to_string(&made).unwrap();
+    assert!(
+        r_0402.contains("(extends \"R\")") && r_0402.contains("\"VHRD_Resistor_SMD:R_0402_1005Metric\""),
+        "{r_0402}"
+    );
+    let out = kilib(&dir, &["per-package", "--map", "map.toml", "--library", "lib"]);
+    assert!(text(&out).contains("✓ every per-package symbol is in the library"), "{}", text(&out));
 }
 
 #[test]

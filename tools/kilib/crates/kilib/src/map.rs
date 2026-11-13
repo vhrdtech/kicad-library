@@ -6,6 +6,10 @@
 //! changes. A footprint mapped to `""` was dropped. A model path is the part after `${VHRD_3DMODEL_DIR}/`.
 //! `[filter_lib]` renames the library part of `ki_fp_filters` patterns (`"Connector*" = "VHRD_Connector*"`), for
 //! libraries a filter names that no id of the map does.
+//!
+//! `[per_package."Lib:Generic"]` moves a placed generic symbol (one that leaves `Footprint` empty) to the symbol
+//! made for its package, chosen by the footprint it is placed with: `"FpLib:Footprint" = "Lib:Generic_Package"`.
+//! The target is a whole id in the generic's own library, derived from it (`kilib per-package`).
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
@@ -35,6 +39,9 @@ pub struct Map {
     pub model: BTreeMap<String, String>,
     #[serde(default)]
     pub model_dropped: ModelDropped,
+    /// A generic symbol id, then its placed footprint id, to the per-package symbol id.
+    #[serde(default)]
+    pub per_package: BTreeMap<String, BTreeMap<String, String>>,
 }
 
 /// Each new library's URI, through `${VHRD_LIBRARY_DIR}` or `${VHRD_VENDOR_LIBRARY_DIR}`.
@@ -104,6 +111,25 @@ impl Map {
                 }
             }
         }
+        let is_id = |s: &str| s.split_once(':').is_some_and(|(l, n)| !l.is_empty() && !n.is_empty());
+        for (generic, by_fp) in &map.per_package {
+            if !is_id(generic) {
+                unknown.insert(format!("per_package {generic:?} is not lib:name"));
+                continue;
+            }
+            let lib = generic.split_once(':').map_or("", |(l, _)| l);
+            for (fp, to) in by_fp {
+                if !is_id(fp) {
+                    unknown.insert(format!("per_package {generic} footprint {fp:?} is not lib:name"));
+                } else if !is_id(to) || to == generic {
+                    unknown.insert(format!("per_package {generic} {fp} = {to:?} is not another lib:name"));
+                } else if to.split_once(':').is_some_and(|(l, _)| l != lib) {
+                    unknown.insert(format!("per_package {generic} {fp} = {to:?}: not in {lib}, the generic's library"));
+                } else if !map.libraries.symbol.contains_key(lib) {
+                    unknown.insert(format!("per_package {generic}: {lib:?} not in [libraries.symbol]"));
+                }
+            }
+        }
         if !unknown.is_empty() {
             let list: Vec<String> = unknown.into_iter().collect();
             return Err(format!("targets not in [libraries]: {}", list.join("; ")));
@@ -160,6 +186,11 @@ impl Map {
         self.model_dropped.paths.iter().any(|p| p == path).then_some(Target::Dropped)
     }
 
+    /// The per-package symbol for generic symbol `id` placed with footprint `fp`.
+    pub fn per_package(&self, id: &str, fp: &str) -> Option<&str> {
+        self.per_package.get(id)?.get(fp).map(String::as_str)
+    }
+
     /// Whether `path` is already one of the new model paths.
     pub fn is_new_model(&self, path: &str) -> bool {
         self.model.values().any(|v| v == path)
@@ -211,5 +242,18 @@ paths = ["diodes/a.SLDPRT"]
         let e = Map::parse(&bad).unwrap_err();
         assert!(e.contains("symbol vhrd_device:SW = \"VHRD_Nope\""), "{e}");
         assert!(Map::parse("[symbols]\n").is_err(), "unknown sections are refused");
+    }
+
+    #[test]
+    fn per_package_targets_stay_in_the_generic_library() {
+        let ok =
+            format!("{MAP}[per_package.\"VHRD_Device:R\"]\n\"VHRD_Resistor_SMD:R_0402\" = \"VHRD_Device:R_0402\"\n");
+        let map = Map::parse(&ok).unwrap();
+        assert_eq!(map.per_package("VHRD_Device:R", "VHRD_Resistor_SMD:R_0402"), Some("VHRD_Device:R_0402"));
+        assert_eq!(map.per_package("VHRD_Device:R", "VHRD_Resistor_SMD:R_0603"), None);
+        let e = Map::parse(&ok.replace("= \"VHRD_Device:R_0402\"", "= \"VHRD_Switch:R_0402\"")).unwrap_err();
+        assert!(e.contains("not in VHRD_Device, the generic's library"), "{e}");
+        let e = Map::parse(&ok.replace("= \"VHRD_Device:R_0402\"", "= \"R_0402\"")).unwrap_err();
+        assert!(e.contains("is not another lib:name"), "{e}");
     }
 }

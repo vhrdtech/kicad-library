@@ -7,7 +7,11 @@
 //! - footprint ids in `.kicad_pcb`;
 //! - model paths under `${VHRD_3DMODEL_DIR}` (and absolute ones into a `kicad-library/3dmodels` folder);
 //! - rows of project `sym-lib-table` and `fp-lib-table`: an old library's row becomes the rows of the new
-//!   libraries it feeds, with their URIs from `[libraries]`.
+//!   libraries it feeds, with their URIs from `[libraries]`;
+//! - placed generic symbols of `[per_package]`, by their `Footprint` field: the `lib_id` becomes the per-package
+//!   symbol's, and the file's `lib_symbols` cache gets a copy of the generic's cached symbol under that name, with
+//!   the footprint in its `Footprint` field and `ki_fp_filters` (what the library's per-package symbol says). The
+//!   generic's cached symbol goes when no placed symbol of the file uses it any more.
 //!
 //! A second run changes nothing: no new name is a key of the map.
 
@@ -61,11 +65,19 @@ pub struct Counts {
     pub filters: usize,
     pub models: usize,
     pub table_rows: usize,
+    /// Placed symbols moved to a per-package symbol.
+    pub per_package: usize,
 }
 
 impl Counts {
     pub fn total(&self) -> usize {
-        self.symbols + self.footprint_fields + self.footprints + self.filters + self.models + self.table_rows
+        self.symbols
+            + self.footprint_fields
+            + self.footprints
+            + self.filters
+            + self.models
+            + self.table_rows
+            + self.per_package
     }
 }
 
@@ -166,6 +178,7 @@ fn add_counts(to: &mut Counts, c: &Counts) {
     to.filters += c.filters;
     to.models += c.models;
     to.table_rows += c.table_rows;
+    to.per_package += c.per_package;
 }
 
 pub fn apply_edits(text: &str, edits: &[Edit]) -> String {
@@ -192,7 +205,8 @@ pub struct Rewrite {
 /// Rewrites the strings of one file's text that `map` matches. `file` names the file (a library table by its
 /// name).
 pub fn rewrite_text(map: &Map, file: &Path, text: &str) -> Result<Rewrite, String> {
-    let mut r = Rewriter { map, edits: Vec::new(), notes: Vec::new(), counts: Counts::default() };
+    let mut r =
+        Rewriter { map, edits: Vec::new(), notes: Vec::new(), counts: Counts::default(), skip: BTreeSet::new() };
     r.file(file, text)?;
     r.edits.sort_by_key(|e| e.range.start);
     r.edits.dedup();
@@ -204,6 +218,9 @@ struct Rewriter<'a> {
     edits: Vec<Edit>,
     notes: Vec<(Severity, String)>,
     counts: Counts,
+    /// Starts of lists [`Rewriter::walk`] leaves alone: the `lib_id` of a symbol moved to its per-package symbol,
+    /// a cached symbol that goes.
+    skip: BTreeSet<usize>,
 }
 
 impl Rewriter<'_> {
@@ -231,11 +248,94 @@ impl Rewriter<'_> {
                 }
             }
         }
+        if matches!(root.head(), Some("kicad_sch")) && !self.map.per_package.is_empty() {
+            self.per_package(text, &root);
+        }
         self.walk(text, &root);
         Ok(())
     }
 
+    /// Moves the placed generic symbols of `[per_package]` to the symbol of their footprint, and gives the
+    /// `lib_symbols` cache a copy of the generic under each new name.
+    fn per_package(&mut self, text: &str, root: &Node) {
+        // Generic id -> per-package id -> footprint, for the copies; generics still placed after the move.
+        let mut moved: BTreeMap<String, BTreeMap<String, String>> = BTreeMap::new();
+        let mut kept: BTreeSet<String> = BTreeSet::new();
+        for sym in root.children("symbol") {
+            let Some(lib_id) = sym.child("lib_id") else { continue };
+            let Some(id) = lib_id.arg(0) else { continue };
+            if !self.map.per_package.contains_key(id) {
+                continue;
+            }
+            let fp = sym
+                .children("property")
+                .find(|p| p.arg(0) == Some("Footprint"))
+                .and_then(|p| p.arg(1))
+                .unwrap_or_default();
+            let to = self.map.per_package(id, fp);
+            match to {
+                Some(_) if sym.child("lib_name").is_some() => {
+                    kept.insert(id.to_string());
+                    self.warn(format!(
+                        "symbol {id} with {fp}: placed under its own cached name (lib_name), left as it is"
+                    ));
+                }
+                Some(to) => {
+                    self.counts.per_package += 1;
+                    self.skip.insert(lib_id.span().start);
+                    let atom = &lib_id.items()[1];
+                    self.edits.push(Edit { range: atom.span(), text: requote(text, atom, to) });
+                    moved.entry(id.to_string()).or_default().insert(to.to_string(), fp.to_string());
+                }
+                None => {
+                    kept.insert(id.to_string());
+                    let with = if fp.is_empty() { "no footprint".to_string() } else { fp.to_string() };
+                    self.warn(format!("symbol {id} with {with}: no per-package symbol in the map, left as it is"));
+                }
+            }
+        }
+        if moved.is_empty() {
+            return;
+        }
+        let Some(cache) = root.child("lib_symbols") else {
+            self.error("placed symbols to move, but no lib_symbols".into());
+            return;
+        };
+        let cached: BTreeSet<&str> = cache.children("symbol").filter_map(|s| s.arg(0)).collect();
+        for (generic, targets) in &moved {
+            let Some(entry) = cache.children("symbol").find(|s| s.arg(0) == Some(generic.as_str())) else {
+                self.error(format!("symbol {generic} is placed, but lib_symbols has no copy of it"));
+                continue;
+            };
+            let indent = &text[text[..entry.span().start].rfind('\n').map_or(0, |i| i + 1)..entry.span().start];
+            let copies: Vec<String> = targets
+                .iter()
+                .filter(|(to, _)| !cached.contains(to.as_str()))
+                .map(|(to, fp)| cache_copy(text, entry, generic, to, fp))
+                .collect();
+            let sep = format!("\n{indent}");
+            let span = entry.span();
+            if kept.contains(generic) {
+                if !copies.is_empty() {
+                    self.edits.push(Edit { range: span.end..span.end, text: format!("{sep}{}", copies.join(&sep)) });
+                }
+            } else {
+                self.skip.insert(span.start);
+                if copies.is_empty() {
+                    let line = span.start - indent.len();
+                    let end = if text[span.end..].starts_with('\n') { span.end + 1 } else { span.end };
+                    self.edits.push(Edit { range: line..end, text: String::new() });
+                } else {
+                    self.edits.push(Edit { range: span, text: copies.join(&sep) });
+                }
+            }
+        }
+    }
+
     fn walk(&mut self, text: &str, node: &Node) {
+        if matches!(node, Node::List { .. }) && self.skip.contains(&node.span().start) {
+            return;
+        }
         match node.head() {
             Some("lib_id") => {
                 if let Some(a) = node.items().get(1) {
@@ -276,7 +376,8 @@ impl Rewriter<'_> {
     /// The cached symbols: each name is rewritten, and two that end up with one name are an error.
     fn cache(&mut self, text: &str, node: &Node) {
         let mut names: BTreeMap<String, Vec<String>> = BTreeMap::new();
-        for sym in node.children("symbol") {
+        let syms: Vec<&Node> = node.children("symbol").filter(|s| !self.skip.contains(&s.span().start)).collect();
+        for sym in syms {
             let Some(a) = sym.items().get(1) else { continue };
             let old = a.as_atom().unwrap_or_default().to_string();
             let new = self.symbol_id(text, a).unwrap_or_else(|| old.clone());
@@ -404,6 +505,10 @@ impl Rewriter<'_> {
     }
 
     fn model(&mut self, text: &str, atom: &Node) {
+        // A map without models (the stock map, the per-package one) leaves every model path to others.
+        if self.map.model.is_empty() && self.map.model_dropped.paths.is_empty() {
+            return;
+        }
         let Some(path) = atom.as_atom() else { return };
         let rel = if let Some(rel) = path.strip_prefix(MODEL_VAR) {
             rel
@@ -464,6 +569,38 @@ impl Rewriter<'_> {
             }
         }
     }
+}
+
+/// The cached symbol `entry` of `generic`, copied under the per-package id `to`: its name and its units' names
+/// (`R_0_1` becomes `R_0402_0_1`), the `Footprint` field and `ki_fp_filters` set to `fp`.
+fn cache_copy(text: &str, entry: &Node, generic: &str, to: &str, fp: &str) -> String {
+    let base = entry.span().start;
+    let old_name = generic.split_once(':').map_or(generic, |(_, n)| n);
+    let new_name = to.split_once(':').map_or(to, |(_, n)| n);
+    let mut edits = Vec::new();
+    let mut set = |atom: &Node, value: &str| {
+        let span = atom.span();
+        edits.push(Edit { range: span.start - base..span.end - base, text: requote(text, atom, value) });
+    };
+    set(&entry.items()[1], to);
+    for item in entry.items() {
+        match (item.head(), item.items().get(1)) {
+            (Some("symbol"), Some(atom)) => {
+                if let Some(unit) = atom.as_atom().and_then(|n| n.strip_prefix(old_name)).filter(|u| u.starts_with('_'))
+                {
+                    set(atom, &format!("{new_name}{unit}"));
+                }
+            }
+            (Some("property"), Some(_)) if matches!(item.arg(0), Some("Footprint" | "ki_fp_filters")) => {
+                if let Some(atom) = item.items().get(2) {
+                    set(atom, fp);
+                }
+            }
+            _ => {}
+        }
+    }
+    edits.sort_by_key(|e| e.range.start);
+    apply_edits(&text[entry.span()], &edits)
 }
 
 /// Replaces only the library part of an id atom (`"old:Name"` → `"new:Name"`), so the rest of the atom stays

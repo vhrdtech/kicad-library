@@ -15,6 +15,9 @@
 //!   copies compared with the current stock library; [`stock::symbol`] the same for its stock symbols.
 //! - [`lint::plan`] and [`lint::apply`]: library-wide footprint rules (pin-1 marks, attributes, courtyards, 3D
 //!   models, silkscreen, pin numbers, centroid crosses), each a check and, where the rule is clear, a fix.
+//! - [`per_package::plan`] and [`per_package::apply`]: a symbol per package for generic symbols, derived from
+//!   them with the footprint set, as the rename map's `[per_package]` names them; [`per_package::survey`] the
+//!   generic symbols boards place, by footprint.
 //! - [`restructure::plan`] and [`restructure::apply`]: a checkout's old libraries moved into the map's new ones.
 
 pub mod check;
@@ -26,6 +29,7 @@ pub mod libtable;
 pub mod lint;
 pub mod map;
 pub mod migrate;
+pub mod per_package;
 pub mod restructure;
 pub mod setup;
 pub mod sexpr;

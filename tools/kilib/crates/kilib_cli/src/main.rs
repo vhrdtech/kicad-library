@@ -17,6 +17,7 @@ use kilib::fab;
 use kilib::layers;
 use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
+use kilib::per_package;
 use kilib::restructure;
 use kilib::setup::{self, Line};
 use kilib::stock;
@@ -53,6 +54,7 @@ Examples:
   kilib check --json board.kicad_pcb    the same for one file, as JSON
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
+  kilib per-package --map migrate/2026-11-packages.toml ~/git/hw/b153_typec_serial    placed generic symbols by footprint
   kilib designators                     which footprints' designators and values are not yet on their layers
   kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
@@ -181,6 +183,33 @@ Examples:
         /// List every move and write nothing
         #[arg(long)]
         dry_run: bool,
+    },
+    /// Make the per-package symbols of a rename map, and list the generic symbols boards place by footprint
+    ///
+    /// A generic symbol (VHRD_Device:R, its Footprint empty) gets a symbol per package, named in the map's
+    /// [per_package."Lib:Generic"] table ("FpLib:Footprint" = "Lib:Generic_Package"). Each is derived from the
+    /// generic (extends) in its library, with Footprint and ki_fp_filters set to the footprint. Those missing in
+    /// the checkout are listed (exit 1) or, with --write, written; those there are checked. With boards, the
+    /// generic symbols their schematics place are listed by footprint, with the map's per-package symbol or
+    /// "not in the map". `kilib migrate` with the same map then moves the placed symbols onto them.
+    #[command(after_help = "\
+Examples:
+  kilib per-package --map migrate/2026-11-packages.toml ../hw/b153_typec_serial/source/b153a
+  kilib per-package --map migrate/2026-11-packages.toml --write
+  kilib migrate --map migrate/2026-11-packages.toml --write ../hw/b153_typec_serial/source/b153a")]
+    PerPackage {
+        /// The rename map with the [per_package] tables (migrate/*.toml in kicad-library)
+        #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
+        map: PathBuf,
+        /// Boards whose placed generic symbols to list: schematics or folders searched for them
+        #[arg(value_hint = ValueHint::AnyPath)]
+        boards: Vec<PathBuf>,
+        /// The kicad-library checkout (default: the one around the current folder)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+        library: Option<PathBuf>,
+        /// Write the missing per-package symbols
+        #[arg(long)]
+        write: bool,
     },
     /// Copy KiCad's stock footprints into the library, and compare the copies with the current stock library
     ///
@@ -448,6 +477,13 @@ fn main() -> ExitCode {
         Command::Restructure { map, vendor_dir, library, dry_run } => {
             usage::record("restructure", &[("dry-run", dry_run), ("library", library.is_some())]);
             run_restructure(&map, &vendor_dir, library, dry_run)
+        }
+        Command::PerPackage { map, boards, library, write } => {
+            usage::record(
+                "per-package",
+                &[("write", write), ("boards", !boards.is_empty()), ("library", library.is_some())],
+            );
+            run_per_package(&map, &boards, library, write)
         }
         Command::Stock(StockCommand::Import { ids, symbols, stock, write }) => {
             usage::record(
@@ -744,10 +780,11 @@ fn run_migrate(map: &Path, paths: &[PathBuf], write: bool, stat: bool) -> Result
     // The summary goes to stderr, so the diff on stdout stays a clean patch.
     let c = &plan.counts;
     eprintln!(
-        "{BOLD}kilib migrate{BOLD:#}: {} files read, {} to change: {} symbol ids, {} Footprint fields, {} footprints, {} filters, {} 3D models, {} table rows",
+        "{BOLD}kilib migrate{BOLD:#}: {} files read, {} to change: {} symbol ids, {} per-package symbols, {} Footprint fields, {} footprints, {} filters, {} 3D models, {} table rows",
         plan.files,
         plan.changes.len(),
         c.symbols,
+        c.per_package,
         c.footprint_fields,
         c.footprints,
         c.filters,
@@ -773,6 +810,61 @@ fn run_migrate(map: &Path, paths: &[PathBuf], write: bool, stat: bool) -> Result
         eprintln!("{GREEN}✓{GREEN:#} wrote {} files", plan.changes.len());
     } else {
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_per_package(map: &Path, boards: &[PathBuf], library: Option<PathBuf>, write: bool) -> Result<ExitCode, String> {
+    let map = kilib::map::Map::read(map)?;
+    let library = std::path::absolute(library_or_cwd(library)?).map_err(|e| e.to_string())?;
+    if !boards.is_empty() {
+        let placed = per_package::survey(&library, &map, boards)?;
+        for p in &placed {
+            let fp = if p.footprint.is_empty() { "(no footprint)" } else { p.footprint.as_str() };
+            let to = match &p.to {
+                Some(to) => format!("{GREEN}→{GREEN:#} {to}"),
+                None => format!("{YELLOW}not in the map{YELLOW:#}"),
+            };
+            println!("  {} {fp} ×{} {to} {DIM}{}{DIM:#}", p.generic, p.refs.len(), p.refs.join(" "));
+        }
+        let open = placed.iter().filter(|p| p.to.is_none()).count();
+        eprintln!(
+            "{BOLD}kilib per-package{BOLD:#}: {} generic symbols placed with {} footprints, {open} not in the map",
+            placed.iter().map(|p| &p.generic).collect::<std::collections::BTreeSet<_>>().len(),
+            placed.len()
+        );
+    }
+    let plan = per_package::plan(&library, &map);
+    let roots = [library.clone()];
+    for item in plan.to_write() {
+        println!(
+            "{GREEN}+{GREEN:#} {} {DIM}extends {}, {} ({}){DIM:#}",
+            item.id,
+            item.generic,
+            item.footprint,
+            shown(&item.path, &roots)
+        );
+    }
+    for (sev, msg) in &plan.notes {
+        match sev {
+            migrate::Severity::Error => eprintln!("{RED}✗{RED:#} {msg}"),
+            migrate::Severity::Warning => eprintln!("{YELLOW}!{YELLOW:#} {msg}"),
+        }
+    }
+    let new = plan.to_write().count();
+    eprintln!("{BOLD}kilib per-package{BOLD:#}: {} per-package symbols in the map, {new} to make", plan.items.len());
+    if plan.has_errors() {
+        eprintln!("{RED}✗{RED:#} errors: nothing written");
+        return Ok(ExitCode::from(1));
+    }
+    if new == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} every per-package symbol is in the library");
+    } else if write {
+        per_package::apply(&plan)?;
+        eprintln!("{GREEN}✓{GREEN:#} wrote {new} symbols");
+    } else {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to make them");
+        return Ok(ExitCode::from(1));
     }
     Ok(ExitCode::SUCCESS)
 }
