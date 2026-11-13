@@ -13,6 +13,12 @@
   size's stock IPC-7351 nominal footprint under the new name (`C_0805_2012Metric_H1.25`) with the generated model; a
   power inductor (`L_Shielded_4.0x4.0mm_H2.0`) is drawn from the maker's land and finished by the lint fixes and
   `designators`. Writes only new files.
+- Chip footprints per size and body height (LIB-28), 34 of them, each with its generated model and its per-package
+  symbol: R 0201 (H0.23), 0402 (H0.35), 0603 (H0.45), 0805, 1206, 1210, 2010, 2512 (H0.55); C 0201 (H0.3), 0402
+  (H0.5), 0603 (H0.8), 0805 (H0.6, H0.85, H1.25), 1206 (H0.85, H1.15, H1.6), 1210 (H1.25, H1.6, H2.0, H2.5), 1812
+  (H1.6, H2.0, H2.5); L 0201 (H0.3), 0402 (H0.5), 0603 (H0.8), 0805 (H0.85, H1.25), 1206 (H0.85, H1.0, H1.8), 1210
+  (H2.0, H2.2). Sizes and heights from Murata, Samsung, Yageo and TDK tables in `generate/chip-passives.toml`.
+- `VHRD_Device:L`, the generic inductor (from stock `Device:L`), for the chip inductors' per-package symbols.
 - `VHRD_Package_QFP:LQFP-48_UFQFPN-48_7x7mm_P0.5mm_PasteLQFP` and `_PasteUFQFPN`: one land pattern for LQFP-48 or UFQFPN-48 7x7 (STM32G0B1CxT / CxU), split pads with a 0.19 mm mask web, exposed pad on pin 7; the two differ only in paste.
 - Per-package symbols (LIB-26): 22 symbols derived from the generic ones, each with its footprint set, for the
   packages b153a places them with: `VHRD_Device:R_0402`, `R_0603_HandSolder`, `R_0805`, `R_1206`, `C_0402`,
