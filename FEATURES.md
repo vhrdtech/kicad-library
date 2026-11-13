@@ -127,3 +127,10 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   the makers' lands; the maker's land is in the description. Data in `generate/current-sense.toml`,
   `kilib footprint shunts` prints the table; a `shunt` model style (metal element under a black coat, long
   terminations); per-package symbols on `VHRD_Device:R`. 42 footprints
+- ✅ LIB-31 chip-led-models: chip LEDs 0402 (H0.2, H0.4, H0.5) and 0603 (H0.2, H0.35, H0.65, H0.8, H0.95) in red,
+  orange, yellow, green, blue and white, one footprint per size, height and colour
+  (`LED_0603_1608Metric_H0.8_Red`): the stock IPC land with the `_Arrow` silkscreen. The generated model shows the
+  LED's colour: a white board with gold ends and a lens tinted in the emission colour, see-through with the die
+  inside for a water-clear lens (`SURFACE_STYLE_TRANSPARENT`), the opaque yellow phosphor for white. Heights, board
+  and lens from LiteOn, Kingbright, OSRAM and Würth drawings in `generate/chip-leds.toml` (`kilib::chip::led`);
+  per-package symbols on `VHRD_Device:LED_<Colour>` (`LED_Red_0603_H0.8`). 48 footprints

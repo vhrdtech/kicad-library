@@ -2,9 +2,30 @@
 
 ## [Unreleased]
 
+### Added
+
+- Chip LED footprints (LIB-31), 48 of them, each with its generated model and its per-package symbol: 0402 (H0.2,
+  H0.4, H0.5) and 0603 (H0.2, H0.35, H0.65, H0.8, H0.95), each in red, orange, yellow, green, blue and white
+  (`LED_0603_1608Metric_H0.8_Red`, `VHRD_Device:LED_Red_0603_H0.8`). The land is the size's stock IPC-7351 one, the
+  silkscreen the library's `_Arrow` style (a triangle outside the courtyard and one between the pads, both pointing
+  at the cathode). Heights, board thickness and lens length from LiteOn, Kingbright, OSRAM and Würth drawings in
+  `generate/chip-leds.toml`; heights within 0.1 mm merged, rounding up.
+- The LED models show the LED's colour: a white board with gold ends, a die, and a lens tinted in the emission
+  colour, see-through for a water-clear lens so the die shows; a white LED's lens is its opaque yellow phosphor.
+- `kilib::step`: a solid can be see-through (`Solid::transparency`, written as `SURFACE_STYLE_TRANSPARENT`, which
+  KiCad 10's 3D viewer renders).
+- `VHRD_Device:LED_Yellow`, `LED_Blue` and `LED_White`, generics as `LED_Red`, for the per-package LED symbols.
+
 ### Changed
 
 - kilib lint pin1: a footprint tagged `symmetric` wants no pin-1 mark (its pins swap without harm); the ECS 3.2x2.5 crystal and the D_*_BIDIR footprints carry the tag, so `just check-footprints` passes again.
+
+### Removed
+
+- `VHRD_Device:LED_Red_0603` and `LED_Green_0603` (on `LED_0603_1608Metric_Arrow`), replaced by the per-package
+  symbols of the new footprints. b153a places them: move LD201 and LD202 to `LED_Red_0603_H0.8` and
+  `LED_Green_0603_H0.8` by hand (KiCad's Change Symbol, then Update PCB from Schematic). The footprints
+  `LED_0603_1608Metric` and `LED_0603_1608Metric_Arrow` stay.
 
 ## [0.3.0] - 2026-11-13
 

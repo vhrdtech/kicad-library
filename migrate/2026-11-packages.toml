@@ -99,11 +99,65 @@
 [per_package."VHRD_Device:D_Zener"]
 "VHRD_Diode_SMD:D_SOD-523" = "VHRD_Device:D_Zener_SOD-523"
 
-[per_package."VHRD_Device:LED_Green"]
-"VHRD_LED_SMD:LED_0603_1608Metric_Arrow" = "VHRD_Device:LED_Green_0603"
-
 [per_package."VHRD_Device:LED_Red"]
-"VHRD_LED_SMD:LED_0603_1608Metric_Arrow" = "VHRD_Device:LED_Red_0603"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_Red" = "VHRD_Device:LED_Red_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_Red" = "VHRD_Device:LED_Red_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_Red" = "VHRD_Device:LED_Red_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_Red" = "VHRD_Device:LED_Red_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_Red" = "VHRD_Device:LED_Red_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_Red" = "VHRD_Device:LED_Red_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_Red" = "VHRD_Device:LED_Red_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_Red" = "VHRD_Device:LED_Red_0603_H0.95"
+
+[per_package."VHRD_Device:LED_Orange"]
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_Orange" = "VHRD_Device:LED_Orange_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_Orange" = "VHRD_Device:LED_Orange_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_Orange" = "VHRD_Device:LED_Orange_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_Orange" = "VHRD_Device:LED_Orange_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_Orange" = "VHRD_Device:LED_Orange_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_Orange" = "VHRD_Device:LED_Orange_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_Orange" = "VHRD_Device:LED_Orange_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_Orange" = "VHRD_Device:LED_Orange_0603_H0.95"
+
+[per_package."VHRD_Device:LED_Yellow"]
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_Yellow" = "VHRD_Device:LED_Yellow_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_Yellow" = "VHRD_Device:LED_Yellow_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_Yellow" = "VHRD_Device:LED_Yellow_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_Yellow" = "VHRD_Device:LED_Yellow_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_Yellow" = "VHRD_Device:LED_Yellow_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_Yellow" = "VHRD_Device:LED_Yellow_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_Yellow" = "VHRD_Device:LED_Yellow_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_Yellow" = "VHRD_Device:LED_Yellow_0603_H0.95"
+
+[per_package."VHRD_Device:LED_Green"]
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_Green" = "VHRD_Device:LED_Green_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_Green" = "VHRD_Device:LED_Green_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_Green" = "VHRD_Device:LED_Green_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_Green" = "VHRD_Device:LED_Green_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_Green" = "VHRD_Device:LED_Green_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_Green" = "VHRD_Device:LED_Green_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_Green" = "VHRD_Device:LED_Green_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_Green" = "VHRD_Device:LED_Green_0603_H0.95"
+
+[per_package."VHRD_Device:LED_Blue"]
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_Blue" = "VHRD_Device:LED_Blue_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_Blue" = "VHRD_Device:LED_Blue_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_Blue" = "VHRD_Device:LED_Blue_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_Blue" = "VHRD_Device:LED_Blue_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_Blue" = "VHRD_Device:LED_Blue_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_Blue" = "VHRD_Device:LED_Blue_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_Blue" = "VHRD_Device:LED_Blue_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_Blue" = "VHRD_Device:LED_Blue_0603_H0.95"
+
+[per_package."VHRD_Device:LED_White"]
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.2_White" = "VHRD_Device:LED_White_0402_H0.2"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.4_White" = "VHRD_Device:LED_White_0402_H0.4"
+"VHRD_LED_SMD:LED_0402_1005Metric_H0.5_White" = "VHRD_Device:LED_White_0402_H0.5"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.2_White" = "VHRD_Device:LED_White_0603_H0.2"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.35_White" = "VHRD_Device:LED_White_0603_H0.35"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.65_White" = "VHRD_Device:LED_White_0603_H0.65"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.8_White" = "VHRD_Device:LED_White_0603_H0.8"
+"VHRD_LED_SMD:LED_0603_1608Metric_H0.95_White" = "VHRD_Device:LED_White_0603_H0.95"
 
 [per_package."VHRD_Device:L"]
 "VHRD_Inductor_SMD:L_0201_0603Metric_H0.3" = "VHRD_Device:L_0201_H0.3"
