@@ -1,0 +1,110 @@
+(footprint "R_Shunt_0805_2012Metric_H0.3_Pad1.025x1.55mm_Gap0.95mm"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Current-sense resistor SMD 0805 (2012 Metric), metal element, body 2.03 x 1.27 x 0.3 mm, IPC-7351B nominal land from the body and terminations: pads 1.025 x 1.55 mm, gap 0.95 mm; fits Yageo PE_L0805 51–910 mΩ (maker's land 1.02 x 1.27 mm, gap 0.50 mm, Yageo PE_L V.10 Table 7); Yageo PA0805 2.5–20 mΩ (maker's land 1.80 x 1.44 mm, gap 1.00 mm, Yageo PA Rev 11 Table 7); model by kilib model chip")
+	(tags "resistor shunt current sense")
+	(property "Reference" "REF**"
+		(at -0.019 0.028 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(property "Value" "R_Shunt_0805_2012Metric_H0.3_Pad1.025x1.55mm_Gap0.95mm"
+		(at 0 0.034 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.413 -0.735)
+		(end 0.413 -0.735)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.413 0.735)
+		(end 0.413 0.735)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 1.015 -0.635) (xy 1.015 0.635) (xy -1.015 0.635) (xy -1.015 -0.635))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -1.75 -1.03)
+		(end 1.75 1.03)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -0.9875 0)
+		(size 1.025 1.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 0.9875 0)
+		(size 1.025 1.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_0805_2012Metric_H0.3_Pad1.025x1.55mm_Gap0.95mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

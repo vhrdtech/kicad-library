@@ -1,0 +1,110 @@
+(footprint "R_Shunt_0603_1608Metric_H0.55_Pad0.975x1.00mm_Gap0.55mm"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Current-sense resistor SMD 0603 (1608 Metric), metal element, body 1.6 x 0.8 x 0.55 mm, IPC-7351B nominal land from the body and terminations: pads 0.975 x 1.00 mm, gap 0.55 mm; fits Yageo PA0603 1–20 mΩ (maker's land 0.70 x 0.90 mm, gap 0.80 mm, Yageo PA Rev 11 Table 7); model by kilib model chip")
+	(tags "resistor shunt current sense")
+	(property "Reference" "REF**"
+		(at -0.014 0.021 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(property "Value" "R_Shunt_0603_1608Metric_H0.55_Pad0.975x1.00mm_Gap0.55mm"
+		(at 0 0.028 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.213 -0.5)
+		(end 0.213 -0.5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.213 0.5)
+		(end 0.213 0.5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 0.8 -0.4) (xy 0.8 0.4) (xy -0.8 0.4) (xy -0.8 -0.4))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -1.35 -0.6)
+		(end 1.35 0.6)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -0.7625 0)
+		(size 0.975 1)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 0.7625 0)
+		(size 0.975 1)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_0603_1608Metric_H0.55_Pad0.975x1.00mm_Gap0.55mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

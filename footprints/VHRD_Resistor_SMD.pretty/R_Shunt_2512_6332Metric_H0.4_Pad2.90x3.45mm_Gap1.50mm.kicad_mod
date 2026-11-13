@@ -1,0 +1,110 @@
+(footprint "R_Shunt_2512_6332Metric_H0.4_Pad2.90x3.45mm_Gap1.50mm"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Current-sense resistor SMD 2512 (6332 Metric), metal element, body 6.35 x 3.18 x 0.4 mm, IPC-7351B nominal land from the body and terminations: pads 2.90 x 3.45 mm, gap 1.50 mm; fits Vishay WSL2512/Vishay WSLP2512 1–4.9 mΩ (maker's land 3.05 x 3.68 mm, gap 1.27 mm, Vishay doc 30100); Yageo PA2512 1–4 mΩ (maker's land 3.05 x 3.68 mm, gap 1.27 mm, Yageo PA Rev 11 Table 7); Bourns CRF2512 0.5–3 mΩ (maker's land 3.10 x 4.00 mm, gap 1.30 mm, Bourns CRF REV 09/26 p.3); model by kilib model chip")
+	(tags "resistor shunt current sense")
+	(property "Reference" "REF**"
+		(at -0.048 0.069 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "R_Shunt_2512_6332Metric_H0.4_Pad2.90x3.45mm_Gap1.50mm"
+		(at 0 0.069 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.688 -1.69)
+		(end 0.688 -1.69)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.688 1.69)
+		(end 0.688 1.69)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 3.175 -1.59) (xy 3.175 1.59) (xy -3.175 1.59) (xy -3.175 -1.59))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -3.9 -1.98)
+		(end 3.9 1.98)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -2.2 0)
+		(size 2.9 3.45)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 2.2 0)
+		(size 2.9 3.45)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_2512_6332Metric_H0.4_Pad2.90x3.45mm_Gap1.50mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

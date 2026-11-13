@@ -119,3 +119,11 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   one footprint per body and height (`L_Shielded_4.0x4.0mm_H2.0`, `L_Molded_4.0x4.0mm_H3.1`), the land of the maker
   named in the description with the series it fits; bodies, electrodes and lands in `generate/power-inductors.toml`,
   generated models, per-package symbols on `VHRD_Device:L_Iron`. 68 footprints over 17 bodies
+- ✅ LIB-30 current-sense-shunts: metal-element current-sense resistors 0603 to 2512 (Vishay WSL/WSLP/WSLT/WSLS,
+  Yageo PE, PE_L and PA, Bourns CRF/CRA, TT LRMAP, Rohm GMR100, Isabellenhütte SMS), one footprint per size,
+  height and land (`R_Shunt_1206_3216Metric_H0.6_Pad1.85x1.85mm_Gap0.45mm`). The land is IPC-7351B nominal,
+  computed from each series' body and termination length per resistance range (`kilib::ipc`, the formula of
+  KiCad's stock chip lands, gap at least 0.30 mm), so the long terminations are covered without the extra copper of
+  the makers' lands; the maker's land is in the description. Data in `generate/current-sense.toml`,
+  `kilib footprint shunts` prints the table; a `shunt` model style (metal element under a black coat, long
+  terminations); per-package symbols on `VHRD_Device:R`. 42 footprints

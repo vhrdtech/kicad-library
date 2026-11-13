@@ -59,19 +59,22 @@ pub struct Land {
 
 impl Land {
     pub fn pad_length(&self) -> f64 {
-        (self.span - self.gap) / 2.0
+        micro((self.span - self.gap) / 2.0)
     }
 
     /// The centre of pad 2 (pad 1 at minus that).
     pub fn pad_x(&self) -> f64 {
-        (self.span + self.gap) / 4.0
+        micro((self.span + self.gap) / 4.0)
     }
 }
 
+/// To a micrometre, so 1.75 comes out as 1.75 and not 1.7500000000000002.
+fn micro(v: f64) -> f64 {
+    (v * 1e6).round() / 1e6
+}
+
 fn round_to(v: f64, grid: f64) -> f64 {
-    // Through an integer count of grid steps, so 1.75 comes out as 1.75 and not 1.7500000000000002.
-    let n = (v / grid).round();
-    (n * grid * 1e6).round() / 1e6
+    micro((v / grid).round() * grid)
 }
 
 /// The land of a chip body `length` x `width` with terminations `term` long at each end.

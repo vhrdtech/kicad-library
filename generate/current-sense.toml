@@ -232,7 +232,7 @@ range = "0.5–0.99 mΩ"
 length = [3.20, 0.254]
 width = [1.60, 0.254]
 term = [1.04, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 2.26, pad_width = 1.93, gap = 0.58, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -243,7 +243,7 @@ range = "1–1.9 mΩ"
 length = [3.20, 0.254]
 width = [1.60, 0.254]
 term = [1.04, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 2.18, pad_width = 1.93, gap = 0.74, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -254,7 +254,7 @@ range = "2–5.9 mΩ"
 length = [3.20, 0.254]
 width = [1.60, 0.254]
 term = [0.635, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 1.78, pad_width = 1.93, gap = 1.55, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -265,7 +265,7 @@ range = "6–200 mΩ"
 length = [3.20, 0.254]
 width = [1.60, 0.254]
 term = [0.508, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 1.65, pad_width = 1.93, gap = 1.80, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -333,7 +333,7 @@ range = "1–6.9 mΩ"
 length = [5.08, 0.254]
 width = [2.54, 0.254]
 term = [1.47, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 2.36, pad_width = 3.05, gap = 1.40, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -344,7 +344,7 @@ range = "7–500 mΩ"
 length = [5.08, 0.254]
 width = [2.54, 0.254]
 term = [0.508, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 1.40, pad_width = 3.05, gap = 3.30, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -423,7 +423,7 @@ range = "0.5–0.99 mΩ"
 length = [6.35, 0.254]
 width = [3.18, 0.254]
 term = [2.72, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 3.05, pad_width = 3.68, gap = 1.27, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -434,7 +434,7 @@ range = "1–4.9 mΩ"
 length = [6.35, 0.254]
 width = [3.18, 0.254]
 term = [2.21, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 3.05, pad_width = 3.68, gap = 1.27, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -445,7 +445,7 @@ range = "5–6.9 mΩ"
 length = [6.35, 0.254]
 width = [3.18, 0.254]
 term = [1.19, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 2.11, pad_width = 3.68, gap = 3.18, source = "Vishay doc 30100" }
 
 [[shunt]]
@@ -456,7 +456,7 @@ range = "7–500 mΩ"
 length = [6.35, 0.254]
 width = [3.18, 0.254]
 term = [0.762, 0.254]
-heights = [0.635]
+heights = [0.64]
 maker_land = { pad_length = 1.65, pad_width = 3.68, gap = 4.06, source = "Vishay doc 30100" }
 
 [[shunt]]

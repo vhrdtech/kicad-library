@@ -17,6 +17,10 @@ use crate::chip::{colour, mm, slab};
 use crate::ipc::{self, Land, Tol};
 use crate::step::Solid;
 
+/// The smallest gap between the pads. IPC gives less where the termination tolerance is large against a short
+/// body (0.10 mm for a 2 mm part with ±0.25 mm terminations), too thin to keep the solder of the two pads apart.
+pub const MIN_GAP: f64 = 0.3;
+
 /// A datasheet dimension: `[nominal, ±tol]` or `[nominal, +tol, -tol]`, mm.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Dim {
@@ -75,8 +79,11 @@ pub struct Shunt {
 
 impl Shunt {
     /// The IPC-7351B nominal land of the row.
+    /// The IPC-7351B nominal land of the row, its gap at least [`MIN_GAP`] (the pads shortened at the inner edge).
     pub fn land(&self) -> Land {
-        ipc::chip_land(self.length.tol, self.width.tol, self.term.tol, ipc::chip_offsets(self.length.nominal))
+        let land =
+            ipc::chip_land(self.length.tol, self.width.tol, self.term.tol, ipc::chip_offsets(self.length.nominal));
+        Land { gap: land.gap.max(MIN_GAP), ..land }
     }
 
     pub(crate) fn check(&self) -> Result<(), String> {
@@ -247,6 +254,27 @@ mod tests {
     fn heights_merge_upwards() {
         assert_eq!(merge_heights(vec![0.64, 0.4, 0.6, 0.45]), [0.45, 0.64]);
         assert_eq!(merge_heights(vec![0.3, 0.4, 0.5]), [0.4, 0.5]);
+    }
+
+    #[test]
+    fn the_gap_is_never_below_the_minimum() {
+        let row: Shunt = toml::from_str(
+            r#"
+series = ["Yageo PE0805"]
+size = "0805"
+metric = "2012"
+range = "4 mΩ"
+length = [2.0, 0.25]
+width = [1.25, 0.25]
+term = [0.7, 0.25]
+heights = [0.6]
+"#,
+        )
+        .unwrap();
+        // IPC alone: span 2.95, gap 0.1.
+        let land = row.land();
+        assert_eq!((land.span, land.gap), (2.95, 0.3));
+        assert_eq!(land.pad_length(), 1.325);
     }
 
     #[test]

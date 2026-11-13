@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+### Added
+
+- Current-sense resistor footprints (LIB-30), 42 of them, each with its generated model and its per-package symbol
+  on `VHRD_Device:R`: Vishay WSL/WSLP/WSLT/WSLS, Yageo PE, PE_L and PA, Bourns CRF/CRA, TT LRMAP, Rohm GMR100 and
+  Isabellenhütte SMS, 0603 to 2512. Named by size, height and land (`R_Shunt_1206_3216Metric_H0.6_Pad1.85x1.85mm_Gap0.45mm`).
+  The land is computed with IPC-7351B nominal rules from the body and the termination length of each resistance
+  range, at least 0.30 mm apart, not copied from the makers (whose long lands carry heat-spreading copper out past
+  the part); the maker's land is in the description. Bodies and terminations in `generate/current-sense.toml`.
+- `kilib::ipc`: IPC-7351B nominal lands of two-terminal chips, as KiCad's footprint generator computes the stock
+  ones.
+- `kilib footprint shunts`: the computed current-sense lands, one line per table row and height, next to the
+  makers' lands.
+- `kilib model chip` and `kilib footprint chip` also make the current-sense resistors: a `shunt` model style (metal
+  element under a black coat between long terminations).
+
 ## [0.2.0] - 2026-11-13
 
 ### Added

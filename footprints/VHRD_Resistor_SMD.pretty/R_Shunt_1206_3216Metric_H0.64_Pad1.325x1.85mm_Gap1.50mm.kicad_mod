@@ -1,0 +1,110 @@
+(footprint "R_Shunt_1206_3216Metric_H0.64_Pad1.325x1.85mm_Gap1.50mm"
+	(version 20260206)
+	(generator "kilib")
+	(layer "F.Cu")
+	(descr "Current-sense resistor SMD 1206 (3216 Metric), metal element, body 3.2 x 1.6 x 0.64 mm, IPC-7351B nominal land from the body and terminations: pads 1.325 x 1.85 mm, gap 1.50 mm; fits Vishay WSL1206/Vishay WSLP1206 2–5.9 mΩ (maker's land 1.78 x 1.93 mm, gap 1.55 mm, Vishay doc 30100); Yageo PE_L1206 5 mΩ (maker's land 1.57 x 1.78 mm, gap 0.76 mm, Yageo PE_L V.10 Table 7); model by kilib model chip")
+	(tags "resistor shunt current sense")
+	(property "Reference" "REF**"
+		(at -0.031 0.045 0)
+		(unlocked yes)
+		(layer "User.23")
+		(effects
+			(font
+				(size 0.65 0.65)
+				(thickness 0.098)
+			)
+		)
+	)
+	(property "Value" "R_Shunt_1206_3216Metric_H0.64_Pad1.325x1.85mm_Gap1.50mm"
+		(at 0 0.059 0)
+		(unlocked yes)
+		(layer "User.17")
+		(effects
+			(font
+				(size 0.85 0.85)
+				(thickness 0.128)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.688 -0.9)
+		(end 0.688 -0.9)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -0.688 0.9)
+		(end 0.688 0.9)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts (xy 1.6 -0.8) (xy 1.6 0.8) (xy -1.6 0.8) (xy -1.6 -0.8))
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+	)
+	(fp_rect
+		(start -2.33 -1.18)
+		(end 2.33 1.18)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(pad "1" smd roundrect
+		(at -1.4125 0)
+		(size 1.325 1.85)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(pad "2" smd roundrect
+		(at 1.4125 0)
+		(size 1.325 1.85)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+	)
+	(embedded_fonts no)
+	(model "${VHRD_3DMODEL_DIR}/generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_1206_3216Metric_H0.64_Pad1.325x1.85mm_Gap1.50mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
