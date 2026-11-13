@@ -67,6 +67,17 @@
 				)
 			)
 		)
+		(property "Footprint_Review" "fp1:1cd6e8a44b97e994 doc=DS13560@rev4 pdf=b3:beeff17894a5239e page=134 scale=0.061045 at=334.67,434.06,0 by=roman on=13nov2026"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "ki_keywords" "Arm Cortex-M0+ STM32G0 STM32G0x1"
 			(at 0 0 0)
 			(show_name no)

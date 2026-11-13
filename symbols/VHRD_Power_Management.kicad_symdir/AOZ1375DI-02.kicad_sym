@@ -71,6 +71,17 @@
 				)
 			)
 		)
+		(property "Footprint_Review" "fp1:04dfdea27ef39d3f mpn=AOZ1375DI-02 pdf=b3:58c49ca3ce6f4d48 page=15 scale=0.04084 at=161.54,450.68,90 by=roman on=13nov2026"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "AOZ1375DI-02_1_0"
 			(rectangle
 				(start 0 0)
