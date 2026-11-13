@@ -22,7 +22,7 @@ use crate::step::{Rgb, Solid};
 pub mod footprint;
 pub mod shunt;
 
-pub use shunt::Shunt;
+pub use shunt::{Shunt, ShuntPart};
 
 /// The folder of the tables in a checkout.
 pub const TABLE_DIR: &str = "generate";
@@ -180,10 +180,8 @@ impl Tables {
                 parts.push(Part { name: power_name(p, h), height: h, body: Body::Power(p.clone()) });
             }
         }
-        for s in &self.shunt {
-            for &h in &s.heights {
-                parts.push(Part { name: s.name(h), height: h, body: Body::Shunt(s.clone()) });
-            }
+        for (name, height, s) in shunt::parts(&self.shunt)? {
+            parts.push(Part { name, height, body: Body::Shunt(s) });
         }
         let mut seen = std::collections::BTreeSet::new();
         for p in &parts {
@@ -215,7 +213,7 @@ fn power_name(p: &Power, h: f64) -> String {
 pub enum Body {
     Chip(Chip),
     Power(Power),
-    Shunt(Shunt),
+    Shunt(ShuntPart),
 }
 
 /// One footprint and model: a body in one height.
@@ -296,11 +294,7 @@ impl Part {
                     return bad("the pads must have a size and must not meet");
                 }
             }
-            Body::Shunt(s) => {
-                if let Err(e) = s.check(h) {
-                    return bad(&e);
-                }
-            }
+            Body::Shunt(_) => {}
         }
         Ok(())
     }
@@ -493,16 +487,15 @@ pad_length = 1.4
 pad_width = 3.4
 
 [[shunt]]
+series = ["Yageo PE1206"]
 size = "1206"
 metric = "3216"
-length = 3.2
-width = 1.6
-heights = [0.6]
-term = 1.15
-pad_length = 2.8
-pad_width = 1.84
-gap = 0.6
 range = "5–8 mΩ"
+length = [3.2, 0.25]
+width = [1.6, 0.25]
+term = [1.15, 0.25]
+heights = [0.6]
+maker_land = { pad_length = 2.8, pad_width = 1.84, gap = 0.6, source = "PE V.2 Table 7" }
 "#;
 
     #[test]
@@ -521,13 +514,13 @@ range = "5–8 mΩ"
                 "L_Shielded_4.0x4.0mm_H1.8",
                 "L_Shielded_4.0x4.0mm_H2.0",
                 "L_Molded_4.3x4.3mm_H3.0",
-                "R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm",
+                "R_Shunt_1206_3216Metric_H0.6_Pad1.85x1.85mm_Gap0.45mm",
             ]
         );
         let shunt = t.parts().unwrap().pop().unwrap();
         assert_eq!(
             shunt.symbols(),
-            ("VHRD_Device:R".into(), "VHRD_Device:R_Shunt_1206_H0.6_Pad2.80x1.84mm_Gap0.60mm".into())
+            ("VHRD_Device:R".into(), "VHRD_Device:R_Shunt_1206_H0.6_Pad1.85x1.85mm_Gap0.45mm".into())
         );
         assert_eq!(shunt.library(), "VHRD_Resistor_SMD");
         assert_eq!(mm(2.0), "2.0");
@@ -570,7 +563,7 @@ range = "5–8 mΩ"
             let (l, w) = match &part.body {
                 Body::Chip(c) => (c.length, c.width),
                 Body::Power(p) => (p.length, p.width),
-                Body::Shunt(s) => (s.length, s.width),
+                Body::Shunt(s) => (s.model.length.nominal, s.model.width.nominal),
             };
             let want = ([-l / 2.0, -w / 2.0, 0.0], [l / 2.0, w / 2.0, part.height]);
             for k in 0..3 {
@@ -594,8 +587,8 @@ range = "5–8 mΩ"
         let t: Tables = toml::from_str(&wide).unwrap();
         assert!(t.parts().unwrap_err().contains("band"));
         assert!(toml::from_str::<Tables>(&TABLE.replace("band = 0.5\n", "band = 0.5\nfoo = 1\n")).is_err());
-        let long = TABLE.replace("term = 1.15", "term = 1.6");
+        let long = TABLE.replace("term = [1.15, 0.25]", "term = [1.6, 0.25]");
         let t: Tables = toml::from_str(&long).unwrap();
-        assert!(t.parts().unwrap_err().contains("R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm: term"));
+        assert!(t.parts().unwrap_err().contains("[[shunt]] Yageo PE1206 1206 5–8 mΩ: term"), "{:?}", t.parts());
     }
 }

@@ -122,9 +122,9 @@ pub fn make(footprints: &Path, stock: Option<&Path>, part: &Part) -> Result<Stri
             two_pads(part, &outline(p), land, &descr, &tags)
         }
         Body::Shunt(s) => {
-            let (x, y) = (s.length / 2.0, s.width / 2.0);
+            let (x, y) = (s.model.length.nominal / 2.0, s.model.width.nominal / 2.0);
             let body = [[x, -y], [x, y], [-x, y], [-x, -y]];
-            let land = Land { x: s.pad_x(), length: s.pad_length, width: s.pad_width };
+            let land = Land { x: s.land.pad_x(), length: s.land.pad_length(), width: s.land.width };
             two_pads(part, &body, land, &s.description(part.height), "resistor shunt current sense")
         }
     }
@@ -264,18 +264,15 @@ land_source = "Sunlord SWPA4020S"
 fits = ["Sunlord SWPA4020S"]
 
 [[shunt]]
+series = ["Yageo PE1206"]
 size = "1206"
 metric = "3216"
-length = 3.2
-width = 1.6
-heights = [0.6]
-term = 1.15
-pad_length = 2.8
-pad_width = 1.84
-gap = 0.6
 range = "5–8 mΩ"
-land_source = "Yageo PE V.2 Table 7"
-fits = ["Yageo PE1206 5–8 mΩ"]
+length = [3.2, 0.25]
+width = [1.6, 0.25]
+term = [1.15, 0.25]
+heights = [0.6]
+maker_land = { pad_length = 2.8, pad_width = 1.84, gap = 0.6, source = "PE V.2 Table 7" }
 "#;
 
     /// A stock-like base: what KiCad's generator writes, cut down.
@@ -347,19 +344,20 @@ fits = ["Yageo PE1206 5–8 mΩ"]
     }
 
     #[test]
-    fn shunt_footprints_have_the_makers_land() {
+    fn shunt_footprints_have_the_ipc_land() {
         let (dir, parts) = setup();
         let items = plan(dir.path(), None, &parts[3..]);
         let Outcome::New(text) = &items[0].outcome else { panic!("{:?}", items[0].outcome) };
         let fp = crate::footprint::read(text).unwrap();
-        assert_eq!(fp.name, "R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm");
-        // Pads 2.8 long, 0.6 apart: centres at 0.3 + 1.4 = 1.7, span 6.2.
-        assert!(text.contains("(at -1.7 0)") && text.contains("(at 1.7 0)") && text.contains("(size 2.8 1.84)"));
+        assert_eq!(fp.name, "R_Shunt_1206_3216Metric_H0.6_Pad1.85x1.85mm_Gap0.45mm");
+        // IPC-7351B nominal from 3.2 ±0.25 long, terminations 1.15 ±0.25: span 4.15, gap 0.45, pads 1.85 long
+        // centred at 1.15; the maker's 6.20 mm land only in the text.
+        assert!(text.contains("(at -1.15 0)") && text.contains("(at 1.15 0)") && text.contains("(size 1.85 1.85)"));
         assert!(text.contains(
-            "land 2.80 x 1.84 mm pads 0.60 mm apart for 5–8 mΩ, land from Yageo PE V.2 Table 7, fits Yageo PE1206 5–8 mΩ"
+            "pads 1.85 x 1.85 mm, gap 0.45 mm; fits Yageo PE1206 5–8 mΩ (maker's land 2.80 x 1.84 mm, gap 0.60 mm, PE V.2 Table 7)"
         ));
         assert!(text.contains(
-            "generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_1206_3216Metric_H0.6_Pad2.80x1.84mm_Gap0.60mm.step"
+            "generated/VHRD_Resistor_SMD.3dshapes/R_Shunt_1206_3216Metric_H0.6_Pad1.85x1.85mm_Gap0.45mm.step"
         ));
         let (_, new, _) = crate::lint::lint_text(
             text,

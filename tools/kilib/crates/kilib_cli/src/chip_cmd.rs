@@ -123,11 +123,24 @@ Examples:
         #[command(flatten)]
         stock: StockArgs,
     },
+    /// The current-sense resistor lands of generate/current-sense.toml, computed, one line per row and height
+    ///
+    /// Each [[shunt]] row's IPC-7351B nominal land from its body and terminations, as the footprint that takes it
+    /// has it (rows of one size within 0.05 mm share a land), next to the maker's recommended land. Only reads.
+    #[command(after_help = "\
+Examples:
+  kilib footprint shunts")]
+    Shunts {
+        /// The kicad-library checkout with generate/ (default: the one around the current folder)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+        library: Option<PathBuf>,
+    },
 }
 
 impl FootprintCommand {
     pub fn usage(&self) -> (&'static str, Vec<(&'static str, bool)>) {
         match self {
+            FootprintCommand::Shunts { library } => ("footprint shunts", vec![("library", library.is_some())]),
             FootprintCommand::Chip { names, write, stock } => (
                 "footprint chip",
                 vec![
@@ -151,7 +164,10 @@ fn selected(parts: Vec<chip::Part>, names: &[String]) -> Result<Vec<chip::Part>,
 }
 
 pub fn run_footprints(cmd: FootprintCommand) -> Result<ExitCode, String> {
-    let FootprintCommand::Chip { names, write, stock } = cmd;
+    let (names, write, stock) = match cmd {
+        FootprintCommand::Chip { names, write, stock } => (names, write, stock),
+        FootprintCommand::Shunts { library } => return shunts(library),
+    };
     let library = library_or_cwd(stock.library.clone())?;
     let parts = selected(Tables::load(&library)?.parts()?, &names)?;
     let stock_dir = stock.stock_dir().ok();
@@ -182,4 +198,37 @@ pub fn run_footprints(cmd: FootprintCommand) -> Result<ExitCode, String> {
         eprintln!("{DIM}no stock footprint folder: pass --stock-dir DIR for bases the checkout lacks{DIM:#}");
     }
     Ok(if errors > 0 || (!write && new > 0) { ExitCode::from(1) } else { ExitCode::SUCCESS })
+}
+
+/// `kilib footprint shunts`: the computed lands, one line per row and height.
+fn shunts(library: Option<PathBuf>) -> Result<ExitCode, String> {
+    let library = library_or_cwd(library)?;
+    let tables = Tables::load(&library)?;
+    println!(
+        "{:<36} {:<5} {:<14} {:>6} {:>13} {:>5} {:>5}  {:<22} footprint",
+        "series", "size", "range", "height", "pad", "gap", "span", "maker's pad / gap / span"
+    );
+    let mut footprints = 0;
+    for (name, h, p) in chip::shunt::parts(&tables.shunt)? {
+        footprints += 1;
+        let land = &p.land;
+        for r in p.rows_of(h) {
+            let maker = r.maker_land.as_ref().map_or(String::new(), |m| {
+                format!("{:.2}x{:.2} / {:.2} / {:.2}", m.pad_length, m.pad_width, m.gap, 2.0 * m.pad_length + m.gap)
+            });
+            println!(
+                "{:<36} {:<5} {:<14} {:>6} {:>13} {:>5.2} {:>5.2}  {:<22} {DIM}{name}{DIM:#}",
+                r.series.join(", "),
+                r.size,
+                r.range,
+                chip::mm(h),
+                format!("{:.3}x{:.2}", land.pad_length(), land.width),
+                land.gap,
+                land.span,
+                maker,
+            );
+        }
+    }
+    println!("{DIM}{} rows, {footprints} footprints{DIM:#}", tables.shunt.len());
+    Ok(ExitCode::SUCCESS)
 }

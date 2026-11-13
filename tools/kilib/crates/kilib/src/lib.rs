@@ -25,6 +25,7 @@ pub mod chip;
 pub mod config;
 pub mod fab;
 pub mod footprint;
+pub mod ipc;
 pub mod layers;
 pub mod libtable;
 pub mod lint;
