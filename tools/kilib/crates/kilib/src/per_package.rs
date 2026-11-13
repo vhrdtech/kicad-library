@@ -136,12 +136,12 @@ fn check_existing(path: &Path, generic: &str, fp: &str) -> Result<(), String> {
 }
 
 /// The file of a symbol `name` derived from the generic symbol `gsym` (its file's text `gtext`): the generic's
-/// properties, `Footprint` and `ki_fp_filters` set to `fp`.
+/// header and properties, `Footprint` and `ki_fp_filters` set to `fp`.
 pub fn derived(gtext: &str, gsym: &Node, name: &str, fp: &str) -> Result<String, String> {
     let gname = gsym.arg(0).ok_or("a symbol without a name")?;
-    let mut out = String::from(
-        "(kicad_symbol_lib\n\t(version 20251024)\n\t(generator \"kicad_symbol_editor\")\n\t(generator_version \"10.0\")\n",
-    );
+    // The generic's header: KiCad reads the fields by the file's version (`hide` in `effects` before 10.0).
+    let line = gtext[..gsym.span().start].rfind('\n').map_or(0, |i| i + 1);
+    let mut out = gtext[..line].to_string();
     out.push_str(&format!("\t(symbol {}\n\t\t(extends {})\n", sexpr::quote(name), sexpr::quote(gname)));
     let mut has_filter = false;
     for prop in gsym.children("property") {
