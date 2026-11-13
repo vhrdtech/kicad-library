@@ -88,8 +88,8 @@ sources = [
   "Samsung CL31 series (web summary only, not file-verified)",
 ]
 
-# 1210: TDK and Yageo both list 1.6, 2.0 and 2.5. 1.25 is also listed by both and would qualify by the two-makers rule;
-# it is left out to follow Roman's example list. Left out as one maker's thin or thick specials: 0.85, 1.15, 1.5, 1.9, 2.3.
+# 1210: TDK and Yageo both list 1.25, 1.6, 2.0 and 2.5, so all four qualify by the two-makers rule. Left out as one
+# maker's thin or thick specials: 0.85, 1.15, 1.5, 1.9, 2.3.
 # Samsung CL32 suggested a band of 0.6 (web summary only).
 [[chip]]
 kind = "C"
@@ -99,7 +99,6 @@ style = "mlcc"
 length = 3.2
 width = 2.5
 band = 0.5
-# 1.25 added by chip-passives: TDK and Yageo both list it (the two-maker rule).
 heights = [1.25, 1.6, 2.0, 2.5]
 sources = [
   "TDK CGA series general, 003-01/20130611, p.8 (standard thickness 1.25/1.60/2.00/2.30/2.50)",
