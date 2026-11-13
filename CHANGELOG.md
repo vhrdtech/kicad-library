@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+### Added
+
+- `VHRD_Package_TO_SOT_SMD:SOT-23_CANFD-ESD`: TI DBZ0003A land, which also fits Nexperia's SOT23;
+  `PESD2CANFD24V-T` uses it.
+
+### Fixed
+
+- Lands from the makers' drawings after footprint review: STM32G0 LQFP-48 (plain and both dual LQFP/UFQFPN
+  variants, ST DS13560), `DFN-12-AOZ` corner pads (AOS), `Texas_RUK0020B` pad length (TI SLVSEL8).
+
 ## [0.4.0] - 2026-11-13
 
 ### Added
