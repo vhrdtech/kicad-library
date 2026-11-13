@@ -252,6 +252,7 @@
 
 ### Removed
 
+- `TLV75533PDBV`: alternate RT9013-33GB (obsolete); AP2112K-3.3TRG1 moves to Mpn2.
 - `3dmodels/` (models under `${VHRD_3DMODEL_DIR}`), `keymaps/`, `default/`, `templates/default`, sheet copies
   `vhrd_a4/a3.kicad_wks` (embedded now).
 - Templates RaspberryPi-HAT, RaspberryPi-uHAT, STM32_Nucleo-64_Morpho (KiCad ships them).

@@ -77,18 +77,7 @@
 				)
 			)
 		)
-		(property "Mpn2" "RT9013-33GB"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mpn3" "AP2112K-3.3TRG1"
+		(property "Mpn2" "AP2112K-3.3TRG1"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
