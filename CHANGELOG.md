@@ -4,6 +4,22 @@
 
 ### Added
 
+- Per-package symbols (LIB-26): 22 symbols derived from the generic ones, each with its footprint set, for the
+  packages b153a places them with: `VHRD_Device:R_0402`, `R_0603_HandSolder`, `R_0805`, `R_1206`, `C_0402`,
+  `C_0805`, `C_1206`, `Crystal_GND24_3.2x2.5mm`, `D_Schottky_SOD-323`, `D_Zener_SOD-523`, `LED_Green_0603`,
+  `LED_Red_0603`, `L_Iron_NRS5030`, `NetTie_2_SMD_Pad0.15mm`, `SparkGap_015`, and `VHRD_Connector:TestPoint_Pad_D1.2mm`,
+  `TestPoint_Pad_0.8x0.8mm`, `TestPoint_Probe_Pad_D1.5mm`, `TestPoint_Probe_Pad_D0.8mm`,
+  `Conn_01x12_Pin_P2.54mm_Vertical`, `Conn_02x03_Odd_Even_Socket_P2.54mm_Vertical`, `USB_C_Plug_241SMT-4BC2SS`.
+  What is keyed by the library symbol (berc's footprint review) now covers them. The generic symbols stay for new
+  designs.
+- `[per_package."Lib:Generic"]` in a rename map (`"FpLib:Footprint" = "Lib:Generic_Package"`):
+  `kilib migrate` moves each placed generic symbol to the symbol of the footprint it is placed with, and gives the
+  schematic's `lib_symbols` cache a copy of the generic under the new name with the footprint set (the generic's
+  cached copy goes when nothing uses it any more). `migrate/2026-11-packages.toml` holds b153a's.
+- `kilib per-package --map FILE [BOARD...]`: makes the per-package symbols a map names that the checkout lacks
+  (`--write`), checks those there, and lists the generic symbols the boards place by footprint with the map's
+  symbol for each.
+
 - `kilib check --only VHRD_`: every library a board or the library names must start with the prefix. A symbol,
   footprint or `Footprint` field from another library is a problem, and so are a schematic's embedded symbols
   (`lib_symbols`, with their `Footprint` fields) and the library part of `ki_fp_filters` patterns, so nothing from
@@ -155,6 +171,8 @@
 
 ### Changed
 
+- `kilib migrate` leaves 3D model paths alone, without a warning each, when the map has no `[model]` table (the
+  stock map, the per-package one).
 - `Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1`: no pin-1 mark (silk triangle, fab chamfer). The 4-pad crystal is the same
   turned 180°, so the mark suggested an orientation that does not matter; the designator grows to 0.7 mm.
 - Footprints keep the Value shown on its own layer (`Value.F`) instead of hidden on F.Fab; `kilib fab-designators`

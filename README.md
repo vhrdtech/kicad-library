@@ -63,10 +63,20 @@ same under `footprints/<name>.pretty` for footprints.
   (and absolute paths into a `kicad-library/3dmodels` folder), and the old `vhrd_*` rows of a project's
   `sym-lib-table` and `fp-lib-table`, which become the rows of the new libraries. An id is looked up in `[symbol]` /
   `[footprint]` first, then its old library in `[symbol_lib]` / `[footprint_lib]`. `[filter_lib]` renames the library part of
-  `ki_fp_filters` patterns (`"Connector*" = "VHRD_Connector*"`). It prints a unified diff (`git
+  `ki_fp_filters` patterns (`"Connector*" = "VHRD_Connector*"`). `[per_package."Lib:Generic"]` moves a placed
+  generic symbol to its per-package symbol by the footprint it is placed with (below); the schematic's `lib_symbols`
+  cache gets a copy of the generic under the new name, with the footprint in `Footprint` and `ki_fp_filters`. It prints a unified diff (`git
   apply` takes it inside the folder given); `--write` applies it and `--stat` shows only the summary. A footprint the
   map dropped (`""`) that a board still uses, or two cached symbols that would get one name, is an error: it exits 1
   and writes nothing. Names the map does not know are listed and left as they are. A second run changes nothing.
+- `kilib per-package --map migrate/2026-11-packages.toml [BOARD...]` makes per-package symbols. A generic symbol
+  (`VHRD_Device:R`) leaves `Footprint` empty, so what is keyed by the library symbol (a footprint review, a BOM line)
+  cannot cover it; each package it is placed with gets a symbol of its own (`VHRD_Device:R_0402`), derived from the
+  generic in its library (`extends`), with `Footprint` and `ki_fp_filters` set to the footprint. The map's
+  `[per_package]` tables name them. Those the checkout lacks are listed (exit 1) or written with `--write`; those
+  there are checked. With boards, it lists the generic symbols their schematics place, by footprint, with the map's
+  symbol or "not in the map", and their references. Then `kilib migrate --map migrate/2026-11-packages.toml BOARD`
+  moves the board onto them. The generic symbols stay for new designs.
 - `kilib restructure --map migrate/2026-11.toml --vendor-dir DIR` moves this checkout's own symbols and footprints
   into the map's new libraries. Each `symbols/<old>.kicad_sym` becomes one `.kicad_sym` per symbol in
   `symbols/<New>.kicad_symdir`, as KiCad 10's own libraries are laid out (a `/` in a name is `{slash}` in the file

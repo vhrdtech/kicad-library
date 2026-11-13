@@ -1,0 +1,65 @@
+# Per-package symbols for generic parts. A generic symbol (VHRD_Device:R) leaves its Footprint empty, so what is
+# keyed by the library symbol (berc's footprint review, a BOM line) cannot cover it. Each package it is placed with
+# gets a symbol of its own, derived from the generic in the same library, with Footprint and ki_fp_filters set to
+# the footprint: `kilib per-package --map migrate/2026-11-packages.toml --write` makes the missing ones.
+# `kilib migrate --map migrate/2026-11-packages.toml BOARD_DIR` then moves each placed generic symbol to the symbol
+# of the footprint it is placed with. The generic symbols stay in the library for new designs.
+#
+# [per_package."Lib:Generic"]
+# "FootprintLib:Footprint" = "Lib:Generic_Package"
+
+[libraries.symbol]
+"VHRD_Connector" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Connector.kicad_symdir"
+"VHRD_Device" = "${VHRD_LIBRARY_DIR}/symbols/VHRD_Device.kicad_symdir"
+
+[per_package."VHRD_Device:R"]
+"VHRD_Resistor_SMD:R_0402_1005Metric" = "VHRD_Device:R_0402"
+"VHRD_Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" = "VHRD_Device:R_0603_HandSolder"
+"VHRD_Resistor_SMD:R_0805_2012Metric" = "VHRD_Device:R_0805"
+"VHRD_Resistor_SMD:R_1206_3216Metric" = "VHRD_Device:R_1206"
+
+[per_package."VHRD_Device:C"]
+"VHRD_Capacitor_SMD:C_0402_1005Metric" = "VHRD_Device:C_0402"
+"VHRD_Capacitor_SMD:C_0805_2012Metric" = "VHRD_Device:C_0805"
+"VHRD_Capacitor_SMD:C_1206_3216Metric" = "VHRD_Device:C_1206"
+
+[per_package."VHRD_Device:Crystal_GND24"]
+"VHRD_Oscillator:Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1" = "VHRD_Device:Crystal_GND24_3.2x2.5mm"
+
+[per_package."VHRD_Device:D_Schottky"]
+"VHRD_Diode_SMD:D_SOD-323" = "VHRD_Device:D_Schottky_SOD-323"
+
+[per_package."VHRD_Device:D_Zener"]
+"VHRD_Diode_SMD:D_SOD-523" = "VHRD_Device:D_Zener_SOD-523"
+
+[per_package."VHRD_Device:LED_Green"]
+"VHRD_LED_SMD:LED_0603_1608Metric_Arrow" = "VHRD_Device:LED_Green_0603"
+
+[per_package."VHRD_Device:LED_Red"]
+"VHRD_LED_SMD:LED_0603_1608Metric_Arrow" = "VHRD_Device:LED_Red_0603"
+
+[per_package."VHRD_Device:L_Iron"]
+"VHRD_Inductor_SMD:NRS5030T100MMGJ" = "VHRD_Device:L_Iron_NRS5030"
+
+[per_package."VHRD_Device:NetTie_2"]
+"VHRD_NetTie:NetTie-2_SMD_Pad0.15mm" = "VHRD_Device:NetTie_2_SMD_Pad0.15mm"
+
+[per_package."VHRD_Device:SparkGap"]
+"VHRD_NetTie:SPARK_GAP_015" = "VHRD_Device:SparkGap_015"
+
+[per_package."VHRD_Connector:TestPoint"]
+"VHRD_TestPoint:TestPoint_Pad_0.8x0.8mm" = "VHRD_Connector:TestPoint_Pad_0.8x0.8mm"
+"VHRD_TestPoint:TestPoint_Pad_D1.2mm" = "VHRD_Connector:TestPoint_Pad_D1.2mm"
+
+[per_package."VHRD_Connector:TestPoint_Probe"]
+"VHRD_TestPoint:TestPoint_Pad_D0.8mm" = "VHRD_Connector:TestPoint_Probe_Pad_D0.8mm"
+"VHRD_TestPoint:TestPoint_Pad_D1.5mm" = "VHRD_Connector:TestPoint_Probe_Pad_D1.5mm"
+
+[per_package."VHRD_Connector:Conn_01x12_Pin"]
+"VHRD_Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" = "VHRD_Connector:Conn_01x12_Pin_P2.54mm_Vertical"
+
+[per_package."VHRD_Connector:Conn_02x03_Odd_Even"]
+"VHRD_Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" = "VHRD_Connector:Conn_02x03_Odd_Even_Socket_P2.54mm_Vertical"
+
+[per_package."VHRD_Connector:USB_C_Plug"]
+"VHRD_Connector_USB:PLUG-USBC-241SMT-4BC2SS" = "VHRD_Connector:USB_C_Plug_241SMT-4BC2SS"

@@ -40,6 +40,14 @@ migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol l
 Nothing in `symbols/` or `footprints/` names a stock library: a symbol's `Footprint` field and its `ki_fp_filters`
 libraries are `VHRD_*` of this checkout (`tests/decoupled.rs`). A stock footprint a symbol needs is imported first.
 
+## Per-package symbols
+
+A generic symbol (`VHRD_Device:R`, `Footprint` empty) is placed on a board through a per-package symbol derived from
+it (`VHRD_Device:R_0402`, `Footprint` and `ki_fp_filters` at the footprint), so the footprint review covers it.
+`migrate/2026-11-packages.toml` names them; `kilib per-package --map ... --write` makes them, `kilib per-package --map
+... BOARD` lists a board's placed generics, `kilib migrate --map ... BOARD` moves it (`tests/per_package.rs` keeps map
+and library in step). A new package: a line in the map, then `kilib per-package --write`.
+
 ## Designator layers
 
 User.9-24 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
@@ -61,13 +69,14 @@ look in vhrd_brand, land it there, then run `just look` here.
 
 `tools/kilib` is a Cargo workspace of its own (MIT, `tools/kilib/LICENSE`): the library `kilib` (s-expression reader,
 library tables, path variables, the rename map, `check`, `setup`, `migrate`, `restructure`, `fab`, `stroke`, `layers`,
-`stock`, `footprint`, `lint`) and the CLI `kilib_cli`
+`stock`, `per_package`, `footprint`, `lint`) and the CLI `kilib_cli`
 (binary `kilib`). Dependencies are pure Rust with `default-features = false`; no `-sys` crate. Tests write their own
 fixtures (`kilib::testdir`) and run with a cleared environment: they never read or write a real KiCad config, and
 never write the boards. `kilib check` and `kilib setup --dry-run` only read; `kilib setup` writes only the KiCad
 config folder, never library files. `kilib migrate` writes only with `--write`, and then only the strings its map
 matches; `kilib restructure` writes only inside the checkout and the `--vendor-dir`; `kilib stock import` writes only
-new files under the checkout's `footprints/` (`symbols/` with `--symbols`), with `--write`. `kilib designators` (old name
+new files under the checkout's `footprints/` (`symbols/` with `--symbols`), with `--write`. `kilib per-package` writes only new
+symbol files under the checkout's `symbols/`, with `--write`. `kilib designators` (old name
 `fab-designators`) writes only with `--write`, and then only the `Reference` and `Value` properties, `${REFERENCE}` texts and the stroke
 widths of fab lines in the footprints given; with `--board` only the Reference's and the Value's `at`, `size` and
 `thickness` on that board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the

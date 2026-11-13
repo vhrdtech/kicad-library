@@ -98,3 +98,10 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   --only VHRD_` flags anything from another library on a board too (symbols, footprints, Footprint fields, the
   schematic's embedded symbols, filters); the stock map's `[filter_lib]` moves filter libraries. B153a is the first
   board on it. Next: the templates (power symbols and logos still stock, from vhrd_brand), the other boards
+- 🚧 LIB-26 per-package-symbols: a generic symbol (`VHRD_Device:R`, `Footprint` empty) gets a symbol per package
+  it is placed with (`VHRD_Device:R_0402`), derived from it with `Footprint` and `ki_fp_filters` set, so a
+  footprint review or BOM line keyed by the library symbol covers it; `migrate/2026-11-packages.toml`
+  (`[per_package]`) names them, `kilib per-package` makes them and lists a board's placed generics by footprint,
+  `kilib migrate` moves placed symbols by their footprint (the schematic's cache gets the copies);
+  `tests/per_package.rs` keeps the library and the map in step. 22 symbols for b153a's 15 generics. Next: the
+  other boards
