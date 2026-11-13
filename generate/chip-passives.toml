@@ -99,7 +99,8 @@ style = "mlcc"
 length = 3.2
 width = 2.5
 band = 0.5
-heights = [1.6, 2.0, 2.5]
+# 1.25 added by chip-passives: TDK and Yageo both list it (the two-maker rule).
+heights = [1.25, 1.6, 2.0, 2.5]
 sources = [
   "TDK CGA series general, 003-01/20130611, p.8 (standard thickness 1.25/1.60/2.00/2.30/2.50)",
   "Yageo CC general purpose MLCC, DOC012001660 V.10, Table 5 p.8, Table 6 p.9",

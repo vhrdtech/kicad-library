@@ -53,7 +53,7 @@ pub enum Style {
     Resistor,
     /// Multilayer chip inductor: built like an MLCC, body in the family's colour.
     LMultilayer,
-    /// Wire-wound chip inductor: white ceramic body, L-shaped electrodes on the ends and the bottom.
+    /// Wire-wound chip inductor: ceramic (ivory) or ferrite body, L-shaped electrodes on the ends and the bottom.
     LWirewound,
 }
 
@@ -342,9 +342,11 @@ fn chip_model(c: &Chip, h: f64) -> Vec<Solid> {
         Style::LWirewound => {
             // The electrode: a plate on each end and a strip under the body, `t` thick.
             let t = (0.03 * c.length).min(0.03);
-            solids.push(slab("body", (-l + e, l - e), w, (0.0, h), colour::IVORY));
-            solids.push(slab("body end 1", (-l + t, -l + e), w, (t, h), colour::IVORY));
-            solids.push(slab("body end 2", (l - e, l - t), w, (t, h), colour::IVORY));
+            // A ceramic core (LQW) is ivory, a ferrite drum (LQH, NLV) dark.
+            let body = if c.colour == Some(BodyColour::Ferrite) { colour::FERRITE } else { colour::IVORY };
+            solids.push(slab("body", (-l + e, l - e), w, (0.0, h), body));
+            solids.push(slab("body end 1", (-l + t, -l + e), w, (t, h), body));
+            solids.push(slab("body end 2", (l - e, l - t), w, (t, h), body));
             solids.push(slab("terminal 1", (-l, -l + t), w, (0.0, h), colour::TIN));
             solids.push(slab("terminal 1 bottom", (-l + t, -l + e), w, (0.0, t), colour::TIN));
             solids.push(slab("terminal 2", (l - t, l), w, (0.0, h), colour::TIN));

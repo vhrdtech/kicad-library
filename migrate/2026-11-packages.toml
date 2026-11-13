@@ -17,11 +17,35 @@
 "VHRD_Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" = "VHRD_Device:R_0603_HandSolder"
 "VHRD_Resistor_SMD:R_0805_2012Metric" = "VHRD_Device:R_0805"
 "VHRD_Resistor_SMD:R_1206_3216Metric" = "VHRD_Device:R_1206"
+"VHRD_Resistor_SMD:R_0201_0603Metric_H0.23" = "VHRD_Device:R_0201_H0.23"
+"VHRD_Resistor_SMD:R_0402_1005Metric_H0.35" = "VHRD_Device:R_0402_H0.35"
+"VHRD_Resistor_SMD:R_0603_1608Metric_H0.45" = "VHRD_Device:R_0603_H0.45"
+"VHRD_Resistor_SMD:R_0805_2012Metric_H0.55" = "VHRD_Device:R_0805_H0.55"
+"VHRD_Resistor_SMD:R_1206_3216Metric_H0.55" = "VHRD_Device:R_1206_H0.55"
+"VHRD_Resistor_SMD:R_1210_3225Metric_H0.55" = "VHRD_Device:R_1210_H0.55"
+"VHRD_Resistor_SMD:R_2010_5025Metric_H0.55" = "VHRD_Device:R_2010_H0.55"
+"VHRD_Resistor_SMD:R_2512_6332Metric_H0.55" = "VHRD_Device:R_2512_H0.55"
 
 [per_package."VHRD_Device:C"]
 "VHRD_Capacitor_SMD:C_0402_1005Metric" = "VHRD_Device:C_0402"
 "VHRD_Capacitor_SMD:C_0805_2012Metric" = "VHRD_Device:C_0805"
 "VHRD_Capacitor_SMD:C_1206_3216Metric" = "VHRD_Device:C_1206"
+"VHRD_Capacitor_SMD:C_0201_0603Metric_H0.3" = "VHRD_Device:C_0201_H0.3"
+"VHRD_Capacitor_SMD:C_0402_1005Metric_H0.5" = "VHRD_Device:C_0402_H0.5"
+"VHRD_Capacitor_SMD:C_0603_1608Metric_H0.8" = "VHRD_Device:C_0603_H0.8"
+"VHRD_Capacitor_SMD:C_0805_2012Metric_H0.6" = "VHRD_Device:C_0805_H0.6"
+"VHRD_Capacitor_SMD:C_0805_2012Metric_H0.85" = "VHRD_Device:C_0805_H0.85"
+"VHRD_Capacitor_SMD:C_0805_2012Metric_H1.25" = "VHRD_Device:C_0805_H1.25"
+"VHRD_Capacitor_SMD:C_1206_3216Metric_H0.85" = "VHRD_Device:C_1206_H0.85"
+"VHRD_Capacitor_SMD:C_1206_3216Metric_H1.15" = "VHRD_Device:C_1206_H1.15"
+"VHRD_Capacitor_SMD:C_1206_3216Metric_H1.6" = "VHRD_Device:C_1206_H1.6"
+"VHRD_Capacitor_SMD:C_1210_3225Metric_H1.25" = "VHRD_Device:C_1210_H1.25"
+"VHRD_Capacitor_SMD:C_1210_3225Metric_H1.6" = "VHRD_Device:C_1210_H1.6"
+"VHRD_Capacitor_SMD:C_1210_3225Metric_H2.0" = "VHRD_Device:C_1210_H2.0"
+"VHRD_Capacitor_SMD:C_1210_3225Metric_H2.5" = "VHRD_Device:C_1210_H2.5"
+"VHRD_Capacitor_SMD:C_1812_4532Metric_H1.6" = "VHRD_Device:C_1812_H1.6"
+"VHRD_Capacitor_SMD:C_1812_4532Metric_H2.0" = "VHRD_Device:C_1812_H2.0"
+"VHRD_Capacitor_SMD:C_1812_4532Metric_H2.5" = "VHRD_Device:C_1812_H2.5"
 
 [per_package."VHRD_Device:Crystal_GND24"]
 "VHRD_Oscillator:Oscillator_SMD_ECS-4Pin_3.2x2.5mm_1" = "VHRD_Device:Crystal_GND24_3.2x2.5mm"
@@ -37,6 +61,18 @@
 
 [per_package."VHRD_Device:LED_Red"]
 "VHRD_LED_SMD:LED_0603_1608Metric_Arrow" = "VHRD_Device:LED_Red_0603"
+
+[per_package."VHRD_Device:L"]
+"VHRD_Inductor_SMD:L_0201_0603Metric_H0.3" = "VHRD_Device:L_0201_H0.3"
+"VHRD_Inductor_SMD:L_0402_1005Metric_H0.5" = "VHRD_Device:L_0402_H0.5"
+"VHRD_Inductor_SMD:L_0603_1608Metric_H0.8" = "VHRD_Device:L_0603_H0.8"
+"VHRD_Inductor_SMD:L_0805_2012Metric_H0.85" = "VHRD_Device:L_0805_H0.85"
+"VHRD_Inductor_SMD:L_0805_2012Metric_H1.25" = "VHRD_Device:L_0805_H1.25"
+"VHRD_Inductor_SMD:L_1206_3216Metric_H0.85" = "VHRD_Device:L_1206_H0.85"
+"VHRD_Inductor_SMD:L_1206_3216Metric_H1.0" = "VHRD_Device:L_1206_H1.0"
+"VHRD_Inductor_SMD:L_1206_3216Metric_H1.8" = "VHRD_Device:L_1206_H1.8"
+"VHRD_Inductor_SMD:L_1210_3225Metric_H2.0" = "VHRD_Device:L_1210_H2.0"
+"VHRD_Inductor_SMD:L_1210_3225Metric_H2.2" = "VHRD_Device:L_1210_H2.2"
 
 [per_package."VHRD_Device:L_Iron"]
 "VHRD_Inductor_SMD:NRS5030T100MMGJ" = "VHRD_Device:L_Iron_NRS5030"
