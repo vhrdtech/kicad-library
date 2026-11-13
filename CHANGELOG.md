@@ -4,6 +4,7 @@
 
 ### Added
 
+- `VHRD_Package_QFP:LQFP-48_UFQFPN-48_7x7mm_P0.5mm_PasteLQFP` and `_PasteUFQFPN`: one land pattern for LQFP-48 or UFQFPN-48 7x7 (STM32G0B1CxT / CxU), split pads with a 0.19 mm mask web, exposed pad on pin 7; the two differ only in paste.
 - Per-package symbols (LIB-26): 22 symbols derived from the generic ones, each with its footprint set, for the
   packages b153a places them with: `VHRD_Device:R_0402`, `R_0603_HandSolder`, `R_0805`, `R_1206`, `C_0402`,
   `C_0805`, `C_1206`, `Crystal_GND24_3.2x2.5mm`, `D_Schottky_SOD-323`, `D_Zener_SOD-523`, `LED_Green_0603`,
