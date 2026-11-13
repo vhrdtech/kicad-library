@@ -21,6 +21,7 @@
 //! - [`restructure::plan`] and [`restructure::apply`]: a checkout's old libraries moved into the map's new ones.
 
 pub mod check;
+pub mod chip;
 pub mod config;
 pub mod fab;
 pub mod footprint;
@@ -33,6 +34,7 @@ pub mod per_package;
 pub mod restructure;
 pub mod setup;
 pub mod sexpr;
+pub mod step;
 pub mod stock;
 pub mod stroke;
 pub mod vars;

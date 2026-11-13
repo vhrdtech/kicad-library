@@ -4,6 +4,11 @@
 
 ### Added
 
+- `kilib model chip` (LIB-27): STEP models of chip passives and power inductors from the tables in `generate/`, one
+  per size and height, into `${VHRD_3DMODEL_DIR}/generated/VHRD_<Lib>.3dshapes/`: body and terminations as coloured
+  solids (MLCC tan, resistor alumina with black overcoat, ferrite or ceramic chip inductors, dark power inductors
+  with bottom electrodes). kilib writes the STEP itself (`kilib::step`: AP214, convex prisms as B-rep solids with a
+  colour each), no CAD kernel.
 - `VHRD_Package_QFP:LQFP-48_UFQFPN-48_7x7mm_P0.5mm_PasteLQFP` and `_PasteUFQFPN`: one land pattern for LQFP-48 or UFQFPN-48 7x7 (STM32G0B1CxT / CxU), split pads with a 0.19 mm mask web, exposed pad on pin 7; the two differ only in paste.
 - Per-package symbols (LIB-26): 22 symbols derived from the generic ones, each with its footprint set, for the
   packages b153a places them with: `VHRD_Device:R_0402`, `R_0603_HandSolder`, `R_0805`, `R_1206`, `C_0402`,

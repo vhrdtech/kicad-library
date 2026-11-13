@@ -188,6 +188,15 @@ same under `footprints/<name>.pretty` for footprints.
   diff` compares the symbols too; a copy's fields and flags are ours, laid over the fresh import, so the diff shows
   what stock changed in pins, units and graphics and the fields stock has that the copy has not. A kind whose stock
   folder is not found is skipped with a note.
+- `kilib model chip [NAME...]` writes the STEP models of the chip passives and power inductors in `generate/`
+  (`chip-passives.toml`: chip R, C and L, body length, width, termination band and the heights each size is made in;
+  `power-inductors.toml`: power-inductor bodies, bottom terminations and lands), one per size and height, as
+  `${VHRD_3DMODEL_DIR}/generated/VHRD_<Lib>.3dshapes/<footprint>.step` (`--out DIR` for another folder). Each model is
+  the body and its terminations as coloured solids on the board, centred on the footprint origin: an MLCC tan with
+  nickel-tin ends, a resistor's white alumina with its black overcoat, ferrite or ceramic chip inductors, dark power
+  inductors with their bottom electrodes. The STEP file is written by kilib itself (AP214, straight prisms as
+  B-rep solids with a colour each), no CAD kernel involved. It lists what it would write and exits 1; `--write`
+  writes.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
 
 ### Migrating an older board

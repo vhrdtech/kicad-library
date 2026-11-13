@@ -2,6 +2,7 @@
 //! kicad-library.
 
 mod lint_cmd;
+mod model_cmd;
 mod usage;
 
 use std::io::Write;
@@ -59,6 +60,7 @@ Examples:
   kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
   kilib lint --left                     what the footprint rules leave for a person (pin 1, courtyards, models...)
+  kilib model chip --write              STEP models of the chip passives in generate/*.toml
 Shell completion: source <(COMPLETE=bash kilib)   (zsh, fish: COMPLETE=zsh, COMPLETE=fish)";
 
 #[derive(Subcommand)]
@@ -326,6 +328,9 @@ Examples:
   kilib lint --write footprints/VHRD_Package_SO.pretty
   kilib lint --rule models --var VHRD_3DMODEL_DIR=~/sync/kicad-3d --json > models.json")]
     Lint(lint_cmd::LintArgs),
+    /// Generate 3D models from data (chip passives, power inductors)
+    #[command(subcommand)]
+    Model(model_cmd::ModelCommand),
 }
 
 #[derive(Subcommand)]
@@ -511,6 +516,11 @@ fn main() -> ExitCode {
         Command::Lint(args) => {
             usage::record("lint", &args.usage_flags());
             lint_cmd::run(args)
+        }
+        Command::Model(cmd) => {
+            let (name, flags) = cmd.usage();
+            usage::record(name, &flags);
+            model_cmd::run(cmd)
         }
         Command::Layers { boards, write } => {
             usage::record("layers", &[("write", write)]);

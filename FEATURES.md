@@ -105,3 +105,6 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   `kilib migrate` moves placed symbols by their footprint (the schematic's cache gets the copies);
   `tests/per_package.rs` keeps the library and the map in step. 22 symbols for b153a's 15 generics. Next: the
   other boards
+- 🚧 LIB-27 chip-step-models: `kilib model chip` writes STEP models of chip passives and power inductors from the
+  tables in `generate/` (one per size and height) into `${VHRD_3DMODEL_DIR}/generated/`; a STEP writer of kilib's
+  own (`kilib::step`, AP214, coloured prism solids), no CAD kernel. KiCad's 3D viewer reads them with their colours
