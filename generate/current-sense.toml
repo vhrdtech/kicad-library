@@ -1,0 +1,658 @@
+# Current-sense resistors with a metal element: bodies, terminations and the makers' lands.
+#
+# One [[shunt]] row per series, size and resistance range, as the maker's dimension
+# table splits them: the termination length (term) grows as the resistance falls.
+# Dimensions are [nominal, ±tol] or [nominal, +tol, -tol] in mm, as printed.
+#
+# kilib computes each row's land with IPC-7351B nominal rules from length, width and
+# term (kilib::ipc, the formula of KiCad's stock chip lands): the long terminations
+# are covered, without the extra copper the makers' lands carry past the part. Rows
+# of one size whose lands differ by 0.05 mm or less share one land; their heights,
+# merged within 0.1 mm (the taller kept), give one footprint each, named
+# R_Shunt_<size>_<metric>Metric_H<height>_Pad<length>x<width>mm_Gap<gap>mm.
+# maker_land is the maker's recommended land, written into the description only
+# (pad_length along the body, pad_width across, gap between the pads).
+#
+# Datasheets (in the document library, ~/sync/datasheets/<maker>/), read 13 Nov 2026:
+# - Vishay WSL doc 30100 (23 Nov 2023), WSLP doc 30122 (9 Sep 2024), WSLT2010 doc 30138,
+#   WSLT2512 doc 30121, WSLS2512 doc 30123: p.2 dimensions and solder pads
+#   (a = pad length, b = pad width, l = gap, as drawn).
+# - Yageo PE (Z suffix) PE_Series_DS V.2 (22 Aug 2014, still current): Table 1 p.4,
+#   Table 7 p.9 (A span, B gap, C pad length, D pad width).
+# - Yageo PE_L (L suffix, AEC-Q200) V.10 (17 Sep 2020): Table 1 p.5, Table 7 p.10.
+# - Yageo PA PYU-PA0100_2512_51_ROHS Rev 11 (24 Jun 2026): Table 1 p.4, Table 7 p.9.
+# - Bourns CRF REV 09/26 p.3 (A pad width, B pad length, L gap, as drawn), CRA REV 07/26.
+# - TT Electronics LRMA (06.26) p.3, tolerances ±0.2 unless stated.
+# - Rohm GMR100 (gmr100-e), land from Rohm 67AN023E Rev.010 (Jan 2026).
+# - Isabellenhütte SMS (28 Jan 2025).
+#
+# Left out: Yageo PA1206 (two builds with lands of their own), Vishay WSLF and Yageo PU
+# (welded, element above the terminals), Rohm PMR/PSR, Susumu KRL and KOA TLR/PSL (no
+# land published), Panasonic ERJ-M (not for new designs), 4-terminal Kelvin parts
+# (Vishay WSK, Bourns CSS, TT LRMAP with sense pads).
+
+# ---------------------------------------------------------------- 0603
+
+[[shunt]]
+series = ["Vishay WSL0603", "Vishay WSLP0603"]
+size = "0603"
+metric = "1608"
+range = "10–100 mΩ"
+length = [1.52, 0.254]
+width = [0.76, 0.254]
+term = [0.381, 0.254]
+heights = [0.406]
+maker_land = { pad_length = 1.01, pad_width = 1.01, gap = 0.50, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Yageo PE_L0603"]
+size = "0603"
+metric = "1608"
+range = "5–50 mΩ"
+length = [1.60, 0.20]
+width = [0.76, 0.25]
+term = [0.38, 0.25]
+heights = [0.35]
+maker_land = { pad_length = 1.01, pad_width = 1.01, gap = 0.50, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE_L0603"]
+size = "0603"
+metric = "1608"
+range = "51–910 mΩ"
+length = [1.52, 0.25]
+width = [0.76, 0.25]
+term = [0.38, 0.25]
+heights = [0.45]
+maker_land = { pad_length = 1.01, pad_width = 1.01, gap = 0.50, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA0603"]
+size = "0603"
+metric = "1608"
+range = "1–20 mΩ"
+length = [1.60, 0.20]
+width = [0.80, 0.20]
+term = [0.38, 0.12]
+heights = [0.30, 0.45, 0.55]  # 2.5–20 mΩ, 2 mΩ, 1 mΩ
+maker_land = { pad_length = 0.70, pad_width = 0.90, gap = 0.80, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE0603"]
+size = "0603"
+metric = "1608"
+range = "5–100 mΩ"
+length = [1.60, 0.25]
+width = [0.80, 0.25]
+term = [0.40, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 0.75, pad_width = 0.92, gap = 0.60, source = "Yageo PE V.2 Table 7" }
+
+# ---------------------------------------------------------------- 0805
+
+[[shunt]]
+series = ["Vishay WSL0805", "Vishay WSLP0805"]
+size = "0805"
+metric = "2012"
+range = "5–200 mΩ"
+length = [2.03, 0.254]
+width = [1.27, 0.254]
+term = [0.381, 0.254]
+heights = [0.406]
+maker_land = { pad_length = 1.02, pad_width = 1.27, gap = 0.50, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Yageo PE_L0805"]
+size = "0805"
+metric = "2012"
+range = "5–6 mΩ"
+length = [2.03, 0.25]
+width = [1.27, 0.25]
+term = [0.73, 0.25]
+heights = [0.35]
+maker_land = { pad_length = 1.02, pad_width = 1.27, gap = 0.50, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE_L0805"]
+size = "0805"
+metric = "2012"
+range = "7–50 mΩ"
+length = [2.03, 0.25]
+width = [1.27, 0.25]
+term = [0.38, 0.25]
+heights = [0.35]
+maker_land = { pad_length = 1.02, pad_width = 1.27, gap = 0.50, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE_L0805"]
+size = "0805"
+metric = "2012"
+range = "51–910 mΩ"
+length = [2.03, 0.25]
+width = [1.27, 0.25]
+term = [0.35, 0.20]
+heights = [0.55]
+maker_land = { pad_length = 1.02, pad_width = 1.27, gap = 0.50, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA0805"]
+size = "0805"
+metric = "2012"
+range = "0.5 mΩ"
+length = [2.03, 0.20]
+width = [1.27, 0.20]
+term = [0.70, 0.10]
+heights = [0.9]  # printed as a maximum
+maker_land = { pad_length = 1.80, pad_width = 1.44, gap = 0.50, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA0805"]
+size = "0805"
+metric = "2012"
+range = "1 mΩ"
+length = [2.03, 0.20]
+width = [1.27, 0.20]
+term = [0.60, 0.15]
+heights = [0.55]
+maker_land = { pad_length = 1.80, pad_width = 1.44, gap = 0.50, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA0805"]
+size = "0805"
+metric = "2012"
+range = "1.5–2 mΩ"
+length = [2.03, 0.20]
+width = [1.27, 0.20]
+term = [0.50, 0.15]
+heights = [0.45]
+maker_land = { pad_length = 1.80, pad_width = 1.44, gap = 1.00, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA0805"]
+size = "0805"
+metric = "2012"
+range = "2.5–20 mΩ"
+length = [2.03, 0.20]
+width = [1.27, 0.20]
+term = [0.35, 0.20]
+heights = [0.30]
+maker_land = { pad_length = 1.80, pad_width = 1.44, gap = 1.00, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE0805"]
+size = "0805"
+metric = "2012"
+range = "4 mΩ"
+length = [2.00, 0.25]
+width = [1.25, 0.25]
+term = [0.70, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.30, pad_width = 1.44, gap = 0.40, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE0805"]
+size = "0805"
+metric = "2012"
+range = "5 mΩ"
+length = [2.00, 0.25]
+width = [1.25, 0.25]
+term = [0.73, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.25, pad_width = 1.44, gap = 0.50, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE0805"]
+size = "0805"
+metric = "2012"
+range = "6 mΩ"
+length = [2.00, 0.25]
+width = [1.25, 0.25]
+term = [0.65, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.10, pad_width = 1.44, gap = 0.60, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE0805"]
+size = "0805"
+metric = "2012"
+range = "7–100 mΩ"
+length = [2.00, 0.25]
+width = [1.25, 0.25]
+term = [0.50, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.10, pad_width = 1.44, gap = 0.80, source = "Yageo PE V.2 Table 7" }
+
+# ---------------------------------------------------------------- 1206
+
+[[shunt]]
+series = ["Vishay WSL1206", "Vishay WSLP1206"]
+size = "1206"
+metric = "3216"
+range = "0.5–0.99 mΩ"
+length = [3.20, 0.254]
+width = [1.60, 0.254]
+term = [1.04, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 2.26, pad_width = 1.93, gap = 0.58, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL1206", "Vishay WSLP1206"]
+size = "1206"
+metric = "3216"
+range = "1–1.9 mΩ"
+length = [3.20, 0.254]
+width = [1.60, 0.254]
+term = [1.04, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 2.18, pad_width = 1.93, gap = 0.74, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL1206", "Vishay WSLP1206"]
+size = "1206"
+metric = "3216"
+range = "2–5.9 mΩ"
+length = [3.20, 0.254]
+width = [1.60, 0.254]
+term = [0.635, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 1.78, pad_width = 1.93, gap = 1.55, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL1206", "Vishay WSLP1206"]
+size = "1206"
+metric = "3216"
+range = "6–200 mΩ"
+length = [3.20, 0.254]
+width = [1.60, 0.254]
+term = [0.508, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 1.65, pad_width = 1.93, gap = 1.80, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Yageo PE_L1206"]
+size = "1206"
+metric = "3216"
+range = "5 mΩ"
+length = [3.20, 0.25]
+width = [1.60, 0.25]
+term = [0.64, 0.25]
+heights = [0.64]
+maker_land = { pad_length = 1.57, pad_width = 1.78, gap = 0.76, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE_L1206"]
+size = "1206"
+metric = "3216"
+range = "6–910 mΩ"
+length = [3.20, 0.25]
+width = [1.60, 0.25]
+term = [0.51, 0.25]
+heights = [0.64]
+maker_land = { pad_length = 1.57, pad_width = 1.78, gap = 0.76, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE1206"]
+size = "1206"
+metric = "3216"
+range = "4 mΩ"
+length = [3.20, 0.25]
+width = [1.60, 0.25]
+term = [1.20, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.85, pad_width = 1.84, gap = 0.50, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE1206"]
+size = "1206"
+metric = "3216"
+range = "5–8 mΩ"
+length = [3.20, 0.25]
+width = [1.60, 0.25]
+term = [1.15, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.80, pad_width = 1.84, gap = 0.60, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE1206"]
+size = "1206"
+metric = "3216"
+range = "9–100 mΩ"
+length = [3.20, 0.25]
+width = [1.60, 0.25]
+term = [0.58, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.50, pad_width = 1.84, gap = 1.20, source = "Yageo PE V.2 Table 7" }
+
+# ---------------------------------------------------------------- 2010
+
+[[shunt]]
+series = ["Vishay WSL2010", "Vishay WSLP2010"]
+size = "2010"
+metric = "5025"
+range = "1–6.9 mΩ"
+length = [5.08, 0.254]
+width = [2.54, 0.254]
+term = [1.47, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 2.36, pad_width = 3.05, gap = 1.40, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL2010", "Vishay WSLP2010", "Vishay WSLT2010"]
+size = "2010"
+metric = "5025"
+range = "7–500 mΩ"
+length = [5.08, 0.254]
+width = [2.54, 0.254]
+term = [0.508, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 1.40, pad_width = 3.05, gap = 3.30, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Yageo PE_L2010"]
+size = "2010"
+metric = "5025"
+range = "5–6 mΩ"
+length = [5.08, 0.25]
+width = [2.54, 0.25]
+term = [1.47, 0.25]
+heights = [0.64]
+maker_land = { pad_length = 2.36, pad_width = 3.05, gap = 1.40, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE_L2010"]
+size = "2010"
+metric = "5025"
+range = "7–910 mΩ"
+length = [5.08, 0.25]
+width = [2.54, 0.25]
+term = [0.51, 0.25]
+heights = [0.64]
+maker_land = { pad_length = 1.40, pad_width = 3.05, gap = 3.30, source = "Yageo PE_L V.10 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA2010"]
+size = "2010"
+metric = "5025"
+range = "1–3 mΩ"
+length = [5.08, 0.25]
+width = [2.54, 0.25]
+term = [1.40, 0.25]
+heights = [0.50]
+maker_land = { pad_length = 2.30, pad_width = 3.00, gap = 1.60, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA2010"]
+size = "2010"
+metric = "5025"
+range = "4–20 mΩ"
+length = [5.08, 0.25]
+width = [2.54, 0.25]
+term = [0.70, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 1.25, pad_width = 3.00, gap = 3.50, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2010"]
+size = "2010"
+metric = "5025"
+range = "5–9 mΩ"
+length = [5.00, 0.25]
+width = [2.50, 0.25]
+term = [1.50, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 3.30, pad_width = 2.88, gap = 1.40, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2010"]
+size = "2010"
+metric = "5025"
+range = "10–100 mΩ"
+length = [5.00, 0.25]
+width = [2.50, 0.25]
+term = [0.60, 0.25]
+heights = [0.60]
+maker_land = { pad_length = 2.65, pad_width = 2.88, gap = 2.70, source = "Yageo PE V.2 Table 7" }
+
+# ---------------------------------------------------------------- 2512
+
+[[shunt]]
+series = ["Vishay WSL2512", "Vishay WSLP2512"]
+size = "2512"
+metric = "6332"
+range = "0.5–0.99 mΩ"
+length = [6.35, 0.254]
+width = [3.18, 0.254]
+term = [2.72, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 3.05, pad_width = 3.68, gap = 1.27, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL2512", "Vishay WSLP2512"]
+size = "2512"
+metric = "6332"
+range = "1–4.9 mΩ"
+length = [6.35, 0.254]
+width = [3.18, 0.254]
+term = [2.21, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 3.05, pad_width = 3.68, gap = 1.27, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL2512", "Vishay WSLP2512"]
+size = "2512"
+metric = "6332"
+range = "5–6.9 mΩ"
+length = [6.35, 0.254]
+width = [3.18, 0.254]
+term = [1.19, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 2.11, pad_width = 3.68, gap = 3.18, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Vishay WSL2512", "Vishay WSLP2512", "Vishay WSLT2512", "Vishay WSLS2512"]
+size = "2512"
+metric = "6332"
+range = "7–500 mΩ"
+length = [6.35, 0.254]
+width = [3.18, 0.254]
+term = [0.762, 0.254]
+heights = [0.635]
+maker_land = { pad_length = 1.65, pad_width = 3.68, gap = 4.06, source = "Vishay doc 30100" }
+
+[[shunt]]
+series = ["Yageo PE_L2512"]
+size = "2512"
+metric = "6332"
+range = "6–910 mΩ"
+length = [6.35, 0.25]
+width = [3.18, 0.25]
+term = [0.76, 0.25]
+heights = [0.64]
+maker_land = { pad_length = 1.65, pad_width = 3.68, gap = 4.06, source = "Yageo PE_L V.10 Table 7 (6 mΩ: 2.11 x 3.68, gap 3.18)" }
+
+[[shunt]]
+series = ["Yageo PA2512"]
+size = "2512"
+metric = "6332"
+range = "0.5–0.75 mΩ"
+length = [6.35, 0.25]
+width = [3.18, 0.25]
+term = [2.72, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 3.43, pad_width = 3.68, gap = 0.50, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA2512"]
+size = "2512"
+metric = "6332"
+range = "1–4 mΩ"
+length = [6.35, 0.25]
+width = [3.18, 0.25]
+term = [2.21, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 3.05, pad_width = 3.68, gap = 1.27, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA2512"]
+size = "2512"
+metric = "6332"
+range = "5–7 mΩ"
+length = [6.35, 0.25]
+width = [3.18, 0.25]
+term = [1.19, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 2.11, pad_width = 3.68, gap = 3.18, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PA2512"]
+size = "2512"
+metric = "6332"
+range = "8–20 mΩ"
+length = [6.35, 0.25]
+width = [3.18, 0.25]
+term = [0.76, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 1.65, pad_width = 3.68, gap = 4.06, source = "Yageo PA Rev 11 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2512"]
+size = "2512"
+metric = "6332"
+range = "5 mΩ"
+length = [6.45, 0.25]
+width = [3.25, 0.25]
+term = [1.95, 0.25]
+heights = [0.70]
+maker_land = { pad_length = 3.85, pad_width = 3.57, gap = 1.60, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2512"]
+size = "2512"
+metric = "6332"
+range = "6–8 mΩ"
+length = [6.45, 0.25]
+width = [3.25, 0.25]
+term = [1.90, 0.25]
+heights = [0.70]
+maker_land = { pad_length = 3.85, pad_width = 3.57, gap = 1.60, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2512"]
+size = "2512"
+metric = "6332"
+range = "9–99 mΩ"
+length = [6.45, 0.25]
+width = [3.25, 0.25]
+term = [0.95, 0.25]
+heights = [0.70]
+maker_land = { pad_length = 3.10, pad_width = 3.57, gap = 3.10, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Yageo PE2512"]
+size = "2512"
+metric = "6332"
+range = "100 mΩ"
+length = [6.45, 0.25]
+width = [3.25, 0.25]
+term = [0.60, 0.25]
+heights = [0.70]
+maker_land = { pad_length = 2.85, pad_width = 3.57, gap = 3.60, source = "Yageo PE V.2 Table 7" }
+
+[[shunt]]
+series = ["Bourns CRF2512"]
+size = "2512"
+metric = "6332"
+range = "0.3 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [2.60, 0.30]
+heights = [1.10]
+maker_land = { pad_length = 3.10, pad_width = 4.00, gap = 1.30, source = "Bourns CRF REV 09/26 p.3" }
+
+[[shunt]]
+series = ["Bourns CRF2512"]
+size = "2512"
+metric = "6332"
+range = "0.5–3 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [2.20, 0.30]
+heights = [0.60]
+maker_land = { pad_length = 3.10, pad_width = 4.00, gap = 1.30, source = "Bourns CRF REV 09/26 p.3" }
+
+[[shunt]]
+series = ["Bourns CRF2512"]
+size = "2512"
+metric = "6332"
+range = "4–50 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [0.95, 0.30]
+heights = [0.60]
+maker_land = { pad_length = 2.10, pad_width = 4.00, gap = 4.10, source = "Bourns CRF REV 09/26 p.3" }
+
+[[shunt]]
+series = ["Bourns CRA2512"]
+size = "2512"
+metric = "6332"
+range = "10–100 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [0.90, 0.20]
+heights = [0.90]
+maker_land = { pad_length = 2.10, pad_width = 4.00, gap = 4.10, source = "Bourns CRA REV 07/26" }
+
+[[shunt]]
+series = ["TT Electronics LRMAP2512"]
+size = "2512"
+metric = "6332"
+range = "0.5–0.99 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [2.60, 0.20]
+heights = [0.90]
+maker_land = { pad_length = 3.10, pad_width = 4.00, gap = 1.30, source = "TT LRMA 06.26 p.3" }
+
+[[shunt]]
+series = ["TT Electronics LRMAP2512"]
+size = "2512"
+metric = "6332"
+range = "1–4 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [2.20, 0.20]
+heights = [0.90]
+maker_land = { pad_length = 3.10, pad_width = 4.00, gap = 1.30, source = "TT LRMA 06.26 p.3" }
+
+[[shunt]]
+series = ["TT Electronics LRMAP2512"]
+size = "2512"
+metric = "6332"
+range = "5–750 mΩ"
+length = [6.40, 0.20]
+width = [3.20, 0.20]
+term = [0.90, 0.20]
+heights = [0.90]
+maker_land = { pad_length = 2.10, pad_width = 4.00, gap = 4.10, source = "TT LRMA 06.26 p.3" }
+
+[[shunt]]
+series = ["Rohm GMR100"]
+size = "2512"
+metric = "6332"
+range = "5–220 mΩ"
+length = [6.40, 0.25]
+width = [3.20, 0.25]
+term = [2.75, 0.25]
+heights = [0.40]
+maker_land = { pad_length = 3.10, pad_width = 3.60, gap = 0.60, source = "Rohm 67AN023E Rev.010" }
+
+[[shunt]]
+series = ["Isabellenhütte SMS"]
+size = "2512"
+metric = "6332"
+range = "5 mΩ–1 Ω"
+length = [6.35, 0.20]
+width = [3.05, 0.10]
+term = [2.725, 0.40]
+heights = [0.80]
+maker_land = { pad_length = 3.10, pad_width = 3.50, gap = 0.60, source = "Isabellenhütte SMS 28 Jan 2025" }
