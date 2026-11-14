@@ -1,10 +1,10 @@
-(footprint "TI-DBV0006A"
+(footprint "TI_DBV0006A_SOT-23-6"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "SOT23-6, 1.6x2.9mm, P0.95mm")
-	(tags "TSOT-23-6 MK06A TSOT-6")
+	(descr "SOT-23-6 2.9x1.6mm P0.95mm, TI DBV0006A (drawing 4214840/G), land from TI's example board layout, SBOS793H page 54 (https://www.ti.com/lit/ds/symlink/ina181.pdf#page=54)")
+	(tags "DBV0006A SOT-23-6 SOT TO_SOT_SMD")
 	(property "Reference" "REF**"
 		(at 0.013 0.014 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "TI-DBV0006A"
+	(property "Value" "TI_DBV0006A_SOT-23-6"
 		(at 0.024 -0.017 90)
 		(unlocked yes)
 		(layer "User.17")

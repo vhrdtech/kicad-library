@@ -1,10 +1,10 @@
-(footprint "TI-BQA0014A"
+(footprint "TI_BQA0014A_WQFN-14-1EP_2.5x3mm_P0.5mm"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "DHWQFN, 14 Pin (JEDEC MO-241 variation WAA, https://www.ti.com/lit/ml/qfnd686/qfnd686.pdf, https://www.ti.com/lit/ds/symlink/txb0104.pdf#page=43), generated with kicad-footprint-generator ipc_noLead_generator.py")
-	(tags "DHWQFN NoLead Texas_BQA0014A")
+	(descr "WQFN-14-1EP 2.5x3mm P0.5mm EP1x1.5mm, TI BQA0014A (drawing 4224636/A), land from TI's example board layout, SCES935A page 34 (https://www.ti.com/lit/ds/symlink/txu0304.pdf#page=34)")
+	(tags "BQA0014A WQFN DHWQFN NoLead")
 	(property "Reference" "REF**"
 		(at 0.013 0.014 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm"
+	(property "Value" "TI_BQA0014A_WQFN-14-1EP_2.5x3mm_P0.5mm"
 		(at 0.024 -0.017 90)
 		(unlocked yes)
 		(layer "User.17")

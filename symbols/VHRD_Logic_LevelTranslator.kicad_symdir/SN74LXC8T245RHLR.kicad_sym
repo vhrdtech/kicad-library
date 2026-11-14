@@ -29,7 +29,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI_RHL0024A_VQFN-24-1EP_3.5x5.5mm_P0.5mm"
 			(at 20.32 -24.13 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -73,7 +73,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "SSOP*5.3x8.2mm* SSOP*3.9x8.7mm* TSSOP*4.4x7.8mm* TVSOP*4.4x5.0mm* Texas*VQFN*RHL*"
+		(property "ki_fp_filters" "TI_RHL0024A*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

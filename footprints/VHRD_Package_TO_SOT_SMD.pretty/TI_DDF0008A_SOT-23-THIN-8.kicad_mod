@@ -1,10 +1,10 @@
-(footprint "TI-DDF0008A"
+(footprint "TI_DDF0008A_SOT-23-THIN-8"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "SOT-23-THIN-8, 1.6x2.9mm, P0.65mm, TI DDF0008A")
-	(tags "SOT-23-THIN DDF0008A")
+	(descr "SOT-23-THIN-8 2.9x1.6mm P0.65mm, TI DDF0008A (drawing 4222047/E), land from TI's example board layout, SLLSFG2 page 32 (https://www.ti.com/lit/ds/symlink/tcan1044v.pdf#page=32)")
+	(tags "DDF0008A SOT-23-THIN SOT TO_SOT_SMD")
 	(property "Reference" "REF**"
 		(at 0.012 0.013 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "TI-DDF0008A"
+	(property "Value" "TI_DDF0008A_SOT-23-THIN-8"
 		(at 0.024 -0.017 90)
 		(unlocked yes)
 		(layer "User.17")

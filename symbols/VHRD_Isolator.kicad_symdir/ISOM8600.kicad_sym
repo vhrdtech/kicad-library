@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_SO:SOIC4_DFG_TEX"
+		(property "Footprint" "VHRD_Package_SO:TI_DFG0004A_SOIC-4_4.8x3.51mm_P2.54mm"
 			(at 19.05 -18.288 0)
 			(show_name no)
 			(do_not_autoplace no)

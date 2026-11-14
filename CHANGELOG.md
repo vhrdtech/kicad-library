@@ -4,11 +4,19 @@
 
 ### Added
 
+- TI footprints from TI's example board layouts: `TI_DBV0005A_SOT-23-5`, `TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm`, `TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm`, `TI_DDA0008B_SOIC-8-1EP_..._ThermalVias` and `TI_DFG0004A_SOIC-4_4.8x3.51mm_P2.54mm` (HV land). The TI symbols that sat on a generic footprint use them or an existing TI footprint (TLV755P, TLV702, INA181, TLV9061, TS5A3160, SN74LXC1T45, INA229, ten DCU parts, TCA6408A, TXU0104, LV14360, ISOM8600, SN74LXC8T245); the generic footprints stay.
+- `kilib migrate`: `[footprint_rename]` renames footprint ids, `[symbol_footprint]` gives a symbol's placed parts another footprint. `migrate/2026-11-ti.toml` moves boards to the TI footprints.
 - `VHRD_Package_TO_SOT_SMD:SOT-23_CANFD-ESD`: TI DBZ0003A land, which also fits Nexperia's SOT23;
   `PESD2CANFD24V-T` uses it.
 
+### Changed
+
+- TI footprints are named `TI_<TI package designator>_<generic package>` (`TI-DBV0006A` is now `TI_DBV0006A_SOT-23-6`, `Texas_R-PDSO-G5_DCK-5` is `TI_DCK0005A_SC-70-5`), 15 of them; `Texas_UQFN-10_1.5x2mm_P0.5mm` merged into `TI_RSE0010A_UQFN-10_1.5x2mm_P0.5mm`. The old names are in `migrate/2026-11-ti.toml`.
+
 ### Fixed
 
+- TI lands checked against TI's drawings: `TI_PW0008A` rows were 1 mm too close (now 5.8 mm centres), `TI_RUC0014A` pads 0.6 mm long instead of 0.875 mm, `TI_DCK0005A` pads 0.95 mm long instead of 0.9 mm.
+- `TXU0101DCKR` pointed at the DRL (SOT-563) footprint; it is TI's DCK (SC-70-6) part.
 - Lands from the makers' drawings after footprint review: STM32G0 LQFP-48 (plain and both dual LQFP/UFQFPN
   variants, ST DS13560), `DFN-12-AOZ` corner pads (AOS), `Texas_RUK0020B` pad length (TI SLVSEL8).
 

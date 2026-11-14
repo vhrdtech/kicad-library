@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "VHRD_Package_DFN_QFN:Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
 			(at 0 -27.94 0)
 			(show_name no)
 			(do_not_autoplace no)

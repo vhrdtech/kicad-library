@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "VHRD_Package_TO_SOT_SMD:Texas_R-PDSO-G5_DCK-5"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:TI_DCK0005A_SC-70-5"
 			(at -2.54 0 0)
 			(show_name no)
 			(do_not_autoplace no)

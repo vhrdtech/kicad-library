@@ -1,10 +1,10 @@
-(footprint "TI-DCK0006A"
+(footprint "TI_DCK0006A_SC-70-6"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "SOT, 6 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=170, JEDEC MO-203, variant AB, https://www.jedec.org/document_search?search_api_views_fulltext=MO-203)")
-	(tags "SOT TO_SOT_SMD SC-88 SOT-363 SC-70-6 US6 UMT6 S-Mini6 TSSOP6")
+	(descr "SC-70-6 SOT-363 2x1.25mm P0.65mm, TI DCK0006A (drawing 4214835/D), land from TI's example board layout, SCES515N page 40 (https://www.ti.com/lit/ds/symlink/sn74lvc1t45.pdf#page=40)")
+	(tags "DCK0006A SC-70-6 SOT-363 SC-88 TO_SOT_SMD")
 	(property "Reference" "REF**"
 		(at 0.009 0.01 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "TI-DCK0006A"
+	(property "Value" "TI_DCK0006A_SC-70-6"
 		(at 0.018 -0.012 90)
 		(unlocked yes)
 		(layer "User.17")

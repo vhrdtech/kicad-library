@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_DFN_QFN:Texas_UQFN-10_1.5x2mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI_RSE0010A_UQFN-10_1.5x2mm_P0.5mm"
 			(at 2.286 -33.02 0)
 			(show_name no)
 			(do_not_autoplace no)

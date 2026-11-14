@@ -311,7 +311,7 @@ fn migrate_prints_a_diff_and_writes_with_write() {
         "--- a/b.kicad_pcb\n+++ b/b.kicad_pcb\n@@ -1,5 +1,5 @@\n (kicad_pcb\n-\t(footprint \"vhrd_generic:SOIC-8\"\n-\t\t(model \"${VHRD_3DMODEL_DIR}/ic/SOIC-8.STEP\")\n+\t(footprint \"VHRD_Package_SO:SOIC-8\"\n+\t\t(model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_SO.3dshapes/SOIC-8.step\")\n \t)\n )\n\
 --- a/b.kicad_sch\n+++ b/b.kicad_sch\n@@ -1,6 +1,6 @@\n (kicad_sch\n \t(symbol\n-\t\t(lib_id \"vhrd_device:R\")\n-\t\t(property \"Footprint\" \"vhrd_generic:SOIC-8\")\n+\t\t(lib_id \"VHRD_Device:R\")\n+\t\t(property \"Footprint\" \"VHRD_Package_SO:SOIC-8\")\n \t)\n )\n"
     );
-    assert!(stderr.contains("kilib migrate: 2 files read, 2 to change: 1 symbol ids, 0 per-package symbols, 1 Footprint fields, 1 footprints, 0 filters, 1 3D models, 0 table rows"), "{stderr}");
+    assert!(stderr.contains("kilib migrate: 2 files read, 2 to change: 1 symbol ids, 0 per-package symbols, 0 symbol footprints, 1 Footprint fields, 1 footprints, 0 filters, 1 3D models, 0 table rows"), "{stderr}");
     assert!(stderr.contains("not written: run with --write to apply"), "{stderr}");
     assert_eq!(std::fs::read_to_string(dir.path().join("b/b.kicad_pcb")).unwrap(), before);
 

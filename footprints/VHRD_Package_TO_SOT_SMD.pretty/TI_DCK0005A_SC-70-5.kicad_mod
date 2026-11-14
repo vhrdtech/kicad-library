@@ -1,10 +1,10 @@
-(footprint "Texas_R-PDSO-G5_DCK-5"
+(footprint "TI_DCK0005A_SC-70-5"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "DCK R-PDSO-G5, JEDEC MO-203C Var AA, https://www.ti.com/lit/ds/symlink/tmp20.pdf#page=23")
-	(tags "DCK R-PDSO-G5 MO-203C")
+	(descr "SC-70-5 SOT-353 2x1.25mm P0.65mm, TI DCK0005A (drawing 4214834/G), land from TI's example board layout, SCES351Y page 49 (https://www.ti.com/lit/ds/symlink/sn74lvc1g17.pdf#page=49)")
+	(tags "DCK0005A SC-70-5 SOT-353 R-PDSO-G5 TO_SOT_SMD")
 	(property "Reference" "REF**"
 		(at 0.008 0.008 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "Texas_R-PDSO-G5_DCK-5"
+	(property "Value" "TI_DCK0005A_SC-70-5"
 		(at 0.018 -0.012 90)
 		(unlocked yes)
 		(layer "User.17")
@@ -91,46 +91,6 @@
 		(uuid "3ea0219b-7679-45ba-8433-bed83b1d7fa0")
 	)
 	(fp_line
-		(start -1.8 -1.25)
-		(end -1.8 1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "c855a061-bdd4-410f-962a-544484e7f744")
-	)
-	(fp_line
-		(start -1.8 -1.25)
-		(end 1.8 -1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "d997bd87-ddbd-4e19-9291-5055aa27b925")
-	)
-	(fp_line
-		(start -1.8 1.25)
-		(end 1.8 1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "2fc5d5cc-b2b1-4943-a329-0f29055964f5")
-	)
-	(fp_line
-		(start 1.8 1.25)
-		(end 1.8 -1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "c447b3a4-4809-46fb-8275-3e5dbdd3cd18")
-	)
-	(fp_line
 		(start -0.675 -0.5)
 		(end -0.675 1)
 		(stroke
@@ -180,28 +140,6 @@
 		(layer "F.Fab")
 		(uuid "f1ed821d-a09a-41ff-81a7-adda5470ceb8")
 	)
-	(fp_text user "1"
-		(at -1.83 -0.627 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 1.83 -0.627 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -220,39 +158,71 @@
 		)
 		(layer "User.21")
 	)
+	(fp_rect
+		(start -1.83 -1.25)
+		(end 1.83 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+	)
+	(fp_text user "1"
+		(at -1.855 -0.627 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 1.855 -0.627 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
 	(pad "1" smd roundrect
 		(at -1.1 -0.65)
-		(size 0.9 0.4)
+		(size 0.95 0.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(roundrect_rratio 0.25)
+		(roundrect_rratio 0.125)
 		(uuid "7bc14a15-fda1-4a03-9127-8391e18d79b7")
 	)
 	(pad "2" smd roundrect
 		(at -1.1 0)
-		(size 0.9 0.4)
+		(size 0.95 0.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(roundrect_rratio 0.25)
+		(roundrect_rratio 0.125)
 		(uuid "b1350a96-a376-4a05-b2b5-c83640dc5423")
 	)
 	(pad "3" smd roundrect
 		(at -1.1 0.65)
-		(size 0.9 0.4)
+		(size 0.95 0.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(roundrect_rratio 0.25)
+		(roundrect_rratio 0.125)
 		(uuid "c1c2f86c-e555-4fda-8a47-872fabb757e6")
 	)
 	(pad "4" smd roundrect
 		(at 1.1 0.65)
-		(size 0.9 0.4)
+		(size 0.95 0.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(roundrect_rratio 0.25)
+		(roundrect_rratio 0.125)
 		(uuid "39a7ffc5-c274-4ea9-a21d-78f5ddbc5dd4")
 	)
 	(pad "5" smd roundrect
 		(at 1.1 -0.65)
-		(size 0.9 0.4)
+		(size 0.95 0.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(roundrect_rratio 0.25)
+		(roundrect_rratio 0.125)
 		(uuid "222967f9-2584-408d-8411-9d0a3bcd6b5a")
 	)
 	(embedded_fonts no)

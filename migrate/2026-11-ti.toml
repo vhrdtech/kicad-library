@@ -1,0 +1,55 @@
+# TI footprints named by TI's package designator, November 2026: TI_<designator>_<generic package> (TI_DBV0005A_SOT-23-5),
+# found by TI's name and by the generic one. `kilib migrate --map migrate/2026-11-ti.toml BOARD_DIR` renames the old
+# footprint ids on boards, in Footprint fields and in ki_fp_filters ([footprint_rename]), and gives the placed TI
+# symbols that sat on a generic footprint their TI footprint ([symbol_footprint]: the schematic's Footprint fields;
+# KiCad's Update PCB from Schematic then swaps the footprint on the board). Generic footprints stay as they are.
+
+[libraries.footprint]
+"VHRD_Package_DFN_QFN" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_DFN_QFN.pretty"
+"VHRD_Package_QFP" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_QFP.pretty"
+"VHRD_Package_SO" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_SO.pretty"
+"VHRD_Package_TO_SOT_SMD" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_TO_SOT_SMD.pretty"
+
+[footprint_rename]
+# "Lib:OldName" = "Lib:NewName"
+"VHRD_Package_DFN_QFN:Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias" = "VHRD_Package_DFN_QFN:TI_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
+"VHRD_Package_DFN_QFN:Texas_S-PX2QFN-14" = "VHRD_Package_DFN_QFN:TI_RUC0014A_X2QFN-14_2x2mm_P0.4mm"
+"VHRD_Package_DFN_QFN:Texas_UQFN-10_1.5x2mm_P0.5mm" = "VHRD_Package_DFN_QFN:TI_RSE0010A_UQFN-10_1.5x2mm_P0.5mm"
+"VHRD_Package_DFN_QFN:TI-BQA0014A" = "VHRD_Package_DFN_QFN:TI_BQA0014A_WQFN-14-1EP_2.5x3mm_P0.5mm"
+"VHRD_Package_DFN_QFN:TI-BQB0016A" = "VHRD_Package_DFN_QFN:TI_BQB0016A_WQFN-16-1EP_2.5x3.5mm_P0.5mm"
+"VHRD_Package_DFN_QFN:TI-RHL0024A" = "VHRD_Package_DFN_QFN:TI_RHL0024A_VQFN-24-1EP_3.5x5.5mm_P0.5mm"
+"VHRD_Package_DFN_QFN:TI-RSE0010A" = "VHRD_Package_DFN_QFN:TI_RSE0010A_UQFN-10_1.5x2mm_P0.5mm"
+"VHRD_Package_DFN_QFN:TI-RSW0010A" = "VHRD_Package_DFN_QFN:TI_RSW0010A_UQFN-10_1.4x1.8mm_P0.4mm"
+"VHRD_Package_QFP:TI-PFB0048A" = "VHRD_Package_QFP:TI_PFB0048A_TQFP-48_7x7mm_P0.5mm"
+"VHRD_Package_SO:TI-DGS0010A" = "VHRD_Package_SO:TI_DGS0010A_VSSOP-10_3x3mm_P0.5mm"
+"VHRD_Package_SO:TI-PW0008A" = "VHRD_Package_SO:TI_PW0008A_TSSOP-8_4.4x3mm_P0.65mm"
+"VHRD_Package_TO_SOT_SMD:Texas_R-PDSO-G5_DCK-5" = "VHRD_Package_TO_SOT_SMD:TI_DCK0005A_SC-70-5"
+"VHRD_Package_TO_SOT_SMD:Texas_R-PDSO-N6_DRL-6" = "VHRD_Package_TO_SOT_SMD:TI_DRL0006A_SOT-563-6"
+"VHRD_Package_TO_SOT_SMD:TI-DBV0006A" = "VHRD_Package_TO_SOT_SMD:TI_DBV0006A_SOT-23-6"
+"VHRD_Package_TO_SOT_SMD:TI-DCK0006A" = "VHRD_Package_TO_SOT_SMD:TI_DCK0006A_SC-70-6"
+"VHRD_Package_TO_SOT_SMD:TI-DDF0008A" = "VHRD_Package_TO_SOT_SMD:TI_DDF0008A_SOT-23-THIN-8"
+
+[symbol_footprint]
+# "SymbolLib:Symbol" = "FootprintLib:Footprint"
+"VHRD_Amplifier_Current:INA181" = "VHRD_Package_TO_SOT_SMD:TI_DBV0006A_SOT-23-6"
+"VHRD_Amplifier_Operational:TLV9061xDCK" = "VHRD_Package_TO_SOT_SMD:TI_DCK0005A_SC-70-5"
+"VHRD_Analog_Switch:TS5A3160DCK" = "VHRD_Package_TO_SOT_SMD:TI_DCK0006A_SC-70-6"
+"VHRD_Analog_Switch:TS5A3359DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Interface_Expansion:TCA6408ARGT" = "VHRD_Package_DFN_QFN:TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm"
+"VHRD_Isolator:ISOM8600" = "VHRD_Package_SO:TI_DFG0004A_SOIC-4_4.8x3.51mm_P2.54mm"
+"VHRD_Logic_LevelTranslator:LSF0102DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:PCA9306DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:SN74AVC2T45DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:SN74AXC2T45DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:SN74LVC2T45DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:SN74LXC1T45DCKR" = "VHRD_Package_TO_SOT_SMD:TI_DCK0006A_SC-70-6"
+"VHRD_Logic_LevelTranslator:SN74LXC2T45DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:SN74LXC8T245RHLR" = "VHRD_Package_DFN_QFN:TI_RHL0024A_VQFN-24-1EP_3.5x5.5mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:TXS0102DCU" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:TXU0102DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:TXU0104BQAR" = "VHRD_Package_DFN_QFN:TI_BQA0014A_WQFN-14-1EP_2.5x3mm_P0.5mm"
+"VHRD_Logic_LevelTranslator:TXU0202DCUR" = "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
+"VHRD_Regulator_Linear:TLV70233_SOT23-5" = "VHRD_Package_TO_SOT_SMD:TI_DBV0005A_SOT-23-5"
+"VHRD_Regulator_Linear:TLV75533PDBV" = "VHRD_Package_TO_SOT_SMD:TI_DBV0005A_SOT-23-5"
+"VHRD_Regulator_Switching:LV14360SDDAR" = "VHRD_Package_SO:TI_DDA0008B_SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm_ThermalVias"
+"VHRD_Sensor_Energy:INA229" = "VHRD_Package_SO:TI_DGS0010A_VSSOP-10_3x3mm_P0.5mm"

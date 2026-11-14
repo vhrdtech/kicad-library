@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm"
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm"
 			(at 0 -25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -94,7 +94,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "*VQFN*3x3mm?P0.5mm?EP1.45x1.45mm*"
+		(property "ki_fp_filters" "TI_RGT0016A* *VQFN*3x3mm?P0.5mm?EP1.45x1.45mm*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

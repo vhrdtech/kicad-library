@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "VHRD_Package_TO_SOT_SMD:SOT-363_SC-70-6"
+		(property "Footprint" "VHRD_Package_TO_SOT_SMD:TI_DCK0006A_SC-70-6"
 			(at 0 -16.51 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -96,7 +96,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "SOT?363*"
+		(property "ki_fp_filters" "TI_DCK0006A* SOT?363*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

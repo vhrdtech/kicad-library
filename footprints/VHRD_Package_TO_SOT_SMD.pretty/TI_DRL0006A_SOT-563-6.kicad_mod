@@ -1,10 +1,10 @@
-(footprint "Texas_R-PDSO-N6_DRL-6"
+(footprint "TI_DRL0006A_SOT-563-6"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "R-PDSO-N6, DRL, similar to JEDEC MO-293B Var UAAD (but not the same), https://www.ti.com/lit/ml/mpds159i/mpds159i.pdf")
-	(tags "SOT R-PDSO-N6 DRL0006A")
+	(descr "SOT-563-6 1.6x1.2mm P0.5mm, TI DRL0006A (drawing 4223266/F), land from TI's example board layout, SCES940A page 42 (https://www.ti.com/lit/ds/symlink/txu0101.pdf#page=42)")
+	(tags "DRL0006A SOT-563 SOT-5X3 R-PDSO-N6 TO_SOT_SMD")
 	(property "Reference" "REF**"
 		(at 0.006 0.007 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "Texas_R-PDSO-N6_DRL-6"
+	(property "Value" "TI_DRL0006A_SOT-563-6"
 		(at 0.014 -0.01 90)
 		(unlocked yes)
 		(layer "User.17")

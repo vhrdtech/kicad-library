@@ -6,7 +6,7 @@
     (property "Value" "TCAN1044VDDF" (at 2.54 8.89 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "VHRD_Package_TO_SOT_SMD:TI-DDF0008A" (at 0 -12.7 0)
+    (property "Footprint" "VHRD_Package_TO_SOT_SMD:TI_DDF0008A_SOT-23-THIN-8" (at 0 -12.7 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
     (property "Datasheet" "https://www.ti.com/lit/ds/symlink/tcan1044-q1.pdf" (at 0 0 0)

@@ -1,10 +1,10 @@
-(footprint "TI-RSW0010A"
+(footprint "TI_RSW0010A_UQFN-10_1.4x1.8mm_P0.4mm"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "UQFN-10, 1.4x1.8mm, P0.4mm, TI RSW0010A")
-	(tags "UQFN RSW0010A")
+	(descr "UQFN-10 1.4x1.8mm P0.4mm, TI RSW0010A (drawing 4224897/A), land from TI's example board layout, SCDS339B page 20 (https://www.ti.com/lit/ds/symlink/ts3a5223.pdf#page=20)")
+	(tags "RSW0010A UQFN NoLead")
 	(property "Reference" "REF**"
 		(at 0.005 0.005 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "TI-RSW0010A"
+	(property "Value" "TI_RSW0010A_UQFN-10_1.4x1.8mm_P0.4mm"
 		(at 0.016 -0.011 90)
 		(unlocked yes)
 		(layer "User.17")

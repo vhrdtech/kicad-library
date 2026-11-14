@@ -1,10 +1,10 @@
-(footprint "TI-BQB0016A"
+(footprint "TI_BQB0016A_WQFN-16-1EP_2.5x3.5mm_P0.5mm"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "WQFN-16, 2.5x3.5mm, P0.5mm, EP1x2mm")
-	(tags "DHVQFN NoLead Nexperia_SOT763-1 Texas_BQB0016A")
+	(descr "WQFN-16-1EP 2.5x3.5mm P0.5mm EP1x2mm, TI BQB0016A (drawing 4224640/B), land from TI's example board layout, SCLSA24 page 29 (https://www.ti.com/lit/ds/symlink/sn74ac595.pdf#page=29)")
+	(tags "BQB0016A WQFN DHVQFN NoLead")
 	(property "Reference" "REF**"
 		(at 0.015 0.017 90)
 		(unlocked yes)
@@ -17,7 +17,7 @@
 			)
 		)
 	)
-	(property "Value" "TI-BQB0016A"
+	(property "Value" "TI_BQB0016A_WQFN-16-1EP_2.5x3.5mm_P0.5mm"
 		(at 0.031 -0.021 90)
 		(unlocked yes)
 		(layer "User.17")

@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_SO:VSSOP-8_2.3x2mm_P0.5mm"
+		(property "Footprint" "VHRD_Package_SO:TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm"
 			(at 2.794 3.556 0)
 			(show_name no)
 			(do_not_autoplace no)

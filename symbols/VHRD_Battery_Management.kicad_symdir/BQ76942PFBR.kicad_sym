@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_QFP:TI-PFB0048A"
+		(property "Footprint" "VHRD_Package_QFP:TI_PFB0048A_TQFP-48_7x7mm_P0.5mm"
 			(at 19.05 -97.028 0)
 			(show_name no)
 			(do_not_autoplace no)

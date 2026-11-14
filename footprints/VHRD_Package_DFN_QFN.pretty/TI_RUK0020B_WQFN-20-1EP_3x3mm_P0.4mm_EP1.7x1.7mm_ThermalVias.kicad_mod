@@ -1,9 +1,9 @@
-(footprint "Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
+(footprint "TI_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
 	(version 20260206)
 	(generator "kicad-footprint-generator")
 	(layer "F.Cu")
-	(descr "Texas RUK0020B WQFN, 20 Pin, pads 0.6 x 0.2 at 2.8 mm centres (TI SLVSEL8 page 34, https://www.ti.com/lit/ds/symlink/tpd6s300a.pdf)")
-	(tags "Texas WQFN NoLead")
+	(descr "WQFN-20-1EP 3x3mm P0.4mm EP1.7x1.7mm, TI RUK0020B (drawing 4222676/A), land from TI's example board layout, SLVSEL8 page 34 (https://www.ti.com/lit/ds/symlink/tpd6s300a.pdf#page=34)")
+	(tags "RUK0020B WQFN NoLead")
 	(property "Reference" "REF**"
 		(at -0.014 0.013 0)
 		(unlocked yes)
@@ -15,7 +15,7 @@
 			)
 		)
 	)
-	(property "Value" "Texas_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
+	(property "Value" "TI_RUK0020B_WQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm_ThermalVias"
 		(at 0.017 0.024 0)
 		(unlocked yes)
 		(layer "User.17")

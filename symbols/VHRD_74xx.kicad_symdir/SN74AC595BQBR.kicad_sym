@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "VHRD_Package_DFN_QFN:TI-BQB0016A"
+		(property "Footprint" "VHRD_Package_DFN_QFN:TI_BQB0016A_WQFN-16-1EP_2.5x3.5mm_P0.5mm"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
