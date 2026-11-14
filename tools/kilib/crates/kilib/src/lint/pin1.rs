@@ -33,16 +33,16 @@ const SAME: f64 = 0.02;
 const SAME_MARK: f64 = 0.05;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Move {
+pub(super) enum Move {
     Turn180,
     Turn90,
     Turn270,
 }
 
 impl Move {
-    const ALL: [Move; 3] = [Move::Turn180, Move::Turn90, Move::Turn270];
+    pub(super) const ALL: [Move; 3] = [Move::Turn180, Move::Turn90, Move::Turn270];
 
-    fn apply(self, p: Pt, c: Pt) -> Pt {
+    pub(super) fn apply(self, p: Pt, c: Pt) -> Pt {
         let (dx, dy) = (p.0 - c.0, p.1 - c.1);
         let (x, y) = match self {
             Move::Turn180 => (-dx, -dy),
@@ -86,7 +86,7 @@ pub fn needs_mark(lib: &str, fp: &Footprint) -> bool {
 
 /// The moves that fit the pads onto themselves and take pin 1 elsewhere, with where they take it, about the pads'
 /// centre; when none does, a half turn (the part still has to show which way round it goes).
-fn moves(fp: &Footprint, p1: &Pad) -> (Pt, Vec<(Move, Pt)>) {
+pub(super) fn moves(fp: &Footprint, p1: &Pad) -> (Pt, Vec<(Move, Pt)>) {
     let pads: Vec<Pt> = fp.copper_pads().map(|p| p.at).collect();
     let c = Rect::of_points(pads.iter().copied()).map_or(p1.at, |r| r.center());
     let fits = |m: Move| pads.iter().all(|&p| pads.iter().any(|&q| dist(m.apply(p, c), q) < SAME));
@@ -273,6 +273,14 @@ fn pad_at(fp: &Footprint, p: Pt) -> String {
         .map_or_else(|| "another pad".to_string(), |q| format!("pad {}", q.number))
 }
 
+/// A body that sits to one side of the pads (a right-angle header's) tells the move apart by itself.
+pub(super) fn body_tells(body: Rect, m: Move, c: Pt) -> bool {
+    let moved = Rect::of_points(body.corners().map(|p| m.apply(p, c))).expect("four corners");
+    let overlap = (moved.x1.min(body.x1) - moved.x0.max(body.x0)).max(0.0)
+        * (moved.y1.min(body.y1) - moved.y0.max(body.y0)).max(0.0);
+    overlap < 0.8 * body.w() * body.h()
+}
+
 /// Judges the marks on `layer`.
 fn judge(fp: &Footprint, layer: &str, p1: &Pad, axis: Option<Pt>) -> Verdict {
     let Some(body) = fp.fab_box().or_else(|| fp.pads_box()) else { return Verdict::Ok };
@@ -287,11 +295,7 @@ fn judge(fp: &Footprint, layer: &str, p1: &Pad, axis: Option<Pt>) -> Verdict {
     };
     for (m, to) in moves {
         let other = pad_at(fp, to);
-        // A body that sits to one side of the pads (a right-angle header's) tells the move apart by itself.
-        let moved = Rect::of_points(body.corners().map(|p| m.apply(p, c))).expect("four corners");
-        let overlap = (moved.x1.min(body.x1) - moved.x0.max(body.x0)).max(0.0)
-            * (moved.y1.min(body.y1) - moved.y0.max(body.y0)).max(0.0);
-        if overlap < 0.8 * body.w() * body.h() {
+        if body_tells(body, m, c) {
             continue;
         }
         let marks: Vec<&Feature> = feats

@@ -653,7 +653,7 @@ fn lint_reports_fixes_then_writes_then_only_what_is_left() {
         "fix  courtyard no courtyard: drawn round the pads and body at 0.25 mm",
         "fix  silk      silk fp_line cut clear of pad 1",
         "fix  pin1      no pin-1 mark on F.Fab (nothing tells pin 1 from pad 5): pin-1 corner chamfered",
-        "kilib lint: 1 footprints, 1 to change; fixes: attrs 1, models 1, courtyard 1, silk 1, pin1 1, pins 1, centroid 1, layout 2; left for a person: none",
+        "kilib lint: 1 footprints, 1 to change; fixes: attrs 1, models 1, courtyard 1, silk 1, pin1 1, pin1-body 1, pins 1, centroid 1, layout 2; left for a person: none",
         "fix  pins      User.19: 2 pin numbers at 0.5 mm",
         "fix  centroid  User.21: a cross on the origin",
         "fix  layout    Layout_Critical: added on User.25, empty",
@@ -679,7 +679,7 @@ fn lint_reports_fixes_then_writes_then_only_what_is_left() {
     let out = kilib(&dir, &["lint", "--rule", "bogus", "lib/footprints"]);
     assert_eq!(out.status.code(), Some(2), "{}", text(&out));
     assert!(text(&out).contains(
-        "unknown rule \"bogus\": one of attrs, models, courtyard, silk, pin1, ref-outline, pins, centroid, layout"
+        "unknown rule \"bogus\": one of attrs, models, courtyard, silk, pin1, pin1-body, ref-outline, pins, centroid, layout"
     ));
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tlint\twrite\n") && usage.contains("\tlint\trule,json\n"), "{usage}");

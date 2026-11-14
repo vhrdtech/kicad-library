@@ -160,3 +160,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   templates, the Pins presets and `kilib layers`. `kilib footprint chip` draws it from the model it generates, hw
   `tools/footprint_tools` (`fc_xray.py`, `xray.py`) from the STEP model of the others; test points, net ties and
   mechanical footprints have none.
+- ✅ LIB-36 pin1-layer: Pin1.F/B (User.29/30) carry a filled dot (0.3 to 0.8 mm) by pin 1 of every part with three or
+  more pins and every polar two-pin part, inside the body outline where it fits, else just outside it, never
+  ambiguous under the turns the pads allow (`kilib lint --rule pin1-body`; 171 footprints, 3 left: reversible
+  connectors). The Assembly presets show Body and Pin1 instead of the fab drawing; every preset with Body shows Pin1 of that side.

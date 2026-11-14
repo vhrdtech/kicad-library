@@ -362,6 +362,10 @@ Examples:
     /// silkscreen where they draw one, so that no turn of the part that fits its pads leaves pin 1 in doubt. Fix: a
     /// chamfered pin-1 corner on a rectangular fab outline, a filled triangle pointing at pin 1 on the silkscreen.
     ///
+    /// pin1-body: the same parts show pin 1 as a filled dot on Pin1.F (User.29), 0.3 to 0.8 mm across, by pin 1 inside the
+    /// body outline (Body.F, User.5) where it fits, else just outside it, nearer pin 1 than any pad a turn of the part
+    /// takes it to. Fix: drawn, replacing anything else on that layer; a part with no such place is left for a person.
+    ///
     /// attrs: test points, net ties, spark gaps, jumpers, logos and mounting holes are kept out of the BOM and the
     /// position files, fiducials out of the BOM only; a part is SMD or through-hole as its pads are. Fix: the
     /// attributes set.

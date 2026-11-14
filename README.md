@@ -140,7 +140,8 @@ same under `footprints/<name>.pretty` for footprints.
   STEP model's top view of the others, drawn by hw's `tools/footprint_tools`; test points, net ties and mechanical
   footprints have none), User.7/8 `Xray.F`/`Xray.B` (every edge of the 3D model seen from above, hidden ones
   included: leads, terminations, bottom and exposed pads under the body, the pin-1 notch; the Pins presets show it,
-  so pin numbers read against where the pins are). KiCad pairs user layers only by number (User.5 flips to
+  so pin numbers read against where the pins are), User.29/30 `Pin1.F`/`Pin1.B` (a filled dot by pin 1, shown with
+  the body, which has no pin-1 mark of its own; `kilib lint --rule pin1-body`). KiCad pairs user layers only by number (User.5 flips to
   User.6, never to User.7), so each pair is an odd number and the next. KiCad's own `Dwgs.User` and `Cmts.User`
   are named `Dimensions` and `Fab.Notes`. Bodies drawn before the Body pair existed (footprint drawings on User.2,
   then named `Body.F`, which KiCad did not flip) move to `Body.F` or `Body.B` by the footprint's side, and User.2
@@ -151,8 +152,7 @@ same under `footprints/<name>.pretty` for footprints.
   Only the layer table and the layer of those old bodies change.
 - `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
   a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
-  Edge.Cuts; pads, vias and ratsnest shown), `Assembly.F`/`B` (Fab, Ref.Des, Value, Centroid, Courtyard, Edge.Cuts;
-  no copper), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
+  Edge.Cuts; pads, vias and ratsnest shown), `Floorplan.F`/`B`/`FB` (Courtyard, Ref.Des, Crit, Imp, Body, Pin1, Ref.Test, Ref.Tie, Edge.Cuts), `Assembly.Ref.F`/`B` and `Assembly.Value.F`/`B` (Body, Pin1, Ref.Des or Value, Edge.Cuts; pads shown), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
   the back counterpart, viewed from below. A preset already in the project under the same name is replaced; the
   project's other presets are kept, in their place. The sibling board (same name, `.kicad_pcb`) is checked for the
   user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
@@ -170,6 +170,13 @@ same under `footprints/<name>.pretty` for footprints.
     fab outline (1 mm, at most a quarter of the shorter side) and puts a filled triangle pointing at pin 1 on the
     silkscreen, outside the body and 0.15 mm clear of the pads. Marks that are missing elsewhere, ambiguous or by
     the wrong pad are reported.
+  - `pin1-body`: the same parts show pin 1 as a filled dot on `Pin1.F` (User.29; `Pin1.B`, User.30), 0.3 mm across on
+    a small part up to 0.8 mm on a big one (a tenth of the body's shorter side, under 0.9 times the distance to the
+    nearest other pad), as near pin 1 as it fits inside the body outline (`Body.F`, else the fab outline), off the pads
+    where it can be, else just outside the body. It sits nearer pin 1 than any pad a half or quarter turn of the pads
+    takes pin 1 to, and than every other pad, so no turn leaves it ambiguous. No dot on non-polar two-pin parts,
+    test points, net ties and mechanical footprints. A part with no such place (a reversible USB-C receptacle, whose
+    A1 and B12 share a spot) is reported. The fix replaces anything else on the layer.
   - `attrs`: test points, net ties, spark gaps, jumpers, logos and mounting holes are excluded from the BOM and the
     position files, with no SMD or through-hole type (net ties and logos may have no courtyard); fiducials are SMD
     and excluded from the BOM only; a part is SMD when all its copper pads are, through-hole when one is. `board_only`

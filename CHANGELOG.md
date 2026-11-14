@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- User.29/30 `Pin1.F`/`Pin1.B`: a filled pin-1 dot, `kilib lint --rule pin1-body`, 171 footprints regenerated (LIB-36 pin1-layer).
+
+### Changed
+
+- Layer presets: Assembly.Ref/Value show Body and Pin1 instead of Fab; Floorplan shows Pin1 beside Body (LIB-36 pin1-layer).
+
 ## [0.5.8] - 2026-11-14
 
 ### Changed

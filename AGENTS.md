@@ -14,7 +14,7 @@ KiCad's stock footprints that a board uses are imported into the `VHRD_*` librar
 designator centred on `Ref.Des.F` and the Value centred on `Value.F` (`kilib designators`), the fab lines 0.05 mm and no
 text on the fab layer. Pads, other
 graphics stay as in stock, the 3D model is the library's copy of KiCad's (`${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/`, the STEP copied there by hand), apart from the fixes of
-`kilib lint` (courtyard, silkscreen, pin-1 marks, attributes, pin numbers, the centroid cross), which `stock import` and `stock diff` apply too. The
+`kilib lint` (courtyard, silkscreen, pin-1 marks, the Pin1 dot, attributes, pin numbers, the centroid cross), which `stock import` and `stock diff` apply too. The
 copies are on purpose: a KiCad update never changes our footprints unannounced. We compare them with the stock library
 and take upstream changes in deliberately, when the time is right:
 
@@ -58,10 +58,10 @@ and library in step). A new package: a line in the map, then `kilib per-package 
 
 ## Designator layers
 
-User.5-28 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
+User.5-30 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
 outline), `Xray` (User.7/8, every edge of the 3D model seen from above, hidden ones included), `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
 ties, mechanical parts), `Rooms` (block outlines), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
---rule pins`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
+--rule pins`), `Pin1` (User.29/30, a dot by pin 1, `--rule pin1-body`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
 part's `Layout_Critical` and `Layout_Important` notes, set in the schematic, README "Layout priority"), named in
 the templates and by `kilib layers`; don't use those numbers for anything else. F.Fab and B.Fab carry only the
 drawing, no text: Ref.Des and Value are both centred on the body, so they are separate layers shown one at a time;
@@ -95,7 +95,7 @@ widths of fab lines in the footprints given; with `--board` only the Reference's
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 `kilib lint` writes only with `--write`, and then only the items its fixes name (attributes, model paths,
-courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins and Centroid layers, the `Layout_*`
+courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins, Pin1 and Centroid layers, the `Layout_*`
 properties) in the footprints
 given; it never touches the designator or the Value.
 

@@ -2,6 +2,8 @@
 //!
 //! - [`Rule::Pin1`]: polar and multi-pin parts mark pin 1 on the fab layer, and on the silkscreen where the
 //!   footprint draws one ([`pin1`]).
+//! - [`Rule::Pin1Body`]: the same parts show pin 1 as a filled dot on Pin1.F/B, by pin 1 inside the body outline
+//!   (Body.F/B) or just outside it ([`pin1_body`]).
 //! - [`Rule::Attrs`]: test points, net ties, spark gaps, jumpers, logos, mounting holes and fiducials stay out of
 //!   the BOM and the position files (fiducials stay in them); a part's SMD or through-hole type matches its pads
 //!   ([`attrs`]).
@@ -29,6 +31,7 @@ pub mod courtyard;
 pub mod layout;
 pub mod models;
 pub mod pin1;
+pub mod pin1_body;
 pub mod pins;
 pub mod refs;
 pub mod silk;
@@ -48,6 +51,7 @@ pub enum Rule {
     Courtyard,
     Silk,
     Pin1,
+    Pin1Body,
     RefOutline,
     Pins,
     Centroid,
@@ -56,12 +60,13 @@ pub enum Rule {
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 9] = [
+    pub const ALL: [Rule; 10] = [
         Rule::Attrs,
         Rule::Models,
         Rule::Courtyard,
         Rule::Silk,
         Rule::Pin1,
+        Rule::Pin1Body,
         Rule::RefOutline,
         Rule::Pins,
         Rule::Centroid,
@@ -75,6 +80,7 @@ impl Rule {
             Rule::Courtyard => "courtyard",
             Rule::Silk => "silk",
             Rule::Pin1 => "pin1",
+            Rule::Pin1Body => "pin1-body",
             Rule::RefOutline => "ref-outline",
             Rule::Pins => "pins",
             Rule::Centroid => "centroid",
@@ -212,6 +218,7 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Courtyard => courtyard::run(i),
         Rule::Silk => silk::run(i),
         Rule::Pin1 => pin1::run(i),
+        Rule::Pin1Body => pin1_body::run(i),
         Rule::RefOutline => refs::run(i),
         Rule::Pins => pins::run(i),
         Rule::Centroid => centroid::run(i),
