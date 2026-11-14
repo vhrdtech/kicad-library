@@ -11,7 +11,8 @@
 //! and Centroid (a cross on the placement origin). Two pairs show layout priority: Crit and Imp carry a real part's
 //! `Layout_Critical` and `Layout_Important` notes, empty (so nothing shows) until the schematic sets one. Body
 //! carries a part's full top view, the outline of its 3D model; Xray every edge of that model seen from above,
-//! hidden ones included. Pin1 carries a dot by pin 1, shown with Body. A few of KiCad's own layers get a name of their own
+//! hidden ones included. Pin1 carries a dot by pin 1, shown with Body. Ruler carries ticks and numbers by the pads
+//! for counting pins, the same drawing as on the silkscreen. A few of KiCad's own layers get a name of their own
 //! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table and moves the bodies a board's
 //! footprints still draw on User.2 (Body.F before the pair existed) onto Body.F or Body.B.
 
@@ -34,7 +35,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 
 /// The layers, front then back of each pair. KiCad pairs user layers by number only (User.5 front flips to User.6,
 /// never to User.7), so each pair is an odd number and the even one after it.
-pub const LAYERS: [Layer; 26] = [
+pub const LAYERS: [Layer; 28] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -61,6 +62,8 @@ pub const LAYERS: [Layer; 26] = [
     user(8, "back", "Xray.B", "User.8"),
     user(29, "front", "Pin1.F", "User.29"),
     user(30, "back", "Pin1.B", "User.30"),
+    user(31, "front", "Ruler.F", "User.31"),
+    user(32, "back", "Ruler.B", "User.32"),
 ];
 
 /// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
@@ -87,6 +90,10 @@ pub const XRAY: [&str; 2] = ["User.7", "User.8"];
 
 /// The Pin1 pair: a filled dot by pin 1, shown with the body ([`crate::lint::pin1_body`]).
 pub const PIN1: [&str; 2] = ["User.29", "User.30"];
+
+/// The Ruler pair: ticks and numbers beside the pads for counting pins, copied on the silkscreen
+/// ([`crate::lint::ruler`]).
+pub const RULER: [&str; 2] = ["User.31", "User.32"];
 
 /// Where the library drew bodies before the Body pair: User.2, a plain layer KiCad does not flip, named Body.F.
 pub const OLD_BODY: &str = "User.2";
@@ -334,7 +341,7 @@ mod tests {
         assert!(new.contains("(39 \"User.1\" user)\n\t\t(55 \"User.9\" front"), "{new}");
         assert!(new.contains("(93 \"User.28\" back \"Imp.B\")\n\t\t(47 \"User.5\" front \"Body.F\")"), "{new}");
         assert!(new.contains("(49 \"User.6\" back \"Body.B\")\n\t\t(51 \"User.7\" front \"Xray.F\")"), "{new}");
-        assert!(new.contains("(53 \"User.8\" back \"Xray.B\")\n\t\t(95 \"User.29\" front \"Pin1.F\")\n\t\t(97 \"User.30\" back \"Pin1.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
+        assert!(new.contains("(53 \"User.8\" back \"Xray.B\")\n\t\t(95 \"User.29\" front \"Pin1.F\")\n\t\t(97 \"User.30\" back \"Pin1.B\")\n\t\t(99 \"User.31\" front \"Ruler.F\")\n\t\t(101 \"User.32\" back \"Ruler.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
         assert_eq!(again, new);
