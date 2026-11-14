@@ -79,18 +79,6 @@
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_poly
 		(pts
-			(xy -2.25 -7.768) (xy -2.49 -8.098) (xy -2.01 -8.098)
-		)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.SilkS")
-		(uuid "5b61894a-d8fb-4c3b-9f61-7b306cb01612")
-	)
-	(fp_poly
-		(pts
 			(xy -3.85 -5.6) (xy -3.85 -2.31) (xy -5.8 -2.31) (xy -5.8 -0.21) (xy -3.72 -0.21) (xy -3.33 -0.02)
 			(xy -2.8 0) (xy -2.49 0.25) (xy -2.06 0.46) (xy -1.86 0.92) (xy -1.6 1.05) (xy 1.65 1.05) (xy 1.88 0.89)
 			(xy 2.03 0.48) (xy 2.49 0.25) (xy 2.8 0) (xy 3.33 -0.02) (xy 3.72 -0.21) (xy 5.8 -0.21) (xy 5.8 -2.31)
