@@ -6,7 +6,7 @@
 	(descr "WQFN-16-1EP 2.5x3.5mm P0.5mm EP1x2mm, TI BQB0016A (drawing 4224640/B), land from TI's example board layout, SCLSA24 page 29 (https://www.ti.com/lit/ds/symlink/sn74ac595.pdf#page=29)")
 	(tags "BQB0016A WQFN DHVQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0.015 0.017 90)
+		(at -0.015 -0.017 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "7986de09-5cac-4f83-abb7-4d0f1982fc15")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "TI_BQB0016A_WQFN-16-1EP_2.5x3.5mm_P0.5mm"
-		(at 0.031 -0.021 90)
+		(at -0.031 0.021 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "9bd48e30-7503-458f-a050-40ce19c7d8c2")
@@ -54,7 +54,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.454 0.007 90)
+		(at -1.496 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -65,7 +65,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.496 0.007 90)
+		(at 1.454 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

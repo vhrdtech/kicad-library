@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -4.044 0.011 90)
+		(at -4.106 -0.011 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 4.106 0.011 90)
+		(at 4.044 -0.011 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

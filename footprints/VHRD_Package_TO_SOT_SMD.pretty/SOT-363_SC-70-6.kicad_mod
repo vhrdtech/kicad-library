@@ -5,7 +5,7 @@
 	(descr "SOT, 6 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=170, JEDEC MO-203, variant AB, https://www.jedec.org/document_search?search_api_views_fulltext=MO-203)")
 	(tags "SOT TO_SOT_SMD SC-88 SOT-363 SC-70-6 US6 UMT6 S-Mini6 TSSOP6")
 	(property "Reference" "REF**"
-		(at 0.009 0.01 90)
+		(at -0.009 -0.01 270)
 		(unlocked yes)
 		(layer "User.23")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "SOT-363_SC-70-6"
-		(at 0.018 -0.012 90)
+		(at -0.018 0.012 270)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
@@ -38,7 +38,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.016 0.007 90)
+		(at -1.058 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -49,7 +49,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.058 0.007 90)
+		(at 1.016 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

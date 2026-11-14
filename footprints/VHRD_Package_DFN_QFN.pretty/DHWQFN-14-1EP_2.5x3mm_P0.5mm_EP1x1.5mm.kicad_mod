@@ -5,7 +5,7 @@
 	(descr "DHWQFN, 14 Pin (JEDEC MO-241 variation WAA, https://www.ti.com/lit/ml/qfnd686/qfnd686.pdf, https://www.ti.com/lit/ds/symlink/txb0104.pdf#page=43)")
 	(tags "DHWQFN NoLead Texas_BQA0014A")
 	(property "Reference" "REF**"
-		(at 0.013 0.014 90)
+		(at -0.013 -0.014 270)
 		(unlocked yes)
 		(layer "User.23")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "DHWQFN-14-1EP_2.5x3mm_P0.5mm_EP1x1.5mm"
-		(at 0.024 -0.017 90)
+		(at -0.024 0.017 270)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
@@ -38,7 +38,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.522 0.01 90)
+		(at -1.578 -0.01 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -49,7 +49,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.578 0.01 90)
+		(at 1.522 -0.01 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

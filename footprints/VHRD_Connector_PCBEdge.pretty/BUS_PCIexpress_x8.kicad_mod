@@ -271,7 +271,7 @@
 		)
 	)
 	(fp_text user "A2"
-		(at 1.024 -2.515 0)
+		(at 1.024 2.56 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -293,7 +293,7 @@
 		)
 	)
 	(fp_text user "A4"
-		(at 3.012 -2.515 0)
+		(at 3.012 2.584 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -315,7 +315,7 @@
 		)
 	)
 	(fp_text user "A6"
-		(at 5.024 -2.515 0)
+		(at 5.024 2.56 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -337,7 +337,7 @@
 		)
 	)
 	(fp_text user "A8"
-		(at 7.024 -2.515 0)
+		(at 7.024 2.56 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -359,7 +359,7 @@
 		)
 	)
 	(fp_text user "A10"
-		(at 8.977 -2.883 270)
+		(at 9.024 2.56 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -370,7 +370,7 @@
 		)
 	)
 	(fp_text user "A11"
-		(at 9.977 -2.883 270)
+		(at 10.024 -2.515 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

@@ -6,7 +6,7 @@
 	(descr "Diode SMA (DO-214AC)")
 	(tags "Diode SMA (DO-214AC)")
 	(property "Reference" "REF**"
-		(at 1.938 0.026 90)
+		(at 1.862 -0.026 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "f3ac1cd9-184a-496c-8c76-ec54e8919a3b")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -2.869 0.011 90)
+		(at -2.931 -0.011 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 2.931 0.011 90)
+		(at 2.869 -0.011 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

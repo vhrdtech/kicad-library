@@ -430,101 +430,101 @@
 		(layer "User.21")
 	)
 	(fp_text user "1"
-		(at -1.75 -0.79 0)
+		(at -1.75 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "2"
-		(at -1.238 -0.79 0)
+		(at -1.244 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "3"
-		(at -0.738 -0.79 0)
+		(at -0.744 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "4"
-		(at -0.262 -0.766 0)
+		(at -0.256 -0.933 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "5"
-		(at 0.25 -0.79 0)
+		(at 0.25 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "6"
-		(at 0.75 -0.79 0)
+		(at 0.75 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "7"
-		(at 1.25 -0.79 0)
+		(at 1.25 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "8"
-		(at 1.75 -0.79 0)
+		(at 1.75 -0.945 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)
 	(fp_text user "MP"
-		(at -2.196 1.423 0)
+		(at -2.423 1.411 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.25 0.25)
+				(thickness 0.038)
 			)
 		)
 	)

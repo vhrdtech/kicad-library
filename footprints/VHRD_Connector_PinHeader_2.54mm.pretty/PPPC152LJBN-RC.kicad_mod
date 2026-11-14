@@ -6,7 +6,7 @@
 	(descr "Socket strip, 2x15, P2.54mm, THT, Sullins PPPC152LJBN-RC")
 	(tags "PPPC152LJBN-RC socket female header")
 	(property "Reference" "REF**"
-		(at -6.264 17.804 90)
+		(at -6.306 17.756 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "c96be9e9-f196-4679-96bc-c259cf07c988")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "PPPC152LJBN-RC"
-		(at -6.216 17.732 90)
+		(at -6.354 17.828 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2a4fadfe-53a0-4fb0-9320-432f27549333")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at 0.749 17.804 90)
+		(at 0.611 17.756 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at -12.827 17.79 90)
+		(at -12.883 17.77 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

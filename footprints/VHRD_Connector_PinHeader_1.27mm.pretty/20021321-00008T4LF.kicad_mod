@@ -255,90 +255,90 @@
 		(layer "User.21")
 	)
 	(fp_text user "1"
-		(at 1.905 0.385 0)
+		(at 1.905 0.438 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "2"
-		(at 1.917 -0.34 0)
+		(at 1.887 -0.487 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "3"
-		(at 0.647 0.385 0)
+		(at 0.645 0.438 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "4"
-		(at 0.623 -0.316 0)
+		(at 0.607 -0.506 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "5"
-		(at -0.635 0.385 0)
+		(at -0.635 0.438 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "6"
-		(at -0.635 -0.34 0)
+		(at -0.653 -0.506 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "7"
-		(at -1.905 0.385 0)
+		(at -1.905 0.438 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "8"
-		(at -1.905 -0.34 0)
+		(at -1.923 -0.506 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)

@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "2337019-1"
-		(at 0.028 -0.019 90)
+		(at -0.028 0.019 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "11626800-814e-404a-a72f-bd60bc1d0cb6")

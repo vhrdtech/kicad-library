@@ -6,7 +6,7 @@
 	(descr "http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV")
 	(tags "sot 723")
 	(property "Reference" "REF**"
-		(at 0.005 0.005 90)
+		(at -0.005 -0.005 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "516d3e89-34d3-4b82-bafb-f5dc4f43ef1e")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "SOT-723"
-		(at 0.06 -0.007 90)
+		(at 0.04 0.007 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "22c2d087-e368-48e2-92c4-b554ef7431d0")
@@ -56,7 +56,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -0.709 0.005 90)
+		(at -0.741 -0.005 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -67,7 +67,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.741 0.005 90)
+		(at 0.709 -0.005 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

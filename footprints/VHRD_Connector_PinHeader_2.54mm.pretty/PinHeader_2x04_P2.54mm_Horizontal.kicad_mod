@@ -6,7 +6,7 @@
 	(descr "Through hole angled pin header, 2x04, 2.54mm pitch, 6mm pin length, double rows")
 	(tags "Through hole angled pin header THT 2x04 2.54mm double row")
 	(property "Reference" "REF**"
-		(at 6.143 3.824 90)
+		(at 6.117 3.796 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "f4e31baf-be0b-4abd-95a2-03aab2219cff")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "PinHeader_2x04_P2.54mm_Horizontal"
-		(at 6.175 3.779 90)
+		(at 6.085 3.841 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "f6103b8a-4388-4824-8adf-91bebdc54b3c")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -0.788 3.828 90)
+		(at -0.892 3.792 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 12.851 3.817 90)
+		(at 12.809 3.803 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

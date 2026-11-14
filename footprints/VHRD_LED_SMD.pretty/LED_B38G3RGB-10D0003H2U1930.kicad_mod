@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -0.354 -0.036 90)
+		(at -0.396 -0.064 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "4bfbc1cc-286c-4432-9304-34ecc1602e17")
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "LED_B38G3RGB-10D0003H2U1930"
-		(at -0.365 -0.04 90)
+		(at -0.385 -0.06 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "61f1fa26-5e1e-4c68-8d04-a9a8b48351ae")

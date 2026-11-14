@@ -6,7 +6,7 @@
 	(descr "D_SOD-123F")
 	(tags "D_SOD-123F")
 	(property "Reference" "REF**"
-		(at -1.026 0.017 90)
+		(at -1.074 -0.017 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "D_SOD-123F"
-		(at -0.938 0.012 90)
+		(at -0.962 -0.012 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2e60d6e3-992e-495d-bf9d-913218a820e9")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.779 0.007 90)
+		(at -1.821 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.821 0.007 90)
+		(at 1.779 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

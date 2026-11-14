@@ -6,7 +6,7 @@
 	(descr "UQFN-10 1.4x1.8mm P0.4mm, TI RSW0010A (drawing 4224897/A), land from TI's example board layout, SCDS339B page 20 (https://www.ti.com/lit/ds/symlink/ts3a5223.pdf#page=20)")
 	(tags "RSW0010A UQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0.005 0.005 90)
+		(at -0.005 -0.005 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "71f21c87-cb66-4fa1-a20f-00e3a64b288c")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "TI_RSW0010A_UQFN-10_1.4x1.8mm_P0.4mm"
-		(at 0.016 -0.011 90)
+		(at -0.016 0.011 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "8051f582-2477-4388-a87a-937c17b2b9f6")
@@ -54,7 +54,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -0.919 0.007 90)
+		(at -0.957 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -65,7 +65,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.956 0.006 90)
+		(at 0.918 -0.006 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

@@ -6,7 +6,7 @@
 	(descr "http://www.diodes.com/datasheets/ap02001.pdf p.144")
 	(tags "Diode SOD523")
 	(property "Reference" "REF**"
-		(at 0.412 0.008 90)
+		(at 0.388 -0.008 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "ead614b3-7041-494c-b2fd-2b6f94b71e55")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -0.937 0.005 90)
+		(at -0.963 -0.005 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.963 0.005 90)
+		(at 0.937 -0.005 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

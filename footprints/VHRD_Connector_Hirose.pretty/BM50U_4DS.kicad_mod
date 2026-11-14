@@ -185,7 +185,7 @@
 		)
 	)
 	(fp_text user "4"
-		(at 0.17 0.614 0)
+		(at 0.17 1.384 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

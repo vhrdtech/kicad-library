@@ -5,7 +5,7 @@
 	(descr "HSOIC-8 PowerPAD 3.9x4.9mm P1.27mm EP2.95x4.9mm, mask 2.71x3.4mm, TI DDA0008B (drawing 4214849/B), land from TI's example board layout, SNVSAZ1A page 32 (https://www.ti.com/lit/ds/symlink/lv14360.pdf#page=32)")
 	(tags "DDA0008B HSOIC SOIC PowerPAD SO")
 	(property "Reference" "REF**"
-		(at 0.021 0.024 90)
+		(at -0.021 -0.024 270)
 		(unlocked yes)
 		(layer "User.23")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "TI_DDA0008B_SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm_ThermalVias"
-		(at 0.045 -0.031 90)
+		(at -0.045 0.031 270)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
@@ -27,7 +27,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -2.788 0.018 90)
+		(at -2.892 -0.018 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -38,7 +38,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 2.892 0.018 90)
+		(at 2.788 -0.018 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

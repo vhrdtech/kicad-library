@@ -396,7 +396,7 @@
 		)
 	)
 	(fp_text user "2"
-		(at 0.507 0.936 0)
+		(at 0.507 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -418,7 +418,7 @@
 		)
 	)
 	(fp_text user "4"
-		(at 1.493 0.95 0)
+		(at 1.493 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -440,7 +440,7 @@
 		)
 	)
 	(fp_text user "6"
-		(at 2.5 0.936 0)
+		(at 2.5 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -462,7 +462,7 @@
 		)
 	)
 	(fp_text user "8"
-		(at 3.5 0.936 0)
+		(at 3.5 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -484,7 +484,7 @@
 		)
 	)
 	(fp_text user "10"
-		(at 4.5 0.936 0)
+		(at 4.5 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -495,7 +495,7 @@
 		)
 	)
 	(fp_text user "11"
-		(at 5 -0.909 0)
+		(at 5 0.936 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -506,7 +506,7 @@
 		)
 	)
 	(fp_text user "12"
-		(at 5.5 0.936 0)
+		(at 5.5 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -517,7 +517,7 @@
 		)
 	)
 	(fp_text user "13"
-		(at 6 -0.909 0)
+		(at 6 0.936 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -528,7 +528,7 @@
 		)
 	)
 	(fp_text user "14"
-		(at 6.493 0.95 0)
+		(at 6.493 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -539,7 +539,7 @@
 		)
 	)
 	(fp_text user "15"
-		(at 7 -0.909 0)
+		(at 7 0.936 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -550,7 +550,7 @@
 		)
 	)
 	(fp_text user "16"
-		(at 7.5 0.936 0)
+		(at 7.5 -0.909 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

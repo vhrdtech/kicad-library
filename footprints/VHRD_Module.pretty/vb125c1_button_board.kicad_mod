@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "vb125c1_button_board"
-		(at 0.059 -0.04 90)
+		(at -0.059 0.04 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "936700ae-a24f-41dd-a2fc-ce10c6d4d6bd")
@@ -50,7 +50,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at 0.062 0.021 90)
+		(at -0.062 -0.021 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -61,7 +61,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.062 0.021 90)
+		(at -0.062 -0.021 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

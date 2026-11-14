@@ -203,7 +203,7 @@
 		)
 	)
 	(fp_text user "2"
-		(at -0.184 -0.136 270)
+		(at -0.17 -1.184 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -214,18 +214,7 @@
 		)
 	)
 	(fp_text user "3"
-		(at 0.166 0.145 270)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.2 0.2)
-				(thickness 0.03)
-			)
-		)
-	)
-	(fp_text user "4"
-		(at 0.161 -0.145 270)
+		(at 0.18 1.202 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

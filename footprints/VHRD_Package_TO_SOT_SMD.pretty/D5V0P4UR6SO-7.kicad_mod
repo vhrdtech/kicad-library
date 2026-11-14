@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0.013 0.014 90)
+		(at -0.013 -0.014 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "89ee84c5-a588-4ae5-ac0e-78def94d4a80")
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "D5V0P4UR6SO-7"
-		(at 0.028 -0.019 90)
+		(at -0.028 0.019 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "feeddcf4-0853-4571-905b-e12ef6a1e56b")
@@ -50,7 +50,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.316 0.012 90)
+		(at -1.384 -0.012 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -61,7 +61,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.384 0.012 90)
+		(at 1.316 -0.012 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

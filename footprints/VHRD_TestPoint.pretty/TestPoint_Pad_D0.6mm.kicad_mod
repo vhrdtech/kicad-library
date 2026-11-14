@@ -6,7 +6,7 @@
 	(descr "SMD pad as test Point, diameter 0.6mm")
 	(tags "test point SMD pad")
 	(property "Reference" "REF**"
-		(at -0.586 -0.014 90)
+		(at -0.614 0.014 270)
 		(unlocked yes)
 		(layer "User.9")
 		(uuid "05f82d54-36a2-44f8-a687-a6449ebd5069")

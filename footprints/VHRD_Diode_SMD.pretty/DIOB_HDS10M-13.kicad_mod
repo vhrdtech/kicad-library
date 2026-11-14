@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -1.042 0.024 90)
+		(at -1.084 -0.024 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "b35f6c6e-4127-4c64-b5c7-97ec20d0dc8b")
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "DIOB_HDS10M-13"
-		(at -1.018 -0.031 90)
+		(at -1.108 0.031 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "4e5b4f12-42ff-421b-8c87-b8113c58e385")
@@ -50,7 +50,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at 3.065 0.018 90)
+		(at 2.961 -0.018 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -61,7 +61,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at -4.464 0.004 90)
+		(at -4.486 -0.004 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects

@@ -6,7 +6,7 @@
 	(descr "TVS_SOD-123F")
 	(tags "SOD")
 	(property "Reference" "REF**"
-		(at -1.042 0.008 90)
+		(at -1.058 -0.008 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "87baa7d8-6538-4343-9331-ec2a187f593e")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "TVS_SOD-123F"
-		(at -0.934 -0.011 90)
+		(at -0.966 0.011 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "2e60d6e3-992e-495d-bf9d-913218a820e9")
@@ -52,7 +52,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.779 0.007 90)
+		(at -1.821 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -63,7 +63,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.821 0.007 90)
+		(at 1.779 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
