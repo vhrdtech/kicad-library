@@ -822,3 +822,49 @@ fn presets_refuses_a_board_missing_the_named_layer() {
     assert_eq!(out.status.code(), Some(2), "{t}");
     assert!(t.contains("Crit.F") && t.contains("kilib layers"), "{t}");
 }
+
+#[test]
+fn ruler_copies_onto_the_silkscreen_then_finds_nothing_then_takes_it_off() {
+    let dir = TestDir::new("cli_ruler");
+    // A SOIC-16 with its library ruler, placed on a board.
+    let mut pads = String::new();
+    for k in 0..16 {
+        let (x, y) = if k < 8 { (-2.5, f64::from(k) * 1.27) } else { (2.5, f64::from(15 - k) * 1.27) };
+        pads += &format!("\t(pad \"{}\" smd rect (at {x} {y}) (size 1.5 0.6) (layers \"F.Cu\" \"F.Mask\"))\n", k + 1);
+    }
+    let lib = format!("(footprint \"SOIC-16\"\n\t(layer \"F.Cu\")\n{pads})\n");
+    let ctx = kilib::lint::Context::default();
+    let (_, with_ruler, _) =
+        kilib::lint::lint_text(&lib, "VHRD_Package_SO", &[kilib::lint::Rule::Ruler], &ctx).unwrap();
+    let placed = with_ruler.unwrap().replacen(
+        "(layer \"F.Cu\")",
+        "(layer \"F.Cu\")\n\t(at 10 10)\n\t(property \"Reference\" \"U7\" (at 0 0 0) (layer \"User.23\"))",
+        1,
+    );
+    let indented: String = placed.lines().map(|l| format!("\t{l}\n")).collect();
+    let board = format!("(kicad_pcb\n\t(version 20260206)\n{indented})\n");
+    let path = dir.write("b.kicad_pcb", &board);
+
+    let out = kilib(&dir, &["ruler", "--board", "b.kicad_pcb", "--silk", "on"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("U7: 7 ticks, 5 numbers on the silkscreen"), "{t}");
+    assert!(t.contains("not written"), "{t}");
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), board, "nothing written without --write");
+
+    let out = kilib(&dir, &["ruler", "--board", "b.kicad_pcb", "--silk", "on", "--write"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let on = std::fs::read_to_string(&path).unwrap();
+    assert_eq!(on.matches("(layer \"F.SilkS\")").count(), 12, "{on}");
+    let out = kilib(&dir, &["ruler", "--board", "b.kicad_pcb", "--silk", "on"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert!(text(&out).contains("✓ nothing to change"));
+
+    let out = kilib(&dir, &["ruler", "--board", "b.kicad_pcb", "--silk", "off", "--write"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(0), "{t}");
+    assert!(t.contains("U7: 12 silkscreen items of the ruler taken off"), "{t}");
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), board);
+    let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
+    assert!(usage.contains("\truler\twrite,silk-on\n") && usage.contains("\truler\twrite,silk-off\n"), "{usage}");
+}

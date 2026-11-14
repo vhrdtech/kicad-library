@@ -3,6 +3,7 @@
 
 mod chip_cmd;
 mod lint_cmd;
+mod ruler_cmd;
 mod usage;
 
 use std::io::Write;
@@ -410,6 +411,23 @@ Examples:
   kilib lint --write footprints/VHRD_Package_SO.pretty
   kilib lint --rule models --var VHRD_3DMODEL_DIR=~/sync/kicad-3d --json > models.json")]
     Lint(lint_cmd::LintArgs),
+    /// Copy each footprint's pin ruler onto a board's silkscreen, or take the copy off
+    ///
+    /// The library draws a pin ruler (ticks every 5 pins, numbers at pin 1, the tens and each side's end pins)
+    /// beside the pads of fine-pitch parts on Ruler.F/B (User.31/32) only (`kilib lint --rule ruler`); KiCad has
+    /// no switch to show a layer on the silkscreen per part. `--silk on` copies the ruler of every footprint on the
+    /// board onto F.SilkS (B.SilkS on the back): the ticks as they are, the numbers at the silkscreen's text size
+    /// (generate/ruler.toml, 0.8 mm: the boards' minimum text height), each beyond its tick and 0.4 mm clear of
+    /// every mask opening; a number with no room at that size is left out and listed, its tick stays. `--silk off`
+    /// takes the copies off. Only those silkscreen items of footprints with a ruler change. KiCad's "Update
+    /// Footprints from Library" drops the copies; run it again after, it changes nothing where the copies are
+    /// already as they should be. Without --write it lists what would change and exits 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib ruler --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --silk on
+  kilib ruler --board board.kicad_pcb --silk on --write
+  kilib ruler --board board.kicad_pcb --silk off --write")]
+    Ruler(ruler_cmd::RulerArgs),
     /// Generate 3D models from data (chip passives, power inductors)
     #[command(subcommand)]
     Model(chip_cmd::ModelCommand),
@@ -601,6 +619,10 @@ fn main() -> ExitCode {
         Command::Lint(args) => {
             usage::record("lint", &args.usage_flags());
             lint_cmd::run(args)
+        }
+        Command::Ruler(args) => {
+            usage::record("ruler", &args.usage_flags());
+            ruler_cmd::run(args)
         }
         Command::Model(cmd) => {
             let (name, flags) = cmd.usage();
