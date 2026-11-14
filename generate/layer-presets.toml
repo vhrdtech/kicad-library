@@ -8,19 +8,19 @@
 
 [[preset]]
 name = "Layout.F"
-layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts"]
+layers = ["F.Cu", "Xray.F", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Layout.B"
-layers = ["B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard", "Edge.Cuts"]
+layers = ["B.Cu", "Xray.B", "Crit.B", "Imp.B", "B.Courtyard", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Layout.FB"
-layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts", "B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard"]
+layers = ["F.Cu", "Xray.F", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts", "B.Cu", "Xray.B", "Crit.B", "Imp.B", "B.Courtyard"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = false
 
