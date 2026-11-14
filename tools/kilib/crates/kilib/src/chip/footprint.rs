@@ -11,7 +11,7 @@
 
 use std::path::{Path, PathBuf};
 
-use crate::chip::{Body, Part, led, mm, outline};
+use crate::chip::{Body, Part, led, mm, outline, xray};
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node, quote};
 use crate::stock;
@@ -94,15 +94,19 @@ fn body_outline(part: &Part) -> Vec<[f64; 2]> {
     }
 }
 
-/// The text with the part's body on Body.F (0.05 mm lines, as the fab layer's) in place of what it drew there:
-/// a rectangle as `fp_rect`, any other outline as `fp_poly`, before the first pad.
+/// The text with the part's body on Body.F (0.05 mm lines, as the fab layer's) and its x-ray view on Xray.F in
+/// place of what it drew there: the body a rectangle as `fp_rect`, any other outline as `fp_poly`, the x-ray view
+/// every edge of the model seen from above ([`xray::lines`]) as `fp_line`s, before the first pad.
 fn with_body(text: &str, part: &Part) -> Result<String, String> {
-    let layer = crate::layers::BODY[0];
+    let (body, xray) = (crate::layers::BODY[0], crate::layers::XRAY[0]);
     let fp = sexpr::parse(text).map_err(|e| e.to_string())?;
     let mut edits: Vec<Edit> = fp
         .items()
         .iter()
-        .filter(|n| n.head().is_some_and(|h| h.starts_with("fp_")) && n.value("layer") == Some(layer))
+        .filter(|n| {
+            n.head().is_some_and(|h| h.starts_with("fp_"))
+                && matches!(n.value("layer"), Some(l) if l == body || l == xray)
+        })
         .map(|n| Edit { range: led::whole_line(text, n.span()), text: String::new() })
         .collect();
     let pad = fp.child("pad").ok_or("no pad")?;
@@ -110,12 +114,15 @@ fn with_body(text: &str, part: &Part) -> Result<String, String> {
     let pts: Vec<(f64, f64)> = body_outline(part).into_iter().map(|[x, y]| (x, y)).collect();
     let (hx, hy) = pts.iter().fold((0f64, 0f64), |(x, y), p| (x.max(p.0.abs()), y.max(p.1.abs())));
     let square = pts.len() == 4 && pts.iter().all(|p| p.0.abs() == hx && p.1.abs() == hy);
-    let item = if square {
-        crate::footprint::render_graphic("fp_rect", &[(-hx, -hy), (hx, hy)], 0.05, false, layer)
+    let mut items = if square {
+        crate::footprint::render_graphic("fp_rect", &[(-hx, -hy), (hx, hy)], 0.05, false, body)
     } else {
-        crate::footprint::render_graphic("fp_poly", &pts, 0.05, false, layer)
+        crate::footprint::render_graphic("fp_poly", &pts, 0.05, false, body)
     };
-    edits.push(Edit { range: at..at, text: item });
+    for [a, b] in xray::lines(&crate::chip::model(part)) {
+        items += &crate::footprint::render_graphic("fp_line", &[a, b], 0.05, false, xray);
+    }
+    edits.push(Edit { range: at..at, text: items });
     edits.sort_by_key(|e| e.range.start);
     Ok(apply_edits(text, &edits))
 }
@@ -363,9 +370,14 @@ maker_land = { pad_length = 2.8, pad_width = 1.84, gap = 0.6, source = "PE V.2 T
         let pads = |t: &str| t[t.find("(pad").unwrap()..t.find("(model").unwrap()].to_string();
         assert_eq!(pads(text), pads(BASE));
         assert!(
-            text.contains("\t(fp_rect\n\t\t(start -1 -0.625)\n\t\t(end 1 0.625)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"User.5\")\n\t)\n\t(pad \"1\""),
+            text.contains("\t(fp_rect\n\t\t(start -1 -0.625)\n\t\t(end 1 0.625)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"User.5\")\n\t)\n\t(fp_line"),
             "the table body on Body.F: {text}"
         );
+        // X-ray: the outline and the inner edges of the two terminations.
+        let fp = crate::footprint::read(text).unwrap();
+        let xray: Vec<_> = fp.on("User.7").collect();
+        assert_eq!(xray.len(), 6, "{text}");
+        assert!(text.contains("\t\t(start -0.5 -0.625)\n\t\t(end -0.5 0.625)\n"), "a band line: {text}");
         assert_eq!(apply(&items).unwrap(), 2);
         let again = plan(dir.path(), None, &parts[..2]);
         assert!(again.iter().all(|i| i.outcome == Outcome::Same));
@@ -399,6 +411,8 @@ maker_land = { pad_length = 2.8, pad_width = 1.84, gap = 0.6, source = "PE V.2 T
         assert!(text.contains("\"User.23\""), "the designator on Ref.Des.F");
         let body: Vec<_> = fp.on("User.5").collect();
         assert_eq!((body.len(), body[0].kind.as_str(), body[0].pts.len()), (1, "fp_poly", 8), "chamfered body");
+        // X-ray: the chamfered outline and the two bottom electrodes; their outer edges lie on the body's sides.
+        assert_eq!(fp.on("User.7").count(), 8 + 2 * 3, "{text}");
         // Nothing left for the lint fixes.
         let (_, new, _) = crate::lint::lint_text(
             text,

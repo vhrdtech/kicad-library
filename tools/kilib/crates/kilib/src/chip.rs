@@ -21,6 +21,7 @@ use crate::step::{Rgb, Solid};
 
 pub mod footprint;
 pub mod shunt;
+pub(crate) mod xray;
 
 pub use shunt::{Shunt, ShuntPart};
 pub mod led;
