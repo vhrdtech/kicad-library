@@ -1,8 +1,8 @@
 //! Library-wide rules for footprints, each a check that reports and, where the rule is clear, a fix:
 //!
 //! - [`Rule::Pin1`]: polar and multi-pin parts mark pin 1 on the fab layer, and on the silkscreen where the
-//!   footprint draws one; a part that cannot go on wrong, or works the same turned half round ([`half_turn`]), has
-//!   no mark ([`pin1`]).
+//!   footprint draws one; a part that cannot go on wrong, works the same turned half round ([`half_turn`]), or is a
+//!   keyed connector whose pads pin 1 does not help to count ([`keyed`]), has no mark ([`pin1`]).
 //! - [`Rule::Pin1Body`]: a part of three or more pins whose pads alone are ambiguous gets a filled dot on Pin1.F/B
 //!   at pin 1's own pad; a polar two-pin part gets a bar across the cathode or plus pad instead ([`pin1_body`]).
 //! - [`Rule::Attrs`]: test points, net ties, spark gaps, jumpers, logos, mounting holes and fiducials stay out of
@@ -30,6 +30,7 @@ pub mod attrs;
 pub mod centroid;
 pub mod courtyard;
 pub mod half_turn;
+pub mod keyed;
 pub mod layout;
 pub mod models;
 pub mod pin1;

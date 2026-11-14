@@ -59,7 +59,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   corner and adds a silkscreen triangle. A three-pin part whose pads tell pin 1 apart (SOT-23 class) and a part that
   works the same turned half round (by the symbols that use it and `generate/connected-pins.toml`: a 4-pad crystal,
   the PTS815 tact switch) have none: `--write` takes the silkscreen and fab marks off and the 3D model's dimple off
-  Xray.F/B
+  Xray.F/B. So does a keyed connector or switch (no turn fits its pads and body: USB-C, RJ45, D-sub), unless its
+  pads form a row of 4 or more that pin 1 helps to count (FFC, board-to-board, pin header)
 - ✅ LIB-15 footprint-attributes: test points, net ties, spark gaps, jumpers, logos and mounting holes out of the BOM
   and position files, fiducials in the position files only, parts SMD or through-hole as their pads are (`kilib lint
   --rule attrs`)
@@ -165,7 +166,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   mechanical footprints have none.
 - ✅ LIB-36 pin1-layer: Pin1.F/B (User.29/30) carry a filled dot (0.3 to 0.8 mm), centred on pin 1's own pad, for a
   part of three or more pins whose pads do not already tell pin 1 apart (an asymmetric SOT-23, SOT-323, SOT-89,
-  SOT-223... gets none, and so does a part that works the same turned half round; a symmetric QFN, QFP, SOIC, SOT-23-6, SOT-363 or connector keeps it); a polar two-pin part
+  SOT-223... gets none, and so does a part that works the same turned half round or a keyed connector without a
+  counted pad row; a symmetric QFN, QFP, SOIC, SOT-23-6, SOT-363 or connector keeps it); a polar two-pin part
   (diode, LED, battery, polarised capacitor) gets a bar across the cathode or plus pad instead, square to the part's
-  axis (`kilib lint --rule pin1-body`; 97 dots, 58 bars, 43 none). The Assembly presets show Body and Pin1 instead of
+  axis (`kilib lint --rule pin1-body`; 104 dots, 58 bars). The Assembly presets show Body and Pin1 instead of
   the fab drawing; every preset with Body shows Pin1 of that side.

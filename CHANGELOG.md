@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Keyed connectors and switches lose silk, fab and Pin1 marks: USB-C, RJ45, D-sub, card sockets (LIB-14 pin1-marks).
+- Keyed connectors with a counted pad row of 4 or more keep marks and get the Pin1 dot: FFC, pin headers (LIB-36 pin1-layer).
+
 ## [0.5.11] - 2026-11-14
 
 ### Added

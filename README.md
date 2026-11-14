@@ -180,15 +180,26 @@ same under `footprints/<name>.pretty` for footprints.
     fuse or switch (a 4-pad crystal, the PTS815 tact switch, a DPDT slide switch). A footprint no symbol uses keeps
     its marks. The fix takes off each mark with no twin half a turn round or mirrored (dots, filled or small closed
     shapes, a `1` or `+`; a chamfered corner is squared again) on the fab layer and the silkscreen, and the 3D
-    model's pin-1 dimple on Xray.F/B (a lone circle up to 0.5 mm). The outline stays. A larger part
-    whose pads tell pin 1 apart (a USB-C receptacle, an FFC connector) keeps its marks.
+    model's pin-1 dimple on Xray.F/B (a lone circle up to 0.5 mm). The outline stays. A keyed connector, switch or
+    mechanical part (library `Connector*`, `Button_Switch*`, `Mechanical`) wants no mark either: the body fits only
+    one way, and the pinout needs the datasheet anyway (a USB-C receptacle, an RJ45 jack, a D-sub). Keyed means no
+    quarter, half or three-quarter turn about the origin or the pads' centre lands every pad, mounting pads and
+    holes included, on a pad of the same kind, shape, size and side while the fab body stays where it was. On these
+    the fix also fills in a notch cut into the fab outline and takes off a short silkscreen line standing alone by
+    pin 1 (KiCad's RJ45 marks). The exception is a row that pin 1 helps to count: the pads numbered 1 to N, N at
+    least 4, one size (pin 1's shape may differ), evenly pitched in one row numbered in order, or in a straight
+    double row (odd and even across, or one row after the other); mounting pads do not count. Such a connector (FFC,
+    board-to-board, pin header) keeps its marks and gets the Pin1 dot; a staggered row (RJ45, D-sub) and named pins
+    (USB-C's A1 to B12) are no counting row. Any other part whose pads tell pin 1 apart (a DFN, a module) keeps its
+    fab and silkscreen marks, which match the chip's own dot.
   - `pin1-body`: a polar two-pin part (diode, LED, battery, polarised capacitor) gets a bar on `Pin1.F` (User.29;
     `Pin1.B`, User.30) across the cathode or plus pad's centre, square to the part's axis, as long as the pad
     reaches across it, 0.15 to 0.25 mm thick (by part size). A part of three or more pins gets a filled dot instead,
     0.3 mm across on a small part up to 0.8 mm on a big one (a tenth of the body's shorter side, under 0.9 times the
     distance to the nearest other pad), centred on pin 1 — unless the pads alone already tell pin 1 apart (no turn
     the pads allow, `pin1`'s own turns, lands pin 1 on another pad: an asymmetric SOT-23, SOT-323, SOT-89, SOT-223)
-    or the part works the same turned half round (`pin1` above), which gets no mark either; a symmetric part (QFN, QFP, SOIC, SOT-23-6, SOT-363, a connector with a symmetric pad
+    or the part works the same turned half round or is a keyed connector (`pin1` above), which gets no mark either
+    (a keyed connector with a row that pin 1 helps to count gets the dot); a symmetric part (QFN, QFP, SOIC, SOT-23-6, SOT-363, a connector with a symmetric pad
     row) keeps the dot. Either mark sits exactly on pin 1's pad (its anchor, the same point for every shape of a
     multi-shape pad): no search for a free spot, no check that it clears another pad. No mark on non-polar two-pin
     parts, test points, net ties and mechanical footprints. The fix replaces anything else on the layer.

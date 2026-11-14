@@ -22,7 +22,7 @@
 
 use super::courtyard::as_rect;
 use super::silk::MARKS;
-use super::{Class, Input, Outcome, delete, half_turn, insert};
+use super::{Class, Input, Outcome, delete, half_turn, insert, keyed};
 use crate::footprint::{EPS, Footprint, Graphic, Pad, Pt, Rect, dist, fmt, render_graphic, segment_distance};
 use crate::layers::{XRAY, side_of};
 
@@ -72,6 +72,7 @@ pub(super) fn pin_numbers(fp: &Footprint) -> Vec<&str> {
 }
 
 const PADS_TELL: &str = "the pads already tell pin 1 apart";
+const KEYED: &str = "a keyed connector";
 
 /// What a part's pin 1 wants.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -91,8 +92,11 @@ pub enum Need {
 /// - a footprint tagged `symmetric`: its pins swap without harm when the part is turned (a bidirectional TVS);
 /// - a three-pin part whose pads already tell pin 1 apart: no turn the pads allow takes pin 1 to another pad (an
 ///   asymmetric SOT-23, SOT-323, SOT-723...), so it cannot go on the wrong way round. A larger part whose pads
-///   tell pin 1 apart (a USB-C receptacle, an FFC connector) keeps its fab and silkscreen marks, which tell a
-///   person probing it where pin 1 is, and gets no Pin1.F/B dot ([`Need::Drawn`]);
+///   tell pin 1 apart (a DFN, a module) keeps its fab and silkscreen marks, which match the chip's own dot, and
+///   gets no Pin1.F/B dot ([`Need::Drawn`]);
+/// - a keyed connector, switch or mechanical part ([`keyed`]: a USB-C receptacle, an RJ45 jack, a D-sub): the
+///   body fits only one way and the pinout needs the datasheet anyway. One whose pads form a row that pin 1 helps
+///   to count ([`keyed::counting_row`]: an FFC connector, a pin header) keeps its marks and gets the Pin1.F/B dot;
 /// - a part that works the same placed half a turn round ([`half_turn`]: a 4-pad crystal, a tact switch), where
 ///   a mark would only make people look for an orientation that does not matter.
 pub fn need(i: &Input) -> Need {
@@ -113,6 +117,13 @@ pub fn need(i: &Input) -> Need {
             if !tagged && !bidir && (polar_lib || polar_name || polar_pads) { Need::Mark } else { Need::Nothing }
         }
         _ if tagged => Need::NoMark("tagged symmetric"),
+        _ if keyed::connector_like(i.lib) && keyed::keyed(fp) => {
+            if keyed::counting_row(fp) {
+                Need::Mark
+            } else {
+                Need::NoMark(KEYED)
+            }
+        }
         3 if !ambiguous(fp, p1) => Need::NoMark(PADS_TELL),
         _ if !ambiguous(fp, p1) => Need::Drawn(PADS_TELL),
         _ if i
@@ -704,9 +715,86 @@ fn squared<'a>(fp: &'a Footprint, layer: &'a str, body: Rect, c: Pt) -> (Vec<&'a
     (gone, new)
 }
 
+/// The notches cut into the outline on `layer` filled in again, each lone one ([`lone`] about `c`, by its point): two
+/// short slanted lines from one point back to the ends of two square edges in line (KiCad's pin-1 V on a connector's
+/// fab outline). What to delete, and the lines to draw instead.
+fn notches<'a>(fp: &'a Footprint, layer: &'a str, body: Rect, c: Pt) -> (Vec<&'a Graphic>, Vec<Drawing>) {
+    let small = body.w().min(body.h()).max(0.5);
+    let lines: Vec<&Graphic> = fp.on(layer).filter(|g| g.kind == "fp_line" && g.pts.len() == 2).collect();
+    let square_at = |p: Pt, skip: [usize; 2]| {
+        lines.iter().enumerate().any(|(k, h)| {
+            !skip.contains(&k) && angle_kind(h.pts[0], h.pts[1]).0 && h.pts.iter().any(|&q| dist(p, q) < 0.005)
+        })
+    };
+    let mut found: Vec<([usize; 2], Pt, Pt, Pt)> = Vec::new();
+    for i in 0..lines.len() {
+        for j in i + 1..lines.len() {
+            let (g, h) = (lines[i], lines[j]);
+            if !angle_kind(g.pts[0], g.pts[1]).1 || !angle_kind(h.pts[0], h.pts[1]).1 {
+                continue;
+            }
+            let Some((apex, a, b)) = (0..2)
+                .flat_map(|e| (0..2).map(move |f| (e, f)))
+                .find_map(|(e, f)| (dist(g.pts[e], h.pts[f]) < 0.005).then(|| (g.pts[e], g.pts[1 - e], h.pts[1 - f])))
+            else {
+                continue;
+            };
+            let in_line = (a.0 - b.0).abs() < 0.005 || (a.1 - b.1).abs() < 0.005;
+            // A line from `a` to `b` closes a triangle: a mark of its own, not a notch.
+            let closed = lines.iter().any(|h| h.pts.iter().all(|&q| dist(q, a) < 0.005 || dist(q, b) < 0.005));
+            if in_line
+                && !closed
+                && segment_distance(apex, a, b) > 0.05
+                && dist(a, b) <= 0.75 * small
+                && square_at(a, [i, j])
+                && square_at(b, [i, j])
+            {
+                found.push(([i, j], apex, a, b));
+            }
+        }
+    }
+    let at: Vec<Pt> = found.iter().map(|f| f.1).collect();
+    let mut gone = Vec::new();
+    let mut new = Vec::new();
+    for k in lone(&at, c) {
+        let ([i, j], _, a, b) = found[k];
+        gone.extend([lines[i], lines[j]]);
+        new.push(("fp_line", vec![a, b], lines[i].width));
+    }
+    (gone, new)
+}
+
+/// The short lines standing alone on `layer` (a tick beside pin 1), each lone one ([`lone`] about `c`): no end on
+/// another drawing, no other end on it, and in line with no other straight line (not a piece of a broken outline).
+fn ticks<'a>(fp: &'a Footprint, layer: &'a str, body: Rect, c: Pt) -> Vec<&'a Graphic> {
+    let small = body.w().min(body.h()).max(0.5);
+    let found: Vec<&Graphic> = fp
+        .on(layer)
+        .filter(|g| g.kind == "fp_line" && g.pts.len() == 2 && dist(g.pts[0], g.pts[1]) <= 0.35 * small)
+        .filter(|g| {
+            let (a, b) = (g.pts[0], g.pts[1]);
+            let len = dist(a, b);
+            fp.on(layer).filter(|h| h.span != g.span).all(|h| {
+                let near = |s: &(Pt, Pt)| {
+                    segment_distance(a, s.0, s.1) < 0.01
+                        || segment_distance(b, s.0, s.1) < 0.01
+                        || segment_distance(s.0, a, b) < 0.01
+                        || segment_distance(s.1, a, b) < 0.01
+                };
+                let off_line = |p: Pt| ((b.0 - a.0) * (p.1 - a.1) - (b.1 - a.1) * (p.0 - a.0)).abs() / len;
+                let in_line =
+                    |s: &(Pt, Pt)| h.circle.is_none() && !h.filled && off_line(s.0) < 0.01 && off_line(s.1) < 0.01;
+                len > EPS && h.segments().iter().all(|s| !near(s) && !in_line(s))
+            })
+        })
+        .collect();
+    let at: Vec<Pt> = found.iter().map(|g| mid(g.pts[0], g.pts[1])).collect();
+    lone(&at, c).into_iter().map(|k| found[k]).collect()
+}
+
 /// Takes every pin-1 mark off a part that wants none ([`Need::NoMark`]): on the fab layer and the silkscreen each
-/// lone mark ([`lone`] about the pads' centre: a filled shape, a dot, a `1` or `+`; a chamfered corner is squared
-/// again), on Xray.F/B each lone circle of at most [`DIMPLE_MAX`] (about the drawing's centre: the 3D model's
+/// lone mark ([`lone`] about the pads' centre: a filled shape, a dot, a `1` or `+`, a short line standing alone; a
+/// chamfered corner is squared again, a notch filled in), on Xray.F/B each lone circle of at most [`DIMPLE_MAX`] (about the drawing's centre: the 3D model's
 /// pin-1 dimple). The outline stays.
 fn strip(i: &Input, why: &str, out: &mut Outcome) {
     let fp = i.fp;
@@ -731,15 +819,21 @@ fn strip(i: &Input, why: &str, out: &mut Outcome) {
             out.edits.push(delete(i.text, &texts[k].span));
             taken.push("text");
         }
-        let (gone, new) = squared(fp, &layer, body, c);
-        for g in gone {
+        for (what, (gone, new)) in [("chamfer", squared(fp, &layer, body, c)), ("notch", notches(fp, &layer, body, c))]
+        {
+            for g in gone {
+                out.edits.push(delete(i.text, &g.span));
+            }
+            for (kind, pts, width) in &new {
+                out.edits.push(insert(fp, render_graphic(kind, pts, *width, false, &layer)));
+            }
+            if !new.is_empty() {
+                taken.push(what);
+            }
+        }
+        for g in ticks(fp, &layer, body, c) {
             out.edits.push(delete(i.text, &g.span));
-        }
-        for (kind, pts, width) in &new {
-            out.edits.push(insert(fp, render_graphic(kind, pts, *width, false, &layer)));
-        }
-        if !new.is_empty() {
-            taken.push("chamfer");
+            taken.push("tick");
         }
         if !taken.is_empty() {
             out.fixed(format!("pin-1 mark on {layer} taken off ({why}): {}", taken.join(", ")));
@@ -935,5 +1029,41 @@ mod tests {
         assert!(!run("VHRD_Package_SO", &soic(RECT), Rule::Pin1).1.is_empty());
         let tagged = soic(&format!("(tags \"crystal Symmetric\")\n{RECT}"));
         assert!(run("VHRD_Package_SO", &tagged, Rule::Pin1).1.is_empty());
+    }
+
+    fn need_of(lib: &str, text: &str) -> Need {
+        let f = crate::footprint::read(text).unwrap();
+        let ctx = super::super::Context::default();
+        need(&Input { text, fp: &f, lib, class: Class::Part, ctx: &ctx })
+    }
+
+    #[test]
+    fn keyed_connectors_lose_their_marks_unless_pin_1_helps_counting() {
+        // A 1x4 header: pad 1 square, the rest round. Keyed by pad 1's shape, a row to count.
+        let mut pads =
+            String::from("(pad \"1\" thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers \"*.Cu\" \"*.Mask\"))\n");
+        for k in 1..4 {
+            pads += &format!(
+                "(pad \"{}\" thru_hole oval (at 0 {}) (size 1.7 1.7) (drill 1) (layers \"*.Cu\" \"*.Mask\"))\n",
+                k + 1,
+                2.54 * f64::from(k)
+            );
+        }
+        let header = fp("PinHeader_1x04", &pads);
+        assert_eq!(need_of("VHRD_Connector_PinHeader_2.54mm", &header), Need::Mark);
+        // Named pins in a row with shield pads on one side (USB-C-like): no mark.
+        let mut usb = String::new();
+        for (k, n) in ["A1", "A4", "B8", "A5", "B6", "A7"].iter().enumerate() {
+            usb += &format!(
+                "(pad \"{n}\" smd rect (at {} 0) (size 0.3 1) (layers \"F.Cu\" \"F.Mask\"))\n",
+                0.5 * k as f64
+            );
+        }
+        usb += "(pad \"S1\" thru_hole oval (at -1 3) (size 1 2) (drill 0.6) (layers \"*.Cu\" \"*.Mask\"))\n";
+        usb += "(pad \"S1\" thru_hole oval (at 3.5 3) (size 1 2) (drill 0.6) (layers \"*.Cu\" \"*.Mask\"))\n";
+        let usb = fp("USB_C", &usb).replace("\"A1\"", "\"1\"");
+        assert_eq!(need_of("VHRD_Connector_USB", &usb), Need::NoMark(KEYED));
+        // The same pads on an IC keep their marks.
+        assert_eq!(need_of("VHRD_Package_DFN_QFN", &usb), Need::Drawn(PADS_TELL));
     }
 }

@@ -10,8 +10,10 @@
 //! A part of three or more pins gets a filled dot, [`DIAMETER_MIN`] to [`DIAMETER_MAX`] across (a tenth of the
 //! body's shorter side, and under the distance from pin 1 to its nearest neighbour), centred on pin 1 — unless the
 //! part wants none ([`super::pin1::need`]): the pads alone already tell pin 1 apart (an asymmetric SOT-23, SOT-323,
-//! SOT-89, SOT-223...), or the part works the same turned half round (a 4-pad crystal, a tact switch). A symmetric
-//! part (a QFN, a QFP, a SOIC, a SOT-23-6, a SOT-363, a connector with a symmetric pad row...) keeps the dot.
+//! SOT-89, SOT-223...), the part works the same turned half round (a 4-pad crystal, a tact switch), or it is a
+//! keyed connector (a USB-C receptacle, an RJ45 jack). A symmetric part (a QFN, a QFP, a SOIC, a SOT-23-6, a SOT-363,
+//! a connector with a symmetric pad row...) and a keyed connector with a row that pin 1 helps to count (an FFC
+//! connector, a pin header) keep the dot.
 //!
 //! Either mark sits exactly on pin 1's pad: its anchor (`at`), the same point for every shape of a multi-shape pad.
 //! No search for a free spot, no check that it clears another pad. The layer belongs to this rule: whatever else is

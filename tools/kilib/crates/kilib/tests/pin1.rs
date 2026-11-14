@@ -31,12 +31,25 @@ fn symmetric_and_self_telling_parts_have_no_pin1_mark() {
         "VHRD_Button_Switch_SMD:CL-SB-22B-01T",
         "VHRD_Package_TO_SOT_SMD:SOT-23",
         "VHRD_Package_TO_SOT_SMD:SOT-323_SC-70",
+        "VHRD_Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+        "VHRD_Connector_USB:DX07P024AJ1R1500",
+        "VHRD_Connector_RJ:ARJM11D7-009-AB",
+        "VHRD_Connector_Dsub:L77SDE09S",
     ] {
         let t = footprint(id);
         assert!(!t.contains("(layer \"User.29\")"), "{id} has a Pin1 mark");
         assert!(!t.contains("(fill yes)\n\t\t(layer \"F.SilkS\")"), "{id} has a filled silkscreen mark");
     }
-    for id in ["VHRD_Package_SO:SOP-4_4.4x4.3mm_P2.54mm", "VHRD_Package_SO:SOIC-8-ANALOG"] {
+    for id in [
+        "VHRD_Package_SO:SOP-4_4.4x4.3mm_P2.54mm",
+        "VHRD_Package_SO:SOIC-8-ANALOG",
+        "VHRD_Connector_FFC-FPC:FH28K-60S-0.5SH",
+        "VHRD_Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical",
+    ] {
         assert!(footprint(id).contains("(layer \"User.29\")"), "{id} has no Pin1 dot");
     }
+    // A keyed IC keeps its silkscreen mark and has no dot; a keyed connector loses its fab notch.
+    let dfn = footprint("VHRD_Package_DFN_QFN:DFN-12-AOZ");
+    assert!(dfn.contains("(fill yes)\n\t\t(layer \"F.SilkS\")") && !dfn.contains("(layer \"User.29\")"));
+    assert!(!footprint("VHRD_Connector_RJ:ARJM11D7-009-AB").contains("(start 6.975 0)"), "RJ45 keeps its notch");
 }
