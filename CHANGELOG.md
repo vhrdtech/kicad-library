@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.7] - 2026-11-14
+
 ### Added
 
 - Xray.F/B (User.7/8): all edges of the 3D model from above, hidden included; in `kilib layers` and templates (LIB-35 xray-layer).
