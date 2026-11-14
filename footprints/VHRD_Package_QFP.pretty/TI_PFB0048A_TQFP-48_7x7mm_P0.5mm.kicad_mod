@@ -649,6 +649,33 @@
 		(layer "User.7")
 	)
 	(fp_line
+		(start -3.425 -3.288)
+		(end -3.425 3.288)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.425 -3.288)
+		(end -3.288 -3.425)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.425 3.288)
+		(end -3.288 3.425)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
 		(start -3.41 -3.28)
 		(end -3.41 3.28)
 		(stroke
@@ -669,6 +696,33 @@
 	(fp_line
 		(start -3.41 3.28)
 		(end -3.28 3.41)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.335 -3.242)
+		(end -3.335 3.242)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.335 -3.242)
+		(end -3.242 -3.335)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.335 3.242)
+		(end -3.242 3.335)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -712,6 +766,24 @@
 		(layer "User.7")
 	)
 	(fp_line
+		(start -3.288 -3.425)
+		(end 3.288 -3.425)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.288 3.425)
+		(end 3.288 3.425)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
 		(start -3.28 -3.41)
 		(end 3.28 -3.41)
 		(stroke
@@ -723,6 +795,24 @@
 	(fp_line
 		(start -3.28 3.41)
 		(end 3.28 3.41)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.242 -3.335)
+		(end 3.242 -3.335)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.242 3.335)
+		(end 3.242 3.335)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -1387,8 +1477,26 @@
 		(layer "User.7")
 	)
 	(fp_line
+		(start 3.242 -3.335)
+		(end 3.335 -3.242)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
 		(start 3.242 3.335)
 		(end 3.325 3.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.242 3.335)
+		(end 3.335 3.242)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -1414,6 +1522,24 @@
 		(layer "User.7")
 	)
 	(fp_line
+		(start 3.288 -3.425)
+		(end 3.425 -3.288)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.288 3.425)
+		(end 3.425 3.288)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
 		(start 3.325 -3.5)
 		(end 3.5 -3.325)
 		(stroke
@@ -1425,6 +1551,15 @@
 	(fp_line
 		(start 3.325 3.5)
 		(end 3.5 3.325)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.335 -3.242)
+		(end 3.335 3.242)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -1452,6 +1587,15 @@
 	(fp_line
 		(start 3.41 -3.28)
 		(end 3.41 3.28)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.425 -3.288)
+		(end 3.425 3.288)
 		(stroke
 			(width 0.05)
 			(type solid)

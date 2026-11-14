@@ -727,6 +727,24 @@
 		(layer "User.7")
 	)
 	(fp_line
+		(start -1 -0.6)
+		(end 0 -0.6)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1 0.5)
+		(end 0 0.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
 		(start 0 -0.6)
 		(end 0 0.5)
 		(stroke

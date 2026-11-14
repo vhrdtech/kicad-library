@@ -7,6 +7,7 @@
 - Layer presets: Floorplan.F/B/FB show no fab layer.
 - Layer presets leave every object type on (tracks, vias, pads, zones, footprints and their text), so a layer switched on by hand over a preset shows its content; only ratsnest, DRC markers and footprint anchors differ per preset.
 - Layer presets: Layout.FB and Floorplan.FB show both sides at once (front view); no preset shows the locked items' shadow.
+- Xray.F of the 169 STEP-model footprints redrawn: closed circles and outlines, short edges kept, only duplicates removed (LIB-35 xray-layer).
 
 ## [0.5.7] - 2026-11-14
 
