@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.8] - 2026-11-14
+
 ### Changed
 
 - Layer presets: Floorplan.F/B/FB show no fab layer.
