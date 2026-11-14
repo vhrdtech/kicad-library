@@ -8,14 +8,20 @@
 [[preset]]
 name = "Layout.F"
 layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Layout.B"
 layers = ["B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = true
+
+[[preset]]
+name = "Layout.FB"
+layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts", "B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+flip = false
 
 [[preset]]
 name = "Floorplan.F"
@@ -28,6 +34,12 @@ name = "Floorplan.B"
 layers = ["B.Courtyard", "B.Fab", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Ref.Test.B", "Ref.Tie.B", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
 flip = true
+
+[[preset]]
+name = "Floorplan.FB"
+layers = ["F.Courtyard", "F.Fab", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts", "B.Courtyard", "B.Fab", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Ref.Test.B", "Ref.Tie.B"]
+render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
+flip = false
 
 [[preset]]
 name = "Assembly.Ref.F"
@@ -56,23 +68,23 @@ flip = true
 [[preset]]
 name = "Pins.F"
 layers = ["Pins.F", "F.Fab", "Xray.F", "Edge.Cuts"]
-render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
 flip = false
 
 [[preset]]
 name = "Pins.B"
 layers = ["Pins.B", "B.Fab", "Xray.B", "Edge.Cuts"]
-render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
 flip = true
 
 [[preset]]
 name = "Silk.F"
 layers = ["F.SilkS", "F.Mask", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
 flip = false
 
 [[preset]]
 name = "Silk.B"
 layers = ["B.SilkS", "B.Mask", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
 flip = true

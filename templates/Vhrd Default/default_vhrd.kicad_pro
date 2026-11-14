@@ -311,7 +311,6 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
           "conflict_shadows",
           "drawing_sheet",
           "grid",
@@ -344,7 +343,43 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 0,
+        "flipBoard": false,
+        "layers": [
+          0,
+          2,
+          25,
+          29,
+          31,
+          33,
+          35,
+          87,
+          89,
+          91,
+          93
+        ],
+        "name": "Layout.FB",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
           "grid",
@@ -394,6 +429,42 @@
           93
         ],
         "name": "Floorplan.B",
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drawing_sheet",
+          "grid",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 31,
+        "flipBoard": false,
+        "layers": [
+          25,
+          29,
+          31,
+          33,
+          35,
+          47,
+          49,
+          55,
+          57,
+          59,
+          61,
+          83,
+          85,
+          87,
+          89,
+          91,
+          93
+        ],
+        "name": "Floorplan.FB",
         "renderLayers": [
           "shapes",
           "bitmaps",
@@ -516,7 +587,6 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
           "conflict_shadows",
           "drawing_sheet",
           "grid"
@@ -543,7 +613,6 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
           "conflict_shadows",
           "drawing_sheet",
           "grid"
@@ -572,7 +641,6 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
           "conflict_shadows",
           "drawing_sheet",
           "grid"
@@ -601,7 +669,6 @@
           "footprint_text",
           "drc_warnings",
           "drc_errors",
-          "locked_item_shadows",
           "conflict_shadows",
           "drawing_sheet",
           "grid"
