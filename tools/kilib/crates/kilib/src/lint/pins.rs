@@ -22,7 +22,7 @@
 
 use super::{Class, Input, Outcome, delete, insert};
 use crate::fab::{self, BodyFrom, thickness};
-use crate::footprint::{Pt, Rect, fmt, turner};
+use crate::footprint::{Pt, Rect, fmt, render_text, turner};
 use crate::layers::{PINS, side_of};
 use crate::migrate::Edit;
 use crate::reading::{reading, vertical};
@@ -257,7 +257,7 @@ fn place(labels: &[(&str, Rect)], lay: &Layout, size: f64, back: bool) -> Result
     if missing.is_empty() { Ok(out) } else { Err(missing) }
 }
 
-fn r3(v: f64) -> f64 {
+pub(crate) fn r3(v: f64) -> f64 {
     let r = (v * 1000.0).round() / 1000.0;
     if r == 0.0 { 0.0 } else { r }
 }
@@ -315,17 +315,7 @@ fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
 }
 
 fn render(w: &Wanted, layer: &str, back: bool) -> String {
-    let mirror = if back { "\t\t\t(justify mirror)\n" } else { "" };
-    format!(
-        "\t(fp_text user {}\n\t\t(at {} {} {})\n\t\t(unlocked yes)\n\t\t(layer {})\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {s} {s})\n\t\t\t\t(thickness {})\n\t\t\t)\n{mirror}\t\t)\n\t)\n",
-        sexpr::quote(&w.text),
-        fmt(w.at.0),
-        fmt(w.at.1),
-        fmt(w.angle),
-        sexpr::quote(layer),
-        fmt(thickness(w.size)),
-        s = fmt(w.size),
-    )
+    render_text(&w.text, w.at, w.angle, w.size, thickness(w.size), layer, back)
 }
 
 pub fn run(i: &Input) -> Outcome {

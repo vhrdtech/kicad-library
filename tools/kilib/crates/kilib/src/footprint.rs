@@ -663,6 +663,21 @@ pub fn render_graphic(kind: &str, pts: &[Pt], width: f64, filled: bool, layer: &
     format!("\t({kind}\n{body}\t\t(layer {})\n\t)\n", sexpr::quote(layer))
 }
 
+/// A new stroke text as KiCad 10 writes it, one tab in: `size` high and wide, mirrored on the back.
+pub fn render_text(text: &str, at: Pt, angle: f64, size: f64, thickness: f64, layer: &str, back: bool) -> String {
+    let mirror = if back { "\t\t\t(justify mirror)\n" } else { "" };
+    format!(
+        "\t(fp_text user {}\n\t\t(at {} {} {})\n\t\t(unlocked yes)\n\t\t(layer {})\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {s} {s})\n\t\t\t\t(thickness {})\n\t\t\t)\n{mirror}\t\t)\n\t)\n",
+        sexpr::quote(text),
+        fmt(at.0),
+        fmt(at.1),
+        fmt(angle),
+        sexpr::quote(layer),
+        fmt(thickness),
+        s = fmt(size),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
