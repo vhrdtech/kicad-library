@@ -117,7 +117,10 @@ same under `footprints/<name>.pretty` for footprints.
   text beside the body inside the courtyard, along an edge or turned 90° at an end (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
   than a designator) before it is reported with no clean fit; on a real part a set note that sits elsewhere or
   hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab layer) is moved to its
-  layer, shown. `--write` writes the board.
+  layer, shown. Each pin number of a part placed at a quarter turn (`Pins.F`/`Pins.B`, written by `lint --rule pins`) is
+  turned by a half turn where needed so it reads left to right or top to bottom, its ink where it was, so the library's
+  clearances hold; numbers at another angle, and those of parts on the back, are listed and left. `--write` writes the
+  board.
 - `kilib layers BOARD.kicad_pcb...` names the user layers the library uses in a board's layer table, front and back
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
@@ -182,11 +185,15 @@ same under `footprints/<name>.pretty` for footprints.
   - `pins`: pin numbers on `Pins.F` (User.19; `Pins.B`, User.20, on the back): every pin of a connector; pin 1 and
     every 5th (every 10th past 40 pins) of another part with three or more pins; pin 1 only where the pins are not
     numbered with digits (a BGA's `A1`); none on two-pin parts, test points, net ties, logos and holes, and none for
-    a pad on the copper of one already numbered (USB-C's `B12` on `A1`). Each is a level stroke text beside its pad,
-    0.1 mm clear of every pad, hole and other number: on a side with no other pad in line within 2 mm, at a long
-    pad's outer end, else facing away from the middle of the pads. A footprint gets one size for all its numbers,
-    the largest of 0.5 to 0.2 mm at which all fit; one that fits nowhere is reported. The fix replaces anything else
-    on the layer.
+    a pad on the copper of one already numbered (USB-C's `B12` on `A1`). Each is a stroke text inside the part, at
+    its pad's inner end: inside the fab outline (else the courtyard), toward the body's middle, 0.1 mm clear of every
+    pad and hole and a glyph's height from the other numbers; a pad wholly outside the body has its number pulled in
+    to the body's edge. Text reads left to right, or top to bottom where level does not fit (on the back level only);
+    never upside down or bottom to top. Next to a pad in line, a number stands only where it is nearer its own pad
+    than the other (a third as near, for the next pin of the row). A number with no room inside, or a footprint with
+    neither fab outline nor courtyard, keeps the number beside its pad, outside and level, and is reported
+    (`left`). A footprint gets one size for all its numbers, of 0.5 to 0.2 mm the one with the most numbers inside,
+    the largest of those; one that fits nowhere is reported. The fix replaces anything else on the layer.
   - `centroid`: a cross on `Centroid.F` (User.21; `Centroid.B`, User.22) at every part's and fiducial's origin, the
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.

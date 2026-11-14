@@ -1363,6 +1363,8 @@ pub struct BoardItem {
     /// The layout notes that are set (`Layout_Critical`, `Layout_Important`), each fitted to its own text on its
     /// layer ([`crate::lint::layout`]); an empty one is not listed.
     pub notes: Vec<(&'static str, BoardOutcome)>,
+    /// The pin numbers on the Pins layer, turned to read left to right or top to bottom ([`crate::lint::pins::board`]).
+    pub pins: crate::lint::pins::BoardPins,
 }
 
 /// A board's designators fitted, each to its own text.
@@ -1430,7 +1432,10 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
                 Err(why) => notes.push((name, BoardOutcome::Skipped(why))),
             }
         }
-        items.push(BoardItem { reference, id, outcome, value, notes });
+        let phi = node.child("at").and_then(|a| num(a.items().get(3))).unwrap_or(0.0);
+        let (pins, e) = crate::lint::pins::board(node, fp.back, phi);
+        edits.extend(e);
+        items.push(BoardItem { reference, id, outcome, value, notes, pins });
     }
     edits.sort_by_key(|e| e.range.start);
     Ok(BoardPlan { items, old: text.to_string(), new: apply_edits(text, &edits) })

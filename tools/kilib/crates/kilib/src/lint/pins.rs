@@ -7,17 +7,25 @@
 //! - two-pin parts, test points, net ties, logos, holes: none;
 //! - a pad on the copper of a pad already numbered (USB-C's B12 on A1): none of its own.
 //!
-//! Each number is a stroke text beside its pad, [`GAP`] clear of every pad and hole and of the other numbers, level: on a
-//! side with no other pad in line within [`OPEN`] (never squeezed between two pads), at the pad's outer end where
-//! the pad is long, else facing away from the middle of the pads; where none of those fits, on any side that does. The footprint gets one size
-//! for all its numbers: the largest of [`SIZES`] at which every one fits; a number that fits at none is left out
-//! and reported. The layer belongs to this rule: whatever else is there is replaced.
+//! Each number is a stroke text inside the part, at its pad's inner end: inside the fab outline (else the
+//! courtyard), [`GAP`] clear of every pad and hole and a glyph's height from the other numbers, on a side of the pad with no other pad
+//! in line within [`OPEN`] (never squeezed between two pads), toward the body's middle; a pad wholly outside the
+//! body has its number pulled in to the body's edge. Text reads left to right (0°), or top to bottom (270°) where
+//! that fits and level does not; never upside down or bottom to top. A number that has no room inside stays beside
+//! its pad, outside, level, and is reported (a connector whose body is mostly pads; a footprint with neither fab
+//! outline nor courtyard). The footprint gets one size for all its numbers: of [`SIZES`] the one with the most
+//! numbers inside, the largest among those; a number that fits nowhere is left out and reported. On the back the
+//! text is mirrored and level only. The layer belongs to this rule: whatever else is there is replaced.
+//!
+//! On a board a placed part's rotation turns its texts: [`board`] turns each number by the half turn that makes it read
+//! left to right or top to bottom, keeping the ink where it is, so spacing stays as the library made it.
 
 use super::{Class, Input, Outcome, delete, insert};
-use crate::fab::thickness;
-use crate::footprint::{Pt, Rect, fmt};
+use crate::fab::{self, BodyFrom, thickness};
+use crate::footprint::{Pt, Rect, fmt, turner};
 use crate::layers::{PINS, side_of};
-use crate::sexpr;
+use crate::migrate::Edit;
+use crate::sexpr::{self, Node};
 use crate::stroke::{Ink, ink};
 
 /// The sizes tried, largest first.
@@ -28,13 +36,17 @@ pub const GAP: f64 = 0.1;
 pub const OPEN: f64 = 2.0;
 /// Past this many pins a part gets every 10th number instead of every 5th.
 pub const DENSE: usize = 40;
+/// The angles a number may be written at, in the order tried: left to right, then top to bottom.
+pub const ANGLES: [f64; 2] = [0.0, 270.0];
 
-/// One number as it should be written: the text, its anchor and size.
+/// One number as it should be written: the text, its anchor, angle and size, and whether it sits inside the body.
 #[derive(Debug, Clone, PartialEq)]
 struct Wanted {
     text: String,
     at: Pt,
+    angle: f64,
     size: f64,
+    inside: bool,
 }
 
 /// A connector: from its library or its name.
@@ -82,39 +94,44 @@ fn overlaps(a: &Rect, b: &Rect) -> bool {
     a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1
 }
 
-fn ink_rect(i: &Ink, at: Pt) -> Rect {
-    Rect { x0: at.0 + i.x0, y0: at.1 + i.y0, x1: at.0 + i.x1, y1: at.1 + i.y1 }
+/// Where numbers may go: the pads (all, holes included), the middle of the pads and the body they go inside, if
+/// the footprint has a fab outline or courtyard.
+struct Layout<'a> {
+    pads: &'a [Rect],
+    middle: Pt,
+    body: Option<Rect>,
 }
 
-/// Every label placed at `size`, or the numbers that do not fit.
-fn place(
-    labels: &[(&str, Rect)],
-    pads: &[Rect],
-    middle: Pt,
-    size: f64,
-    back: bool,
-) -> Result<Vec<Wanted>, Vec<String>> {
-    let mut placed: Vec<Rect> = Vec::new();
-    let mut out = Vec::new();
-    let mut missing = Vec::new();
-    for (text, pad) in labels {
-        let Some(ink) = ink(text, size, size, thickness(size)) else { continue };
-        let ink = if back { ink.mirrored() } else { ink };
-        let (w, h) = (ink.width(), ink.height());
-        let (cx, cy) = pad.center();
-        // Right, left, below, above: each the middle of the ink beside the pad.
-        let sides = [
-            ((1.0, 0.0), (pad.x1 + GAP + w / 2.0, cy)),
-            ((-1.0, 0.0), (pad.x0 - GAP - w / 2.0, cy)),
-            ((0.0, 1.0), (cx, pad.y1 + GAP + h / 2.0)),
-            ((0.0, -1.0), (cx, pad.y0 - GAP - h / 2.0)),
-        ];
-        let (dx, dy) = (cx - middle.0, cy - middle.1);
-        // A side is open when no other pad lies in line with this one that way within [`OPEN`]: a number between
-        // two pads would read as either's.
-        let open = |k: usize| {
-            let (ux, _) = sides[k].0;
-            !pads.iter().filter(|p| *p != pad).any(|p| {
+/// One way to write a number: anchor, angle, the ink it covers, and whether that is inside the body.
+struct Cand {
+    at: Pt,
+    angle: f64,
+    rect: Rect,
+    inside: bool,
+}
+
+fn within(body: &Rect, r: &Rect) -> bool {
+    const EPS: f64 = 1e-3;
+    r.x0 >= body.x0 - EPS && r.x1 <= body.x1 + EPS && r.y0 >= body.y0 - EPS && r.y1 <= body.y1 + EPS
+}
+
+/// Every way to write a number for `pad`, best first: inside the body (each side of the pad, level before top to
+/// bottom), then beside the pad, outside, level.
+fn candidates(pad: &Rect, lay: &Layout, base: &Ink, back: bool) -> Vec<Cand> {
+    let (cx, cy) = pad.center();
+    let towards = lay.body.map_or(lay.middle, |b| b.center());
+    // From the middle to the pad: a side facing along it points away from the middle.
+    let (dx, dy) = (cx - towards.0, cy - towards.1);
+    let dirs: [Pt; 4] = [(1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, -1.0)];
+    // The other pads in line with this one on side `k`, with the gap to each and whether it is a peer (about the
+    // pad's own width across).
+    let in_line = |k: usize| -> Vec<(f64, bool)> {
+        let (ux, _) = dirs[k];
+        let cross = if ux != 0.0 { pad.h() } else { pad.w() };
+        lay.pads
+            .iter()
+            .filter(|p| *p != pad)
+            .filter_map(|p| {
                 let across = if ux != 0.0 { p.y0 < pad.y1 && pad.y0 < p.y1 } else { p.x0 < pad.x1 && pad.x0 < p.x1 };
                 let gap = match k {
                     0 => p.x0 - pad.x1,
@@ -122,45 +139,117 @@ fn place(
                     2 => p.y0 - pad.y1,
                     _ => pad.y0 - p.y1,
                 };
-                across && gap > -1e-9 && gap < OPEN
+                let theirs = if ux != 0.0 { p.h() } else { p.w() };
+                (across && gap > -1e-9).then_some((gap, theirs < cross * 2.0 && theirs > cross * 0.5))
             })
+            .collect()
+    };
+    // The pad's end along its long side.
+    let long = |k: usize| {
+        let (ux, uy) = dirs[k];
+        if pad.w() > pad.h() * 1.2 {
+            ux != 0.0
+        } else if pad.h() > pad.w() * 1.2 {
+            uy != 0.0
+        } else {
+            false
+        }
+    };
+    // A side is open when no other pad lies in line with this one that way within [`OPEN`]: a number between
+    // two pads would read as either's.
+    let open = |k: usize| in_line(k).iter().all(|&(gap, _)| gap >= OPEN);
+    // Inside the body a number may stand toward a pad that is in line, if it is nearer its own pad: its far end
+    // within a half of the gap to another pad (a third, to a peer across the pad's short side: the next pin of the row).
+    let near = |k: usize, e: f64| {
+        let factor = |peer: bool| if peer && !long(k) { 3.0 } else { 2.0 };
+        in_line(k).iter().all(|&(gap, peer)| gap >= factor(peer) * (GAP + e))
+    };
+    let away = |k: usize| dirs[k].0 * dx + dirs[k].1 * dy;
+    let cmp = |a: &f64, b: &f64| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal);
+    let mut inner: Vec<usize> = (0..4).collect();
+    // Open sides first, the pad's inner end first among them, then toward the middle; on a tie, right before left,
+    // below before above.
+    inner.sort_by(|&a, &b| {
+        (open(b), long(b) && away(b) < 0.0)
+            .cmp(&(open(a), long(a) && away(a) < 0.0))
+            .then(cmp(&away(a), &away(b)))
+            .then(a.cmp(&b))
+    });
+    let mut outer: Vec<usize> = (0..4).collect();
+    outer.sort_by(|&a, &b| {
+        (open(b), long(b) && away(b) > 0.0)
+            .cmp(&(open(a), long(a) && away(a) > 0.0))
+            .then(cmp(&away(b), &away(a)))
+            .then(a.cmp(&b))
+    });
+    let angles: &[f64] = if back { &ANGLES[..1] } else { &ANGLES };
+    let mut out = Vec::new();
+    let mut add = |k: usize, angle: f64, pull: bool| {
+        let ink = base.turned(angle);
+        let (w, h) = (ink.width(), ink.height());
+        let mut c = match k {
+            0 => (pad.x1 + GAP + w / 2.0, cy),
+            1 => (pad.x0 - GAP - w / 2.0, cy),
+            2 => (cx, pad.y1 + GAP + h / 2.0),
+            _ => (cx, pad.y0 - GAP - h / 2.0),
         };
-        // A pad's outer end (along its long side, away from the middle) suits best.
-        let end = |k: usize| {
-            let (ux, uy) = sides[k].0;
-            let long = if pad.w() > pad.h() * 1.2 {
-                ux != 0.0
-            } else if pad.h() > pad.w() * 1.2 {
-                uy != 0.0
-            } else {
-                false
-            };
-            long && ux * dx + uy * dy > 0.0
-        };
-        let mut order: Vec<usize> = (0..4).collect();
-        // Open sides first, the pad's outer end first among them, then away from the middle; on a tie, right before
-        // left, below before above.
-        order.sort_by(|&a, &b| {
-            let s = |k: usize| sides[k].0.0 * dx + sides[k].0.1 * dy;
-            (open(b), end(b))
-                .cmp(&(open(a), end(a)))
-                .then(s(b).partial_cmp(&s(a)).unwrap_or(std::cmp::Ordering::Equal))
-                .then(a.cmp(&b))
-        });
-        let found = order.into_iter().find_map(|k| {
-            let c = sides[k].1;
-            let (ax, ay) = ink.centre();
-            let at = (r3(c.0 - ax), r3(c.1 - ay));
-            let r = ink_rect(&ink, at);
+        if let (true, Some(b)) = (pull, lay.body) {
+            // A pad wholly outside the body: its number goes in to the body's edge.
+            match k {
+                0 => c.0 = c.0.max(b.x0 + w / 2.0),
+                1 => c.0 = c.0.min(b.x1 - w / 2.0),
+                2 => c.1 = c.1.max(b.y0 + h / 2.0),
+                _ => c.1 = c.1.min(b.y1 - h / 2.0),
+            }
+        }
+        let (ax, ay) = ink.centre();
+        let at = (r3(c.0 - ax), r3(c.1 - ay));
+        let rect = ink_rect(&ink, at);
+        // Only what the inside pass made counts as inside; the outside pass is the last resort, on any side.
+        let inside = pull && lay.body.is_some_and(|b| within(&b, &rect));
+        out.push(Cand { at, angle, rect, inside });
+    };
+    if lay.body.is_some() {
+        for &k in &inner {
+            for &a in angles {
+                let e = if dirs[k].0 != 0.0 { base.turned(a).width() } else { base.turned(a).height() };
+                if near(k, e) {
+                    add(k, a, true);
+                }
+            }
+        }
+    }
+    for &k in &outer {
+        add(k, 0.0, false);
+    }
+    // Inside ones first, in the order made; the rest keep theirs.
+    out.sort_by_key(|c| !c.inside);
+    out
+}
+
+fn ink_rect(i: &Ink, at: Pt) -> Rect {
+    Rect { x0: at.0 + i.x0, y0: at.1 + i.y0, x1: at.0 + i.x1, y1: at.1 + i.y1 }
+}
+
+/// Every label placed at `size`, or the numbers that do not fit.
+fn place(labels: &[(&str, Rect)], lay: &Layout, size: f64, back: bool) -> Result<Vec<Wanted>, Vec<String>> {
+    let mut placed: Vec<Rect> = Vec::new();
+    let mut out = Vec::new();
+    let mut missing = Vec::new();
+    for (text, pad) in labels {
+        let Some(base) = ink(text, size, size, thickness(size)) else { continue };
+        let base = if back { base.mirrored() } else { base };
+        let found = candidates(pad, lay, &base, back).into_iter().find(|c| {
             // The anchor is rounded to 0.001 mm: the gap may come out that much short.
-            let grown = r.expand(GAP - 1e-3);
-            let clear = !pads.iter().any(|p| overlaps(&grown, p)) && !placed.iter().any(|q| overlaps(&grown, q));
-            clear.then_some((at, r))
+            let grown = c.rect.expand(GAP - 1e-3);
+            // Numbers keep a glyph's height from each other, so two never read as one ("1" and "5" as "15").
+            let apart = c.rect.expand(size.max(GAP) - 1e-3);
+            !lay.pads.iter().any(|p| overlaps(&grown, p)) && !placed.iter().any(|q| overlaps(&apart, q))
         });
         match found {
-            Some((at, r)) => {
-                placed.push(r);
-                out.push(Wanted { text: text.to_string(), at, size });
+            Some(c) => {
+                placed.push(c.rect);
+                out.push(Wanted { text: text.to_string(), at: c.at, angle: c.angle, size, inside: c.inside });
             }
             None => missing.push(text.to_string()),
         }
@@ -173,6 +262,19 @@ fn r3(v: f64) -> f64 {
     if r == 0.0 { 0.0 } else { r }
 }
 
+/// The box numbers go inside: the fab outline's, else the courtyard's; `None` where the footprint draws neither.
+fn body(i: &Input) -> Option<Rect> {
+    let root = sexpr::parse(i.text).ok()?;
+    let shape = fab::read_node(&root, &format!("{}:{}", i.lib, i.fp.name), false).shape?;
+    let r = shape.region;
+    matches!(shape.body_from, BodyFrom::Fab | BodyFrom::Courtyard).then_some(Rect {
+        x0: r.x0,
+        y0: r.y0,
+        x1: r.x1,
+        y1: r.y1,
+    })
+}
+
 /// The numbers to write, and those that fit nowhere even at the smallest size.
 fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
     let labels = labelled(i);
@@ -182,10 +284,19 @@ fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
     // Holes without copper are in the way too.
     let pads: Vec<Rect> = i.fp.pads.iter().map(|p| p.outline.bbox()).collect();
     let middle = i.fp.pads_box().map_or((0.0, 0.0), |b| b.center());
+    let lay = Layout { pads: &pads, middle, body: body(i) };
+    // The size with the most numbers inside the body, the largest of those.
+    let mut best: Option<(usize, Vec<Wanted>)> = None;
     for &size in &SIZES {
-        if let Ok(w) = place(&labels, &pads, middle, size, i.fp.back) {
-            return (w, Vec::new());
+        if let Ok(w) = place(&labels, &lay, size, i.fp.back) {
+            let inside = w.iter().filter(|x| x.inside).count();
+            if best.as_ref().is_none_or(|(n, _)| inside > *n) {
+                best = Some((inside, w));
+            }
         }
+    }
+    if let Some((_, w)) = best {
+        return (w, Vec::new());
     }
     // At the smallest size: those that fit, in order, the rest reported.
     let size = SIZES[SIZES.len() - 1];
@@ -195,7 +306,7 @@ fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
         let mut with =
             labels.iter().filter(|x| out.iter().any(|w: &Wanted| w.text == x.0)).copied().collect::<Vec<_>>();
         with.push(*l);
-        match place(&with, &pads, middle, size, i.fp.back) {
+        match place(&with, &lay, size, i.fp.back) {
             Ok(w) => out = w,
             Err(_) => missing.push(l.0.to_string()),
         }
@@ -206,10 +317,11 @@ fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
 fn render(w: &Wanted, layer: &str, back: bool) -> String {
     let mirror = if back { "\t\t\t(justify mirror)\n" } else { "" };
     format!(
-        "\t(fp_text user {}\n\t\t(at {} {} 0)\n\t\t(unlocked yes)\n\t\t(layer {})\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {s} {s})\n\t\t\t\t(thickness {})\n\t\t\t)\n{mirror}\t\t)\n\t)\n",
+        "\t(fp_text user {}\n\t\t(at {} {} {})\n\t\t(unlocked yes)\n\t\t(layer {})\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {s} {s})\n\t\t\t\t(thickness {})\n\t\t\t)\n{mirror}\t\t)\n\t)\n",
         sexpr::quote(&w.text),
         fmt(w.at.0),
         fmt(w.at.1),
+        fmt(w.angle),
         sexpr::quote(layer),
         fmt(thickness(w.size)),
         s = fmt(w.size),
@@ -227,11 +339,21 @@ pub fn run(i: &Input) -> Outcome {
                 t.text == w.text
                     && (t.at.0 - w.at.0).abs() < 1e-4
                     && (t.at.1 - w.at.1).abs() < 1e-4
+                    && (t.angle - w.angle).abs() < 1e-4
                     && (t.size - w.size).abs() < 1e-6
             })
         });
     if !missing.is_empty() {
         out.left(format!("{layer}: no room beside the pads for {}", missing.join(", ")));
+    }
+    let outside: Vec<&str> = want.iter().filter(|w| !w.inside).map(|w| w.text.as_str()).collect();
+    if !outside.is_empty() {
+        out.left(format!(
+            "{layer}: {} of {} pin numbers outside the body, no room inside: {}",
+            outside.len(),
+            want.len(),
+            outside.join(", ")
+        ));
     }
     if same {
         return out;
@@ -249,6 +371,75 @@ pub fn run(i: &Input) -> Outcome {
         out.edits.push(insert(i.fp, want.iter().map(|w| render(w, layer, i.fp.back)).collect()));
     }
     out
+}
+
+/// What happens to the pin numbers of one footprint on a board.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct BoardPins {
+    /// Each number turned: the text, the angle it had and the angle it gets.
+    pub turned: Vec<(String, f64, f64)>,
+    /// Numbers that already read left to right or top to bottom.
+    pub fine: usize,
+    /// Numbers left alone, with the reason.
+    pub skipped: Vec<String>,
+}
+
+/// The angle a number placed at `angle` on the board reads at: 0 (left to right) for a level one, 270 (top to
+/// bottom) for a vertical one; `None` for a slanted text.
+pub fn readable(angle: f64) -> Option<f64> {
+    let a = angle.rem_euclid(180.0);
+    if a < 1e-3 || 180.0 - a < 1e-3 {
+        Some(0.0)
+    } else if (a - 90.0).abs() < 1e-3 {
+        Some(270.0)
+    } else {
+        None
+    }
+}
+
+/// Turns each pin number of a footprint placed on a board (`node`, at angle `phi`, on the back when `back`) so it
+/// reads left to right or top to bottom: the file keeps a text's angle on the board, so a rotated part's numbers
+/// point every way. The turn is a half turn at most, the ink's middle stays where it was (the anchor moves by the
+/// difference, in the footprint's frame), so the clearance the library gave is kept. Texts on the back are left.
+pub fn board(node: &Node, back: bool, phi: f64) -> (BoardPins, Vec<Edit>) {
+    let layer = side_of(PINS, back);
+    let mut out = BoardPins::default();
+    let mut edits = Vec::new();
+    for t in node.children("fp_text").filter(|t| t.arg(0) == Some("user") && t.value("layer") == Some(layer)) {
+        let text = t.arg(1).unwrap_or("").to_string();
+        let Some(at) = t.child("at") else { continue };
+        let num = |k: usize| at.items().get(k).and_then(Node::as_atom).and_then(|s| s.parse::<f64>().ok());
+        let (Some(x), Some(y)) = (num(1), num(2)) else { continue };
+        let angle = num(3).unwrap_or(0.0);
+        let size = t
+            .child("effects")
+            .and_then(|e| e.child("font"))
+            .and_then(|f| f.child("size"))
+            .and_then(|s| s.items().get(1))
+            .and_then(Node::as_atom)
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(1.0);
+        if back {
+            out.skipped.push(format!("{text}: on the back"));
+            continue;
+        }
+        let Some(target) = readable(angle) else {
+            out.skipped.push(format!("{text}: at {}°", fmt(angle)));
+            continue;
+        };
+        if (angle - target).rem_euclid(360.0) < 1e-3 {
+            out.fine += 1;
+            continue;
+        }
+        let Some(base) = ink(&text, size, size, thickness(size)) else { continue };
+        let (old, new) = (base.turned(angle).centre(), base.turned(target).centre());
+        // The ink is drawn in board directions, the anchor is in the footprint's frame.
+        let (lx, ly) = turner((0.0, 0.0), -phi)((old.0 - new.0, old.1 - new.1));
+        let at_new = format!("(at {} {} {})", fmt(r3(x + lx)), fmt(r3(y + ly)), fmt(target));
+        edits.push(Edit { range: at.span(), text: at_new });
+        out.turned.push((text, angle, target));
+    }
+    (out, edits)
 }
 
 #[cfg(test)]
@@ -281,7 +472,9 @@ mod tests {
         let (new, f) = run("VHRD_Package_SO", &t, Rule::Pins);
         let new = new.unwrap();
         assert_eq!(numbers(&new), ["1", "5", "10", "15"]);
-        assert_eq!(f[0].message, "User.19: 4 pin numbers at 0.5 mm");
+        assert!(f.iter().any(|f| f.fixed && f.message == "User.19: 4 pin numbers at 0.5 mm"), "{f:?}");
+        // No fab outline or courtyard: no body to go inside, reported.
+        assert!(f.iter().any(|f| !f.fixed && f.message.contains("4 of 4 pin numbers outside the body")), "{f:?}");
         // Pin 1: its number at the pad's outer end, left of it, clear of it.
         let f = footprint::read(&new).unwrap();
         let one = f.texts.iter().find(|t| t.text == "1" && t.layer == "User.19").unwrap();
@@ -313,6 +506,116 @@ mod tests {
         assert!(at("2").0.abs() > 0.85 && at("3").0.abs() > 0.85, "{new}");
         assert!(at("1").1 < -0.85 && at("4").1 > 3.0 * 2.54 + 0.85, "{new}");
         settled("VHRD_Connector_PinHeader_2.54mm", &t, Rule::Pins);
+    }
+
+    /// A SOIC-8 with its fab outline (4 x 5) and courtyard.
+    const SOIC_BODY: &str = r#"(fp_rect (start -1.95 -0.8) (end 1.95 4.6) (stroke (width 0.05) (type solid)) (layer "F.Fab"))
+(fp_rect (start -3.7 -1.1) (end 3.7 4.9) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+"#;
+
+    fn spots(text: &str) -> Vec<(String, f64, f64, f64)> {
+        let f = footprint::read(text).unwrap();
+        f.texts.iter().filter(|t| t.layer == "User.19").map(|t| (t.text.clone(), t.at.0, t.at.1, t.angle)).collect()
+    }
+
+    #[test]
+    fn numbers_go_inside_the_fab_outline_level_at_the_pads_inner_end() {
+        let t = fp("SOIC-8", &format!("{SOIC_BODY}{}", pads(8, 1.27)));
+        let (new, f) = run("VHRD_Package_SO", &t, Rule::Pins);
+        let new = new.unwrap();
+        assert!(f.iter().all(|f| f.fixed), "nothing outside: {f:?}");
+        for (n, x, y, a) in spots(&new) {
+            // Left pads at x -2.5 (inner edge -1.75), right pads at 2.5: the number is in the body, beside them.
+            assert!(x.abs() < 1.95 && y > -0.8 && y < 4.6, "{n} at ({x}, {y}) is outside the body");
+            assert!(x.abs() > 0.5, "{n} at ({x}, {y}) is not by its pad");
+            assert_eq!(a, 0.0, "{n} reads left to right");
+        }
+        settled("VHRD_Package_SO", &t, Rule::Pins);
+    }
+
+    #[test]
+    fn a_pad_wholly_outside_the_body_has_its_number_pulled_to_the_body_edge() {
+        // Pads at +-2.5 are wider than the pads() default; here they sit clear of a 2 mm wide body.
+        let body = r#"(fp_rect (start -1 -0.5) (end 1 4.3) (stroke (width 0.05) (type solid)) (layer "F.Fab"))
+"#;
+        let t = fp("SOIC-8", &format!("{body}{}", pads(8, 1.27).replace("size 1.5", "size 0.8")));
+        let new = run("VHRD_Package_SO", &t, Rule::Pins).0.unwrap();
+        let f = footprint::read(&new).unwrap();
+        let one = f.texts.iter().find(|t| t.text == "1" && t.layer == "User.19").unwrap();
+        assert!(one.at.0.abs() < 1.0, "{:?}", one.at);
+    }
+
+    #[test]
+    fn a_connector_filling_its_body_keeps_what_has_no_room_outside_and_says_so() {
+        let t = fp(
+            "PinHeader_1x04",
+            &format!(
+                "(fp_rect (start -0.95 -1.5) (end 0.95 7.5) (stroke (width 0.05) (type solid)) (layer \"F.Fab\"))\n{}",
+                (0..4)
+                    .map(|k| format!(
+                        "(pad \"{}\" thru_hole oval (at 0 {}) (size 1.7 1.7) (drill 1) (layers \"*.Cu\" \"*.Mask\"))\n",
+                        k + 1,
+                        k as f64 * 2.0
+                    ))
+                    .collect::<String>()
+            ),
+        );
+        let (new, f) = run("VHRD_Connector_PinHeader_2.54mm", &t, Rule::Pins);
+        assert!(f.iter().any(|f| !f.fixed && f.message.contains("outside the body, no room inside")), "{f:?}");
+        assert_eq!(numbers(&new.unwrap()).len(), 4);
+    }
+
+    /// A part placed at `phi`, with pin number "10" (library angle 0, anchor (-2, 1)) written as KiCad keeps it on the
+    /// board: its angle includes the part's.
+    fn placed(phi: f64, angle: f64, layer: &str) -> String {
+        format!(
+            "(kicad_pcb\n\t(footprint \"VHRD_Package_SO:SOIC-8\"\n\t\t(layer \"F.Cu\")\n\t\t(at 50 40 {phi})\n\t\t(fp_text user \"10\"\n\t\t\t(at -2 1 {angle})\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{layer}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.4 0.4)\n\t\t\t\t\t(thickness 0.06)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t)\n)\n"
+        )
+    }
+
+    fn board_text(board: &str) -> (f64, f64, f64) {
+        let root = crate::sexpr::parse(board).unwrap();
+        let fp = root.children("footprint").next().unwrap();
+        let at = fp.children("fp_text").next().unwrap().child("at").unwrap();
+        let n = |k: usize| at.items()[k].as_atom().unwrap().parse::<f64>().unwrap();
+        (n(1), n(2), n(3))
+    }
+
+    #[test]
+    fn on_a_board_a_rotated_parts_numbers_read_left_to_right_or_top_to_bottom_with_their_ink_in_place() {
+        // Level on the board already: nothing to do. Turned a quarter: top to bottom, 270. Upside down: level.
+        for (phi, angle, want) in
+            [(0.0, 0.0, 0.0), (90.0, 90.0, 270.0), (180.0, 180.0, 0.0), (270.0, 270.0, 270.0), (90.0, 0.0, 0.0)]
+        {
+            let b = placed(phi, angle, "User.19");
+            let plan = crate::fab::plan_board(&b).unwrap();
+            let (_, _, a) = board_text(&plan.new);
+            assert_eq!(a, want, "part at {phi}, text at {angle}");
+            let pins = &plan.items[0].pins;
+            assert_eq!(pins.turned.len() + pins.fine, 1);
+            // The ink stays where it was on the board: the anchor moves only by the difference of the two boxes.
+            let ink = |angle: f64, at: (f64, f64)| {
+                let i = crate::stroke::ink("10", 0.4, 0.4, 0.06).unwrap().turned(angle);
+                let (cx, cy) = i.centre();
+                let (sin, cos) = phi.to_radians().sin_cos();
+                (50.0 + at.0 * cos + at.1 * sin + cx, 40.0 - at.0 * sin + at.1 * cos + cy)
+            };
+            let (x, y, a0) = board_text(&b);
+            let (nx, ny, a1) = board_text(&plan.new);
+            let (before, after) = (ink(a0, (x, y)), ink(a1, (nx, ny)));
+            assert!((before.0 - after.0).abs() < 2e-3 && (before.1 - after.1).abs() < 2e-3, "{before:?} {after:?}");
+            // A second run changes nothing.
+            assert_eq!(crate::fab::plan_board(&plan.new).unwrap().new, plan.new);
+        }
+    }
+
+    #[test]
+    fn on_a_board_a_slanted_number_and_other_layers_are_left() {
+        let slanted = crate::fab::plan_board(&placed(45.0, 45.0, "User.19")).unwrap();
+        assert_eq!(slanted.new, placed(45.0, 45.0, "User.19"));
+        assert_eq!(slanted.items[0].pins.skipped.len(), 1);
+        let other = placed(90.0, 90.0, "User.17");
+        assert_eq!(crate::fab::plan_board(&other).unwrap().new, other);
     }
 
     #[test]

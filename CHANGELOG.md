@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Pin numbers on Pins.F/B sit inside the fab outline at each pad's inner end and read left to right or top to bottom, a glyph apart; a number with no room inside stays beside its pad and is reported (LIB-22 pin-numbers).
+- `kilib designators --board` turns a placed part's pin numbers to read left to right or top to bottom, keeping their place (LIB-22 pin-numbers).
+
 ## [0.5.5] - 2026-11-14
 
 ### Added

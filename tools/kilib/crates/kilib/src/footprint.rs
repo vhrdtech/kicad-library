@@ -289,6 +289,8 @@ pub struct Text {
     pub text: String,
     pub layer: String,
     pub at: Pt,
+    /// The `at` angle, as written.
+    pub angle: f64,
     pub size: f64,
     pub hidden: bool,
     pub span: Range<usize>,
@@ -524,13 +526,14 @@ fn text(n: &Node) -> Option<Text> {
     };
     let layer = n.value("layer")?.to_string();
     let at = n.child("at").and_then(xy).unwrap_or((0.0, 0.0));
+    let angle = n.child("at").and_then(|a| num(a.items().get(3))).unwrap_or(0.0);
     let size = n
         .child("effects")
         .and_then(|e| e.child("font"))
         .and_then(|f| f.child("size"))
         .and_then(xy)
         .map_or(1.0, |(h, _)| h);
-    Some(Text { kind, text, layer, at, size, hidden: hidden(n), span: n.span() })
+    Some(Text { kind, text, layer, at, angle, size, hidden: hidden(n), span: n.span() })
 }
 
 /// Reads a footprint file's text.

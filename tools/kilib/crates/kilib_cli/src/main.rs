@@ -304,7 +304,9 @@ Examples:
     /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp, but down to 0.05 mm (a
     /// short note reads fine much smaller than a designator, and fitting it on the body matters more) before it
     /// is listed as "no clean fit"; on a real part a set note that sits elsewhere or hidden (where Update PCB from
-    /// Schematic puts a field the footprint lacked) is moved there, shown. Without --write it lists
+    /// Schematic puts a field the footprint lacked) is moved there, shown. Each pin number on Pins.F/B of a part
+    /// placed at a quarter turn is turned by a half turn to read left to right or top to bottom, its ink where it
+    /// was; ones at another angle and on the back are listed. Without --write it lists
     /// what would change and exits 1 when anything would. `fab-designators` is the old name of this command.
     #[command(
         visible_alias = "fab-designators",
@@ -1307,7 +1309,8 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let plan = fab::plan_board(&text).map_err(|e| format!("{}: {e}", path.display()))?;
     let (mut changed, mut fine, mut skipped, mut unclean) = (0, 0, Vec::new(), Vec::new());
-    let (mut values, mut notes) = (0, 0);
+    let (mut values, mut notes, mut pins) = (0, 0, 0);
+    let mut pins_left = Vec::new();
     let mut placements = Vec::new();
     for i in &plan.items {
         let name = if i.reference.is_empty() { i.id.as_str() } else { i.reference.as_str() };
@@ -1390,9 +1393,16 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
                 fab::BoardOutcome::Fine(_) => {}
             }
         }
+        for (text, from, to) in &i.pins.turned {
+            pins += 1;
+            if verbose {
+                println!("  {BOLD}{name}{BOLD:#} pin {text}: {}° to {}°", fab::fmt(*from), fab::fmt(*to));
+            }
+        }
+        pins_left.extend(i.pins.skipped.iter().map(|w| format!("{name} {w}")));
     }
     eprintln!(
-        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change, {notes} layout notes",
+        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change, {notes} layout notes, {pins} pin numbers to turn",
         path.display(),
         plan.items.len(),
         skipped.len()
@@ -1407,6 +1417,13 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
         }
     }
     report_sizes(&placements);
+    if !pins_left.is_empty() {
+        eprintln!(
+            "{YELLOW}pin numbers left{YELLOW:#} ({}: not level or vertical, or on the back): {}",
+            pins_left.len(),
+            pins_left.join(", ")
+        );
+    }
     if !unclean.is_empty() {
         eprintln!(
             "{CYAN}no clean fit{CYAN:#} ({}: centred at {} mm over the drawing or past the body): {}",
@@ -1415,12 +1432,15 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
             unclean.join(", ")
         );
     }
-    if changed == 0 && values == 0 && notes == 0 {
+    if changed == 0 && values == 0 && notes == 0 && pins == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
         Ok(ExitCode::SUCCESS)
     } else if write {
         fab::apply_board(path, &plan)?;
-        eprintln!("{GREEN}✓{GREEN:#} wrote {changed} designators and {values} values to {}", path.display());
+        eprintln!(
+            "{GREEN}✓{GREEN:#} wrote {changed} designators, {values} values, {notes} layout notes and {pins} pin numbers to {}",
+            path.display()
+        );
         Ok(ExitCode::SUCCESS)
     } else {
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");

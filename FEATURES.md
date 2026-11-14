@@ -79,10 +79,11 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   obstacle, so both read side by side; just outside the body where it holds only the designator; `kilib
   fab-designators` checks and writes it, `--board` fits each placed footprint's own value (LIB-24: real parts only,
   centred on its own)
-- ✅ LIB-22 pin-numbers: pin numbers on Pins.F/B (User.19/20) beside the pads: every pin of a connector, pin 1 and
-  every 5th (10th past 40) of other parts with three or more pins; level, 0.1 mm clear of pads, holes and each other,
-  never between two pads in line, one size per footprint (0.5 to 0.2 mm); `kilib lint --rule pins`. 125 footprints;
-  3 with numbers that have no room are listed
+- ✅ LIB-22 pin-numbers: pin numbers on Pins.F/B (User.19/20) inside the part, at each pad's inner end: every pin of a
+  connector, pin 1 and every 5th (10th past 40) of other parts with three or more pins; inside the fab outline (else
+  the courtyard), left to right or top to bottom, 0.1 mm clear of pads and holes, a glyph's height from each other, one
+  size per footprint (0.5 to 0.2 mm); a number with no room inside stays beside its pad and is listed (37 footprints);
+  `kilib lint --rule pins`. On a board `kilib designators --board` turns a placed part's numbers to read the same way
 - ✅ LIB-23 centroid-cross: a 0.5 mm cross of 0.05 mm lines on Centroid.F/B (User.21/22) at the origin of every part
   and fiducial, for checking the position file; `kilib lint --rule centroid`. 163 footprints
 - ✅ LIB-24 ref-des-layer: F.Fab/B.Fab carry the drawing alone (no text); real parts' designators on User.23/24
