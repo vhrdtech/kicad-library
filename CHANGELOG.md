@@ -4,7 +4,7 @@
 
 ### Added
 
-- User.29/30 `Pin1.F`/`Pin1.B`: a filled pin-1 dot, `kilib lint --rule pin1-body`, 171 footprints regenerated (LIB-36 pin1-layer).
+- User.29/30 `Pin1.F`/`Pin1.B`: a filled pin-1 dot, `kilib lint --rule pin1-body`, 198 footprints regenerated (LIB-36 pin1-layer).
 
 ### Changed
 
