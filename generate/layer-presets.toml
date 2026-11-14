@@ -7,49 +7,49 @@
 
 [[preset]]
 name = "Layout.F"
-layers = ["F.Cu", "F.Fab", "F.Courtyard", "Edge.Cuts"]
+layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Layout.B"
-layers = ["B.Cu", "B.Fab", "B.Courtyard", "Edge.Cuts"]
+layers = ["B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Floorplan.F"
-layers = ["F.Courtyard", "F.Fab", "Crit.F", "Imp.F", "Edge.Cuts"]
+layers = ["F.Courtyard", "F.Fab", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.B"
-layers = ["B.Courtyard", "B.Fab", "Crit.B", "Imp.B", "Edge.Cuts"]
+layers = ["B.Courtyard", "B.Fab", "Ref.Des.B", "Crit.B", "Imp.B", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Assembly.Ref.F"
-layers = ["F.Fab", "Ref.Des.F", "Centroid.F", "Edge.Cuts"]
+layers = ["F.Fab", "Ref.Des.F", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
 flip = false
 
 [[preset]]
 name = "Assembly.Ref.B"
-layers = ["B.Fab", "Ref.Des.B", "Centroid.B", "Edge.Cuts"]
+layers = ["B.Fab", "Ref.Des.B", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
 flip = true
 
 [[preset]]
 name = "Assembly.Value.F"
-layers = ["F.Fab", "Value.F", "Centroid.F", "Edge.Cuts"]
+layers = ["F.Fab", "Value.F", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
 flip = false
 
 [[preset]]
 name = "Assembly.Value.B"
-layers = ["B.Fab", "Value.B", "Centroid.B", "Edge.Cuts"]
+layers = ["B.Fab", "Value.B", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
 flip = true
 

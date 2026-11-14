@@ -8,7 +8,7 @@
 
 ### Changed
 
-- Layer presets: Floorplan.F/B (courtyard, fab, Crit/Imp, ratsnest) is new; Assembly is split into Assembly.Ref and Assembly.Value, without the courtyard; Layout no longer shows Ref.Des and Crit/Imp; Pins hides tracks, vias and zones; no preset shows the board outline area's shadow.
+- Layer presets: Floorplan.F/B (courtyard, fab, designators, Crit/Imp, ratsnest) is new; Assembly is split into Assembly.Ref and Assembly.Value, without the courtyard; Floorplan also shows Ref.Des and Body.F; Assembly shows no Centroid; Layout shows Crit/Imp but not Ref.Des; Pins hides tracks, vias and zones; no preset shows the board outline area's shadow.
 
 ## [0.5.2] - 2026-11-14
 
