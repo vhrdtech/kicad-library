@@ -1230,6 +1230,9 @@ pub struct BoardItem {
     pub outcome: BoardOutcome,
     /// The Value's, centred on its own layer (a real part's only).
     pub value: BoardOutcome,
+    /// The layout notes that are set (`Layout_Critical`, `Layout_Important`), each fitted to its own text on its
+    /// layer ([`crate::lint::layout`]); an empty one is not listed.
+    pub notes: Vec<(&'static str, BoardOutcome)>,
 }
 
 /// A board's designators fitted, each to its own text.
@@ -1243,7 +1246,8 @@ pub struct BoardPlan {
 /// Fits each footprint's own designator on a board (`.kicad_pcb` text): a footprint whose Reference already sits on
 /// its designator layer (as [`fix`] leaves it in the library) gets the size, anchor and angle [`layout`] finds for
 /// its actual text, so a short designator gets larger text; a real part's Value, when shown on the Value layer, gets
-/// what [`layout_value`] finds for its actual text, centred the same way. Only the two properties' `(at ...)`,
+/// what [`layout_value`] finds for its actual text, centred the same way, and so does a layout note that is set
+/// (`Layout_Critical`, `Layout_Important`) on its layer. Only these properties' `(at ...)`,
 /// `(size ...)` and `(thickness ...)` change; the angle is written as KiCad keeps it upright. Other footprints are
 /// skipped with the reason.
 pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
@@ -1266,7 +1270,16 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
         };
         let outcome = run(board_edits(text, node, &fp));
         let value = run(board_value_edits(text, node, &fp));
-        items.push(BoardItem { reference, id, outcome, value });
+        let mut notes = Vec::new();
+        for (name, pair) in crate::lint::layout::FIELDS {
+            let Some(prop) = node.children("property").find(|n| n.arg(0) == Some(name)) else { continue };
+            let r = read_property(prop);
+            if r.value.trim().is_empty() {
+                continue;
+            }
+            notes.push((name, run(board_note_edits(text, node, &fp, name, &r, pair))));
+        }
+        items.push(BoardItem { reference, id, outcome, value, notes });
     }
     edits.sort_by_key(|e| e.range.start);
     Ok(BoardPlan { items, old: text.to_string(), new: apply_edits(text, &edits) })
@@ -1298,6 +1311,29 @@ fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOu
     shape.texts = vec![v.value.clone()];
     let p = layout(&shape);
     fit_property(text, node, "Value", v, p, phi)
+}
+
+/// A layout note fitted to its own text like the Value: skipped where it is not on its layer shown (a footprint not
+/// updated from the library).
+fn board_note_edits(
+    text: &str,
+    node: &Node,
+    fp: &Footprint,
+    name: &str,
+    r: &Reference,
+    pair: [&'static str; 2],
+) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    let layer = layers::side_of(pair, fp.back);
+    if r.layer != layer {
+        return Err(format!("{name} on {}, not {layer} (update the footprint from the library)", r.layer));
+    }
+    if r.hidden {
+        return Err(format!("{name} hidden"));
+    }
+    let (mut shape, phi) = board_shape(node, fp)?;
+    shape.texts = vec![r.value.clone()];
+    let p = layout(&shape);
+    fit_property(text, node, name, r, p, phi)
 }
 
 /// The footprint's shape as placed on the board, its text kept upright as KiCad draws it, and its angle.

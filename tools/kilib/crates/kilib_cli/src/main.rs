@@ -268,8 +268,9 @@ Examples:
     /// footprint that already follows these rules is left as it is; every other byte stays. With --board, each
     /// footprint on that board whose Reference is already on its designator layer gets its own designator fitted
     /// the same way (a short one gets larger text), and a real part whose Value is on Value its own value; only the
-    /// two properties' position, angle, size and thickness change. Without --write it lists what would change and
-    /// exits 1 when anything would. `fab-designators` is the old name of this command.
+    /// properties' position, angle, size and thickness change. A Layout_Critical or Layout_Important note that is
+    /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp. Without --write it lists
+    /// what would change and exits 1 when anything would. `fab-designators` is the old name of this command.
     #[command(
         visible_alias = "fab-designators",
         after_help = "\
@@ -1149,7 +1150,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let plan = fab::plan_board(&text).map_err(|e| format!("{}: {e}", path.display()))?;
     let (mut changed, mut fine, mut skipped, mut unclean) = (0, 0, Vec::new(), Vec::new());
-    let mut values = 0;
+    let (mut values, mut notes) = (0, 0);
     let mut placements = Vec::new();
     for i in &plan.items {
         let name = if i.reference.is_empty() { i.id.as_str() } else { i.reference.as_str() };
@@ -1209,9 +1210,32 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
             fab::BoardOutcome::Skipped(why) if verbose => println!("{DIM}  {name} value: skipped, {why}{DIM:#}"),
             _ => {}
         }
+        for (field, outcome) in &i.notes {
+            match outcome {
+                fab::BoardOutcome::Change { before: b, placement: p, angle } => {
+                    notes += 1;
+                    let fit = if p.clean { "" } else { ", no clean fit" };
+                    println!(
+                        "  {BOLD}{name}{BOLD:#} {field}: {} mm {}° at ({}, {}){fit} {DIM}(was {} mm {}° at ({}, {})){DIM:#}",
+                        fab::fmt(p.size),
+                        fab::fmt(*angle),
+                        fab::fmt(p.x),
+                        fab::fmt(p.y),
+                        fab::fmt(b.size),
+                        fab::fmt(b.angle),
+                        fab::fmt(b.x),
+                        fab::fmt(b.y),
+                    );
+                }
+                fab::BoardOutcome::Skipped(why) => {
+                    println!("  {YELLOW}{name} {field}: skipped{YELLOW:#}, {why}")
+                }
+                fab::BoardOutcome::Fine(_) => {}
+            }
+        }
     }
     eprintln!(
-        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change",
+        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change, {notes} layout notes",
         path.display(),
         plan.items.len(),
         skipped.len()
@@ -1234,7 +1258,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
             unclean.join(", ")
         );
     }
-    if changed == 0 && values == 0 {
+    if changed == 0 && values == 0 && notes == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
         Ok(ExitCode::SUCCESS)
     } else if write {

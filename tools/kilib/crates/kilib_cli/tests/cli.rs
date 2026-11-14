@@ -522,6 +522,14 @@ fn designators_board_fits_each_designator_and_value_to_its_own_text() {
         part("R1", "20 10 90", "User.23", "User.17"),
         part("R2", "30 10", "F.SilkS", "F.Fab")
     );
+    // R806 is marked critical in the schematic; an empty note is not looked at.
+    let note = |name: &str, layer: &str, v: &str| {
+        format!(
+            "\t\t(property \"{name}\" \"{v}\"\n\t\t\t(at 0 0 0)\n\t\t\t(unlocked yes)\n\t\t\t(layer \"{layer}\")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 0.2 0.2)\n\t\t\t\t\t(thickness 0.03)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n"
+        )
+    };
+    let notes = note("Layout_Critical", "User.25", "C1") + &note("Layout_Important", "User.27", "");
+    let board = board.replacen("\t\t(fp_rect", &format!("{notes}\t\t(fp_rect"), 1);
     let path = dir.write("b.kicad_pcb", &board);
     let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb"]);
     let t = text(&out);
@@ -531,7 +539,9 @@ fn designators_board_fits_each_designator_and_value_to_its_own_text() {
     assert!(t.contains("R1: 0.35 mm 90° at ("), "{t}");
     // Each 10K value centred on its own, larger than its designator.
     assert!(t.contains("R806 value: 0.35 mm 0° at (0, 0.016)") && t.contains("R1 value: 0.35 mm 90° at ("), "{t}");
-    assert!(t.contains("1 skipped; 2 values to change"), "{t}");
+    assert!(t.contains("1 skipped; 2 values to change, 1 layout notes"), "{t}");
+    assert!(t.contains("R806 Layout_Critical: 0.35 mm 0° at (0, 0.016)"), "{t}");
+    assert!(!t.contains("Layout_Important"), "{t}");
     assert!(t.contains("3 footprints: 2 to change, 0 already fine, 1 skipped"), "{t}");
     assert!(
         t.contains("skipped (1: Reference on F.SilkS, not User.23 (update the footprint from the library)): R2"),
