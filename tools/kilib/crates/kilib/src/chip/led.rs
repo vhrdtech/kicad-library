@@ -258,7 +258,7 @@ pub fn footprint_base(base: &str, led: &Led) -> Result<String, String> {
 }
 
 /// The span widened to the whole lines it stands on, the line break included.
-fn whole_line(text: &str, span: std::ops::Range<usize>) -> std::ops::Range<usize> {
+pub(crate) fn whole_line(text: &str, span: std::ops::Range<usize>) -> std::ops::Range<usize> {
     let start = text[..span.start].rfind('\n').map_or(0, |i| i + 1);
     let end = text[span.end..].find('\n').map_or(text.len(), |i| span.end + i + 1);
     start..end

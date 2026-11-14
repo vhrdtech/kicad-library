@@ -105,6 +105,16 @@
 		)
 		(layer "User.21")
 	)
+	(fp_rect
+		(start -3.175 -1.59)
+		(end 3.175 1.59)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+	)
 	(pad "1" smd roundrect
 		(at -2.2 0)
 		(size 2.9 3.45)
