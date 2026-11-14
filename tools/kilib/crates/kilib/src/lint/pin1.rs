@@ -28,7 +28,7 @@ pub const TRIANGLE_GAP: f64 = 0.15;
 /// How far past the courtyard a silkscreen triangle may reach.
 pub const PAST_COURTYARD: f64 = 0.5;
 /// Pads this close are in the same place.
-const SAME: f64 = 0.02;
+pub(super) const SAME: f64 = 0.02;
 /// Marks this close are the same mark.
 const SAME_MARK: f64 = 0.05;
 
@@ -58,6 +58,14 @@ pub fn pin1(fp: &Footprint) -> Option<&Pad> {
     ["1", "A1", "K", "+"].iter().find_map(|n| fp.copper_pads().find(|p| p.number == *n))
 }
 
+/// The distinct copper pad numbers, empty ones left out.
+pub(super) fn pin_numbers(fp: &Footprint) -> Vec<&str> {
+    let mut numbers: Vec<&str> = fp.copper_pads().map(|p| p.number.as_str()).filter(|n| !n.is_empty()).collect();
+    numbers.sort_unstable();
+    numbers.dedup();
+    numbers
+}
+
 /// The part has a pin 1 to mark. A footprint tagged `symmetric` has none: its pins swap without harm when the part is
 /// turned (a crystal with the crystal on pins 1 and 3 and ground on 2 and 4, a bidirectional TVS), and a mark would
 /// only make people look for an orientation that does not matter.
@@ -65,9 +73,7 @@ pub fn needs_mark(lib: &str, fp: &Footprint) -> bool {
     if pin1(fp).is_none() || fp.tags.split_whitespace().any(|t| t.eq_ignore_ascii_case("symmetric")) {
         return false;
     }
-    let mut numbers: Vec<&str> = fp.copper_pads().map(|p| p.number.as_str()).filter(|n| !n.is_empty()).collect();
-    numbers.sort();
-    numbers.dedup();
+    let numbers = pin_numbers(fp);
     match numbers.len() {
         0 | 1 => false,
         2 => {
@@ -351,7 +357,7 @@ fn judge(fp: &Footprint, layer: &str, p1: &Pad, axis: Option<Pt>) -> Verdict {
 }
 
 /// The pins' axis of a two-pin part: from pin 1 to the other pin, as a unit vector.
-fn axis(fp: &Footprint, p1: &Pad) -> Option<Pt> {
+pub(super) fn axis(fp: &Footprint, p1: &Pad) -> Option<Pt> {
     let mut numbers: Vec<&str> = fp.copper_pads().map(|p| p.number.as_str()).collect();
     numbers.sort();
     numbers.dedup();

@@ -2,8 +2,8 @@
 //!
 //! - [`Rule::Pin1`]: polar and multi-pin parts mark pin 1 on the fab layer, and on the silkscreen where the
 //!   footprint draws one ([`pin1`]).
-//! - [`Rule::Pin1Body`]: the same parts show pin 1 as a filled dot on Pin1.F/B, by pin 1 inside the body outline
-//!   (Body.F/B) or just outside it ([`pin1_body`]).
+//! - [`Rule::Pin1Body`]: a part of three or more pins whose pads alone are ambiguous gets a filled dot on Pin1.F/B
+//!   at pin 1's own pad; a polar two-pin part gets a bar across the cathode or plus pad instead ([`pin1_body`]).
 //! - [`Rule::Attrs`]: test points, net ties, spark gaps, jumpers, logos, mounting holes and fiducials stay out of
 //!   the BOM and the position files (fiducials stay in them); a part's SMD or through-hole type matches its pads
 //!   ([`attrs`]).

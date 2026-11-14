@@ -5,6 +5,9 @@
 ### Changed
 
 - Layer presets: Layout.F/B/FB show the x-ray view (Xray.F/B) instead of the fab layer.
+- Pin1.F/B mark sits on pin 1's own pad; no search for a free spot (LIB-36 pin1-layer).
+- A polar two-pin part gets a cathode/plus bar instead of a dot (LIB-36 pin1-layer).
+- An asymmetric 3-pin part (SOT-23, SOT-323...) whose pads tell pin 1 apart gets no mark (LIB-36 pin1-layer).
 
 ## [0.5.9] - 2026-11-14
 

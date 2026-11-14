@@ -1,31 +1,39 @@
-//! A pin-1 dot on Pin1.F (User.29; Pin1.B, User.30, on the back), shown together with the body (Body.F/B), which
+//! A pin-1 mark on Pin1.F (User.29; Pin1.B, User.30, on the back), shown together with the body (Body.F/B), which
 //! has no pin-1 mark of its own. The parts are those of [`super::pin1`]: three or more pins, and polar two-pin parts
 //! (the dot is by the cathode or plus pad). Test points, net ties, mechanical and graphic footprints, and non-polar
 //! two-pin parts get none.
 //!
-//! The dot is filled, [`DIAMETER_MIN`] to [`DIAMETER_MAX`] across (a tenth of the body's shorter side, and under the
-//! distance from pin 1 to its nearest neighbour). It sits as near pin 1 as it can inside the body outline, [`GAP`]
-//! clear of its edge, off the pads where it can be; where it does not fit there, just outside the body, [`GAP`] away. It is never ambiguous: every turn of the
-//! part that fits its pads (and does not tell itself apart by the body) takes pin 1 to a pad the dot is farther
-//! from, and no other pad is as near. A part with no such place is left for a person. The layer belongs to this
-//! rule: whatever else is there is replaced.
+//! A polar two-pin part (a diode, an LED, a polarised capacitor, a battery) gets a bar across the cathode or plus
+//! pad's centre, square to the part's axis, as long as the pad is across it, [`BAR_WIDTH_MIN`] to [`BAR_WIDTH_MAX`]
+//! thick (by part size).
+//!
+//! A part of three or more pins gets a filled dot, [`DIAMETER_MIN`] to [`DIAMETER_MAX`] across (a tenth of the
+//! body's shorter side, and under the distance from pin 1 to its nearest neighbour), centred on pin 1 — unless the
+//! pads alone already tell pin 1 apart: no turn the pads allow ([`super::pin1::moves`], reused from the `pin1` rule)
+//! takes pin 1 to where another pad sits (an asymmetric SOT-23, SOT-323, SOT-89, SOT-223...), which gets no mark
+//! either. A symmetric part (a QFN, a QFP, a SOIC, a SOT-23-6, a SOT-363, a connector with a symmetric pad row...)
+//! keeps the dot.
+//!
+//! Either mark sits exactly on pin 1's pad: its anchor (`at`), the same point for every shape of a multi-shape pad.
+//! No search for a free spot, no check that it clears another pad. The layer belongs to this rule: whatever else is
+//! there is replaced.
 
-use super::pin1::{body_tells, moves, needs_mark, pin1};
+use super::pin1::{SAME, axis, moves, needs_mark, pin_numbers, pin1};
 use super::{Class, Input, Outcome, delete, insert};
-use crate::footprint::{Footprint, Pad, Pt, Rect, dist, fmt, render_graphic};
+use crate::footprint::{Footprint, Graphic, Pad, Pt, Rect, dist, fmt, render_graphic};
 use crate::layers::{BODY, PIN1, side_of};
 
 pub const DIAMETER_MIN: f64 = 0.3;
 pub const DIAMETER_MAX: f64 = 0.8;
-/// The dot's distance from the body's edge, inside or out.
-pub const GAP: f64 = 0.05;
-/// Where a dot may be put: this far round pin 1.
-const REACH: f64 = 4.0;
+pub const BAR_WIDTH_MIN: f64 = 0.15;
+pub const BAR_WIDTH_MAX: f64 = 0.25;
 const GRID: f64 = 0.05;
-/// A dot clear of the pads is preferred: it keeps this far from every pad.
-const CLEAR: f64 = 0.05;
-/// A dot must be this much nearer pin 1 than any other pad.
-const TELLS: f64 = 0.01;
+
+/// The mark a part wants on its pin-1 layer.
+enum Spot {
+    Dot { c: Pt, d: f64 },
+    Bar { a: Pt, b: Pt, w: f64 },
+}
 
 /// The body outline: what is drawn on the body layer, else the fab outline, else the pads.
 fn body(fp: &Footprint) -> Option<Rect> {
@@ -44,50 +52,9 @@ fn diameter(body: Rect, neighbour: Option<f64>) -> f64 {
     neighbour.map_or(d, |n| d.min(floor_to(0.9 * n, GRID)).max(0.2))
 }
 
-/// Whether a dot of radius `r` at `c` is inside the body, [`GAP`] from its edge.
-fn inside(body: Rect, c: Pt, r: f64) -> bool {
-    c.0 - r >= body.x0 + GAP && c.0 + r <= body.x1 - GAP && c.1 - r >= body.y0 + GAP && c.1 + r <= body.y1 - GAP
-}
-
-/// Whether a dot of radius `r` at `c` is outside the body, at least [`GAP`] from it.
-fn outside(body: Rect, c: Pt, r: f64) -> bool {
-    !body.expand(r + GAP - 1e-9).contains(c)
-}
-
-/// The nearest place to pin 1, inside the body first, else outside it, where the dot tells pin 1 from every pad a
-/// turn of the part takes it to and from every other pad.
-fn place(fp: &Footprint, p1: &Pad, body: Rect, d: f64) -> Option<Pt> {
-    let r = d / 2.0;
-    let (c, turns) = moves(fp, p1);
-    let targets: Vec<Pt> = turns.into_iter().filter(|&(m, _)| !body_tells(body, m, c)).map(|(_, to)| to).collect();
-    let others: Vec<&Pad> = fp.copper_pads().filter(|p| p.number != p1.number).collect();
-    let mine: Vec<&Pad> = fp.copper_pads().filter(|p| p.number == p1.number).collect();
-    let tells = |m: Pt| {
-        let near = mine.iter().map(|p| p.outline.distance(m)).fold(f64::MAX, f64::min);
-        targets.iter().all(|&to| dist(m, p1.at) < dist(m, to) - TELLS)
-            && others.iter().all(|p| p.outline.distance(m) > near + TELLS)
-    };
-    let steps = (REACH / GRID) as i32;
-    let at = |k: i32, origin: f64| ((origin + f64::from(k) * GRID) / GRID).round() * GRID;
-    let mut found: Vec<(bool, bool, f64, Pt)> = Vec::new();
-    for i in -steps..=steps {
-        for j in -steps..=steps {
-            let m = (at(i, p1.at.0), at(j, p1.at.1));
-            let inner = inside(body, m, r);
-            if inner || outside(body, m, r) {
-                let clear = fp.copper_pads().all(|p| p.outline.distance(m) >= r + CLEAR);
-                found.push((!inner, !clear, dist(m, p1.at), m));
-            }
-        }
-    }
-    found.sort_by(|a, b| {
-        (a.0, a.1)
-            .cmp(&(b.0, b.1))
-            .then(a.2.total_cmp(&b.2))
-            .then(a.3.0.total_cmp(&b.3.0))
-            .then(a.3.1.total_cmp(&b.3.1))
-    });
-    found.into_iter().map(|(_, _, _, m)| m).find(|&m| tells(m))
+/// The bar's thickness for a part of `body`, by size.
+fn bar_width(body: Rect) -> f64 {
+    floor_to((0.1 * body.w().min(body.h())).clamp(BAR_WIDTH_MIN, BAR_WIDTH_MAX), GRID)
 }
 
 /// Pin 1's distance to the nearest pad of another number.
@@ -95,8 +62,34 @@ fn neighbour(fp: &Footprint, p1: &Pad) -> Option<f64> {
     fp.copper_pads().filter(|p| p.number != p1.number).map(|p| dist(p.at, p1.at)).reduce(f64::min)
 }
 
-fn is_dot(g: &crate::footprint::Graphic, c: Pt, r: f64) -> bool {
+/// Whether a turn the pads allow takes pin 1 to where another pad actually sits: the layout alone is ambiguous and
+/// wants a dot. `false` for a part no turn of whose pads lands pin 1 on another pad (SOT-23, SOT-323...): the pads
+/// already tell pin 1 apart, with nothing this layer could add.
+fn ambiguous(fp: &Footprint, p1: &Pad) -> bool {
+    let (_, turns) = moves(fp, p1);
+    turns.iter().any(|&(_, to)| fp.copper_pads().any(|p| p.number != p1.number && dist(p.at, to) < SAME))
+}
+
+/// The bar across `p1`, square to `ax` (the part's axis), as long as the pad reaches across it.
+fn bar(p1: &Pad, ax: Pt, width: f64) -> (Pt, Pt) {
+    let perp = (-ax.1, ax.0);
+    let proj = |p: Pt| (p.0 - p1.at.0) * perp.0 + (p.1 - p1.at.1) * perp.1;
+    let (lo, hi) =
+        p1.outline.points().into_iter().map(proj).fold((f64::MAX, f64::MIN), |(lo, hi), v| (lo.min(v), hi.max(v)));
+    let half = floor_to((hi - lo).max(width), GRID) / 2.0;
+    ((p1.at.0 - perp.0 * half, p1.at.1 - perp.1 * half), (p1.at.0 + perp.0 * half, p1.at.1 + perp.1 * half))
+}
+
+fn is_dot(g: &Graphic, c: Pt, r: f64) -> bool {
     g.kind == "fp_circle" && g.filled && g.circle.is_some_and(|(gc, gr)| dist(gc, c) < 1e-3 && (gr - r).abs() < 1e-3)
+}
+
+fn is_bar(g: &Graphic, a: Pt, b: Pt, w: f64) -> bool {
+    g.kind == "fp_line"
+        && (g.width - w).abs() < 1e-3
+        && g.pts.len() == 2
+        && ((dist(g.pts[0], a) < 1e-3 && dist(g.pts[1], b) < 1e-3)
+            || (dist(g.pts[0], b) < 1e-3 && dist(g.pts[1], a) < 1e-3))
 }
 
 pub fn run(i: &Input) -> Outcome {
@@ -107,40 +100,50 @@ pub fn run(i: &Input) -> Outcome {
     let texts: Vec<_> = fp.texts.iter().filter(|t| t.layer == layer).collect();
     let stray = have.len() + texts.len();
     let wanted = i.class == Class::Part && needs_mark(i.lib, fp);
-    let spot = if wanted {
+    let (spot, none_reason) = if wanted {
         let p1 = pin1(fp).expect("needs_mark checks it");
         let Some(b) = body(fp) else {
-            out.left(format!("{layer}: no body or pads to place the dot by"));
+            out.left(format!("{layer}: no body or pads to size the mark by"));
             return out;
         };
-        let d = diameter(b, neighbour(fp, p1));
-        match place(fp, p1, b, d) {
-            Some(m) => Some((m, d, inside(b, m, d / 2.0))),
-            None => {
-                out.left(format!("{layer}: no place for a dot that tells pin 1 from the other pads"));
+        if pin_numbers(fp).len() == 2 {
+            let Some(ax) = axis(fp, p1) else {
+                out.left(format!("{layer}: pin 1 and its pad sit on top of each other; no axis for the bar"));
                 return out;
-            }
+            };
+            let w = bar_width(b);
+            let (a, c) = bar(p1, ax, w);
+            (Some(Spot::Bar { a, b: c, w }), "")
+        } else if ambiguous(fp, p1) {
+            let d = diameter(b, neighbour(fp, p1));
+            (Some(Spot::Dot { c: p1.at, d }), "")
+        } else {
+            (None, "the pads already tell pin 1 apart")
         }
     } else {
-        None
+        (None, "no pin 1 to mark")
     };
-    let fine = match spot {
-        Some((m, d, _)) => have.len() == 1 && texts.is_empty() && is_dot(have[0], m, d / 2.0),
+    let fine = match &spot {
+        Some(Spot::Dot { c, d }) => have.len() == 1 && texts.is_empty() && is_dot(have[0], *c, *d / 2.0),
+        Some(Spot::Bar { a, b, w }) => have.len() == 1 && texts.is_empty() && is_bar(have[0], *a, *b, *w),
         None => stray == 0,
     };
     if fine {
         return out;
     }
     let had = if stray == 0 { String::new() } else { format!(" (replacing {stray})") };
-    match spot {
-        Some((m, d, in_body)) => out.fixed(format!(
-            "{layer}: pin-1 dot ⌀{} at ({}, {}), {}{had}",
-            fmt(d),
-            fmt(m.0),
-            fmt(m.1),
-            if in_body { "in the body" } else { "by the body" }
+    match &spot {
+        Some(Spot::Dot { c, d }) => {
+            out.fixed(format!("{layer}: pin-1 dot ⌀{} at ({}, {}){had}", fmt(*d), fmt(c.0), fmt(c.1)));
+        }
+        Some(Spot::Bar { a, b, w }) => out.fixed(format!(
+            "{layer}: pin-1 bar {}×{} at ({}, {}){had}",
+            fmt(dist(*a, *b)),
+            fmt(*w),
+            fmt((a.0 + b.0) / 2.0),
+            fmt((a.1 + b.1) / 2.0)
         )),
-        None => out.fixed(format!("{layer}: no dot, no pin 1 to mark{had}")),
+        None => out.fixed(format!("{layer}: no mark, {none_reason}{had}")),
     }
     for g in &have {
         out.edits.push(delete(i.text, &g.span));
@@ -148,8 +151,14 @@ pub fn run(i: &Input) -> Outcome {
     for t in &texts {
         out.edits.push(delete(i.text, &t.span));
     }
-    if let Some((m, d, _)) = spot {
-        out.edits.push(insert(fp, render_graphic("fp_circle", &[m, (m.0 + d / 2.0, m.1)], 0.0, true, layer)));
+    match &spot {
+        Some(Spot::Dot { c, d }) => {
+            out.edits.push(insert(fp, render_graphic("fp_circle", &[*c, (c.0 + d / 2.0, c.1)], 0.0, true, layer)));
+        }
+        Some(Spot::Bar { a, b, w }) => {
+            out.edits.push(insert(fp, render_graphic("fp_line", &[*a, *b], *w, false, layer)))
+        }
+        None => {}
     }
     out
 }
@@ -179,24 +188,16 @@ mod tests {
     }
 
     #[test]
-    fn a_three_pin_part_gets_a_dot_in_the_body_by_pin_1() {
+    fn an_asymmetric_three_pin_part_gets_no_mark() {
+        // No turn of the pads lands pin 1 on pad 2 or pad 3: the pads already tell pin 1 apart.
         let t = sot23();
         let (new, f) = run("VHRD_Package_TO_SOT_SMD", &t, Rule::Pin1Body);
-        let new = new.unwrap();
-        assert!(
-            f[0].fixed && f[0].message.starts_with("User.29: pin-1 dot ⌀0.3 at (-0.4, -0.95), in the body"),
-            "{f:?}"
-        );
-        assert!(
-            new.contains("(center -0.4 -0.95)\n\t\t(end -0.25 -0.95)")
-                && new.contains("(fill yes)\n\t\t(layer \"User.29\")"),
-            "{new}"
-        );
+        assert!(new.is_none() && f.is_empty(), "{f:?}");
         settled("VHRD_Package_TO_SOT_SMD", &t, Rule::Pin1Body);
     }
 
     #[test]
-    fn a_polar_two_pin_part_marks_the_cathode_side_and_a_plain_one_nothing() {
+    fn a_polar_two_pin_part_gets_a_bar_and_a_plain_one_nothing() {
         let diode = |name: &str| {
             fp(
                 name,
@@ -208,9 +209,12 @@ mod tests {
                 ),
             )
         };
-        let (new, _) = run("VHRD_Diode_SMD", &diode("D_SOD-123"), Rule::Pin1Body);
+        let (new, f) = run("VHRD_Diode_SMD", &diode("D_SOD-123"), Rule::Pin1Body);
         let new = new.unwrap();
-        assert!(new.contains("(center -0.95 0)"), "{new}");
+        // Centred on pad 1, square to the x axis: start and end differ only in y.
+        assert!(f[0].fixed && f[0].message.starts_with("User.29: pin-1 bar 1.2×0.15 at (-1.65, 0)"), "{f:?}");
+        assert!(new.contains("(start -1.65 -0.6)\n\t\t(end -1.65 0.6)") && new.contains("(width 0.15)"), "{new}");
+        settled("VHRD_Diode_SMD", &diode("D_SOD-123"), Rule::Pin1Body);
         assert!(run("VHRD_Resistor_SMD", &diode("R_0402"), Rule::Pin1Body).0.is_none());
         assert!(run("VHRD_TestPoint", &diode("TestPoint_Pad"), Rule::Pin1Body).0.is_none());
     }
@@ -228,34 +232,61 @@ mod tests {
         );
         let (new, f) = run("VHRD_Resistor_SMD", &t, Rule::Pin1Body);
         assert!(!new.unwrap().contains("User.29") && f[0].message.ends_with("(replacing 1)"), "{f:?}");
+        // A stray mark on a part that wants none (the pads already tell pin 1 apart) is removed too.
         let wrong = sot23().replace(
             "(pad \"1\"",
             "(fp_circle (center 0 0) (end 0.2 0) (stroke (width 0) (type solid)) (fill yes) (layer \"User.29\"))\n(pad \"1\"",
         );
         let (new, _) = run("VHRD_Package_TO_SOT_SMD", &wrong, Rule::Pin1Body);
-        assert_eq!(new.unwrap().matches("User.29").count(), 1);
+        assert!(!new.unwrap().contains("User.29"));
     }
 
     #[test]
-    fn a_square_part_has_one_dot_whatever_turn_its_pads_allow() {
-        // Four pads of a square part: a quarter turn fits them, so the dot must sit nearer pin 1 than pads 2 to 4.
+    fn a_symmetric_part_gets_a_dot_on_pad_ones_own_centre() {
+        // Four pads of a square part: a half turn lands pin 1 on pad 3, so the layout alone is ambiguous.
         let pads = [
             pad("1", -1.5, -0.5, 1.0, 0.5),
             pad("2", 1.5, -0.5, 1.0, 0.5),
             pad("3", 1.5, 0.5, 1.0, 0.5),
             pad("4", -1.5, 0.5, 1.0, 0.5),
         ];
-        let t = fp("QFN-4", &format!("{}\n{}", rect(2.0, 2.0, "User.5"), pads.join("\n")));
-        let (new, _) = run("VHRD_Package_DFN_QFN", &t, Rule::Pin1Body);
+        let t = fp("QFN-4", &format!("{}\n{}", rect(4.0, 2.0, "User.5"), pads.join("\n")));
+        let (new, f) = run("VHRD_Package_DFN_QFN", &t, Rule::Pin1Body);
         let new = new.unwrap();
-        assert!(new.contains("(center -0.75 -0.5)"), "{new}");
+        assert!(f[0].fixed && f[0].message.starts_with("User.29: pin-1 dot ⌀0.3 at (-1.5, -0.5)"), "{f:?}");
+        assert!(new.contains("(center -1.5 -0.5)"), "{new}");
         settled("VHRD_Package_DFN_QFN", &t, Rule::Pin1Body);
+    }
+
+    #[test]
+    fn a_connector_with_a_symmetric_row_gets_a_dot_too() {
+        // A 4-pin header: a half turn swaps pin 1 with pin 4, pin 2 with pin 3 — ambiguous, so pin 1 gets a dot.
+        let pads: Vec<String> =
+            (1..=4).map(|k| pad(&k.to_string(), -1.905 + 1.27 * f64::from(k - 1), 0.0, 1.0, 1.0)).collect();
+        let t = fp("Header_1x04", &format!("{}\n{}", rect(5.08, 2.5, "User.5"), pads.join("\n")));
+        let (new, _) = run("VHRD_Connector_PinHeader", &t, Rule::Pin1Body);
+        let new = new.unwrap();
+        assert!(new.contains("(center -1.905 0)"), "{new}");
+        settled("VHRD_Connector_PinHeader", &t, Rule::Pin1Body);
     }
 
     #[test]
     fn a_back_footprint_uses_the_back_layer() {
         let t = sot23().replace("User.5", "User.6").replace("F.Cu", "B.Cu").replace("F.Mask", "B.Mask");
-        let (new, _) = run("VHRD_Package_TO_SOT_SMD", &t, Rule::Pin1Body);
+        assert!(run("VHRD_Package_TO_SOT_SMD", &t, Rule::Pin1Body).0.is_none());
+        let diode = fp(
+            "D_SOD-123",
+            &format!(
+                "{}\n{}\n{}",
+                rect(2.7, 1.6, "User.5"),
+                pad("1", -1.65, 0.0, 0.9, 1.2),
+                pad("2", 1.65, 0.0, 0.9, 1.2)
+            ),
+        )
+        .replace("User.5", "User.6")
+        .replace("F.Cu", "B.Cu")
+        .replace("F.Mask", "B.Mask");
+        let (new, _) = run("VHRD_Diode_SMD", &diode, Rule::Pin1Body);
         assert!(new.unwrap().contains("(layer \"User.30\")"));
     }
 }
