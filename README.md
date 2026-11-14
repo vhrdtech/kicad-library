@@ -141,8 +141,9 @@ same under `footprints/<name>.pretty` for footprints.
   footprints have none), User.7/8 `Xray.F`/`Xray.B` (every edge of the 3D model seen from above, hidden ones
   included: leads, terminations, bottom and exposed pads under the body, the pin-1 notch; the Pins presets show it,
   so pin numbers read against where the pins are), User.29/30 `Pin1.F`/`Pin1.B` (a dot or, on a polar two-pin part,
-  a bar on pin 1's own pad, shown with the body, which has no pin-1 mark of its own; `kilib lint --rule pin1-body`).
-  KiCad pairs user layers only by number (User.5 flips to
+  a bar on pin 1's own pad, shown with the body, which has no pin-1 mark of its own; `kilib lint --rule pin1-body`),
+  User.31/32 `Ruler.F`/`Ruler.B` (ticks and numbers beside the pads for counting pins; `kilib lint --rule ruler`,
+  `kilib ruler`). KiCad pairs user layers only by number (User.5 flips to
   User.6, never to User.7), so each pair is an odd number and the next. KiCad's own `Dwgs.User` and `Cmts.User`
   are named `Dimensions` and `Fab.Notes`. Bodies drawn before the Body pair existed (footprint drawings on User.2,
   then named `Body.F`, which KiCad did not flip) move to `Body.F` or `Body.B` by the footprint's side, and User.2
@@ -151,9 +152,17 @@ same under `footprints/<name>.pretty` for footprints.
   `kilib layers --write` or by hand in Board Setup > Board Editor Layers (add the user layers, name them, set
   their type to front or back). A number the board already uses under another name is left alone and reported.
   Only the layer table and the layer of those old bodies change.
+- `kilib ruler --board PCB --silk on|off` copies each footprint's pin ruler (`lint --rule ruler`) onto a board's
+  silkscreen, F.SilkS or B.SilkS by the footprint's side, or takes the copy off: KiCad cannot show a layer on the
+  silkscreen per part, so a board decides. The ticks are copied as they are; the numbers are 0.8 mm (the boards'
+  minimum text height, `silk_text_height_mm` in `generate/ruler.toml`), beyond their ticks and 0.4 mm clear of
+  every mask opening, and one with no room at that size is left out and listed, its tick kept. KiCad's "Update
+  Footprints from Library" drops the copy: run it again after; where the copy is already right it changes nothing.
+  Only the silkscreen copies of footprints with a ruler change. Without `--write` it lists what would change and
+  exits 1 when anything would.
 - `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
   a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
-  Edge.Cuts; pads, vias and ratsnest shown), `Floorplan.F`/`B`/`FB` (Courtyard, Ref.Des, Crit, Imp, Body, Pin1, Ref.Test, Ref.Tie, Edge.Cuts), `Assembly.Ref.F`/`B` and `Assembly.Value.F`/`B` (Body, Pin1, Ref.Des or Value, Edge.Cuts; pads shown), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
+  Edge.Cuts; pads, vias and ratsnest shown), `Floorplan.F`/`B`/`FB` (Courtyard, Ref.Des, Crit, Imp, Body, Pin1, Ref.Test, Ref.Tie, Edge.Cuts), `Assembly.Ref.F`/`B` and `Assembly.Value.F`/`B` (Body, Pin1, Ref.Des or Value, Edge.Cuts; pads shown), `Pins.F`/`B` (Pins, Ruler, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
   the back counterpart, viewed from below. A preset already in the project under the same name is replaced; the
   project's other presets are kept, in their place. The sibling board (same name, `.kicad_pcb`) is checked for the
   user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
@@ -236,6 +245,18 @@ same under `footprints/<name>.pretty` for footprints.
     neither fab outline nor courtyard, keeps the number beside its pad, outside and level, and is reported
     (`left`). A footprint gets one size for all its numbers, of 0.5 to 0.2 mm the one with the most numbers inside,
     the largest of those; one that fits nowhere is reported. The fix replaces anything else on the layer.
+  - `ruler`: a pin ruler on `Ruler.F` (User.31; `Ruler.B`, User.32, on the back), for finding pin N by counting on
+    the board: QFP, QFN/DFN/SON and SOIC/SSOP/TSSOP with 8 pins or more, and connectors with a counted pad row
+    (`pin1` above: FFC/FPC, board-to-board) at 1 mm pitch or finer; never BGA, LGA or WLCSP. The pins are the pads
+    numbered 1, 2, 3... of the size most share (a corner pad may differ; an exposed pad, its vias and mounting pads
+    are no pins); each points away from the pads' middle along its long side (a single row: away from the body).
+    Each tick sits on its pin's centre line beyond the side's toe line (the outer end of its pads' mask openings),
+    0.4 mm clear of every mask opening, so never between pads: a large tick (0.8 mm) and the number at pin 1, every
+    10th pin and each side's first and last pin, so counting runs on around a corner without relying on it; a small
+    tick (0.4 mm) at 5, 15, 25... Numbers are level, 0.5 mm, 0.1 mm stroke, 0.15 mm beyond their tick and clear of
+    every other tick and number; one with no room is left out (pin 1 and the side ends first, then the tens). The
+    sizes and gaps are in `generate/ruler.toml`. The fix replaces anything else on the layer. The library never
+    draws the ruler on the silkscreen: see `kilib ruler`.
   - `centroid`: a cross on `Centroid.F` (User.21; `Centroid.B`, User.22) at every part's and fiducial's origin, the
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.

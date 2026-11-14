@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+### Added
+
+- Ruler.F/B layers (User.31/32) in `kilib layers`, the templates and the Pins presets (LIB-37 pin-ruler).
+- `kilib lint --rule ruler`: pin ruler on QFP, QFN/DFN, SO and fine-pitch connector rows (LIB-37 pin-ruler).
+- 47 footprints carry the pin ruler: 21 QFN/DFN, 11 SO, 9 connectors, 6 QFP (LIB-37 pin-ruler).
+- `kilib ruler --board PCB --silk on|off`: a board's silkscreen copy of the rulers, 0.8 mm numbers (LIB-37 pin-ruler).
+
+### Fixed
+
+- Custom pads read with their primitives: pin numbers and outlines by their true size (2 footprints).
+
 ## [0.5.12] - 2026-11-15
 
 ### Changed

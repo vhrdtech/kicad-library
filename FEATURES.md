@@ -171,3 +171,9 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   (diode, LED, battery, polarised capacitor) gets a bar across the cathode or plus pad instead, square to the part's
   axis (`kilib lint --rule pin1-body`; 104 dots, 58 bars). The Assembly presets show Body and Pin1 instead of
   the fab drawing; every preset with Body shows Pin1 of that side.
+- ✅ LIB-37 pin-ruler: Ruler.F/B (User.31/32) carry a pin ruler beside the pads of QFP, QFN/DFN, SOIC/TSSOP (8 pins
+  or more) and FFC or board-to-board connectors (a counted row, 1 mm pitch or finer), never BGA, LGA or WLCSP: a
+  large tick and the number at pin 1, every 10th pin and each side's end pins, a small tick at 5, 15, 25..., on the
+  pin's centre line beyond the toe, 0.4 mm clear of every mask opening (`kilib lint --rule ruler`, sizes in
+  `generate/ruler.toml`; 47 footprints). The Pins presets show it. The library keeps it off the silkscreen; `kilib
+  ruler --board PCB --silk on|off` copies it onto a board's silkscreen with 0.8 mm numbers, or takes the copy off.
