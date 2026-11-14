@@ -1258,6 +1258,104 @@
 		(fill yes)
 		(layer "User.29")
 	)
+	(fp_line
+		(start -6.125 -5.715)
+		(end -6.925 -5.715)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_line
+		(start -6.125 -0.635)
+		(end -6.525 -0.635)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_line
+		(start -6.125 5.715)
+		(end -6.925 5.715)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_line
+		(start 6.125 5.715)
+		(end 6.925 5.715)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_line
+		(start 6.125 0.635)
+		(end 6.525 0.635)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_line
+		(start 6.125 -5.715)
+		(end 6.925 -5.715)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "User.31")
+	)
+	(fp_text user "1"
+		(at -7.318 -5.691 0)
+		(unlocked yes)
+		(layer "User.31")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(fp_text user "10"
+		(at -7.556 5.739 0)
+		(unlocked yes)
+		(layer "User.31")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(fp_text user "11"
+		(at 7.556 5.739 0)
+		(unlocked yes)
+		(layer "User.31")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(fp_text user "20"
+		(at 7.58 -5.691 0)
+		(unlocked yes)
+		(layer "User.31")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
 	(pad "1" smd roundrect
 		(at -4.65 -5.715)
 		(size 2.05 0.6)
