@@ -220,19 +220,6 @@
 		(layer "F.Fab")
 		(uuid "f4195d2a-4c07-4c15-919c-102b71d37d30")
 	)
-	(fp_poly
-		(pts
-			(xy -7.9 -5.8) (xy -7.9 8.3) (xy 7.9 8.3) (xy 7.9 -5.8) (xy 7.5 -5.8) (xy 7.5 -6.3) (xy 7.9 -6.3)
-			(xy 7.9 -10.3) (xy -7.9 -10.3) (xy -7.9 -6.3) (xy -7.5 -6.3) (xy -7.5 -5.8)
-		)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "User.5")
-		(uuid "089993fb-3398-4fde-9a84-6c1a39189932")
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -349,6 +336,17 @@
 				(thickness 0.075)
 			)
 		)
+	)
+	(fp_rect
+		(start -7.9 -10.3)
+		(end 7.9 8.3)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "28810316-abc2-4b0d-b367-5487e83c0458")
 	)
 	(pad "" np_thru_hole circle
 		(at -5.715 0)

@@ -113,18 +113,6 @@
 	)
 	(fp_poly
 		(pts
-			(xy -2.095 -1.524) (xy -2.095 1.524) (xy 2.095 1.524) (xy 2.095 -1.524)
-		)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "User.5")
-		(uuid "88716c4b-985c-4ea8-a507-d808886904ee")
-	)
-	(fp_poly
-		(pts
 			(xy -1.335 -1.525)
 			(xy 2.095 -1.525)
 			(xy 2.095 1.525)
@@ -221,6 +209,17 @@
 				(thickness 0.06)
 			)
 		)
+	)
+	(fp_rect
+		(start -2.095 -1.524)
+		(end 2.095 1.524)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "33e143b2-2aca-4be6-aaef-24812a447b33")
 	)
 	(pad "1" smd circle
 		(at -1.27 -0.635)
