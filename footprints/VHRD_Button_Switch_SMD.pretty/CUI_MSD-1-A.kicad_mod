@@ -12269,6 +12269,16 @@
 		)
 		(layer "User.7")
 	)
+	(fp_circle
+		(center 3.05 -7.35)
+		(end 3.45 -7.35)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "User.29")
+	)
 	(pad "" np_thru_hole circle
 		(at -4.95 3.25)
 		(size 1 1)

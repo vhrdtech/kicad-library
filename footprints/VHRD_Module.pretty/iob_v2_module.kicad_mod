@@ -124,6 +124,16 @@
 			)
 		)
 	)
+	(fp_circle
+		(center 0 21.4)
+		(end 0.4 21.4)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "User.29")
+	)
 	(pad "1" thru_hole roundrect
 		(at 0 22.5)
 		(size 2 1.25)

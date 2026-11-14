@@ -226,6 +226,16 @@
 		)
 		(layer "User.7")
 	)
+	(fp_circle
+		(center -4.55 -4.55)
+		(end -4.275 -4.55)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "User.29")
+	)
 	(pad "A1" smd circle
 		(at -4.55 -4.55)
 		(size 0.3 0.3)
