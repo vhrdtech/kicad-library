@@ -58,8 +58,8 @@ and library in step). A new package: a line in the map, then `kilib per-package 
 
 ## Designator layers
 
-User.5/6 and User.9-28 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
-outline), `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
+User.5-28 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
+outline), `Xray` (User.7/8, every edge of the 3D model seen from above, hidden ones included), `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
 ties, mechanical parts), `Rooms` (block outlines), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
 --rule pins`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
 part's `Layout_Critical` and `Layout_Important` notes, set in the schematic, README "Layout priority"), named in

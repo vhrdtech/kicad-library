@@ -233,7 +233,8 @@ Examples:
     /// circuit blocks. User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
     /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin, User.25/26
     /// Crit.F/B and User.27/28 Imp.F/B a real part's Layout_Critical and Layout_Important notes, User.5/6 Body.F/B
-    /// a part's full top view (its 3D model's outline). Each pair is typed front and back, so KiCad flips a
+    /// a part's full top view (its 3D model's outline), User.7/8 Xray.F/B every edge of that model seen from
+    /// above, hidden ones included. Each pair is typed front and back, so KiCad flips a
     /// bottom-side footprint's drawing onto the back layer. KiCad's own Dwgs.User and Cmts.User are named
     /// Dimensions and Fab.Notes. This adds the layers a board lacks, and names and types ones it has unnamed; a
     /// number the board already uses under another name is left alone and reported. Bodies from before the pair

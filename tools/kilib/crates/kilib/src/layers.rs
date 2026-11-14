@@ -10,7 +10,8 @@
 //! the body like the designator, so Ref.Des and Value are shown one at a time), Pins (pin numbers next to the pads)
 //! and Centroid (a cross on the placement origin). Two pairs show layout priority: Crit and Imp carry a real part's
 //! `Layout_Critical` and `Layout_Important` notes, empty (so nothing shows) until the schematic sets one. Body
-//! carries a part's full top view, the outline of its 3D model. A few of KiCad's own layers get a name of their own
+//! carries a part's full top view, the outline of its 3D model; Xray every edge of that model seen from above,
+//! hidden ones included. A few of KiCad's own layers get a name of their own
 //! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table and moves the bodies a board's
 //! footprints still draw on User.2 (Body.F before the pair existed) onto Body.F or Body.B.
 
@@ -33,7 +34,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 
 /// The layers, front then back of each pair. KiCad pairs user layers by number only (User.5 front flips to User.6,
 /// never to User.7), so each pair is an odd number and the even one after it.
-pub const LAYERS: [Layer; 22] = [
+pub const LAYERS: [Layer; 24] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -56,6 +57,8 @@ pub const LAYERS: [Layer; 22] = [
     user(28, "back", "Imp.B", "User.28"),
     user(5, "front", "Body.F", "User.5"),
     user(6, "back", "Body.B", "User.6"),
+    user(7, "front", "Xray.F", "User.7"),
+    user(8, "back", "Xray.B", "User.8"),
 ];
 
 /// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
@@ -75,6 +78,10 @@ pub const IMP: [&str; 2] = ["User.27", "User.28"];
 
 /// The Body pair: a part's full top view, the outline of its 3D model seen from above.
 pub const BODY: [&str; 2] = ["User.5", "User.6"];
+
+/// The Xray pair: every edge of a part's 3D model seen from above, hidden ones included (leads, terminations,
+/// bottom and exposed pads under the body, internal outlines), so pin numbers read against where the pins are.
+pub const XRAY: [&str; 2] = ["User.7", "User.8"];
 
 /// Where the library drew bodies before the Body pair: User.2, a plain layer KiCad does not flip, named Body.F.
 pub const OLD_BODY: &str = "User.2";
@@ -321,7 +328,8 @@ mod tests {
         assert!(new.contains("(91 \"User.27\" front \"Imp.F\")\n\t\t(93 \"User.28\" back \"Imp.B\")"), "{new}");
         assert!(new.contains("(39 \"User.1\" user)\n\t\t(55 \"User.9\" front"), "{new}");
         assert!(new.contains("(93 \"User.28\" back \"Imp.B\")\n\t\t(47 \"User.5\" front \"Body.F\")"), "{new}");
-        assert!(new.contains("(49 \"User.6\" back \"Body.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
+        assert!(new.contains("(49 \"User.6\" back \"Body.B\")\n\t\t(51 \"User.7\" front \"Xray.F\")"), "{new}");
+        assert!(new.contains("(53 \"User.8\" back \"Xray.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
         assert_eq!(again, new);

@@ -2,10 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Xray.F/B (User.7/8): every edge of a part's 3D model seen from above, hidden ones included; `kilib layers` names it, templates have it (LIB-35 xray-layer).
+
 ### Changed
 
 - Layer presets: Floorplan.F/B also show the test point and net tie designators (Ref.Test, Ref.Tie).
-- Layer presets: Pins.F/B show the pin numbers over the fab drawing and the body outline (Body.F/B), no copper.
+- Layer presets: Pins.F/B show the pin numbers over the fab drawing and the x-ray view (Xray.F/B), no copper (LIB-35 xray-layer).
 
 ## [0.5.6] - 2026-11-14
 
