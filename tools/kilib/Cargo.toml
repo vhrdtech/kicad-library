@@ -3,7 +3,7 @@ resolver = "3"
 members = ["crates/kilib", "crates/kilib_cli"]
 
 [workspace.package]
-version = "0.5.6"
+version = "0.5.7"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/vhrdtech/kicad-library"
