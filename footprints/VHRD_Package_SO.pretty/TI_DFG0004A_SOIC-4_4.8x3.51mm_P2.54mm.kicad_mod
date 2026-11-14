@@ -404,6 +404,150 @@
 		(layer "User.5")
 		(uuid "91227bdb-e92b-4fdd-97a1-2f4274690bdd")
 	)
+	(fp_line
+		(start -3.5 -1.47)
+		(end -2.4 -1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.5 -1.07)
+		(end -2.4 -1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.5 1.07)
+		(end -2.4 1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.5 1.47)
+		(end -2.4 1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.487 -1.47)
+		(end -3.487 -1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -3.487 1.07)
+		(end -3.487 1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -2.4 -1.755)
+		(end -2.4 1.755)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -2.4 -1.755)
+		(end 2.4 -1.755)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -2.4 1.755)
+		(end 2.4 1.755)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 2.4 -1.755)
+		(end 2.4 1.755)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 2.4 -1.47)
+		(end 3.5 -1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 2.4 -1.07)
+		(end 3.5 -1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 2.4 1.07)
+		(end 3.5 1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 2.4 1.47)
+		(end 3.5 1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.5 -1.47)
+		(end 3.5 -1.07)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 3.5 1.07)
+		(end 3.5 1.47)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
 	(pad "1" smd roundrect
 		(at -3.125 -1.27)
 		(size 1.25 0.6)

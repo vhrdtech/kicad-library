@@ -128,6 +128,42 @@
 		(layer "User.5")
 		(uuid "1a65b3c9-a906-434a-bca7-05d5779b3b66")
 	)
+	(fp_line
+		(start -0.5 -0.25)
+		(end 0.5 -0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.5 0.25)
+		(end 0.5 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.3 -0.25)
+		(end -0.3 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 0.3 -0.25)
+		(end 0.3 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
 	(pad "1" smd roundrect
 		(at -0.51 0)
 		(size 0.54 0.64)

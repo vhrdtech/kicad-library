@@ -458,6 +458,441 @@
 			)
 		)
 	)
+	(fp_line
+		(start -10.98 -5.96)
+		(end -10.98 6.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.98 -5.96)
+		(end -9.98 -5.96)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.98 6.04)
+		(end -9.98 6.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.48 -5.96)
+		(end -10.48 6.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.48 -2.955)
+		(end -10.478 -2.904)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.48 2.926)
+		(end -10.478 2.875)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.478 -2.904)
+		(end -10.413 -2.806)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.478 -2.904)
+		(end -10.329 -2.904)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.478 2.875)
+		(end -10.412 2.777)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.478 2.875)
+		(end -10.329 2.875)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.412 -2.806)
+		(end -10.122 -2.806)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.412 2.777)
+		(end -10.122 2.777)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.33 -3.269)
+		(end -10.33 3.24)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.33 -2.955)
+		(end -10.329 -2.904)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.33 2.926)
+		(end -10.329 2.875)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.329 -2.904)
+		(end -10.281 -2.806)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.329 2.875)
+		(end -10.281 2.777)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.194 -2.806)
+		(end -9.982 -2.897)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.194 2.777)
+		(end -9.982 2.868)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.122 -2.806)
+		(end -9.968 -2.897)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -10.122 2.777)
+		(end -9.968 2.868)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.982 -2.897)
+		(end -9.93 -2.951)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.982 2.868)
+		(end -9.93 2.922)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.98 -5.96)
+		(end -9.98 6.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.968 -2.897)
+		(end -9.93 -2.951)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.968 2.868)
+		(end -9.93 2.922)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.93 -2.951)
+		(end -9.744 -3.178)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.93 2.922)
+		(end -9.744 3.149)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.551 -3.269)
+		(end -6.552 -3.269)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -9.551 3.24)
+		(end -6.552 3.24)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -6.052 -5.139)
+		(end -6.052 -3.769)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -6.052 3.74)
+		(end -6.052 5.111)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -5.552 -5.639)
+		(end 0.293 -5.639)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -5.552 5.611)
+		(end 0.293 5.611)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 0.793 -5.139)
+		(end 0.794 5.111)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -9.744 3.149)
+		(mid -9.658 3.216)
+		(end -9.551 3.24)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -9.551 -3.269)
+		(mid -9.658 -3.245)
+		(end -9.744 -3.178)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -6.552 3.24)
+		(mid -6.199 3.386)
+		(end -6.052 3.74)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -6.052 -3.769)
+		(mid -6.199 -3.415)
+		(end -6.552 -3.269)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -6.052 5.111)
+		(mid -5.906 5.464)
+		(end -5.552 5.611)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -5.552 -5.639)
+		(mid -5.906 -5.493)
+		(end -6.052 -5.139)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -5.407 -4.639)
+		(mid -5.006 -4.239)
+		(end -4.606 -4.639)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -5.407 4.611)
+		(mid -5.006 5.011)
+		(end -4.606 4.611)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -4.606 -4.639)
+		(mid -5.006 -5.04)
+		(end -5.407 -4.639)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -4.606 4.611)
+		(mid -5.006 4.21)
+		(end -5.407 4.611)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 0.293 5.611)
+		(mid 0.647 5.464)
+		(end 0.793 5.111)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 0.793 -5.139)
+		(mid 0.647 -5.493)
+		(end 0.293 -5.639)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
 	(pad "" np_thru_hole circle
 		(at -4.999 -4.625)
 		(size 0.8 0.8)

@@ -173,6 +173,140 @@
 		(layer "User.5")
 		(uuid "2b4995c5-e0cc-466e-8dd0-dab858982a8b")
 	)
+	(fp_line
+		(start -1.6 -0.675)
+		(end -1.6 0.675)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1.525 -0.75)
+		(end 1.525 -0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1.525 0.75)
+		(end 1.525 0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.9 -0.75)
+		(end -0.9 0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 0.9 -0.75)
+		(end 0.9 0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 1.6 -0.675)
+		(end 1.6 0.675)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -1.6 -0.675)
+		(mid -1.547 -0.697)
+		(end -1.525 -0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -1.53 0.604)
+		(mid -1.507 0.66)
+		(end -1.45 0.684)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -1.525 0.75)
+		(mid -1.547 0.697)
+		(end -1.6 0.675)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start -1.45 -0.684)
+		(mid -1.507 -0.66)
+		(end -1.53 -0.604)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 1.45 0.684)
+		(mid 1.507 0.66)
+		(end 1.53 0.604)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 1.525 -0.75)
+		(mid 1.547 -0.697)
+		(end 1.6 -0.675)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 1.53 -0.604)
+		(mid 1.507 -0.66)
+		(end 1.45 -0.684)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 1.6 0.675)
+		(mid 1.547 0.697)
+		(end 1.525 0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
 	(pad "1" smd rect
 		(at -1.25 0)
 		(size 1.1 1.9)

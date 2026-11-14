@@ -126,6 +126,107 @@
 		(layer "User.5")
 		(uuid "61f6889b-78f3-401c-aa6e-f1521e70ef70")
 	)
+	(fp_line
+		(start -1 -1.181)
+		(end -1 1.181)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1 -1.181)
+		(end -0.238 -1.181)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1 -0.778)
+		(end 1.489 -0.778)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -1 0.778)
+		(end 1.489 0.778)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.238 -1.181)
+		(end -0.238 -0.634)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.238 -0.634)
+		(end 1.489 -0.634)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.238 0.634)
+		(end -0.238 1.181)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start -0.238 0.634)
+		(end 1.489 0.634)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_line
+		(start 1.489 -0.762)
+		(end 1.489 0.762)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 1.946 0.533)
+		(mid 2.324 0.377)
+		(end 2.48 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
+	(fp_arc
+		(start 2.48 0)
+		(mid 2.324 -0.377)
+		(end 1.946 -0.533)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.7")
+	)
 	(pad "1" smd custom
 		(at 0 0)
 		(size 1.2625 1.165)
