@@ -65,6 +65,8 @@
 		(49 "User.6" back "Body.B")
 		(51 "User.7" front "Xray.F")
 		(53 "User.8" back "Xray.B")
+		(95 "User.29" front "Pin1.F")
+		(97 "User.30" back "Pin1.B")
 	)
 	(setup
 		(stackup
