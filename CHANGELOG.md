@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Layer presets show the footprints, their text (designators, values, Crit/Imp notes, pin numbers), tracks, zones and the board outline area: they listed almost no object types, so KiCad hid nearly everything.
+
 ## [0.5.2] - 2026-11-14
 
 ### Added

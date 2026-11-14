@@ -299,8 +299,24 @@
         ],
         "name": "Layout.F",
         "renderLayers": [
-          "pads",
+          "tracks",
           "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid",
           "ratsnest"
         ]
       },
@@ -318,8 +334,24 @@
         ],
         "name": "Layout.B",
         "renderLayers": [
-          "pads",
+          "tracks",
           "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid",
           "ratsnest"
         ]
       },
@@ -335,7 +367,19 @@
           83
         ],
         "name": "Assembly.F",
-        "renderLayers": []
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "footprint_anchors",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
+        ]
       },
       {
         "activeLayer": 33,
@@ -349,7 +393,19 @@
           85
         ],
         "name": "Assembly.B",
-        "renderLayers": []
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "footprint_anchors",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
+        ]
       },
       {
         "activeLayer": 0,
@@ -362,7 +418,23 @@
         ],
         "name": "Pins.F",
         "renderLayers": [
-          "pads"
+          "tracks",
+          "vias",
+          "pads",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
         ]
       },
       {
@@ -376,7 +448,23 @@
         ],
         "name": "Pins.B",
         "renderLayers": [
-          "pads"
+          "tracks",
+          "vias",
+          "pads",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
         ]
       },
       {
@@ -391,7 +479,24 @@
         ],
         "name": "Silk.F",
         "renderLayers": [
-          "pads"
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
         ]
       },
       {
@@ -406,7 +511,24 @@
         ],
         "name": "Silk.B",
         "renderLayers": [
-          "pads"
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drc_warnings",
+          "drc_errors",
+          "locked_item_shadows",
+          "conflict_shadows",
+          "board_outline_area",
+          "drawing_sheet",
+          "grid"
         ]
       }
     ],
