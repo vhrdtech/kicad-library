@@ -60,6 +60,24 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Panasonic AXF361500_0_1"
 			(rectangle
 				(start 0 0)

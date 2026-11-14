@@ -71,6 +71,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Conn_02x40_Odd_Even_1_1"
 			(rectangle
 				(start -1.27 49.53)

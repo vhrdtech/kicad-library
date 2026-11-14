@@ -71,6 +71,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at -0.762 -32.512 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at -0.762 -32.512 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "AOZ1376DI-02_1_0"
 			(rectangle
 				(start 0 0)

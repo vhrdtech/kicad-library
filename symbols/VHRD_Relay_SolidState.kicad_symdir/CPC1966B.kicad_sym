@@ -18,6 +18,12 @@
     (property "ki_fp_filters" "CPC1966B_IXY CPC1966B_IXY-M CPC1966B_IXY-L" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 1.27 6.35 0)
+      (effects (font (size 1.27 1.27) italic) hide)
+    )
+    (property "Layout_Important" "" (at 1.27 6.35 0)
+      (effects (font (size 1.27 1.27) italic) hide)
+    )
     (symbol "CPC1966B_0_1"
       (polyline
         (pts

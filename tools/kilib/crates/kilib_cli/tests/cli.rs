@@ -741,3 +741,39 @@ fn stock_import_symbols_makes_them_standalone_and_diff_compares_them() {
     assert_eq!(out.status.code(), Some(1), "{t}");
     assert!(t.contains("VHRD_Diode:BAS16TW: differs from stock"), "{t}");
 }
+
+#[test]
+fn layout_fields_lists_then_writes_then_finds_nothing() {
+    let dir = TestDir::new("cli_layout_fields");
+    let field = |name: &str, v: &str| {
+        format!(
+            "\t\t(property \"{name}\" \"{v}\"\n\t\t\t(at 0 0 0)\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t)\n\t\t\t\t(hide yes)\n\t\t\t)\n\t\t)\n"
+        )
+    };
+    let sym = format!(
+        "(kicad_symbol_lib\n\t(version 20241209)\n\t(symbol \"R\"\n{}\t)\n)\n",
+        field("Reference", "R") + &field("Description", "Resistor")
+    );
+    let path = dir.write("lib/symbols/VHRD_Device.kicad_symdir/R.kicad_sym", &sym);
+    dir.write(
+        "lib/symbols/VHRD_power.kicad_symdir/GND.kicad_sym",
+        &sym.replace("\t(symbol \"R\"\n", "\t(symbol \"GND\"\n\t\t(power)\n"),
+    );
+    let out = kilib(&dir, &["layout-fields", "lib/symbols"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("R.kicad_sym: 1 symbols") && !t.contains("GND.kicad_sym"), "{t}");
+    assert!(t.contains("kilib layout-fields: 2 files: 1 to change, 1 symbols get the fields; 0 left alone"), "{t}");
+    assert_eq!(std::fs::read_to_string(&path).unwrap(), sym, "nothing written without --write");
+    let out = kilib(&dir, &["layout-fields", "--write", "lib/symbols"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let new = std::fs::read_to_string(&path).unwrap();
+    let want = field("Reference", "R")
+        + &field("Description", "Resistor")
+        + &field("Layout_Critical", "")
+        + &field("Layout_Important", "");
+    assert!(new.contains(&want), "{new}");
+    let out = kilib(&dir, &["layout-fields", "lib/symbols"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert!(text(&out).contains("✓ nothing to change"));
+}

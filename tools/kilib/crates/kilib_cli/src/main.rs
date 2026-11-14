@@ -16,6 +16,7 @@ use kilib::check::{self, Finding, Report};
 use kilib::config;
 use kilib::fab;
 use kilib::layers;
+use kilib::layout_fields;
 use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
 use kilib::per_package;
@@ -293,6 +294,31 @@ Examples:
         #[arg(long, short)]
         verbose: bool,
     },
+    /// Add the empty Layout_Critical and Layout_Important fields to library symbols and placed symbols
+    ///
+    /// Layout priority: a schematic sets a short note (U101.5 VDD, FB U301) in a symbol's Layout_Critical or
+    /// Layout_Important field; Update PCB from Schematic carries it to the footprint's property of the same name,
+    /// which shows on Crit.F/B (User.25/26) or Imp.F/B (User.27/28) (`kilib lint --rule layout` puts them on every
+    /// real part's footprint). Every symbol carries both fields, empty and hidden. This adds them where a symbol
+    /// lacks them: to each symbol of a library file (.kicad_sym), and in a schematic (.kicad_sch) to each placed
+    /// symbol and to its copy in the schematic's lib_symbols (KiCad's "Update Symbols from Library" does the same).
+    /// A new field copies a hidden field of the symbol (Description, else Datasheet, else Footprint), empty, so it
+    /// is written the way the file writes its fields. Power symbols and power flags get none. Only the new fields
+    /// are written. Without --write it lists what would change and exits 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib layout-fields
+  kilib layout-fields --write symbols/VHRD_Device.kicad_symdir
+  kilib layout-fields ../hw/b153_typec_serial/source/b153a")]
+    LayoutFields {
+        /// Symbol files (.kicad_sym), schematics (.kicad_sch) or folders searched for them (default: the checkout's
+        /// symbols/)
+        #[arg(value_hint = ValueHint::AnyPath)]
+        paths: Vec<PathBuf>,
+        /// Write the changes
+        #[arg(long)]
+        write: bool,
+    },
     /// Check footprints against the library rules: pin-1 marks, attributes, courtyards, 3D models, silkscreen
     ///
     /// pin1: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the
@@ -538,6 +564,10 @@ fn main() -> ExitCode {
             let (name, flags) = cmd.usage();
             usage::record(name, &flags);
             chip_cmd::run_footprints(cmd)
+        }
+        Command::LayoutFields { paths, write } => {
+            usage::record("layout-fields", &[("write", write), ("paths", !paths.is_empty())]);
+            run_layout_fields(paths, write)
         }
         Command::Layers { boards, write } => {
             usage::record("layers", &[("write", write)]);
@@ -1056,6 +1086,43 @@ fn run_fab(paths: Vec<PathBuf>, write: bool, verbose: bool) -> Result<ExitCode, 
     } else if write {
         let n = fab::apply(&items)?;
         eprintln!("{GREEN}✓{GREEN:#} wrote {n} footprints");
+        Ok(ExitCode::SUCCESS)
+    } else {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+        Ok(ExitCode::from(1))
+    }
+}
+
+fn run_layout_fields(paths: Vec<PathBuf>, write: bool) -> Result<ExitCode, String> {
+    let paths = if paths.is_empty() { vec![library_or_cwd(None)?.join("symbols")] } else { paths };
+    let items = layout_fields::plan(&paths);
+    let (mut files, mut symbols, mut left) = (0, 0, 0);
+    for i in &items {
+        if let Some(e) = &i.error {
+            left += 1;
+            println!("{YELLOW}!{YELLOW:#} {}: {e}", i.path.display());
+            continue;
+        }
+        for why in &i.added.skipped {
+            left += 1;
+            println!("{YELLOW}!{YELLOW:#} {}: {why}", i.path.display());
+        }
+        if i.new.is_some() {
+            files += 1;
+            symbols += i.added.symbols;
+            println!("  {BOLD}{}{BOLD:#}: {} symbols", i.path.display(), i.added.symbols);
+        }
+    }
+    eprintln!(
+        "{BOLD}kilib layout-fields{BOLD:#}: {} files: {files} to change, {symbols} symbols get the fields; {left} left alone",
+        items.len()
+    );
+    if files == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+        Ok(ExitCode::SUCCESS)
+    } else if write {
+        let n = layout_fields::apply(&items)?;
+        eprintln!("{GREEN}✓{GREEN:#} wrote {n} files");
         Ok(ExitCode::SUCCESS)
     } else {
         eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");

@@ -15,6 +15,12 @@
     (property "ki_description" "5.7 kV rms, Signal Isolated, Basic CAN FD Transceiver" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 11.43 -17.78 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 11.43 -17.78 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "ADM3050E_1_1"
       (polyline
         (pts

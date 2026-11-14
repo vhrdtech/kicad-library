@@ -57,6 +57,24 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 5.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 5.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "STM32H725IGKx_1_1"
 			(rectangle
 				(start 0 0)

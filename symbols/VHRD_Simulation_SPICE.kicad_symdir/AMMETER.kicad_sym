@@ -83,6 +83,20 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(effects
+				(font (size 1.27 1.27))
+				(hide yes)
+			)
+		)
 		(symbol "AMMETER_0_1"
 			(circle
 				(center 0 0)

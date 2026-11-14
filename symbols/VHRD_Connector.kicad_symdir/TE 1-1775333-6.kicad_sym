@@ -71,6 +71,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 20.066 -36.322 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 20.066 -36.322 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "TE 1-1775333-6_1_1"
 			(rectangle
 				(start -1.27 19.05)

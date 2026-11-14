@@ -60,6 +60,24 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 23.876 -27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 23.876 -27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Hirose BM50U-4DP/2-0.35V(53)_1_1"
 			(polyline
 				(pts

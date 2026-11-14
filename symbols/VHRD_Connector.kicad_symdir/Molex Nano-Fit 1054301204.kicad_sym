@@ -61,6 +61,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 1.27 -15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 1.27 -15.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Molex Nano-Fit 1054301204_0_1"
 			(rectangle
 				(start 0 1.8801)

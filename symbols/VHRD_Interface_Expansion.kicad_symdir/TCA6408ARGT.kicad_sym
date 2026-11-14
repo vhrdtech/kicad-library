@@ -105,6 +105,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 -30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 -30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "TCA6408ARGT_1_1"
 			(rectangle
 				(start -7.62 12.7)

@@ -12,6 +12,12 @@
     (property "Datasheet" "" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "cannify_micro_l_1_1"
       (polyline
         (pts

@@ -75,6 +75,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "FDN358P_0_1"
 			(polyline
 				(pts

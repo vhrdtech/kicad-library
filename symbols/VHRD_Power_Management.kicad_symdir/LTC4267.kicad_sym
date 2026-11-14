@@ -15,6 +15,12 @@
     (property "Description" "Power over Ethernet IEEE 802.3af PD Interface with Integrated Switching Regulator" (at 11.43 -50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 11.43 -50.8 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 11.43 -50.8 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "LTC4267_1_1"
       (rectangle (start 0 0) (end 17.78 -45.72)
         (stroke (width 0) (type default))

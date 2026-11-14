@@ -72,6 +72,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 2.54 3.556 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 2.54 3.556 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "KAE01SGGT_0_0"
 			(circle
 				(center 1.778 -2.54)

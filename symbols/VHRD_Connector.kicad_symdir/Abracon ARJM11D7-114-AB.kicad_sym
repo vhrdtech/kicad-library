@@ -58,6 +58,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 14.478 -59.817 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 14.478 -59.817 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Abracon ARJM11D7-114-AB_0_0"
 			(polyline
 				(pts

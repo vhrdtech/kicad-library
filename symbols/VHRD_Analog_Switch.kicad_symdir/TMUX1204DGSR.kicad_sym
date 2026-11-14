@@ -85,6 +85,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 5.842 -33.274 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 5.842 -33.274 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "TMUX1204DGSR_0_1"
 			(rectangle
 				(start -7.62 20.32)

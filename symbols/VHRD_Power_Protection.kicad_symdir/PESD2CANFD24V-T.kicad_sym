@@ -116,6 +116,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "PESD2CANFD24V-T_0_0"
 			(pin passive line
 				(at 0 -5.08 90)

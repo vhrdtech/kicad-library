@@ -49,6 +49,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 10.16 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 10.16 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "PA1134NL_0_0"
 			(text "8 V  \n  20 mA"
 				(at -8.382 -20.574 0)

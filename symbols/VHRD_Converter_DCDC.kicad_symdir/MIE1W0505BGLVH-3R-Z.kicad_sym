@@ -55,6 +55,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 4.572 -21.844 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 4.572 -21.844 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "MIE1W0505BGLVH-3R-Z_0_0"
 			(rectangle
 				(start -10.16 -12.7)

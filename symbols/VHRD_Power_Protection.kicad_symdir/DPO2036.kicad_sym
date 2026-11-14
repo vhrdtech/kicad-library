@@ -72,6 +72,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 21.844 -41.402 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 21.844 -41.402 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "DPO2036_1_1"
 			(rectangle
 				(start 0 0)

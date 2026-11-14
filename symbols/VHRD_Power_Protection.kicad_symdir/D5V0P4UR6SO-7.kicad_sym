@@ -15,6 +15,12 @@
     (property "Description" "4 CHANNEL LOW CAPACITANCE TVS DIODE ARRAY" (at 0 -35.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 0 -35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 0 -35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "D5V0P4UR6SO-7_0_1"
       (polyline
         (pts

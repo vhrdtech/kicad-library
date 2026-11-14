@@ -72,6 +72,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 16.764 -43.434 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 16.764 -43.434 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "USB_C_Plug_0_0"
 			(rectangle
 				(start 10.16 25.654)

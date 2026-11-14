@@ -79,6 +79,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at -0.762 -14.732 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at -0.762 -14.732 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "TE 2337019-1_0_1"
 			(polyline
 				(pts

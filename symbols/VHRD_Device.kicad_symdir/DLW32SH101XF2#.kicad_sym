@@ -27,6 +27,12 @@
     (property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "DLW32SH101XF2#_0_1"
       (circle (center -3.048 -1.27) (radius 0.254)
         (stroke (width 0) (type default))

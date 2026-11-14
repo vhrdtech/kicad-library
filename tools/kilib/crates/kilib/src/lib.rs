@@ -14,7 +14,10 @@
 //! - [`stock::plan_import`] and [`stock::compare`]: KiCad's stock footprints copied into the checkout, and the
 //!   copies compared with the current stock library; [`stock::symbol`] the same for its stock symbols.
 //! - [`lint::plan`] and [`lint::apply`]: library-wide footprint rules (pin-1 marks, attributes, courtyards, 3D
-//!   models, silkscreen, pin numbers, centroid crosses), each a check and, where the rule is clear, a fix.
+//!   models, silkscreen, pin numbers, centroid crosses, layout-priority properties), each a check and, where the
+//!   rule is clear, a fix.
+//! - [`layout_fields::plan`] and [`layout_fields::apply`]: the empty `Layout_Critical` and `Layout_Important`
+//!   fields added to library symbols and to the symbols placed in schematics.
 //! - [`per_package::plan`] and [`per_package::apply`]: a symbol per package for generic symbols, derived from
 //!   them with the footprint set, as the rename map's `[per_package]` names them; [`per_package::survey`] the
 //!   generic symbols boards place, by footprint.
@@ -27,6 +30,7 @@ pub mod fab;
 pub mod footprint;
 pub mod ipc;
 pub mod layers;
+pub mod layout_fields;
 pub mod libtable;
 pub mod lint;
 pub mod map;

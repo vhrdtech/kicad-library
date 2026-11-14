@@ -72,6 +72,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 22.352 -103.378 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 22.352 -103.378 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "BQ76952PFBR_0_0"
 			(pin input line
 				(at -2.54 -20.32 0)

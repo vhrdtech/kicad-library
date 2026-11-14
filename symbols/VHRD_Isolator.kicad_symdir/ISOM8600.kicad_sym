@@ -72,6 +72,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 29.718 -22.352 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 29.718 -22.352 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "ISOM8600_0_1"
 			(rectangle
 				(start 0 0)

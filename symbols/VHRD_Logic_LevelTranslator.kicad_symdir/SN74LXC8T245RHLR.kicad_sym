@@ -84,6 +84,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 1.778 -39.878 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 1.778 -39.878 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "SN74LXC8T245RHLR_0_1"
 			(rectangle
 				(start -7.62 25.4)

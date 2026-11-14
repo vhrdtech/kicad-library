@@ -83,6 +83,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 46.99 -17.526 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 46.99 -17.526 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "BY25Q20AWUIG(R)_0_1"
 			(rectangle
 				(start -7.62 10.16)

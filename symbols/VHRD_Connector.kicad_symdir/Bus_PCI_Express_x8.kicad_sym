@@ -67,6 +67,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 18.542 -129.032 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 18.542 -129.032 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Bus_PCI_Express_x8_0_1"
 			(rectangle
 				(start 3.81 2.54)

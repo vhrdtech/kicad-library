@@ -71,6 +71,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 37.592 -34.036 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 37.592 -34.036 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Molex BackFlip 5047540700_1_1"
 			(polyline
 				(pts

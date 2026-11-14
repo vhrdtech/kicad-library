@@ -21,6 +21,12 @@
     (property "ki_fp_filters" "SOIC*P1.27mm*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at -7.62 22.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at -7.62 22.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "ADM3057E_0_1"
       (rectangle (start -12.7 20.32) (end 12.7 -22.86)
         (stroke (width 0.254) (type default))

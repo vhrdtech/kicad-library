@@ -12,6 +12,12 @@
     (property "Datasheet" "" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "vb125c1_button_board_0_1"
       (circle (center -2.032 0) (radius 0.508)
         (stroke (width 0) (type default))

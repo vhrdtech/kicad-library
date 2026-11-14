@@ -75,6 +75,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 4.064 -18.542 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 4.064 -18.542 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "CL-SB-22B-01T_0_0"
 			(circle
 				(center 0.508 -2.54)

@@ -72,6 +72,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 5.334 3.556 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 5.334 3.556 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "CHS-02TB_0_1"
 			(circle
 				(center 1.9885 -2.5449)

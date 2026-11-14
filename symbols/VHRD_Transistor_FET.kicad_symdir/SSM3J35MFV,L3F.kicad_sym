@@ -67,6 +67,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 16.002 -7.874 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 16.002 -7.874 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "SSM3J35MFV,L3F_0_1"
 			(polyline
 				(pts

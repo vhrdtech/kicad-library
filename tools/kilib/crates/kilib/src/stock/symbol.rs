@@ -4,7 +4,8 @@
 //! pins, units and graphics under its own name and fields), with
 //! - the `Footprint` field pointing at our copy of the footprint, where `footprints/` has one;
 //! - the library part of each `ki_fp_filters` pattern (`Connector*:*_1x??_*`) prefixed `VHRD_`;
-//! - an empty, hidden `Mpn1` field where the symbol has no `Mpn` field.
+//! - an empty, hidden `Mpn1` field where the symbol has no `Mpn` field;
+//! - the empty, hidden `Layout_Critical` and `Layout_Important` fields ([`crate::layout_fields`]).
 //!
 //! The fields and flags (`in_bom`, `exclude_from_sim`, ...) of a copy are ours to fill in; pins, units and graphics
 //! are KiCad's. [`compare`] therefore lays a copy's fields and flags over a fresh import of the stock symbol, and
@@ -166,7 +167,8 @@ pub fn library_fields(text: &str, footprints: &Path) -> Result<String, String> {
 
 /// The copy of the stock symbol `text` from `lib_dir`.
 pub fn import_text(text: &str, lib_dir: &Path, footprints: &Path) -> Result<String, String> {
-    library_fields(&standalone(text, lib_dir)?, footprints)
+    let text = library_fields(&standalone(text, lib_dir)?, footprints)?;
+    Ok(crate::layout_fields::add_to_text(&text)?.0)
 }
 
 /// What importing `ids` (`Lib:Name`) from `stock` (KiCad's symbol folder) into `symbols` would write; `footprints`

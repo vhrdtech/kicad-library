@@ -64,6 +64,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Samtec Q Strip QTH-030-02-F-D-A_0_0"
 			(pin passive line
 				(at -12.7 27.94 0)

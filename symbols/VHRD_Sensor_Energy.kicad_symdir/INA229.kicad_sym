@@ -83,6 +83,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 12.954 -17.018 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 12.954 -17.018 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "INA229_0_1"
 			(rectangle
 				(start 7.62 10.16)

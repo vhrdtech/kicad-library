@@ -58,6 +58,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 5.08 5.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 5.08 5.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "TC2050-IDC-NL_1_1"
 			(rectangle
 				(start 0 0)

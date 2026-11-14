@@ -49,6 +49,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 7.62 2.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 7.62 2.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "DM-OLED042-647_1_1"
 			(rectangle
 				(start 0 0)

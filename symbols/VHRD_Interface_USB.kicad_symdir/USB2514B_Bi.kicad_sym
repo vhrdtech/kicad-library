@@ -86,6 +86,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 21.59 -43.434 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 21.59 -43.434 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "USB2514B_Bi_0_1"
 			(rectangle
 				(start -25.4 45.72)

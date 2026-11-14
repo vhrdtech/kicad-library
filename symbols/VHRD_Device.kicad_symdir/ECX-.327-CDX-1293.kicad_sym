@@ -21,6 +21,12 @@
     (property "ki_fp_filters" "Crystal*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at 0 -5.08 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at 0 -5.08 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "ECX-.327-CDX-1293_0_1"
       (rectangle (start -0.762 -1.524) (end 0.762 1.524)
         (stroke (width 0) (type default))

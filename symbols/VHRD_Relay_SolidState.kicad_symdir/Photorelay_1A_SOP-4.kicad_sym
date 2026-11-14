@@ -220,6 +220,28 @@
 				)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(symbol "Photorelay_1A_SOP-4_0_1"
 			(rectangle
 				(start -5.08 3.81)

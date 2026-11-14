@@ -15,6 +15,12 @@
     (property "ki_fp_filters" "iob_v2_*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Layout_Critical" "" (at -11.43 12.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Layout_Important" "" (at -11.43 12.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "iob_v2_0_1"
       (rectangle (start -11.43 12.7) (end 11.43 -15.24)
         (stroke (width 0) (type default))

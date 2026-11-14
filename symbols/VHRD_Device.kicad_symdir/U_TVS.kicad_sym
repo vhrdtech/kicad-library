@@ -74,6 +74,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 26.67 -4.064 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 26.67 -4.064 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "U_TVS_0_1"
 			(polyline
 				(pts

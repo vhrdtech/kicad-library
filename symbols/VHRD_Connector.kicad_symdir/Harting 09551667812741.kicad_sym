@@ -71,6 +71,24 @@
 				(hide yes)
 			)
 		)
+		(property "Layout_Critical" ""
+			(at 0.762 -27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Layout_Important" ""
+			(at 0.762 -27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(symbol "Harting 09551667812741_0_1"
 			(polyline
 				(pts
