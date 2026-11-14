@@ -986,8 +986,8 @@
 		(layer "User.7")
 	)
 	(fp_circle
-		(center -1.95 -1.25)
-		(end -1.8 -1.25)
+		(center -2.9 -0.975)
+		(end -2.75 -0.975)
 		(stroke
 			(width 0)
 			(type solid)

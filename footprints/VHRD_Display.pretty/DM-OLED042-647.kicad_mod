@@ -581,8 +581,8 @@
 		)
 	)
 	(fp_circle
-		(center 0 5.4)
-		(end 0.275 5.4)
+		(center 0 4.875)
+		(end 0.275 4.875)
 		(stroke
 			(width 0)
 			(type solid)

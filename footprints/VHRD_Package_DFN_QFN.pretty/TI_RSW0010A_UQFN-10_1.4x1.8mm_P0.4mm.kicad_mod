@@ -637,16 +637,6 @@
 		)
 		(layer "User.7")
 	)
-	(fp_circle
-		(center -0.05 0.05)
-		(end 0.1 0.05)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(fill yes)
-		(layer "User.29")
-	)
 	(pad "1" smd rect
 		(at -0.549999 -0.2 90)
 		(size 0.2 0.700001)

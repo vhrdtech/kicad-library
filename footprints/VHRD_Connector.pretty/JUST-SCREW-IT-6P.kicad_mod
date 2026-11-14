@@ -458,8 +458,8 @@
 		(layer "User.21")
 	)
 	(fp_circle
-		(center -2.1 0.45)
-		(end -1.7 0.45)
+		(center -1.27 0.635)
+		(end -0.87 0.635)
 		(stroke
 			(width 0)
 			(type solid)
