@@ -9,17 +9,16 @@
 //!
 //! A part of three or more pins gets a filled dot, [`DIAMETER_MIN`] to [`DIAMETER_MAX`] across (a tenth of the
 //! body's shorter side, and under the distance from pin 1 to its nearest neighbour), centred on pin 1 — unless the
-//! pads alone already tell pin 1 apart: no turn the pads allow ([`super::pin1::moves`], reused from the `pin1` rule)
-//! takes pin 1 to where another pad sits (an asymmetric SOT-23, SOT-323, SOT-89, SOT-223...), which gets no mark
-//! either. A symmetric part (a QFN, a QFP, a SOIC, a SOT-23-6, a SOT-363, a connector with a symmetric pad row...)
-//! keeps the dot.
+//! part wants none ([`super::pin1::need`]): the pads alone already tell pin 1 apart (an asymmetric SOT-23, SOT-323,
+//! SOT-89, SOT-223...), or the part works the same turned half round (a 4-pad crystal, a tact switch). A symmetric
+//! part (a QFN, a QFP, a SOIC, a SOT-23-6, a SOT-363, a connector with a symmetric pad row...) keeps the dot.
 //!
 //! Either mark sits exactly on pin 1's pad: its anchor (`at`), the same point for every shape of a multi-shape pad.
 //! No search for a free spot, no check that it clears another pad. The layer belongs to this rule: whatever else is
 //! there is replaced.
 
-use super::pin1::{SAME, axis, moves, needs_mark, pin_numbers, pin1};
-use super::{Class, Input, Outcome, delete, insert};
+use super::pin1::{Need, axis, need, pin_numbers, pin1};
+use super::{Input, Outcome, delete, insert};
 use crate::footprint::{Footprint, Graphic, Pad, Pt, Rect, dist, fmt, render_graphic};
 use crate::layers::{BODY, PIN1, side_of};
 
@@ -62,14 +61,6 @@ fn neighbour(fp: &Footprint, p1: &Pad) -> Option<f64> {
     fp.copper_pads().filter(|p| p.number != p1.number).map(|p| dist(p.at, p1.at)).reduce(f64::min)
 }
 
-/// Whether a turn the pads allow takes pin 1 to where another pad actually sits: the layout alone is ambiguous and
-/// wants a dot. `false` for a part no turn of whose pads lands pin 1 on another pad (SOT-23, SOT-323...): the pads
-/// already tell pin 1 apart, with nothing this layer could add.
-fn ambiguous(fp: &Footprint, p1: &Pad) -> bool {
-    let (_, turns) = moves(fp, p1);
-    turns.iter().any(|&(_, to)| fp.copper_pads().any(|p| p.number != p1.number && dist(p.at, to) < SAME))
-}
-
 /// The bar across `p1`, square to `ax` (the part's axis), as long as the pad reaches across it.
 fn bar(p1: &Pad, ax: Pt, width: f64) -> (Pt, Pt) {
     let perp = (-ax.1, ax.0);
@@ -99,29 +90,28 @@ pub fn run(i: &Input) -> Outcome {
     let have: Vec<_> = fp.on(layer).collect();
     let texts: Vec<_> = fp.texts.iter().filter(|t| t.layer == layer).collect();
     let stray = have.len() + texts.len();
-    let wanted = i.class == Class::Part && needs_mark(i.lib, fp);
-    let (spot, none_reason) = if wanted {
-        let p1 = pin1(fp).expect("needs_mark checks it");
-        let Some(b) = body(fp) else {
-            out.left(format!("{layer}: no body or pads to size the mark by"));
-            return out;
-        };
-        if pin_numbers(fp).len() == 2 {
-            let Some(ax) = axis(fp, p1) else {
-                out.left(format!("{layer}: pin 1 and its pad sit on top of each other; no axis for the bar"));
+    let (spot, none_reason) = match need(i) {
+        Need::NoMark(why) | Need::Drawn(why) => (None, why),
+        Need::Nothing => (None, "no pin 1 to mark"),
+        Need::Mark => {
+            let p1 = pin1(fp).expect("need checks it");
+            let Some(b) = body(fp) else {
+                out.left(format!("{layer}: no body or pads to size the mark by"));
                 return out;
             };
-            let w = bar_width(b);
-            let (a, c) = bar(p1, ax, w);
-            (Some(Spot::Bar { a, b: c, w }), "")
-        } else if ambiguous(fp, p1) {
-            let d = diameter(b, neighbour(fp, p1));
-            (Some(Spot::Dot { c: p1.at, d }), "")
-        } else {
-            (None, "the pads already tell pin 1 apart")
+            if pin_numbers(fp).len() == 2 {
+                let Some(ax) = axis(fp, p1) else {
+                    out.left(format!("{layer}: pin 1 and its pad sit on top of each other; no axis for the bar"));
+                    return out;
+                };
+                let w = bar_width(b);
+                let (a, c) = bar(p1, ax, w);
+                (Some(Spot::Bar { a, b: c, w }), "")
+            } else {
+                let d = diameter(b, neighbour(fp, p1));
+                (Some(Spot::Dot { c: p1.at, d }), "")
+            }
         }
-    } else {
-        (None, "no pin 1 to mark")
     };
     let fine = match &spot {
         Some(Spot::Dot { c, d }) => have.len() == 1 && texts.is_empty() && is_dot(have[0], *c, *d / 2.0),

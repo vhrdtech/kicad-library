@@ -15,11 +15,16 @@
 //! that outline is one rectangle (the chamfer [`CHAMFER`], at most a quarter of the shorter side, KiCad's library
 //! convention); a missing silkscreen mark becomes a filled triangle (the largest of [`TRIANGLES`] that fits)
 //! pointing at pin 1, outside the body, near the courtyard and [`TRIANGLE_GAP`] clear of every pad. Everything else is reported.
+//!
+//! A part that wants no mark ([`need`]: a three-pin part whose pads tell pin 1 apart, a part that works the same
+//! turned half round) has its marks taken off: each lone one on the fab layer and the silkscreen, a chamfer squared
+//! again, and the 3D model's pin-1 dimple on Xray.F/B.
 
 use super::courtyard::as_rect;
 use super::silk::MARKS;
-use super::{Class, Input, Outcome, delete, insert};
+use super::{Class, Input, Outcome, delete, half_turn, insert};
 use crate::footprint::{EPS, Footprint, Graphic, Pad, Pt, Rect, dist, fmt, render_graphic, segment_distance};
+use crate::layers::{XRAY, side_of};
 
 pub const CHAMFER: f64 = 1.0;
 /// The silkscreen triangle's sizes, the largest that fits.
@@ -66,28 +71,67 @@ pub(super) fn pin_numbers(fp: &Footprint) -> Vec<&str> {
     numbers
 }
 
-/// The part has a pin 1 to mark. A footprint tagged `symmetric` has none: its pins swap without harm when the part is
-/// turned (a crystal with the crystal on pins 1 and 3 and ground on 2 and 4, a bidirectional TVS), and a mark would
-/// only make people look for an orientation that does not matter.
-pub fn needs_mark(lib: &str, fp: &Footprint) -> bool {
-    if pin1(fp).is_none() || fp.tags.split_whitespace().any(|t| t.eq_ignore_ascii_case("symmetric")) {
-        return false;
-    }
+const PADS_TELL: &str = "the pads already tell pin 1 apart";
+
+/// What a part's pin 1 wants.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Need {
+    /// A mark on the fab layer, the silkscreen and Pin1.F/B.
+    Mark,
+    /// Nothing to mark: no pin 1, or two pins without polarity.
+    Nothing,
+    /// A mark on the fab layer and the silkscreen, none on Pin1.F/B, for this reason.
+    Drawn(&'static str),
+    /// A part of three or more pins that wants no pin-1 mark, for this reason: any mark it has goes.
+    NoMark(&'static str),
+}
+
+/// What part `i` wants. A polar two-pin part and a part of three or more pins want a mark, except:
+///
+/// - a footprint tagged `symmetric`: its pins swap without harm when the part is turned (a bidirectional TVS);
+/// - a three-pin part whose pads already tell pin 1 apart: no turn the pads allow takes pin 1 to another pad (an
+///   asymmetric SOT-23, SOT-323, SOT-723...), so it cannot go on the wrong way round. A larger part whose pads
+///   tell pin 1 apart (a USB-C receptacle, an FFC connector) keeps its fab and silkscreen marks, which tell a
+///   person probing it where pin 1 is, and gets no Pin1.F/B dot ([`Need::Drawn`]);
+/// - a part that works the same placed half a turn round ([`half_turn`]: a 4-pad crystal, a tact switch), where
+///   a mark would only make people look for an orientation that does not matter.
+pub fn need(i: &Input) -> Need {
+    let fp = i.fp;
+    let Some(p1) = pin1(fp).filter(|_| i.class == Class::Part) else { return Need::Nothing };
+    let tagged = fp.tags.split_whitespace().any(|t| t.eq_ignore_ascii_case("symmetric"));
     let numbers = pin_numbers(fp);
     match numbers.len() {
-        0 | 1 => false,
+        0 | 1 => Need::Nothing,
         2 => {
-            let lib = lib.strip_prefix("VHRD_").unwrap_or(lib);
+            let lib = i.lib.strip_prefix("VHRD_").unwrap_or(i.lib);
             let name = fp.name.to_ascii_lowercase();
             let bidir = name.contains("bidir") || name.contains("bi-dir");
             let polar_lib = ["Diode", "LED", "Battery"].iter().any(|k| lib.starts_with(k));
             let polar_name = ["d_", "led_", "cp_", "tvs_"].iter().any(|p| name.starts_with(p))
                 || ["tantal", "elec", "polar"].iter().any(|k| name.contains(k));
             let polar_pads = numbers.iter().any(|n| matches!(*n, "K" | "+"));
-            !bidir && (polar_lib || polar_name || polar_pads)
+            if !tagged && !bidir && (polar_lib || polar_name || polar_pads) { Need::Mark } else { Need::Nothing }
         }
-        _ => true,
+        _ if tagged => Need::NoMark("tagged symmetric"),
+        3 if !ambiguous(fp, p1) => Need::NoMark(PADS_TELL),
+        _ if !ambiguous(fp, p1) => Need::Drawn(PADS_TELL),
+        _ if i
+            .ctx
+            .uses
+            .as_ref()
+            .is_some_and(|u| half_turn::keeps_circuit(fp, &format!("{}:{}", i.lib, fp.name), u)) =>
+        {
+            Need::NoMark("a half turn keeps the circuit")
+        }
+        _ => Need::Mark,
     }
+}
+
+/// Whether a turn the pads allow takes pin 1 to where another pad actually sits: the layout alone is ambiguous.
+/// `false` for a part no turn of whose pads lands pin 1 on another pad (SOT-23, SOT-323...).
+fn ambiguous(fp: &Footprint, p1: &Pad) -> bool {
+    let (_, turns) = moves(fp, p1);
+    turns.iter().any(|&(_, to)| fp.copper_pads().any(|p| p.number != p1.number && dist(p.at, to) < SAME))
 }
 
 /// The moves that fit the pads onto themselves and take pin 1 elsewhere, with where they take it, about the pads'
@@ -503,13 +547,232 @@ fn triangle_of(fp: &Footprint, p1: &Pad, side: &str, size: f64) -> Option<Vec<Pt
     best.map(|(_, t)| t)
 }
 
+/// The largest Xray circle that counts as a pin-1 dimple, by radius.
+pub const DIMPLE_MAX: f64 = 0.5;
+
+/// Where `p` goes half a turn about `c`, and mirrored across either axis through it: a mark drawn at one of these
+/// as well belongs to the part's look, not to pin 1.
+fn twins(p: Pt, c: Pt) -> [Pt; 3] {
+    [Move::Turn180.apply(p, c), (2.0 * c.0 - p.0, p.1), (p.0, 2.0 * c.1 - p.1)]
+}
+
+/// Among `at` (a mark's place each), those with no other mark at a twin of theirs (about `c`).
+fn lone(at: &[Pt], c: Pt) -> Vec<usize> {
+    (0..at.len()).filter(|&k| !twins(at[k], c).iter().any(|&t| at.iter().any(|&o| dist(t, o) < SAME_MARK))).collect()
+}
+
+/// What kind of mark `g` is on a layer of a part of `body`, if it is one taken off: a filled shape, a dot or a
+/// small closed shape, as [`features`] counts them.
+fn mark_kind(g: &Graphic, body: Rect) -> Option<&'static str> {
+    let small = body.w().min(body.h()).max(0.5);
+    let bb = g.bbox()?;
+    if g.filled && bb.w() * bb.h() <= 0.25 * body.w() * body.h() {
+        Some("filled")
+    } else {
+        match g.circle {
+            Some((_, r)) => (r <= 0.3 * small.max(1.5)).then_some("dot"),
+            None => (g.closed && bb.w().max(bb.h()) <= 0.35 * small).then_some("shape"),
+        }
+    }
+}
+
+/// Small closed shapes on `layer` drawn with three or four lines joined end to end (a hollow triangle), each with
+/// its middle: what [`mark_kind`] counts as a shape, drawn in pieces.
+fn line_loops<'a>(fp: &'a Footprint, layer: &'a str, body: Rect) -> Vec<(Vec<&'a Graphic>, Pt)> {
+    let small = body.w().min(body.h()).max(0.5);
+    let lines: Vec<&Graphic> = fp.on(layer).filter(|g| g.kind == "fp_line" && g.pts.len() == 2).collect();
+    let ends: Vec<Pt> = lines.iter().flat_map(|g| g.pts.iter().copied()).collect();
+    let degree = |p: Pt| ends.iter().filter(|&&q| dist(p, q) < 0.005).count();
+    let mut seen = vec![false; lines.len()];
+    let mut out = Vec::new();
+    for start in 0..lines.len() {
+        if seen[start] {
+            continue;
+        }
+        // The lines joined to `start`, end to end.
+        let mut group = vec![start];
+        seen[start] = true;
+        let mut k = 0;
+        while k < group.len() {
+            let g = lines[group[k]];
+            for (j, h) in lines.iter().enumerate() {
+                if !seen[j] && g.pts.iter().any(|&p| h.pts.iter().any(|&q| dist(p, q) < 0.005)) {
+                    seen[j] = true;
+                    group.push(j);
+                }
+            }
+            k += 1;
+        }
+        let gs: Vec<&Graphic> = group.iter().map(|&j| lines[j]).collect();
+        let closed = (3..=4).contains(&gs.len()) && gs.iter().all(|g| g.pts.iter().all(|&p| degree(p) == 2));
+        if let Some(bb) = Rect::of_points(gs.iter().flat_map(|g| g.pts.iter().copied()))
+            && closed
+            && bb.w().max(bb.h()) <= 0.35 * small
+        {
+            out.push((gs, bb.center()));
+        }
+    }
+    out
+}
+
+/// The corner a chamfer `a`-`b` cut off, `before` the far end of the square edge that meets it at `a`: the corner
+/// keeps `a`'s x when that edge is upright, else its y.
+fn corner(before: Pt, a: Pt, b: Pt) -> Pt {
+    if (before.0 - a.0).abs() < (before.1 - a.1).abs() { (a.0, b.1) } else { (b.0, a.1) }
+}
+
+/// A short slanted edge `a`-`b` of a part of `body`, between square edges ending at `before` and `after`.
+fn is_chamfer(before: Pt, a: Pt, b: Pt, after: Pt, body: Rect) -> bool {
+    let small = body.w().min(body.h()).max(0.5);
+    angle_kind(a, b).1 && dist(a, b) <= 0.75 * small && angle_kind(before, a).0 && angle_kind(b, after).0
+}
+
+/// A drawing to add: its kind (`fp_line`, `fp_poly`), points and stroke width.
+type Drawing = (&'static str, Vec<Pt>, f64);
+
+/// The chamfered corners on `layer` squared again, each lone one ([`lone`] about `c`): what to delete and the
+/// lines or polygons to draw instead. A chamfer is a short slanted edge between two square ones, of one closed
+/// polygon or of three lines that meet end to end.
+fn squared<'a>(fp: &'a Footprint, layer: &'a str, body: Rect, c: Pt) -> (Vec<&'a Graphic>, Vec<Drawing>) {
+    // Each chamfer: its middle, and how to square it.
+    enum Cut<'a> {
+        Poly(&'a Graphic, usize),
+        Lines(&'a Graphic, [(&'a Graphic, usize); 2]),
+    }
+    let mut cuts: Vec<(Pt, Cut)> = Vec::new();
+    for g in fp.on(layer).filter(|g| !g.filled) {
+        if g.kind == "fp_poly" && g.closed {
+            let n = g.pts.len();
+            let at = |k: usize| g.pts[k % n];
+            for k in 0..n {
+                if is_chamfer(at(k + n - 1), at(k), at(k + 1), at(k + 2), body) {
+                    cuts.push((mid(at(k), at(k + 1)), Cut::Poly(g, k)));
+                }
+            }
+        }
+    }
+    let lines: Vec<&Graphic> = fp.on(layer).filter(|g| g.kind == "fp_line" && g.pts.len() == 2).collect();
+    // The other line ending at `p`, with the index of that end.
+    let meeting = |g: &Graphic, p: Pt| -> Option<(&Graphic, usize)> {
+        let mut m = lines.iter().filter(|h| h.span != g.span).flat_map(|h| (0..2).map(move |e| (*h, e)));
+        let found = m.find(|(h, e)| dist(h.pts[*e], p) < 0.005)?;
+        Some(found)
+    };
+    for g in &lines {
+        let (a, b) = (g.pts[0], g.pts[1]);
+        if let (Some(la), Some(lb)) = (meeting(g, a), meeting(g, b))
+            && la.0.span != lb.0.span
+            && is_chamfer(la.0.pts[1 - la.1], a, b, lb.0.pts[1 - lb.1], body)
+        {
+            cuts.push((mid(a, b), Cut::Lines(g, [la, lb])));
+        }
+    }
+    let at: Vec<Pt> = cuts.iter().map(|(m, _)| *m).collect();
+    let mut gone: Vec<&Graphic> = Vec::new();
+    let mut new: Vec<Drawing> = Vec::new();
+    let mut polys: Vec<(&Graphic, Vec<usize>)> = Vec::new();
+    for k in lone(&at, c) {
+        match &cuts[k].1 {
+            Cut::Poly(g, i) => match polys.iter_mut().find(|(p, _)| p.span == g.span) {
+                Some((_, ks)) => ks.push(*i),
+                None => polys.push((g, vec![*i])),
+            },
+            Cut::Lines(g, [(la, ea), (lb, eb)]) => {
+                if [*g, *la, *lb].iter().any(|x| gone.iter().any(|y| y.span == x.span)) {
+                    continue;
+                }
+                let k = corner(la.pts[1 - ea], g.pts[0], g.pts[1]);
+                for (l, e) in [(la, ea), (lb, eb)] {
+                    let mut pts = l.pts.clone();
+                    pts[*e] = k;
+                    new.push(("fp_line", pts, l.width));
+                }
+                gone.extend([*g, *la, *lb]);
+            }
+        }
+    }
+    for (g, ks) in polys {
+        let n = g.pts.len();
+        let mut pts: Vec<Option<Pt>> = g.pts.iter().copied().map(Some).collect();
+        for k in ks {
+            pts[k] = Some(corner(g.pts[(k + n - 1) % n], g.pts[k], g.pts[(k + 1) % n]));
+            pts[(k + 1) % n] = None;
+        }
+        new.push(("fp_poly", pts.into_iter().flatten().collect(), g.width));
+        gone.push(g);
+    }
+    (gone, new)
+}
+
+/// Takes every pin-1 mark off a part that wants none ([`Need::NoMark`]): on the fab layer and the silkscreen each
+/// lone mark ([`lone`] about the pads' centre: a filled shape, a dot, a `1` or `+`; a chamfered corner is squared
+/// again), on Xray.F/B each lone circle of at most [`DIMPLE_MAX`] (about the drawing's centre: the 3D model's
+/// pin-1 dimple). The outline stays.
+fn strip(i: &Input, why: &str, out: &mut Outcome) {
+    let fp = i.fp;
+    let Some(c) = Rect::of_points(fp.copper_pads().map(|p| p.at)).map(|r| r.center()) else { return };
+    let Some(body) = fp.fab_box().or_else(|| fp.pads_box()) else { return };
+    for layer in [fp.layer("Fab"), fp.layer("SilkS")] {
+        let mut taken: Vec<&str> = Vec::new();
+        let mut marks: Vec<(Vec<&Graphic>, &str, Pt)> =
+            fp.on(&layer).filter_map(|g| Some((vec![g], mark_kind(g, body)?, g.bbox()?.center()))).collect();
+        marks.extend(line_loops(fp, &layer, body).into_iter().map(|(gs, at)| (gs, "shape", at)));
+        let at: Vec<Pt> = marks.iter().map(|m| m.2).collect();
+        for k in lone(&at, c) {
+            for g in &marks[k].0 {
+                out.edits.push(delete(i.text, &g.span));
+            }
+            taken.push(marks[k].1);
+        }
+        let texts: Vec<_> =
+            fp.texts.iter().filter(|t| t.layer == layer && !t.hidden && MARKS.contains(&t.text.trim())).collect();
+        let at: Vec<Pt> = texts.iter().map(|t| t.at).collect();
+        for k in lone(&at, c) {
+            out.edits.push(delete(i.text, &texts[k].span));
+            taken.push("text");
+        }
+        let (gone, new) = squared(fp, &layer, body, c);
+        for g in gone {
+            out.edits.push(delete(i.text, &g.span));
+        }
+        for (kind, pts, width) in &new {
+            out.edits.push(insert(fp, render_graphic(kind, pts, *width, false, &layer)));
+        }
+        if !new.is_empty() {
+            taken.push("chamfer");
+        }
+        if !taken.is_empty() {
+            out.fixed(format!("pin-1 mark on {layer} taken off ({why}): {}", taken.join(", ")));
+        }
+    }
+    let xray = side_of(XRAY, fp.back);
+    let Some(centre) = Rect::of_points(fp.on(xray).flat_map(|g| g.pts.iter().copied())).map(|r| r.center()) else {
+        return;
+    };
+    let circles: Vec<(&Graphic, Pt)> =
+        fp.on(xray).filter_map(|g| g.circle.filter(|&(_, r)| r <= DIMPLE_MAX).map(|(at, _)| (g, at))).collect();
+    let at: Vec<Pt> = circles.iter().map(|c| c.1).collect();
+    let dimples = lone(&at, centre);
+    for &k in &dimples {
+        out.edits.push(delete(i.text, &circles[k].0.span));
+    }
+    if !dimples.is_empty() {
+        out.fixed(format!("pin-1 dimple on {xray} taken off ({why})"));
+    }
+}
+
 pub fn run(i: &Input) -> Outcome {
     let mut out = Outcome::default();
     let fp = i.fp;
-    if i.class != Class::Part || !needs_mark(i.lib, fp) {
-        return out;
+    match need(i) {
+        Need::Mark | Need::Drawn(_) => {}
+        Need::Nothing => return out,
+        Need::NoMark(why) => {
+            strip(i, why, &mut out);
+            return out;
+        }
     }
-    let p1 = pin1(fp).expect("needs_mark checks it");
+    let p1 = pin1(fp).expect("need checks it");
     let ax = axis(fp, p1);
     let fab = fp.layer("Fab");
     let silk = fp.layer("SilkS");

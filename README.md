@@ -170,14 +170,25 @@ same under `footprints/<name>.pretty` for footprints.
     it to. A part is never mirrored, so a SOIC's notch counts. The fix chamfers the pin-1 corner of a rectangular
     fab outline (1 mm, at most a quarter of the shorter side) and puts a filled triangle pointing at pin 1 on the
     silkscreen, outside the body and 0.15 mm clear of the pads. Marks that are missing elsewhere, ambiguous or by
-    the wrong pad are reported.
+    the wrong pad are reported. A part that wants no pin-1 mark loses the ones it has: a three-pin part whose pads
+    already tell pin 1 apart (no turn the pads allow lands pin 1 on another pad: SOT-23, SOT-323, SOT-723), a
+    footprint tagged `symmetric`, and a part that works the same placed half a turn round. That is one whose pads,
+    turned half round about the origin or the pads' centre, each land on a pad of the same kind and size, and where
+    every symbol whose `Footprint` field names it keeps its circuit: pins of one name are one node, and so are the
+    pins of one group in `generate/connected-pins.toml` (pins a part joins inside that its symbol names apart); the
+    turn moves no node, or swaps the only two it moves of a resistor, capacitor, inductor, ferrite bead, crystal,
+    fuse or switch (a 4-pad crystal, the PTS815 tact switch, a DPDT slide switch). A footprint no symbol uses keeps
+    its marks. The fix takes off each mark with no twin half a turn round or mirrored (dots, filled or small closed
+    shapes, a `1` or `+`; a chamfered corner is squared again) on the fab layer and the silkscreen, and the 3D
+    model's pin-1 dimple on Xray.F/B (a lone circle up to 0.5 mm). The outline stays. A larger part
+    whose pads tell pin 1 apart (a USB-C receptacle, an FFC connector) keeps its marks.
   - `pin1-body`: a polar two-pin part (diode, LED, battery, polarised capacitor) gets a bar on `Pin1.F` (User.29;
     `Pin1.B`, User.30) across the cathode or plus pad's centre, square to the part's axis, as long as the pad
     reaches across it, 0.15 to 0.25 mm thick (by part size). A part of three or more pins gets a filled dot instead,
     0.3 mm across on a small part up to 0.8 mm on a big one (a tenth of the body's shorter side, under 0.9 times the
     distance to the nearest other pad), centred on pin 1 — unless the pads alone already tell pin 1 apart (no turn
-    the pads allow, `pin1`'s own turns, lands pin 1 on another pad: an asymmetric SOT-23, SOT-323, SOT-89, SOT-223),
-    which gets no mark either; a symmetric part (QFN, QFP, SOIC, SOT-23-6, SOT-363, a connector with a symmetric pad
+    the pads allow, `pin1`'s own turns, lands pin 1 on another pad: an asymmetric SOT-23, SOT-323, SOT-89, SOT-223)
+    or the part works the same turned half round (`pin1` above), which gets no mark either; a symmetric part (QFN, QFP, SOIC, SOT-23-6, SOT-363, a connector with a symmetric pad
     row) keeps the dot. Either mark sits exactly on pin 1's pad (its anchor, the same point for every shape of a
     multi-shape pad): no search for a free spot, no check that it clears another pad. No mark on non-polar two-pin
     parts, test points, net ties and mechanical footprints. The fix replaces anything else on the layer.

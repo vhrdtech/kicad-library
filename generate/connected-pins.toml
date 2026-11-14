@@ -1,0 +1,6 @@
+# Pins a part connects inside where its symbol names them apart, by symbol: each list is one node. kilib lint's
+# pin-1 rules read it with the symbols' own pin names to tell whether a part works the same turned half round
+# (kilib::lint::half_turn); such a part gets no pin-1 mark.
+
+# PTS815 tact switch: pads 1-2 and 3-4 are joined inside, the switch closes between the two pairs.
+"VHRD_Switch:GSPTS0020" = [["1", "2"], ["3", "4"]]

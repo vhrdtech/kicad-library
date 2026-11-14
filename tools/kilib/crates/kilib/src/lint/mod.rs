@@ -1,7 +1,8 @@
 //! Library-wide rules for footprints, each a check that reports and, where the rule is clear, a fix:
 //!
 //! - [`Rule::Pin1`]: polar and multi-pin parts mark pin 1 on the fab layer, and on the silkscreen where the
-//!   footprint draws one ([`pin1`]).
+//!   footprint draws one; a part that cannot go on wrong, or works the same turned half round ([`half_turn`]), has
+//!   no mark ([`pin1`]).
 //! - [`Rule::Pin1Body`]: a part of three or more pins whose pads alone are ambiguous gets a filled dot on Pin1.F/B
 //!   at pin 1's own pad; a polar two-pin part gets a bar across the cathode or plus pad instead ([`pin1_body`]).
 //! - [`Rule::Attrs`]: test points, net ties, spark gaps, jumpers, logos, mounting holes and fiducials stay out of
@@ -28,6 +29,7 @@
 pub mod attrs;
 pub mod centroid;
 pub mod courtyard;
+pub mod half_turn;
 pub mod layout;
 pub mod models;
 pub mod pin1;
@@ -174,6 +176,15 @@ pub fn classify(lib: &str, fp: &Footprint) -> Class {
 pub struct Context {
     /// The path variables 3D models resolve with; `None` leaves the files unchecked.
     pub vars: Option<Vars>,
+    /// The library symbols that use each footprint; `None` counts no part as working the same turned half round.
+    pub uses: Option<half_turn::Uses>,
+}
+
+impl Context {
+    /// A context with the symbols of the checkout `root` (none when it has no `symbols/`).
+    pub fn of_checkout(root: &Path) -> Result<Context, String> {
+        Ok(Context { vars: None, uses: Some(half_turn::Uses::load(root)?) })
+    }
 }
 
 /// One thing a rule found in a footprint.
@@ -401,7 +412,12 @@ pub(crate) mod tests {
     }
 
     pub fn run(lib: &str, text: &str, rule: Rule) -> (Option<String>, Vec<Finding>) {
-        let (_, new, f) = lint_text(text, lib, &[rule], &Context::default()).unwrap();
+        run_in(lib, text, rule, &Context::default())
+    }
+
+    /// [`run`] with the symbols and settings of `ctx`.
+    pub fn run_in(lib: &str, text: &str, rule: Rule, ctx: &Context) -> (Option<String>, Vec<Finding>) {
+        let (_, new, f) = lint_text(text, lib, &[rule], ctx).unwrap();
         (new, f)
     }
 

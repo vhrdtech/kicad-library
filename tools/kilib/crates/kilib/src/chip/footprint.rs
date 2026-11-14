@@ -180,7 +180,7 @@ fn drawn(footprints: &Path, stock: Option<&Path>, part: &Part) -> Result<String,
                 mm(l.height)
             );
             // The new silkscreen and the name go through the library rules' fixes again.
-            stock::import_into(&derive(&text, part, &descr)?, part.library())
+            stock::import_into(&derive(&text, part, &descr)?, part.library(), &crate::lint::Context::default())
         }
     }
 }
@@ -195,7 +195,7 @@ fn base_text(footprints: &Path, stock: Option<&Path>, lib: &str, base: &str) -> 
     let stock_lib = lib.strip_prefix(stock::PREFIX).unwrap_or(lib);
     let from = stock.join(format!("{stock_lib}.pretty")).join(format!("{base}.kicad_mod"));
     let t = std::fs::read_to_string(&from).map_err(|e| format!("{}: {e}", from.display()))?;
-    stock::import_into(&t, lib)
+    stock::import_into(&t, lib, &crate::lint::Context::default())
 }
 
 impl crate::chip::Chip {
@@ -287,7 +287,7 @@ fn two_pads(part: &Part, body: &[[f64; 2]], land: Land, descr: &str, tags: &str)
         pad2 = pad(2, land.x),
         model = quote(&part.model_ref()),
     );
-    stock::import_into(&text, lib)
+    stock::import_into(&text, lib, &crate::lint::Context::default())
 }
 
 /// A length as KiCad writes it: up to six decimals, no trailing zeros.

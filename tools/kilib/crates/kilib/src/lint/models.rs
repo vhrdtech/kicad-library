@@ -101,7 +101,7 @@ mod tests {
         dir.write("models/own/X.3dshapes/a.step", "");
         let mut vars = Vars::new();
         vars.set("VHRD_3DMODEL_DIR", dir.path().join("models").to_string_lossy());
-        let ctx = Context { vars: Some(vars) };
+        let ctx = Context { vars: Some(vars), ..Context::default() };
         let t = fp(
             "IC",
             &format!(

@@ -28,10 +28,15 @@ pub fn import_text(stock: &str) -> Result<String, String> {
     }
 }
 
-/// The copy of a stock footprint going into library `lib` (`VHRD_Resistor_SMD`): the library rules' fixes, then
-/// [`import_text`].
-pub fn import_into(stock: &str, lib: &str) -> Result<String, String> {
-    import_text(&vendor_models(&lint_fixed(stock, lib)?)?)
+/// The copy of a stock footprint going into library `lib` (`VHRD_Resistor_SMD`): the library rules' fixes with
+/// `ctx`, then [`import_text`].
+pub fn import_into(stock: &str, lib: &str, ctx: &lint::Context) -> Result<String, String> {
+    import_text(&vendor_models(&lint_fixed(stock, lib, ctx)?)?)
+}
+
+/// The rules' context for the checkout whose `footprints/` folder is `footprints`: its symbols, when it has them.
+fn checkout_context(footprints: &Path) -> lint::Context {
+    footprints.parent().and_then(|root| lint::Context::of_checkout(root).ok()).unwrap_or_default()
 }
 
 /// KiCad's own model path, as stock footprints name their 3D model.
@@ -56,8 +61,8 @@ pub fn vendor_models(text: &str) -> Result<String, String> {
 }
 
 /// The text with every fix of the library rules, as `kilib lint --write` leaves it.
-fn lint_fixed(text: &str, lib: &str) -> Result<String, String> {
-    let (_, new, _) = lint::lint_text(text, lib, &lint::Rule::ALL, &lint::Context::default())?;
+fn lint_fixed(text: &str, lib: &str, ctx: &lint::Context) -> Result<String, String> {
+    let (_, new, _) = lint::lint_text(text, lib, &lint::Rule::ALL, ctx)?;
     Ok(new.unwrap_or_else(|| text.to_string()))
 }
 
@@ -104,6 +109,7 @@ pub enum ImportOutcome {
 
 /// What importing `ids` (`Lib:Name`) from `stock` into `footprints` (the checkout's folder) would write.
 pub fn plan_import(stock: &Path, footprints: &Path, ids: &[String]) -> Vec<Import> {
+    let ctx = checkout_context(footprints);
     ids.iter()
         .map(|id| {
             let (from, to, outcome) = match split_id(id) {
@@ -116,7 +122,7 @@ pub fn plan_import(stock: &Path, footprints: &Path, ids: &[String]) -> Vec<Impor
                     } else {
                         match std::fs::read_to_string(&from) {
                             Err(e) => ImportOutcome::Error(format!("{}: {e}", from.display())),
-                            Ok(t) => match import_into(&t, &format!("{PREFIX}{lib}")) {
+                            Ok(t) => match import_into(&t, &format!("{PREFIX}{lib}"), &ctx) {
                                 Ok(text) => ImportOutcome::New { text },
                                 Err(e) => ImportOutcome::Error(e),
                             },
@@ -173,6 +179,7 @@ pub enum Compared {
 /// Every footprint under `footprints/VHRD_<Lib>.pretty` that has a stock footprint `<Lib>:<Name>` in `stock`,
 /// compared with a fresh import of it. Footprints of our own whose name matches a stock one are listed too.
 pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
+    let ctx = checkout_context(footprints);
     let mut out = Vec::new();
     let mut libs: Vec<PathBuf> =
         read_dir(footprints).filter(|p| p.extension().is_some_and(|e| e == "pretty")).collect();
@@ -192,7 +199,7 @@ pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
             let outcome = match (std::fs::read_to_string(&ours), std::fs::read_to_string(&stock_path)) {
                 (Err(e), _) => Compared::Error(format!("{}: {e}", ours.display())),
                 (_, Err(e)) => Compared::Error(format!("{}: {e}", stock_path.display())),
-                (Ok(o), Ok(s)) => match fresh(&s, &lib) {
+                (Ok(o), Ok(s)) => match fresh(&s, &lib, &ctx) {
                     Err(e) => Compared::Error(e),
                     Ok(fresh) if fresh == o => Compared::Same,
                     Ok(fresh) => {
@@ -209,8 +216,8 @@ pub fn compare(stock: &Path, footprints: &Path) -> Vec<Comparison> {
 
 /// A fresh import for comparing: a footprint the designator rules cannot place (a logo without pads) is compared
 /// with its stock text, the Value hidden where it has one.
-fn fresh(stock: &str, lib: &str) -> Result<String, String> {
-    let stock = &lint_fixed(stock, lib).unwrap_or_else(|_| stock.to_string());
+fn fresh(stock: &str, lib: &str, ctx: &lint::Context) -> Result<String, String> {
+    let stock = &lint_fixed(stock, lib, ctx).unwrap_or_else(|_| stock.to_string());
     let stock = &vendor_models(stock).unwrap_or_else(|_| stock.to_string());
     match fab::fix(stock) {
         fab::Outcome::Skipped(_) if sexpr::parse(stock).is_ok() => {
@@ -280,12 +287,16 @@ mod tests {
         assert!(!new.contains("${REFERENCE}"), "{new}");
         assert_eq!(fab::read(&new).unwrap().value.unwrap().layer, "User.17", "{new}");
         assert!(new.contains("(model \"${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0402_1005Metric.step\""));
-        let copy = import_into(STOCK, "VHRD_Resistor_SMD").unwrap();
+        let copy = import_into(STOCK, "VHRD_Resistor_SMD", &lint::Context::default()).unwrap();
         assert!(
             copy.contains("(model \"${VHRD_3DMODEL_DIR}/vendor/VHRD_Resistor_SMD.3dshapes/R_0402_1005Metric.step\""),
             "{copy}"
         );
-        assert_eq!(import_into(&copy, "VHRD_Resistor_SMD").unwrap(), copy, "a copy imported again stays");
+        assert_eq!(
+            import_into(&copy, "VHRD_Resistor_SMD", &lint::Context::default()).unwrap(),
+            copy,
+            "a copy imported again stays"
+        );
         let fp = fab::read(&new).unwrap();
         assert_eq!(fab::check(&fp), Vec::<String>::new());
         assert_eq!(fp.reference.as_ref().unwrap().layer, "User.23");

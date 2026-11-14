@@ -61,7 +61,11 @@ impl LintArgs {
 pub fn run(args: LintArgs) -> Result<ExitCode, String> {
     let paths = if args.paths.is_empty() { vec![library_or_cwd(None)?.join("footprints")] } else { args.paths.clone() };
     let rules: Vec<Rule> = if args.rule.is_empty() { Rule::ALL.to_vec() } else { args.rule.clone() };
-    let mut ctx = lint::Context::default();
+    // The checkout's symbols tell which parts work the same turned half round (pin-1 rules).
+    let mut ctx = match library_or_cwd(None) {
+        Ok(root) => lint::Context::of_checkout(&root)?,
+        Err(_) => lint::Context::default(),
+    };
     let mut unset = Vec::new();
     if rules.contains(&Rule::Models) && !args.no_model_files {
         let share = Path::new("/usr/share/kicad");
