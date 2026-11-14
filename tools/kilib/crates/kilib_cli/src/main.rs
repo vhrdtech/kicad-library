@@ -799,11 +799,12 @@ fn run_migrate(map: &Path, paths: &[PathBuf], write: bool, stat: bool) -> Result
     // The summary goes to stderr, so the diff on stdout stays a clean patch.
     let c = &plan.counts;
     eprintln!(
-        "{BOLD}kilib migrate{BOLD:#}: {} files read, {} to change: {} symbol ids, {} per-package symbols, {} Footprint fields, {} footprints, {} filters, {} 3D models, {} table rows",
+        "{BOLD}kilib migrate{BOLD:#}: {} files read, {} to change: {} symbol ids, {} per-package symbols, {} symbol footprints, {} Footprint fields, {} footprints, {} filters, {} 3D models, {} table rows",
         plan.files,
         plan.changes.len(),
         c.symbols,
         c.per_package,
+        c.symbol_footprints,
         c.footprint_fields,
         c.footprints,
         c.filters,

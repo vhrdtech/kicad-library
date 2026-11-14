@@ -12,6 +12,8 @@
 //!   symbol's, and the file's `lib_symbols` cache gets a copy of the generic's cached symbol under that name, with
 //!   the footprint in its `Footprint` field and `ki_fp_filters` (what the library's per-package symbol says). The
 //!   generic's cached symbol goes when no placed symbol of the file uses it any more.
+//! - footprints of `[footprint_rename]`: the whole id, wherever a footprint id sits;
+//! - the `Footprint` field of placed symbols of `[symbol_footprint]` and of their cached symbol.
 //!
 //! A second run changes nothing: no new name is a key of the map.
 
@@ -67,6 +69,8 @@ pub struct Counts {
     pub table_rows: usize,
     /// Placed symbols moved to a per-package symbol.
     pub per_package: usize,
+    /// `Footprint` fields of `[symbol_footprint]` symbols, placed or cached.
+    pub symbol_footprints: usize,
 }
 
 impl Counts {
@@ -78,6 +82,7 @@ impl Counts {
             + self.models
             + self.table_rows
             + self.per_package
+            + self.symbol_footprints
     }
 }
 
@@ -179,6 +184,7 @@ fn add_counts(to: &mut Counts, c: &Counts) {
     to.models += c.models;
     to.table_rows += c.table_rows;
     to.per_package += c.per_package;
+    to.symbol_footprints += c.symbol_footprints;
 }
 
 pub fn apply_edits(text: &str, edits: &[Edit]) -> String {
@@ -250,6 +256,9 @@ impl Rewriter<'_> {
         }
         if matches!(root.head(), Some("kicad_sch")) && !self.map.per_package.is_empty() {
             self.per_package(text, &root);
+        }
+        if matches!(root.head(), Some("kicad_sch")) && !self.map.symbol_footprint.is_empty() {
+            self.symbol_footprints(text, &root);
         }
         self.walk(text, &root);
         Ok(())
@@ -329,6 +338,24 @@ impl Rewriter<'_> {
                     self.edits.push(Edit { range: span, text: copies.join(&sep) });
                 }
             }
+        }
+    }
+
+    /// Placed symbols of `[symbol_footprint]` and their cached symbols get the map's footprint in `Footprint`.
+    fn symbol_footprints(&mut self, text: &str, root: &Node) {
+        let placed = root.children("symbol").filter_map(|s| Some((s.child("lib_id")?.arg(0)?, s)));
+        let cached = root.child("lib_symbols").into_iter().flat_map(|c| c.children("symbol"));
+        let cached = cached.filter_map(|s| Some((s.arg(0)?, s)));
+        for (id, sym) in placed.chain(cached).collect::<Vec<_>>() {
+            let Some(to) = self.map.symbol_footprint.get(id) else { continue };
+            let Some(prop) = sym.children("property").find(|p| p.arg(0) == Some("Footprint")) else { continue };
+            let Some(atom) = prop.items().get(2) else { continue };
+            if atom.as_atom() == Some(to.as_str()) {
+                continue;
+            }
+            self.counts.symbol_footprints += 1;
+            self.skip.insert(prop.span().start);
+            self.edits.push(Edit { range: atom.span(), text: requote(text, atom, to) });
         }
     }
 
@@ -413,6 +440,15 @@ impl Rewriter<'_> {
     fn footprint_id(&mut self, text: &str, atom: &Node, field: bool) {
         let Some(id) = atom.as_atom() else { return };
         let Some((lib, name)) = id.split_once(':') else { return };
+        if let Some(new) = self.map.footprint_rename(id) {
+            if field {
+                self.counts.footprint_fields += 1
+            } else {
+                self.counts.footprints += 1
+            }
+            self.edits.push(Edit { range: atom.span(), text: requote(text, atom, new) });
+            return;
+        }
         match self.map.item(ItemKind::Footprint, lib, name) {
             Some(Target::To(new_lib)) => {
                 if field {
@@ -464,6 +500,9 @@ impl Rewriter<'_> {
     }
 
     fn filter(&mut self, token: &str) -> Option<String> {
+        if let Some(new) = self.map.footprint_rename(token) {
+            return Some(new.to_string());
+        }
         let (lib, pat) = token.split_once(':')?;
         if let Some(new) = self.map.filter_lib.get(lib) {
             return Some(format!("{new}:{pat}"));
@@ -768,6 +807,48 @@ mod tests {
         assert!(new.contains(r#""LED* VHRD_LED_SMD:* VHRD_Connector*:*_1x??_* X:Y""#), "{new}");
         assert_eq!(r.counts.filters, 2);
         assert!(rewrite_text(&map, Path::new("x.kicad_sym"), &new).unwrap().edits.is_empty(), "a second run");
+    }
+
+    #[test]
+    fn footprints_are_renamed_and_symbols_get_their_footprint() {
+        let map = Map::parse(
+            r#"
+[libraries.footprint]
+"VHRD_SO" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_SO.pretty"
+[footprint_rename]
+"VHRD_SO:TI-DGS0010A" = "VHRD_SO:TI_DGS0010A_VSSOP-10"
+[symbol_footprint]
+"VHRD_Amp:INA229" = "VHRD_SO:TI_DGS0010A_VSSOP-10"
+"#,
+        )
+        .unwrap();
+        let sch = r#"(kicad_sch
+	(lib_symbols
+		(symbol "VHRD_Amp:INA229"
+			(property "Footprint" "VHRD_SO:VSSOP-10")
+			(property "ki_fp_filters" "VHRD_SO:TI-DGS0010A VHRD_SO:VSSOP*")
+		)
+	)
+	(symbol (lib_id "VHRD_Amp:INA229") (property "Footprint" "VHRD_SO:VSSOP-10"))
+	(symbol (lib_id "VHRD_Amp:INA229") (property "Footprint" "VHRD_SO:TI_DGS0010A_VSSOP-10"))
+	(symbol (lib_id "VHRD_Sw:TMUX1204") (property "Footprint" "VHRD_SO:TI-DGS0010A"))
+	(symbol (lib_id "VHRD_Amp:Other") (property "Footprint" "VHRD_SO:VSSOP-10"))
+)
+"#;
+        let r = rewrite_text(&map, Path::new("x.kicad_sch"), sch).unwrap();
+        let new = apply_edits(sch, &r.edits);
+        assert_eq!(new.matches("VHRD_SO:TI_DGS0010A_VSSOP-10\"").count(), 4, "{new}");
+        assert!(new.contains(r#""VHRD_SO:TI_DGS0010A_VSSOP-10 VHRD_SO:VSSOP*""#), "{new}");
+        assert!(new.contains(r#"(lib_id "VHRD_Amp:Other") (property "Footprint" "VHRD_SO:VSSOP-10")"#), "{new}");
+        assert_eq!((r.counts.symbol_footprints, r.counts.footprint_fields, r.counts.filters), (2, 1, 1));
+        assert!(rewrite_text(&map, Path::new("x.kicad_sch"), &new).unwrap().edits.is_empty(), "a second run");
+
+        let pcb = "(kicad_pcb (footprint \"VHRD_SO:TI-DGS0010A\" (layer \"F.Cu\")))";
+        let r = rewrite_text(&map, Path::new("x.kicad_pcb"), pcb).unwrap();
+        assert_eq!(
+            apply_edits(pcb, &r.edits),
+            "(kicad_pcb (footprint \"VHRD_SO:TI_DGS0010A_VSSOP-10\" (layer \"F.Cu\")))"
+        );
     }
 
     #[test]

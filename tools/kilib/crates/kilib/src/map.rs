@@ -10,6 +10,11 @@
 //! `[per_package."Lib:Generic"]` moves a placed generic symbol (one that leaves `Footprint` empty) to the symbol
 //! made for its package, chosen by the footprint it is placed with: `"FpLib:Footprint" = "Lib:Generic_Package"`.
 //! The target is a whole id in the generic's own library, derived from it (`kilib per-package`).
+//!
+//! `[footprint_rename]` renames a footprint inside the library: `"Lib:Old" = "Lib:New"`, whole ids, for board
+//! footprints, `Footprint` fields and `ki_fp_filters` entries. `[symbol_footprint]` gives every placed symbol of
+//! an id another footprint: `"SymLib:Sym" = "FpLib:Footprint"`, written into its `Footprint` field and its cached
+//! symbol's; the board follows through KiCad's Update PCB from Schematic, which swaps the footprint.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
@@ -42,6 +47,12 @@ pub struct Map {
     /// A generic symbol id, then its placed footprint id, to the per-package symbol id.
     #[serde(default)]
     pub per_package: BTreeMap<String, BTreeMap<String, String>>,
+    /// A footprint id to its new id (a rename, maybe into another library).
+    #[serde(default)]
+    pub footprint_rename: BTreeMap<String, String>,
+    /// A symbol id to the footprint id its placed symbols get.
+    #[serde(default)]
+    pub symbol_footprint: BTreeMap<String, String>,
 }
 
 /// Each new library's URI, through `${VHRD_LIBRARY_DIR}` or `${VHRD_VENDOR_LIBRARY_DIR}`.
@@ -130,6 +141,22 @@ impl Map {
                 }
             }
         }
+        for (from, to) in &map.footprint_rename {
+            if !is_id(from) || !is_id(to) || from == to {
+                unknown.insert(format!("footprint_rename {from:?} = {to:?} is not lib:name to another lib:name"));
+            } else if to.split_once(':').is_some_and(|(l, _)| !map.libraries.footprint.contains_key(l)) {
+                unknown.insert(format!("footprint_rename {from} = {to:?}: its library not in [libraries.footprint]"));
+            } else if map.footprint_rename.contains_key(to) {
+                unknown.insert(format!("footprint_rename {from} = {to:?}: renamed again in the same map"));
+            }
+        }
+        for (sym, fp) in &map.symbol_footprint {
+            if !is_id(sym) || !is_id(fp) {
+                unknown.insert(format!("symbol_footprint {sym:?} = {fp:?} is not lib:name = lib:name"));
+            } else if fp.split_once(':').is_some_and(|(l, _)| !map.libraries.footprint.contains_key(l)) {
+                unknown.insert(format!("symbol_footprint {sym} = {fp:?}: its library not in [libraries.footprint]"));
+            }
+        }
         if !unknown.is_empty() {
             let list: Vec<String> = unknown.into_iter().collect();
             return Err(format!("targets not in [libraries]: {}", list.join("; ")));
@@ -191,6 +218,11 @@ impl Map {
         self.per_package.get(id)?.get(fp).map(String::as_str)
     }
 
+    /// The new id of a renamed footprint `id`.
+    pub fn footprint_rename(&self, id: &str) -> Option<&str> {
+        self.footprint_rename.get(id).map(String::as_str)
+    }
+
     /// Whether `path` is already one of the new model paths.
     pub fn is_new_model(&self, path: &str) -> bool {
         self.model.values().any(|v| v == path)
@@ -242,6 +274,22 @@ paths = ["diodes/a.SLDPRT"]
         let e = Map::parse(&bad).unwrap_err();
         assert!(e.contains("symbol vhrd_device:SW = \"VHRD_Nope\""), "{e}");
         assert!(Map::parse("[symbols]\n").is_err(), "unknown sections are refused");
+    }
+
+    #[test]
+    fn renames_and_symbol_footprints_need_ids_in_known_libraries() {
+        let ok = format!(
+            "{MAP}[footprint_rename]\n\"vhrd_diode:A\" = \"VHRD_Diode_SMD:B\"\n[symbol_footprint]\n\"VHRD_Device:D\" = \"VHRD_Diode_SMD:B\"\n"
+        );
+        let map = Map::parse(&ok).unwrap();
+        assert_eq!(map.footprint_rename("vhrd_diode:A"), Some("VHRD_Diode_SMD:B"));
+        for (from, to) in [("VHRD_Diode_SMD:B\"", "VHRD_Nope:B\""), ("\"vhrd_diode:A\"", "\"A\"")] {
+            assert!(Map::parse(&ok.replacen(from, to, 1)).is_err(), "{from} -> {to}");
+        }
+        let twice = format!("{ok}[footprint_rename]\n");
+        assert!(Map::parse(&twice).is_err(), "a section twice");
+        let chain = ok.replace("[symbol_footprint]", "\"VHRD_Diode_SMD:B\" = \"VHRD_Diode_SMD:C\"\n[symbol_footprint]");
+        assert!(Map::parse(&chain).unwrap_err().contains("renamed again"));
     }
 
     #[test]

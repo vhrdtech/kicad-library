@@ -1,7 +1,7 @@
 //! The maps in `migrate/` fit the library as it is: every item they send into this checkout is there, every
 //! library folder of the checkout has its row in `2026-11.toml`'s `[libraries]` (that row is what `kilib setup`
 //! writes into KiCad), and the other maps' rows say the same. The library grows after the move, so an item need
-//! not be a target of a map.
+//! not be a target of a map. An item a later map renames (`[footprint_rename]`) is found under its new name.
 
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
@@ -79,8 +79,10 @@ fn every_map_target_is_in_the_library_and_every_library_has_a_row() {
     let (items, libs) = library(&repo);
     assert!(!items.is_empty(), "nothing found under {}", repo.display());
     let mut wrong = Vec::new();
+    let maps = maps(&repo);
+    let renamed: BTreeSet<&String> = maps.iter().flat_map(|(_, m)| m.footprint_rename.keys()).collect();
 
-    for (path, map) in maps(&repo) {
+    for (path, map) in &maps {
         let file = path.file_name().unwrap().to_string_lossy().to_string();
         for (kind, targets) in [(ItemKind::Symbol, &map.symbol), (ItemKind::Footprint, &map.footprint)] {
             let rows = map.libraries(kind);
@@ -90,14 +92,31 @@ fn every_map_target_is_in_the_library_and_every_library_has_a_row() {
                     continue;
                 }
                 let name = key.split_once(':').map_or(key.as_str(), |(_, n)| n);
-                if !items.contains(&(kind, format!("{lib}:{name}"))) {
+                let id = format!("{lib}:{name}");
+                if !items.contains(&(kind, id.clone())) && !(kind == ItemKind::Footprint && renamed.contains(&id)) {
                     wrong.push(format!("{file}: {} {key} = {lib:?}: no {lib}:{name} in the library", kind.label()));
                 }
             }
-            for (lib, uri) in rows {
+            for (lib, uri) in rows.iter() {
                 if setup.libraries(kind).get(lib) != Some(uri) {
                     wrong.push(format!("{file}: {} library {lib} = {uri:?} differs from 2026-11.toml", kind.label()));
                 }
+            }
+        }
+        for (from, to) in &map.footprint_rename {
+            if !items.contains(&(ItemKind::Footprint, to.clone())) {
+                wrong.push(format!("{file}: footprint_rename {from} = {to:?}: no such footprint in the library"));
+            }
+            if items.contains(&(ItemKind::Footprint, from.clone())) {
+                wrong.push(format!("{file}: footprint_rename {from}: still in the library under its old name"));
+            }
+        }
+        for (sym, fp) in &map.symbol_footprint {
+            if !items.contains(&(ItemKind::Symbol, sym.clone())) {
+                wrong.push(format!("{file}: symbol_footprint {sym}: no such symbol in the library"));
+            }
+            if !items.contains(&(ItemKind::Footprint, fp.clone())) {
+                wrong.push(format!("{file}: symbol_footprint {sym} = {fp:?}: no such footprint in the library"));
             }
         }
     }
