@@ -16,6 +16,8 @@
 //! - [`Rule::Pins`]: pin numbers beside the pads on Pins.F/B, every pin of a connector, pin 1 and every 5th of other
 //!   multi-pin parts ([`pins`]).
 //! - [`Rule::Centroid`]: a cross on the origin on Centroid.F/B for every placed footprint ([`centroid`]).
+//! - [`Rule::Layout`]: a real part's empty `Layout_Critical` and `Layout_Important` properties on Crit.F/B and
+//!   Imp.F/B, centred like the Value ([`layout`]).
 //!
 //! [`plan`] runs the rules in that order on each footprint, each on the text the one before left, and keeps what they
 //! fixed and what they leave for a person; [`apply`] writes the fixed footprints. The designator (its text, layer
@@ -24,6 +26,7 @@
 pub mod attrs;
 pub mod centroid;
 pub mod courtyard;
+pub mod layout;
 pub mod models;
 pub mod pin1;
 pub mod pins;
@@ -48,11 +51,12 @@ pub enum Rule {
     RefOutline,
     Pins,
     Centroid,
+    Layout,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 8] = [
+    pub const ALL: [Rule; 9] = [
         Rule::Attrs,
         Rule::Models,
         Rule::Courtyard,
@@ -61,6 +65,7 @@ impl Rule {
         Rule::RefOutline,
         Rule::Pins,
         Rule::Centroid,
+        Rule::Layout,
     ];
 
     pub fn name(self) -> &'static str {
@@ -73,6 +78,7 @@ impl Rule {
             Rule::RefOutline => "ref-outline",
             Rule::Pins => "pins",
             Rule::Centroid => "centroid",
+            Rule::Layout => "layout",
         }
     }
 
@@ -209,6 +215,7 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::RefOutline => refs::run(i),
         Rule::Pins => pins::run(i),
         Rule::Centroid => centroid::run(i),
+        Rule::Layout => layout::run(i),
     }
 }
 

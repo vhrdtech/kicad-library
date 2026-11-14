@@ -699,8 +699,8 @@ fn is_ref_text(n: &Node) -> bool {
     n.head() == Some("fp_text") && n.arg(0) == Some("user") && n.arg(1).is_some_and(|t| t.contains("${REFERENCE}"))
 }
 
-/// A `Reference` or `Value` property as the footprint has it.
-fn property(n: &Node) -> Reference {
+/// A property (`Reference`, `Value`, a field of the library's) as the footprint has it.
+pub fn read_property(n: &Node) -> Reference {
     let at = n.child("at");
     let effects = n.child("effects");
     let (width, height, thickness) = font_size(effects);
@@ -749,8 +749,8 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
     let mut value = None;
     for n in fp.items() {
         match n.head() {
-            Some("property") if n.arg(0) == Some("Reference") => reference = Some(property(n)),
-            Some("property") if n.arg(0) == Some("Value") => value = Some(property(n)),
+            Some("property") if n.arg(0) == Some("Reference") => reference = Some(read_property(n)),
+            Some("property") if n.arg(0) == Some("Value") => value = Some(read_property(n)),
             _ if is_ref_text(n) => {
                 ref_texts.push(RefText { layer: n.value("layer").unwrap_or("").to_string(), span: n.span() });
             }
@@ -899,7 +899,7 @@ pub fn check(fp: &Footprint) -> Vec<String> {
 }
 
 /// A property's justification: none, mirrored on the back.
-fn justified(name: &str, r: &Reference, back: bool, out: &mut Vec<String>) {
+pub(crate) fn justified(name: &str, r: &Reference, back: bool, out: &mut Vec<String>) {
     let mirror = r.justify.iter().any(|j| j == "mirror");
     if r.justify.iter().any(|j| j != "mirror") || mirror != back {
         out.push(format!("{name} justified ({})", r.justify.join(" ")));
@@ -907,7 +907,7 @@ fn justified(name: &str, r: &Reference, back: bool, out: &mut Vec<String>) {
 }
 
 /// A property not where, at the angle or the size `p` puts it.
-fn misplaced(name: &str, r: &Reference, p: &Placement, out: &mut Vec<String>) {
+pub(crate) fn misplaced(name: &str, r: &Reference, p: &Placement, out: &mut Vec<String>) {
     if (r.x - p.x).abs() > 5e-4 || (r.y - p.y).abs() > 5e-4 {
         out.push(format!("{name} at ({}, {}), not ({}, {})", fmt(r.x), fmt(r.y), fmt(p.x), fmt(p.y)));
     }
@@ -928,10 +928,13 @@ pub fn fmt(v: f64) -> String {
     if s == "-0" { "0".into() } else { s.into() }
 }
 
-/// The property `name` (`Reference`, `Value`) at `p`, indented like the original at `indent`.
-fn property_text(
+/// The property `name` (`Reference`, `Value`, a field) with `value` and `uuid` at `p`, visible unless `hide`,
+/// unlocked, mirrored on the back, indented at `indent`.
+#[allow(clippy::too_many_arguments)]
+pub fn property_text(
     name: &str,
-    r: &Reference,
+    value: &str,
+    uuid: Option<&str>,
     layer: &str,
     back: bool,
     hide: bool,
@@ -943,13 +946,13 @@ fn property_text(
     let at = format!("(at {} {} {})", fmt(p.x), fmt(p.y), fmt(p.angle));
     let mut s = format!(
         "(property \"{name}\" {}\n{i1}{at}\n{i1}(unlocked yes)\n{i1}(layer {})\n",
-        sexpr::quote(&r.value),
+        sexpr::quote(value),
         sexpr::quote(layer)
     );
     if hide {
         s += &format!("{i1}(hide yes)\n");
     }
-    if let Some(u) = &r.uuid {
+    if let Some(u) = uuid {
         s += &format!("{i1}(uuid {})\n", sexpr::quote(u));
     }
     let size = fmt(p.size);
@@ -1067,7 +1070,16 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
     };
     let mut edits = vec![Edit {
         range: r.span.clone(),
-        text: property_text("Reference", r, layer, fp.back, !fp.class.shown(), &placement, indent_of(&r.span)),
+        text: property_text(
+            "Reference",
+            &r.value,
+            r.uuid.as_deref(),
+            layer,
+            fp.back,
+            !fp.class.shown(),
+            &placement,
+            indent_of(&r.span),
+        ),
     }];
     // A real part's Value centred on its own layer; any other's hidden on the fab layer, where it was.
     let value = fp.value.as_ref().map(|v| {
@@ -1079,7 +1091,16 @@ pub fn fix_as(text: &str, id: &str) -> Outcome {
         let hide = !fp.value_shown();
         edits.push(Edit {
             range: v.span.clone(),
-            text: property_text("Value", v, fp.value_layer(), fp.back, hide, &vp, indent_of(&v.span)),
+            text: property_text(
+                "Value",
+                &v.value,
+                v.uuid.as_deref(),
+                fp.value_layer(),
+                fp.back,
+                hide,
+                &vp,
+                indent_of(&v.span),
+            ),
         });
         vp
     });

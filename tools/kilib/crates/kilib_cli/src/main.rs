@@ -321,6 +321,12 @@ Examples:
     /// centroid: a 0.5 mm cross of 0.05 mm lines on the origin on Centroid.F (User.21) for every part and
     /// fiducial, the point the position file gives. Fix: drawn, replacing anything else on that layer.
     ///
+    /// layout: every real part has the properties Layout_Critical on Crit.F (User.25) and Layout_Important on Imp.F
+    /// (User.27), visible, unlocked and empty, centred on the body and sized like the Value for the note U1001.48.
+    /// The schematic sets a note in the symbol field of the same name; Update PCB from Schematic carries it to the
+    /// footprint, where it shows on its own layer. Test points, net ties, mechanical and graphic footprints carry
+    /// neither. Fix: added or put back in place; a stray one removed; a note set in the library left for a person.
+    ///
     /// The designator and the Value are left to `kilib designators`; run it after --write. It lists what each fix changes and
     /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\
