@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.4] - 2026-11-14
+
 ### Changed
 
 - Layer presets: Silk.F/B show the silkscreen and the solder mask only, no copper or paste, so the silk reads against the mask openings.
