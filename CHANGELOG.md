@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-14
+
 ### Added
 
 - PCB Editor layer presets (LIB-33 layer-presets): `kilib presets` writes `generate/layer-presets.toml` into a project's `board.layer_presets` (`Layout.F`/`B`, `Assembly.F`/`B`, `Pins.F`/`B`, `Silk.F`/`B`); replaces a preset of the same name, keeps the project's others, exits 1 without `--write`. The three templates have them.
