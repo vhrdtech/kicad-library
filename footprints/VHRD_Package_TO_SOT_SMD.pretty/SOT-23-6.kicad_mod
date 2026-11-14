@@ -5,7 +5,7 @@
 	(descr "SOT, 6 Pin (JEDEC MO-178 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-178)")
 	(tags "SOT TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0.012 0.013 90)
+		(at -0.012 -0.013 270)
 		(unlocked yes)
 		(layer "User.23")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "SOT-23-6"
-		(at 0.024 -0.017 90)
+		(at -0.024 0.017 270)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
@@ -38,7 +38,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.394 0.011 90)
+		(at -1.456 -0.011 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -49,7 +49,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.456 0.011 90)
+		(at 1.394 -0.011 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
@@ -251,28 +251,6 @@
 		(fill no)
 		(layer "F.Fab")
 	)
-	(fp_text user "1"
-		(at -2.08 -0.927 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 2.08 0.023 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -307,6 +285,28 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "44bdcdf6-bddc-48b3-bd44-76f465c7841d")
+	)
+	(fp_text user "1"
+		(at -0.231 -0.932 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 0.231 0.018 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -1.1375 -0.95)

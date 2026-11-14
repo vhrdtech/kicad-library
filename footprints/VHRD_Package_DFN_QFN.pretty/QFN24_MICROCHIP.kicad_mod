@@ -228,8 +228,37 @@
 		(layer "F.Fab")
 		(uuid "b46605cb-aff4-4bfb-9045-08944cba40f4")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_rect
+		(start -2 -2)
+		(end 2 2)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "f5f68a76-c02c-4b22-87b5-06828c880d2e")
+	)
 	(fp_text user "1"
-		(at -2.362 -1.241 0)
+		(at -1.845 -1.596 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -282,35 +311,6 @@
 				(thickness 0.03)
 			)
 		)
-	)
-	(fp_line
-		(start -0.25 0)
-		(end 0.25 0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "User.21")
-	)
-	(fp_line
-		(start 0 -0.25)
-		(end 0 0.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "User.21")
-	)
-	(fp_rect
-		(start -2 -2)
-		(end 2 2)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "User.5")
-		(uuid "f5f68a76-c02c-4b22-87b5-06828c880d2e")
 	)
 	(pad "" smd roundrect
 		(at -0.65 -0.65)

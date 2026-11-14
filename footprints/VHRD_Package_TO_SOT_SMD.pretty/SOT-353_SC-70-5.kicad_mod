@@ -5,7 +5,7 @@
 	(descr "SOT, 5 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=171, JEDEC MO-203, variant AA, https://www.jedec.org/document_search?search_api_views_fulltext=MO-203)")
 	(tags "SOT TO_SOT_SMD SC-88A SOT-353 SC-70-5")
 	(property "Reference" "REF**"
-		(at 0.009 0.01 90)
+		(at -0.009 -0.01 270)
 		(unlocked yes)
 		(layer "User.23")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "SOT-353_SC-70-5"
-		(at 0.018 -0.012 90)
+		(at -0.018 0.012 270)
 		(unlocked yes)
 		(layer "User.17")
 		(effects
@@ -38,7 +38,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.016 0.007 90)
+		(at -1.058 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -49,7 +49,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.058 0.007 90)
+		(at 1.016 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
@@ -296,28 +296,6 @@
 		(fill no)
 		(layer "F.Fab")
 	)
-	(fp_text user "1"
-		(at -1.63 -0.627 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 1.63 -0.627 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -351,6 +329,28 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "29d92993-d5a2-4a05-9df9-e8168b9df1ef")
+	)
+	(fp_text user "1"
+		(at -0.117 -0.636 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 0.838 -1.084 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -0.8375 -0.65)

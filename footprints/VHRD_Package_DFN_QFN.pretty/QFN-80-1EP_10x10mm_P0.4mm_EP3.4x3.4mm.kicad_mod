@@ -190,105 +190,6 @@
 		(layer "F.Fab")
 		(uuid "2e562a32-6dda-4fd8-a9a2-e39ed2339c5f")
 	)
-	(fp_text user "1"
-		(at -5.63 -3.777 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "10"
-		(at -5.868 -0.177 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "20"
-		(at -5.868 3.823 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "30"
-		(at -0.188 5.76 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "40"
-		(at 3.8 5.784 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "50"
-		(at 5.868 0.223 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "60"
-		(at 5.868 -3.777 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "70"
-		(at 0.212 -5.715 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "80"
-		(at -3.8 -5.715 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -317,6 +218,105 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "0e4d1fbf-7525-4b7f-ba27-b7db9093d059")
+	)
+	(fp_text user "1"
+		(at -4.36 -3.789 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "10"
+		(at -4.241 -0.189 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "20"
+		(at -4.229 3.811 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "30"
+		(at -0.194 4.317 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "40"
+		(at 3.8 4.317 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "50"
+		(at 4.241 0.211 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "60"
+		(at 4.241 -3.789 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "70"
+		(at 0.206 -4.295 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
+	)
+	(fp_text user "80"
+		(at -3.8 -4.295 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.25 0.25)
+				(thickness 0.038)
+			)
+		)
 	)
 	(pad "" smd roundrect
 		(at -1.13 -1.13)

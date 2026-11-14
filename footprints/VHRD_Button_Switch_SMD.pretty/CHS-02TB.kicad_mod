@@ -489,17 +489,6 @@
 			)
 		)
 	)
-	(fp_text user "1"
-		(at -4.725 -0.612 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -534,6 +523,17 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "f850cfb5-a6ea-487d-b7a7-4e472cdb4221")
+	)
+	(fp_text user "1"
+		(at -2.545 -0.612 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -3.81 -0.635)

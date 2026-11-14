@@ -214,72 +214,6 @@
 		)
 		(layer "F.Fab")
 	)
-	(fp_text user "1"
-		(at 0 -1.215 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "2"
-		(at -2.528 -1.215 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "3"
-		(at 1.154 2.563 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "4"
-		(at -3.694 2.574 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 0 6.34 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "6"
-		(at -2.54 6.34 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -308,6 +242,72 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "1c2574ee-19a8-4d9d-9cb5-73c8c4227eaa")
+	)
+	(fp_text user "1"
+		(at 1.094 0.018 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at -3.634 0.018 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 1.113 2.558 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "4"
+		(at -3.653 2.568 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 1.094 5.098 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "6"
+		(at -3.634 5.098 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
 	)
 	(pad "1" thru_hole rect
 		(at 0 0)

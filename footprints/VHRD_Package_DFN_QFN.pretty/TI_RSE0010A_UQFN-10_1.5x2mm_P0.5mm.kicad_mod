@@ -6,7 +6,7 @@
 	(descr "UQFN-10 1.5x2mm P0.5mm, TI RSE0010A (drawing 4220307/A), land from TI's example board layout, SCDS277C page 25 (https://www.ti.com/lit/ds/symlink/ts3usb221a.pdf#page=25)")
 	(tags "RSE0010A UQFN NoLead")
 	(property "Reference" "REF**"
-		(at 0.009 0.01 90)
+		(at -0.009 -0.01 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "0912fc52-3885-4ec0-9377-a0783632d8c2")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "TI_RSE0010A_UQFN-10_1.5x2mm_P0.5mm"
-		(at 0.018 -0.012 90)
+		(at -0.018 0.012 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "d73af01f-c410-447d-a5c4-e72ad92c6ac7")
@@ -56,7 +56,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -0.954 0.007 90)
+		(at -0.996 -0.007 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -67,7 +67,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.996 0.007 90)
+		(at 0.954 -0.007 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
@@ -182,39 +182,6 @@
 		(layer "F.Fab")
 		(uuid "7dd771f2-dd9c-4eea-921b-14ab372ae3c1")
 	)
-	(fp_text user "1"
-		(at -1.23 -0.727 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 0 1.61 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "10"
-		(at 0 -1.565 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -243,6 +210,39 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "28f997ef-1095-4adb-b0c3-735fb705b9be")
+	)
+	(fp_text user "1"
+		(at -1.158 -0.736 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 0 0.341 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "10"
+		(at 0 -0.314 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -0.675 -0.75)

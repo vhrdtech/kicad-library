@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(tags "SC-74 TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0.012 0.013 90)
+		(at -0.012 -0.013 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "bb9a71ce-12e6-4f5c-b07e-95673e9f5f40")
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "SC-74-6_1.5x3mm_P0.95"
-		(at 0.024 -0.017 90)
+		(at -0.024 0.017 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "b963891f-ad5f-46c3-9747-9c8a55ad77af")
@@ -53,7 +53,7 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at -1.331 0.011 90)
+		(at -1.393 -0.011 270)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
@@ -64,7 +64,7 @@
 		)
 	)
 	(property "Layout_Important" ""
-		(at 1.393 0.011 90)
+		(at 1.331 -0.011 270)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
@@ -189,28 +189,6 @@
 		(layer "F.Fab")
 		(uuid "6a0a45b1-a70c-4da3-91a0-f21ffc5fc0a1")
 	)
-	(fp_text user "1"
-		(at -1.98 -0.927 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 1.98 0.023 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -244,6 +222,28 @@
 		(fill no)
 		(layer "User.5")
 		(uuid "47fc55ce-a1ec-44ae-aab4-dbafba8fc023")
+	)
+	(fp_text user "1"
+		(at -0.456 -0.932 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 0.456 0.018 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -1.2 -0.95)
