@@ -113,9 +113,10 @@ same under `footprints/<name>.pretty` for footprints.
   gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
-  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`; on a real part a set
-  note that sits elsewhere or hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab
-  layer) is moved to its layer, shown. `--write` writes the board.
+  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, but down to 0.05 mm
+  (a short note reads fine much smaller than a designator) before it is reported with no clean fit; on a real part
+  a set note that sits elsewhere or hidden (Update PCB from Schematic puts a field the footprint lacked hidden on
+  the fab layer) is moved to its layer, shown. `--write` writes the board.
 - `kilib layers BOARD.kicad_pcb...` names the user layers the library uses in a board's layer table, front and back
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
@@ -186,7 +187,7 @@ same under `footprints/<name>.pretty` for footprints.
     placement data. The fix replaces anything else on the layer.
   - `layout`: every real part has the properties `Layout_Critical` on `Crit.F` (User.25; `Crit.B`, User.26, on the
     back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible, unlocked and empty, centred on the
-    body and sized like the Value for the note `U1001.48`. Test points, net ties, mechanical and graphic footprints
+    body for the note `U1001.48`, down to 0.05 mm where the body needs it. Test points, net ties, mechanical and graphic footprints
     have neither. The fix adds them or puts them back in place and removes a stray one; a note set in the library is
     reported, as the note belongs to the schematic.
 - `kilib layout-fields [PATH...]` adds the empty, hidden symbol fields `Layout_Critical` and `Layout_Important`

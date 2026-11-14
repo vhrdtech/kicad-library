@@ -2,11 +2,12 @@
 //! Crit.B, User.26, on the back) and [`IMPORTANT`] (`Layout_Important`) on Imp.F (User.27; Imp.B, User.28),
 //! visible, unlocked and empty. The schematic sets a note in the symbol field of the same name (`U101.5 VDD`,
 //! `FB U301`) for a part that needs care in layout; Update PCB from Schematic carries it to the footprint, where it
-//! shows on its own layer. Empty, nothing shows. Each is centred on the body and sized like the Value
-//! ([`crate::fab::layout_value`]), for the typical note [`TYPICAL`]; on a board `kilib designators --board` fits the
-//! note that is set. Test points, net ties, mechanical and graphic footprints (the classes of
-//! [`crate::layers::class_of`] other than a real part) carry neither: a stray one is removed. A note set in the
-//! library footprint is left for a person: the note belongs to the schematic.
+//! shows on its own layer. Empty, nothing shows. Each is centred on the body for the typical note [`TYPICAL`]
+//! ([`crate::fab::layout_note`], much smaller than a designator or Value before it is reported with no clean fit:
+//! a short note reads fine small, and fitting it on the body matters more than its size); on a board `kilib
+//! designators --board` fits the note that is set, the same way. Test points, net ties, mechanical and graphic
+//! footprints (the classes of [`crate::layers::class_of`] other than a real part) carry neither: a stray one is
+//! removed. A note set in the library footprint is left for a person: the note belongs to the schematic.
 
 use super::{Input, Outcome, delete};
 use crate::fab;
@@ -50,7 +51,7 @@ pub fn run(i: &Input) -> Outcome {
             continue;
         };
         let layer = side_of(pair, fp.back);
-        let p = fab::layout_value(shape, &[TYPICAL.to_string()]);
+        let p = fab::layout_note(shape, &[TYPICAL.to_string()]);
         match node {
             Some(n) => {
                 let r = fab::read_property(n);

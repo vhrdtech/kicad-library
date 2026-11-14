@@ -35,6 +35,9 @@ pub const MAX_SIZE: f64 = 1.0;
 pub const MIN_SIZE: f64 = 0.2;
 /// The floor for the smallest parts (0201, 01005), where nothing fits at [`MIN_SIZE`]; reported.
 pub const TINY_SIZE: f64 = 0.15;
+/// The floor for a layout note ([`layout_note`]): a short note (`U101.5 VDD`) reads fine much smaller than a
+/// designator, and fitting it on the body matters more than its size.
+pub const NOTE_TINY_SIZE: f64 = 0.05;
 /// The sizes a designator takes outside a reference-layer drawing too small to hold it.
 pub const OUTSIDE_SIZES: [f64; 2] = [0.3, 0.2];
 /// How far outside a reference-layer drawing such a designator may go.
@@ -305,9 +308,10 @@ fn sizes() -> Vec<f64> {
     v
 }
 
-/// Below [`MIN_SIZE`] down to [`TINY_SIZE`], for parts where nothing larger fits.
-fn tiny_sizes() -> Vec<f64> {
-    steps(MIN_SIZE - FINE_STEP, TINY_SIZE, FINE_STEP).collect()
+/// Below [`MIN_SIZE`] down to `floor` ([`TINY_SIZE`] for a designator or Value, [`NOTE_TINY_SIZE`] for a layout
+/// note), for text where nothing larger fits.
+fn tiny_sizes(floor: f64) -> Vec<f64> {
+    steps(MIN_SIZE - FINE_STEP, floor, FINE_STEP).collect()
 }
 
 /// A designator's size, anchor and angle (0 or 90 in the footprint's frame); `clean` when it fits by the rules.
@@ -380,10 +384,10 @@ fn place(shape: &Shape, sizes: &[f64]) -> Option<Placement> {
     None
 }
 
-/// Where the designator goes: the largest size from [`MAX_SIZE`] to [`MIN_SIZE`] that fits ([`place`]); else
-/// the same down to [`TINY_SIZE`]; else on the centre at [`MIN_SIZE`], turned along the body, not clean.
-pub fn layout(shape: &Shape) -> Placement {
-    if let Some(p) = place(shape, &sizes()).or_else(|| place(shape, &tiny_sizes())) {
+/// The largest size from [`MAX_SIZE`] to [`MIN_SIZE`] that fits ([`place`]); else the same down to `floor`; else on
+/// the centre at [`MIN_SIZE`], turned along the body, not clean.
+fn layout_with_floor(shape: &Shape, floor: f64) -> Placement {
+    if let Some(p) = place(shape, &sizes()).or_else(|| place(shape, &tiny_sizes(floor))) {
         return p;
     }
     // A reference layer's drawing too small for any text: the designator goes outside it, nearest.
@@ -399,6 +403,19 @@ pub fn layout(shape: &Shape) -> Placement {
     let angle = if shape.region.h() > shape.region.w() + EPS { 90.0 } else { 0.0 };
     let (x, y) = shape.anchor(shape.centre(), angle, MIN_SIZE);
     Placement { x, y, angle, size: MIN_SIZE, clean: false }
+}
+
+/// Where the designator or Value goes: [`layout_with_floor`] down to [`TINY_SIZE`].
+pub fn layout(shape: &Shape) -> Placement {
+    layout_with_floor(shape, TINY_SIZE)
+}
+
+/// Where a layout note's text goes: [`layout_with_floor`] down to [`NOTE_TINY_SIZE`], much smaller than a
+/// designator or Value before it is reported with no clean fit.
+pub fn layout_note(shape: &Shape, values: &[String]) -> Placement {
+    let mut s = shape.clone();
+    s.texts = values.to_vec();
+    layout_with_floor(&s, NOTE_TINY_SIZE)
 }
 
 /// The designators a library footprint is sized for, from its name: the longest realistic one of its kind, five
@@ -1325,9 +1342,8 @@ fn board_note_edits(
     pair: [&'static str; 2],
 ) -> Result<(BoardOutcome, Vec<Edit>), String> {
     let layer = layers::side_of(pair, fp.back);
-    let (mut shape, phi) = board_shape(node, fp)?;
-    shape.texts = vec![r.value.clone()];
-    let p = layout(&shape);
+    let (shape, phi) = board_shape(node, fp)?;
+    let p = layout_note(&shape, std::slice::from_ref(&r.value));
     if r.layer == layer && !r.hidden {
         return fit_property(text, node, name, r, p, phi);
     }
@@ -1657,6 +1673,22 @@ mod tests {
     }
 
     #[test]
+    fn a_layout_note_fits_much_smaller_than_a_designator_would() {
+        // The same 0.6 x 0.3 body: a designator has no clean fit even at the tiny floor (0.15 mm)...
+        let shape = read(&footprint(0.6, 0.3, &[], "F.SilkS", &[])).unwrap().shape.unwrap();
+        let designator = layout(&shape);
+        assert_eq!((designator.size, designator.clean), (MIN_SIZE, false), "{designator:?}");
+        // ...but a short note reads fine well below that floor, so it gets a clean fit instead.
+        let note = layout_note(&shape, &["FB U301".to_string()]);
+        assert!(note.clean && note.size < TINY_SIZE, "{note:?}");
+        assert!(note.size >= NOTE_TINY_SIZE - EPS, "{note:?}");
+        // A note too long even for the note floor still ends up not clean, like a designator.
+        let huge =
+            layout_note(&shape, &["a very much longer note than any body this small could ever hold".to_string()]);
+        assert_eq!((huge.size, huge.clean), (MIN_SIZE, false), "{huge:?}");
+    }
+
+    #[test]
     fn the_library_text_is_sized_for_the_longest_designator_of_the_kind() {
         assert_eq!(library_refs(Class::Part, "R_0402_1005Metric"), ["R1004"]);
         assert_eq!(library_refs(Class::Part, "VHRD_Capacitor_SMD:C_0603_1608Metric"), ["C1001"]);
@@ -1746,7 +1778,9 @@ mod tests {
         assert_eq!((thickness(1.0), thickness(0.3), thickness(0.22), thickness(0.15)), (0.15, 0.045, 0.033, 0.025));
         let s = sizes();
         assert_eq!((s.len(), s[13], s[14], s[15], s.last()), (25, 0.35, 0.3, 0.29, Some(&MIN_SIZE)));
-        assert_eq!(tiny_sizes(), vec![0.19, 0.18, 0.17, 0.16, 0.15]);
+        assert_eq!(tiny_sizes(TINY_SIZE), vec![0.19, 0.18, 0.17, 0.16, 0.15]);
+        assert_eq!(tiny_sizes(NOTE_TINY_SIZE).len(), 15);
+        assert_eq!(tiny_sizes(NOTE_TINY_SIZE).last(), Some(&NOTE_TINY_SIZE));
     }
 
     #[test]

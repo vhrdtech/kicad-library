@@ -299,9 +299,10 @@ Examples:
     /// footprint on that board whose Reference is already on its designator layer gets its own designator fitted
     /// the same way (a short one gets larger text), and a real part whose Value is on Value its own value; only the
     /// properties' position, angle, size and thickness change. A Layout_Critical or Layout_Important note that is
-    /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp; on a real part a set note
-    /// that sits elsewhere or hidden (where Update PCB from Schematic puts a field the footprint lacked) is moved
-    /// there, shown. Without --write it lists
+    /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp, but down to 0.05 mm (a
+    /// short note reads fine much smaller than a designator, and fitting it on the body matters more) before it
+    /// is listed as "no clean fit"; on a real part a set note that sits elsewhere or hidden (where Update PCB from
+    /// Schematic puts a field the footprint lacked) is moved there, shown. Without --write it lists
     /// what would change and exits 1 when anything would. `fab-designators` is the old name of this command.
     #[command(
         visible_alias = "fab-designators",
@@ -380,8 +381,8 @@ Examples:
     /// fiducial, the point the position file gives. Fix: drawn, replacing anything else on that layer.
     ///
     /// layout: every real part has the properties Layout_Critical on Crit.F (User.25) and Layout_Important on Imp.F
-    /// (User.27), visible, unlocked and empty, centred on the body and sized like the Value for the note U1001.48.
-    /// The schematic sets a note in the symbol field of the same name; Update PCB from Schematic carries it to the
+    /// (User.27), visible, unlocked and empty, centred on the body for the note U1001.48, down to 0.05 mm where the
+    /// body needs it. The schematic sets a note in the symbol field of the same name; Update PCB from Schematic carries it to the
     /// footprint, where it shows on its own layer. Test points, net ties, mechanical and graphic footprints carry
     /// neither. Fix: added or put back in place; a stray one removed; a note set in the library left for a person.
     ///

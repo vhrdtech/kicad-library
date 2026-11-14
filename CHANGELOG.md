@@ -6,6 +6,10 @@
 
 - PCB Editor layer presets (LIB-33 layer-presets): `kilib presets` writes `generate/layer-presets.toml` into a project's `board.layer_presets` (`Layout.F`/`B`, `Assembly.F`/`B`, `Pins.F`/`B`, `Silk.F`/`B`); replaces a preset of the same name, keeps the project's others, exits 1 without `--write`. The three templates have them.
 
+### Changed
+
+- `kilib designators` and `--board`: a `Layout_Critical`/`Layout_Important` note now goes down to 0.05 mm (was 0.15 mm) before it is reported with no clean fit, so it fits the body more often; the designator and the Value keep their usual 0.2/0.15 mm floors.
+
 ## [0.5.1] - 2026-11-14
 
 ### Added
