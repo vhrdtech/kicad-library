@@ -113,14 +113,17 @@ same under `footprints/<name>.pretty` for footprints.
   gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
-  it. `--write` writes the board.
+  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`; on a real part a set
+  note that sits elsewhere or hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab
+  layer) is moved to its layer, shown. `--write` writes the board.
 - `kilib layers BOARD.kicad_pcb...` names the user layers the library uses in a board's layer table, front and back
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
   `Ref.Mech.F`/`Ref.Mech.B` (mounting holes, fiducials, logos; designator hidden), User.15/16 `Rooms.F`/`Rooms.B`
   (hand-drawn outlines of the circuit blocks), User.17/18 `Value.F`/`Value.B` (each real part's Value), User.19/20
   `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin),
-  User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts).
+  User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts), User.25/26 `Crit.F`/`Crit.B` and User.27/28
+  `Imp.F`/`Imp.B` (a real part's layout-priority notes, see "Layout priority").
   KiCad's own `Dwgs.User`, `Cmts.User` and `User.2` are named `Dimensions`, `Fab.Notes` and `Body.F` (a part's full
   top view, a connector's body from its STEP model); a board that draws on User.2 itself keeps it unnamed, and the
   report says so. A board still in KiCad 8's layer numbering is refused: open and save it in KiCad 10 first. The
@@ -172,6 +175,16 @@ same under `footprints/<name>.pretty` for footprints.
   - `centroid`: a cross on `Centroid.F` (User.21; `Centroid.B`, User.22) at every part's and fiducial's origin, the
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.
+  - `layout`: every real part has the properties `Layout_Critical` on `Crit.F` (User.25; `Crit.B`, User.26, on the
+    back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible, unlocked and empty, centred on the
+    body and sized like the Value for the note `U1001.48`. Test points, net ties, mechanical and graphic footprints
+    have neither. The fix adds them or puts them back in place and removes a stray one; a note set in the library is
+    reported, as the note belongs to the schematic.
+- `kilib layout-fields [PATH...]` adds the empty, hidden symbol fields `Layout_Critical` and `Layout_Important`
+  where a symbol lacks them: to each symbol of a library file (default: this checkout's `symbols/`), and in a
+  schematic to each placed symbol and its copy in the schematic's `lib_symbols`. A new field copies a hidden field of
+  the same symbol (`Description`, else `Datasheet`, else `Footprint`), so it is written the way that file writes its
+  fields. Power symbols and power flags get none. It lists what would change and exits 1; `--write` writes.
 - `kilib stock import Lib:Name...` copies KiCad stock footprints to `footprints/VHRD_<Lib>.pretty/<Name>.kicad_mod`:
   the fixes of `kilib lint`, the designator and the Value placed by the `designators` rules, the fab lines at 0.05 mm, the 3D model at the library's copy of KiCad's model, `${VHRD_3DMODEL_DIR}/vendor/VHRD_<Lib>.3dshapes/` (the STEP file is copied there by hand), every other byte as in stock (pads). The stock folder is `--stock-dir`,
   else `KICAD10_FOOTPRINT_DIR` (environment or KiCad's "Configure Paths"), else `/usr/share/kicad/footprints`. A
@@ -183,7 +196,8 @@ same under `footprints/<name>.pretty` for footprints.
 - `kilib stock import --symbols Lib:Name...` does the same for stock symbols, into
   `symbols/VHRD_<Lib>.kicad_symdir/<Name>.kicad_sym`: a derived symbol is made standalone (its parent's pins, units and
   graphics under its own name and fields), the `Footprint` field points at our copy of the footprint where
-  `footprints/` has one, library parts of `ki_fp_filters` patterns get `VHRD_`, and an empty `Mpn1` is added. The
+  `footprints/` has one, library parts of `ki_fp_filters` patterns get `VHRD_`, and an empty `Mpn1` and the empty
+  `Layout_Critical` and `Layout_Important` fields are added. The
   stock folder is `--stock-symbol-dir`, else `KICAD10_SYMBOL_DIR`, else `/usr/share/kicad/symbols`. `kilib stock
   diff` compares the symbols too; a copy's fields and flags are ours, laid over the fresh import, so the diff shows
   what stock changed in pins, units and graphics and the fields stock has that the copy has not. A kind whose stock
@@ -206,6 +220,38 @@ same under `footprints/<name>.pretty` for footprints.
   that differs from what would be made is reported and left. It lists what it would write and exits 1; `--write`
   writes.
 - Shell completion: `source <(COMPLETE=bash kilib)` (or `zsh`, `fish`).
+
+### Layout priority
+
+Parts that need care in layout (low-value decoupling, passives on a differential pair or in a feedback path, a
+DC-DC converter's inductor) show in the PCB editor on layers of their own, without picking them out of the schematic
+by hand. Two levels: critical (`Crit.F`/`Crit.B`, User.25/26) and important (`Imp.F`/`Imp.B`, User.27/28, bulk
+decoupling and the like). The schematic sets a short note in the symbol's `Layout_Critical` or `Layout_Important`
+field (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint's property of the same name,
+which shows on its layer; an empty field shows nothing. Every library symbol has both fields, empty and hidden, and
+every real part's footprint both properties, empty and shown (`kilib layout-fields`, `kilib lint --rule layout`).
+
+How KiCad 10 treats them, and what a board made before needs:
+
+1. Update PCB from Schematic sets only the text of a footprint field the footprint has: its layer, position and size
+   stay as the library put them. An empty symbol field empties the footprint's text. This needs "Update footprint
+   fields from symbols" ticked (the default).
+2. A field the footprint lacks is created hidden on F.Fab (B.Fab on the back) at the footprint's origin, and "Update
+   Footprints from Library" with its default options keeps it there. So update the footprints from the library
+   before the first Update PCB from Schematic; `kilib designators --board BOARD --write` moves a set note that went
+   to the fab layer.
+3. A footprint field the symbol lacks is left alone, unless "Remove footprint fields not found in symbols" is
+   ticked.
+4. DRC `footprint_symbol_field_mismatch` (a warning, also run by `kicad-cli pcb drc --schematic-parity`) reports a
+   footprint that lacks a field its symbol has, empty or not, and a text that differs (one per footprint). A
+   footprint field the symbol lacks is not reported. `lib_footprint_mismatch` ignores fields.
+5. ERC `lib_symbol_mismatch` reports every placed symbol whose copy in the schematic lacks the fields the library
+   now has. "Update Symbols from Library" adds them (its defaults keep a note that is set), and so does `kilib
+   layout-fields --write SCHEMATIC_DIR`.
+
+So a board made before the fields needs, in this order: Update Symbols from Library (or `kilib layout-fields`), Update
+Footprints from Library, then Update PCB from Schematic. Until both sides have them, the parity DRC warns about
+`Layout_Critical` on every footprint.
 
 ### Migrating an older board
 

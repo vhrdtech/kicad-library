@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- Layout priority (LIB-32 layout-priority-marks): a schematic sets a short note in a symbol's `Layout_Critical` or `Layout_Important` field, and Update PCB from Schematic carries it to the footprint, where it shows on its own layer. README "Layout priority" says how KiCad 10 treats the fields and what a board made before needs.
+- `kilib layers`: User.25/26 `Crit.F`/`Crit.B` and User.27/28 `Imp.F`/`Imp.B`; the three templates name them.
+- `kilib lint --rule layout`: every real part has empty, shown `Layout_Critical` and `Layout_Important` properties on Crit and Imp, centred like the Value. Written across `footprints/` (377 footprints).
+- `kilib layout-fields`: adds the empty, hidden `Layout_Critical` and `Layout_Important` fields to library symbols, and to placed symbols and their `lib_symbols` copies in schematics. Written across `symbols/` (421 symbols; power symbols get none). `kilib stock import --symbols` adds them too.
+- `kilib designators --board`: a `Layout_*` note that is set is fitted to its own text; on a real part one that KiCad left hidden on the fab layer moves to Crit/Imp, shown.
+
+### Changed
+
+- Every library symbol and real part's footprint changed (new fields). A board's placed symbols now differ from the library until "Update Symbols from Library" (or `kilib layout-fields --write`), so ERC reports `lib_symbol_mismatch` on them; after the footprints are updated from the library, the parity DRC wants the fields on both sides.
+
 ## [0.5.0] - 2026-11-14
 
 ### Added

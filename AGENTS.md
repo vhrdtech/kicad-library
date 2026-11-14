@@ -58,9 +58,10 @@ and library in step). A new package: a line in the map, then `kilib per-package 
 
 ## Designator layers
 
-User.9-24 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
+User.9-28 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
 ties, mechanical parts), `Rooms` (block outlines), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
---rule pins`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), named in
+--rule pins`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
+part's `Layout_Critical` and `Layout_Important` notes, set in the schematic, README "Layout priority"), named in
 the templates and by `kilib layers`; don't use those numbers for anything else. F.Fab and B.Fab carry only the
 drawing, no text: Ref.Des and Value are both centred on the body, so they are separate layers shown one at a time;
 the Value of a test point, net tie or mechanical part stays hidden on the fab layer. KiCad's `Dwgs.User`, `Cmts.User` and `User.2` carry the names `Dimensions`, `Fab.Notes`
@@ -87,11 +88,14 @@ new files under the checkout's `footprints/` (`symbols/` with `--symbols`), with
 symbol files under the checkout's `symbols/`, with `--write`. `kilib designators` (old name
 `fab-designators`) writes only with `--write`, and then only the `Reference` and `Value` properties, `${REFERENCE}` texts and the stroke
 widths of fab lines in the footprints given; with `--board` only the Reference's and the Value's `at`, `size` and
-`thickness` on that board. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
+`thickness` on that board, and of a set `Layout_*` note also its layer and visibility
+(moved to `Crit`/`Imp`, shown). `kilib layout-fields` writes only with `--write`, and then only new empty
+`Layout_*` fields into the symbols (`.kicad_sym`) and schematics (`.kicad_sch`) given. `kilib layers` writes only with `--write`, and then only the board's `(layers ...)` table. The extended tests read the
 boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on the boards themselves.
 
 `kilib lint` writes only with `--write`, and then only the items its fixes name (attributes, model paths,
-courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins and Centroid layers) in the footprints
+courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins and Centroid layers, the `Layout_*`
+properties) in the footprints
 given; it never touches the designator or the Value.
 
 ## FEATURES.md and CHANGELOG.md

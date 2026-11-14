@@ -134,3 +134,10 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   inside for a water-clear lens (`SURFACE_STYLE_TRANSPARENT`), the opaque yellow phosphor for white. Heights, board
   and lens from LiteOn, Kingbright, OSRAM and Würth drawings in `generate/chip-leds.toml` (`kilib::chip::led`);
   per-package symbols on `VHRD_Device:LED_<Colour>` (`LED_Red_0603_H0.8`). 48 footprints
+- ✅ LIB-32 layout-priority-marks: parts that need care in layout show in the PCB editor on layers of their own.
+  Every symbol carries the empty, hidden fields `Layout_Critical` and `Layout_Important` (`kilib layout-fields`,
+  also for schematics placed before), every real part's footprint the empty, shown properties of the same names on
+  Crit.F/B (User.25/26) and Imp.F/B (User.27/28), centred like the Value (`kilib lint --rule layout`). A schematic
+  sets a short note (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint, where it shows;
+  empty, nothing shows. `kilib designators --board` fits a set note to its text and moves one KiCad left hidden on
+  the fab layer. `tests/layout.rs` keeps symbols and footprints in step. Next: better_erc sets the notes
