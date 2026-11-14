@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.10] - 2026-11-14
+
 ### Changed
 
 - Layer presets: Layout.F/B/FB show the x-ray view (Xray.F/B) instead of the fab layer.
