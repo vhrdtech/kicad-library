@@ -777,3 +777,47 @@ fn layout_fields_lists_then_writes_then_finds_nothing() {
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     assert!(text(&out).contains("✓ nothing to change"));
 }
+
+#[test]
+fn presets_lists_then_writes_then_finds_nothing() {
+    let dir = TestDir::new("cli_presets");
+    let pro = "{\n  \"board\": {\n    \"layer_presets\": []\n  }\n}\n";
+    let pro_path = dir.write("board.kicad_pro", pro);
+    dir.write(
+        "board.kicad_pcb",
+        "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t\t(87 \"User.25\" front \"Crit.F\")\n\t)\n)\n",
+    );
+    let table_path = dir.write(
+        "layer-presets.toml",
+        "[[preset]]\nname = \"Layout.F\"\nlayers = [\"F.Cu\", \"Crit.F\"]\nrender = [\"pads\"]\nflip = false\n",
+    );
+    let out = kilib(&dir, &["presets", "--table", p(&table_path), "board.kicad_pro"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    assert!(t.contains("Layout.F set"), "{t}");
+    assert_eq!(std::fs::read_to_string(&pro_path).unwrap(), pro, "nothing written without --write");
+
+    let out = kilib(&dir, &["presets", "--write", "--table", p(&table_path), "board.kicad_pro"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    let new = std::fs::read_to_string(&pro_path).unwrap();
+    assert!(new.contains("\"name\": \"Layout.F\"") && new.contains("\"flipBoard\": false"), "{new}");
+
+    let out = kilib(&dir, &["presets", "--table", p(&table_path), "board.kicad_pro"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert!(text(&out).contains("✓ nothing to change"));
+}
+
+#[test]
+fn presets_refuses_a_board_missing_the_named_layer() {
+    let dir = TestDir::new("cli_presets_missing");
+    dir.write("board.kicad_pro", "{\n  \"board\": {\n    \"layer_presets\": []\n  }\n}\n");
+    dir.write("board.kicad_pcb", "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t)\n)\n");
+    let table_path = dir.write(
+        "layer-presets.toml",
+        "[[preset]]\nname = \"Layout.F\"\nlayers = [\"F.Cu\", \"Crit.F\"]\nrender = []\nflip = false\n",
+    );
+    let out = kilib(&dir, &["presets", "--table", p(&table_path), "board.kicad_pro"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(2), "{t}");
+    assert!(t.contains("Crit.F") && t.contains("kilib layers"), "{t}");
+}

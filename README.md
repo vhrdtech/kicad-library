@@ -131,6 +131,15 @@ same under `footprints/<name>.pretty` for footprints.
   `kilib layers --write` or by hand in Board Setup > Board Editor Layers (add the user layers, name them, set
   their type to front or back). A number the board already uses under another name is left alone and reported.
   Only the layer table changes.
+- `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
+  a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
+  Edge.Cuts; pads, vias and ratsnest shown), `Assembly.F`/`B` (Fab, Ref.Des, Value, Centroid, Courtyard, Edge.Cuts;
+  no copper), `Pins.F`/`B` (Cu, Fab, Pins, Edge.Cuts) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
+  the back counterpart, viewed from below. A preset already in the project under the same name is replaced; the
+  project's other presets are kept, in their place. The sibling board (same name, `.kicad_pcb`) is checked for the
+  user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
+  `board.layer_presets` changes, byte for byte; the three templates have them. Without `--write` it lists what
+  would change and exits 1 when anything would.
 - `kilib lint [PATH...]` checks footprints against the library rules (default: this checkout's `footprints/`;
   `--rule` picks some of them) and lists, per footprint, what each fix changes and what is left for a person
   (`--left` only that, `--json` as JSON). It exits 1 while a fix is not written; `--write` writes them. The designator

@@ -284,7 +284,132 @@
       "sch_revision": "A"
     },
     "layer_pairs": [],
-    "layer_presets": [],
+    "layer_presets": [
+      {
+        "activeLayer": 0,
+        "flipBoard": false,
+        "layers": [
+          0,
+          25,
+          31,
+          35,
+          83,
+          87,
+          91
+        ],
+        "name": "Layout.F",
+        "renderLayers": [
+          "pads",
+          "vias",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 2,
+        "flipBoard": true,
+        "layers": [
+          2,
+          25,
+          29,
+          33,
+          85,
+          89,
+          93
+        ],
+        "name": "Layout.B",
+        "renderLayers": [
+          "pads",
+          "vias",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 35,
+        "flipBoard": false,
+        "layers": [
+          25,
+          31,
+          35,
+          71,
+          79,
+          83
+        ],
+        "name": "Assembly.F",
+        "renderLayers": []
+      },
+      {
+        "activeLayer": 33,
+        "flipBoard": true,
+        "layers": [
+          25,
+          29,
+          33,
+          73,
+          81,
+          85
+        ],
+        "name": "Assembly.B",
+        "renderLayers": []
+      },
+      {
+        "activeLayer": 0,
+        "flipBoard": false,
+        "layers": [
+          0,
+          25,
+          35,
+          75
+        ],
+        "name": "Pins.F",
+        "renderLayers": [
+          "pads"
+        ]
+      },
+      {
+        "activeLayer": 2,
+        "flipBoard": true,
+        "layers": [
+          2,
+          25,
+          33,
+          77
+        ],
+        "name": "Pins.B",
+        "renderLayers": [
+          "pads"
+        ]
+      },
+      {
+        "activeLayer": 5,
+        "flipBoard": false,
+        "layers": [
+          0,
+          1,
+          5,
+          13,
+          25
+        ],
+        "name": "Silk.F",
+        "renderLayers": [
+          "pads"
+        ]
+      },
+      {
+        "activeLayer": 7,
+        "flipBoard": true,
+        "layers": [
+          2,
+          3,
+          7,
+          15,
+          25
+        ],
+        "name": "Silk.B",
+        "renderLayers": [
+          "pads"
+        ]
+      }
+    ],
     "viewports": []
   },
   "boards": [],

@@ -140,4 +140,11 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   Crit.F/B (User.25/26) and Imp.F/B (User.27/28), centred like the Value (`kilib lint --rule layout`). A schematic
   sets a short note (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint, where it shows;
   empty, nothing shows. `kilib designators --board` fits a set note to its text and moves one KiCad left hidden on
-  the fab layer. `tests/layout.rs` keeps symbols and footprints in step. Next: better_erc sets the notes
+  the fab layer. `tests/layout.rs` keeps symbols and footprints in step. Next: better_erc sets the notes.
+- ✅ LIB-33 layer-presets: PCB Editor layer presets, `kilib presets` into a project's `board.layer_presets`
+  (`generate/layer-presets.toml`, KiCad's `LAYER_PRESET`): `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp,
+  Ref.Des, Courtyard, Edge.Cuts; pads, vias, ratsnest), `Assembly.F`/`B` (Fab, Ref.Des, Value, Centroid, Courtyard,
+  Edge.Cuts; no copper), `Pins.F`/`B` (Cu, Fab, Pins, Edge.Cuts) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu,
+  Edge.Cuts), each `B` the back counterpart, flipped. A preset of the same name is replaced, the project's own
+  kept; a board lacking a named user layer is told to run `kilib layers --write` first. The three templates have
+  them; `tests/layer_presets.rs` keeps the table and the templates in step.

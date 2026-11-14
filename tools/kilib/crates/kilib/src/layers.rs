@@ -238,6 +238,19 @@ pub fn add_to_board(text: &str) -> Result<(String, Vec<LayerChange>), String> {
     Ok((apply_edits(text, &edits), out))
 }
 
+/// The names of [`LAYERS`] not yet on the board's `(layers ...)` table (added, typed and named by `kilib layers
+/// --write`): a layer preset naming one of these would show the wrong layer, or nothing.
+pub fn unnamed_in_board(text: &str) -> Result<Vec<&'static str>, String> {
+    let pcb = sexpr::parse(text).map_err(|e| e.to_string())?;
+    if pcb.head() != Some("kicad_pcb") {
+        return Err("not a (kicad_pcb ...) file".into());
+    }
+    let table = pcb.child("layers").ok_or("no (layers ...) table")?;
+    let entries: Vec<&Node> = table.items().iter().skip(1).filter(|n| n.as_atom().is_none()).collect();
+    let named = |l: &Layer| entries.iter().any(|e| e.arg(0) == Some(l.id) && e.arg(2) == Some(l.name));
+    Ok(LAYERS.iter().filter(|l| !named(l)).map(|l| l.name).collect())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -304,5 +317,16 @@ mod tests {
         let (new, changes) = add_to_board(&drawn).unwrap();
         assert!(new.contains("(41 \"User.2\" user)\n"), "{new}");
         assert!(changes.iter().any(|c| matches!(c, LayerChange::InUse { items: 1, .. })));
+    }
+
+    #[test]
+    fn unnamed_in_board_lists_what_kilib_layers_would_still_add() {
+        let bare = "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t)\n)\n";
+        assert_eq!(unnamed_in_board(bare).unwrap().len(), LAYERS.len());
+        let (named, _) = add_to_board(bare).unwrap();
+        assert!(unnamed_in_board(&named).unwrap().is_empty());
+        // Named under another name (a number taken for something else): still missing.
+        let taken = named.replace("\"Ref.Test.F\"", "\"Assembly\"");
+        assert_eq!(unnamed_in_board(&taken).unwrap(), vec!["Ref.Test.F"]);
     }
 }

@@ -1,0 +1,53 @@
+# Layer presets for the PCB Editor, written into a project's .kicad_pro (board.layer_presets) by `kilib presets`.
+# `layers`: board layers shown, by kilib's names (`kilib layers`) or KiCad's own (F.Cu, Edge.Cuts, F.Courtyard...);
+# the first one becomes the preset's active layer. `render`: which object types show (KiCad's "Objects" tab:
+# pads, vias, tracks, zones, ratsnest...; a copper layer with none of its pads shown is not very useful, so every
+# preset with copper lists "pads"). `flip` views the board from below, for a back-side preset. Decided 14 Nov 2026.
+
+[[preset]]
+name = "Layout.F"
+layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "Ref.Des.F", "F.Courtyard", "Edge.Cuts"]
+render = ["pads", "vias", "ratsnest"]
+flip = false
+
+[[preset]]
+name = "Layout.B"
+layers = ["B.Cu", "B.Fab", "Crit.B", "Imp.B", "Ref.Des.B", "B.Courtyard", "Edge.Cuts"]
+render = ["pads", "vias", "ratsnest"]
+flip = true
+
+[[preset]]
+name = "Assembly.F"
+layers = ["F.Fab", "Ref.Des.F", "Value.F", "Centroid.F", "F.Courtyard", "Edge.Cuts"]
+render = []
+flip = false
+
+[[preset]]
+name = "Assembly.B"
+layers = ["B.Fab", "Ref.Des.B", "Value.B", "Centroid.B", "B.Courtyard", "Edge.Cuts"]
+render = []
+flip = true
+
+[[preset]]
+name = "Pins.F"
+layers = ["F.Cu", "F.Fab", "Pins.F", "Edge.Cuts"]
+render = ["pads"]
+flip = false
+
+[[preset]]
+name = "Pins.B"
+layers = ["B.Cu", "B.Fab", "Pins.B", "Edge.Cuts"]
+render = ["pads"]
+flip = true
+
+[[preset]]
+name = "Silk.F"
+layers = ["F.SilkS", "F.Mask", "F.Paste", "F.Cu", "Edge.Cuts"]
+render = ["pads"]
+flip = false
+
+[[preset]]
+name = "Silk.B"
+layers = ["B.SilkS", "B.Mask", "B.Paste", "B.Cu", "Edge.Cuts"]
+render = ["pads"]
+flip = true

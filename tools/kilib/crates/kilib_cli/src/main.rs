@@ -20,6 +20,7 @@ use kilib::layout_fields;
 use kilib::libtable::{LibTable, TableKind};
 use kilib::migrate;
 use kilib::per_package;
+use kilib::presets;
 use kilib::restructure;
 use kilib::setup::{self, Line};
 use kilib::stock;
@@ -246,6 +247,34 @@ Examples:
         /// Boards (.kicad_pcb)
         #[arg(required = true, value_hint = ValueHint::FilePath)]
         boards: Vec<PathBuf>,
+        /// Write the changes
+        #[arg(long)]
+        write: bool,
+    },
+    /// Write the PCB Editor's layer presets of generate/layer-presets.toml into a project's .kicad_pro
+    ///
+    /// Each preset becomes a row of board.layer_presets: the layers it shows, by kilib's names (Crit.F, Pins.B...)
+    /// or KiCad's own (F.Cu, Edge.Cuts, F.Courtyard...), its render items (pads, vias, ratsnest...) and whether the
+    /// board is flipped. A preset already in the project under the same name is replaced; the project's other
+    /// presets are kept, in their place. A project's sibling board (same name, .kicad_pcb) is checked for the user
+    /// layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
+    /// board.layer_presets changes; every other byte of the project stays. Without --write it lists what would
+    /// change and exits 1 when anything would.
+    #[command(after_help = "\
+Examples:
+  kilib presets templates/*/*.kicad_pro
+  kilib presets --write templates/IO30/io30.kicad_pro
+  kilib presets --table generate/layer-presets.toml --write board.kicad_pro")]
+    Presets {
+        /// Projects (.kicad_pro)
+        #[arg(required = true, value_hint = ValueHint::FilePath)]
+        projects: Vec<PathBuf>,
+        /// The presets table (default: generate/layer-presets.toml of the kicad-library checkout)
+        #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
+        table: Option<PathBuf>,
+        /// The kicad-library checkout with generate/ (default: the one around the current folder)
+        #[arg(long, value_name = "DIR", value_hint = ValueHint::DirPath)]
+        library: Option<PathBuf>,
         /// Write the changes
         #[arg(long)]
         write: bool,
@@ -574,6 +603,10 @@ fn main() -> ExitCode {
         Command::Layers { boards, write } => {
             usage::record("layers", &[("write", write)]);
             run_layers(&boards, write)
+        }
+        Command::Presets { projects, table, library, write } => {
+            usage::record("presets", &[("write", write), ("table", table.is_some()), ("library", library.is_some())]);
+            run_presets(&projects, table, library, write)
         }
         Command::Designators { paths, board, write, verbose } => {
             usage::record("designators", &[("write", write), ("paths", !paths.is_empty()), ("board", board.is_some())]);
@@ -1182,6 +1215,57 @@ fn run_layers(boards: &[PathBuf], write: bool) -> Result<ExitCode, String> {
     }
     eprintln!("{GREEN}✓{GREEN:#} wrote {changed} boards");
     Ok(if taken == 0 { ExitCode::SUCCESS } else { ExitCode::from(1) })
+}
+
+fn run_presets(
+    projects: &[PathBuf],
+    table: Option<PathBuf>,
+    library: Option<PathBuf>,
+    write: bool,
+) -> Result<ExitCode, String> {
+    let table_path = match table {
+        Some(p) => p,
+        None => library_or_cwd(library)?.join(presets::TABLE_FILE),
+    };
+    let table = presets::Table::read(&table_path)?;
+    let mut plans = Vec::new();
+    let mut changed = 0;
+    for p in projects {
+        let old = std::fs::read_to_string(p).map_err(|e| format!("{}: {e}", p.display()))?;
+        let board_path = p.with_extension("kicad_pcb");
+        let board = board_path
+            .exists()
+            .then(|| std::fs::read_to_string(&board_path).map_err(|e| format!("{}: {e}", board_path.display())))
+            .transpose()?;
+        let (new, report) =
+            presets::apply(&old, board.as_deref(), &table).map_err(|e| format!("{}: {e}", p.display()))?;
+        if !report.set.is_empty() {
+            changed += 1;
+            println!("  {BOLD}{}{BOLD:#}: {} set", p.display(), report.set.join(", "));
+        }
+        plans.push((p, old, new));
+    }
+    eprintln!("{BOLD}kilib presets{BOLD:#}: {} projects: {changed} to change", projects.len());
+    if changed == 0 {
+        eprintln!("{GREEN}✓{GREEN:#} nothing to change");
+        return Ok(ExitCode::SUCCESS);
+    }
+    if !write {
+        eprintln!("{CYAN}not written{CYAN:#}: run with --write to apply");
+        return Ok(ExitCode::from(1));
+    }
+    for (p, old, new) in &plans {
+        if old == new {
+            continue;
+        }
+        let now = std::fs::read_to_string(p).map_err(|e| format!("{}: {e}", p.display()))?;
+        if &now != old {
+            return Err(format!("{} changed since it was read; run again", p.display()));
+        }
+        std::fs::write(p, new).map_err(|e| format!("{}: {e}", p.display()))?;
+    }
+    eprintln!("{GREEN}✓{GREEN:#} wrote {changed} projects");
+    Ok(ExitCode::SUCCESS)
 }
 
 /// How many designators got each size, and which fit only below the usual floor.
