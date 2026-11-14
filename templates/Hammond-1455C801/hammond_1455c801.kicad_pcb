@@ -50,6 +50,10 @@
 		(81 "User.22" back "Centroid.B")
 		(83 "User.23" front "Ref.Des.F")
 		(85 "User.24" back "Ref.Des.B")
+		(87 "User.25" front "Crit.F")
+		(89 "User.26" back "Crit.B")
+		(91 "User.27" front "Imp.F")
+		(93 "User.28" back "Imp.B")
 	)
 	(setup
 		(stackup

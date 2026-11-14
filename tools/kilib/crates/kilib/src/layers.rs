@@ -8,7 +8,8 @@
 //! to the back one. One more pair, Rooms, holds hand-drawn outlines of the circuit blocks (no footprint uses it).
 //! Three pairs more carry what a fab or assembly print may want on demand: Value (a real part's Value, centred on
 //! the body like the designator, so Ref.Des and Value are shown one at a time), Pins (pin numbers next to the pads)
-//! and Centroid (a cross on the placement origin). A few of KiCad's own layers get a name of their own
+//! and Centroid (a cross on the placement origin). Two pairs show layout priority: Crit and Imp carry a real part's
+//! `Layout_Critical` and `Layout_Important` notes, empty (so nothing shows) until the schematic sets one. A few of KiCad's own layers get a name of their own
 //! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table (and only there).
 
 use crate::migrate::{Edit, apply_edits};
@@ -29,7 +30,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 }
 
 /// The layers, front then back of each pair.
-pub const LAYERS: [Layer; 16] = [
+pub const LAYERS: [Layer; 20] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -46,6 +47,10 @@ pub const LAYERS: [Layer; 16] = [
     user(22, "back", "Centroid.B", "User.22"),
     user(23, "front", "Ref.Des.F", "User.23"),
     user(24, "back", "Ref.Des.B", "User.24"),
+    user(25, "front", "Crit.F", "User.25"),
+    user(26, "back", "Crit.B", "User.26"),
+    user(27, "front", "Imp.F", "User.27"),
+    user(28, "back", "Imp.B", "User.28"),
 ];
 
 /// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
@@ -57,6 +62,11 @@ pub const VALUE: [&str; 2] = ["User.17", "User.18"];
 pub const PINS: [&str; 2] = ["User.19", "User.20"];
 /// The Centroid pair: a small cross on the footprint's placement origin ([`crate::lint::centroid`]).
 pub const CENTROID: [&str; 2] = ["User.21", "User.22"];
+/// The Crit pair: a real part's `Layout_Critical` note, set in the schematic for a part that needs care in layout
+/// ([`crate::lint::layout`]).
+pub const CRIT: [&str; 2] = ["User.25", "User.26"];
+/// The Imp pair: a real part's `Layout_Important` note, the second level of layout priority.
+pub const IMP: [&str; 2] = ["User.27", "User.28"];
 
 /// The front or back layer of a pair.
 pub fn side_of(pair: [&'static str; 2], back: bool) -> &'static str {
@@ -264,7 +274,8 @@ mod tests {
             new.contains("(81 \"User.22\" back \"Centroid.B\")\n\t\t(83 \"User.23\" front \"Ref.Des.F\")"),
             "{new}"
         );
-        assert!(new.contains("(85 \"User.24\" back \"Ref.Des.B\")"), "{new}");
+        assert!(new.contains("(85 \"User.24\" back \"Ref.Des.B\")\n\t\t(87 \"User.25\" front \"Crit.F\")"), "{new}");
+        assert!(new.contains("(91 \"User.27\" front \"Imp.F\")\n\t\t(93 \"User.28\" back \"Imp.B\")"), "{new}");
         assert!(new.contains("(41 \"User.2\" user \"Body.F\")\n\t)\n\t(setup)\n)\n"), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();

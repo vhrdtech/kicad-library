@@ -229,7 +229,8 @@ Examples:
     /// footprints on a layer of their own (User.9/10 Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14
     /// Ref.Mech.F/B); F.Fab and B.Fab keep the drawing alone. User.15/16 Rooms.F/B hold hand-drawn outlines of the
     /// circuit blocks. User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
-    /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin. Each pair is
+    /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin, User.25/26
+    /// Crit.F/B and User.27/28 Imp.F/B a real part's Layout_Critical and Layout_Important notes. Each pair is
     /// typed front and back, so KiCad flips a bottom-side footprint's text onto the back layer. KiCad's own
     /// Dwgs.User, Cmts.User and User.2 are named Dimensions, Fab.Notes and Body.F (a part's full top view); User.2
     /// keeps its plain name on a board that draws on it itself. This adds the layers a board lacks, and names and
