@@ -78,28 +78,6 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -1.074992 2.874996)
-		(end -1.074992 1.8)
-		(stroke
-			(width 0.12)
-			(type default)
-		)
-		(layer "F.SilkS")
-		(uuid "4da88249-096b-4519-a146-de668fe07792")
-	)
-	(fp_poly
-		(pts
-			(xy 0.385 3.875) (xy 0.715 3.635) (xy 0.715 4.115)
-		)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.SilkS")
-		(uuid "ee1184fa-6877-46a2-a868-628edd3d6d5d")
-	)
-	(fp_line
 		(start -6.724992 2.874996)
 		(end -6.724992 1.8)
 		(stroke
@@ -424,19 +402,6 @@
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "1398f1a8-effd-4f21-ae24-e4864c55e1e3")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.1)
-			)
-			(justify left bottom)
-		)
-	)
-	(fp_text user "A1"
-		(at -1.7 0 270)
-		(unlocked yes)
-		(layer "F.SilkS")
-		(uuid "96e5d622-600c-41d2-a62f-ea6b1975313c")
 		(effects
 			(font
 				(size 1 1)

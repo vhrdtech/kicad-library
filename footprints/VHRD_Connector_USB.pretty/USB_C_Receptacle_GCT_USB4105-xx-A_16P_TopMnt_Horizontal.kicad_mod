@@ -77,18 +77,6 @@
 	)
 	(attr through_hole)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_poly
-		(pts
-			(xy -3.2 -4.515) (xy -3.44 -4.845) (xy -2.96 -4.845)
-		)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill yes)
-		(layer "F.SilkS")
-		(uuid "5ff4c8b7-58c0-4c4c-b39b-e192db6212f3")
-	)
 	(fp_line
 		(start 5 3.675)
 		(end -5 3.675)
