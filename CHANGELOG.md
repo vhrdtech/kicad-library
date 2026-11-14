@@ -7,6 +7,10 @@
 - Body.F/B is a front/back pair on User.5/6, so a bottom part's body flips with it; the old User.2 bodies moved (LIB-34 body-layer).
 - `kilib layers` moves a board's footprint bodies off User.2 to Body.F or Body.B by side, and drops User.2's old name.
 - Floorplan.B shows Body.B.
+
+### Added
+
+- 121 more footprints draw their STEP model's top view on Body.F (hw footprint_tools `body.py`); 15 without a model listed.
 - `kilib footprint chip` draws each part's table body on Body.F; the 192 chip, inductor, shunt and LED footprints have it.
 
 ## [0.5.4] - 2026-11-14

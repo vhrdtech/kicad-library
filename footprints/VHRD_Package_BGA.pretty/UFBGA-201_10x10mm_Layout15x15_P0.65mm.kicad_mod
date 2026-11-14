@@ -179,6 +179,17 @@
 		)
 		(layer "User.21")
 	)
+	(fp_rect
+		(start -5.075 -5.075)
+		(end 5.075 5.075)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "1d0ec6ca-fb8e-4fda-a9c4-9aa78ba234fa")
+	)
 	(pad "A1" smd circle
 		(at -4.55 -4.55)
 		(size 0.3 0.3)

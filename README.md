@@ -126,7 +126,9 @@ same under `footprints/<name>.pretty` for footprints.
   `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin),
   User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts), User.25/26 `Crit.F`/`Crit.B` and User.27/28
   `Imp.F`/`Imp.B` (a real part's layout-priority notes, see "Layout priority"), User.5/6 `Body.F`/`Body.B` (a
-  part's full top view, the outline of its 3D model). KiCad pairs user layers only by number (User.5 flips to
+  part's full top view, the outline of its 3D model: the table body of the parts `kilib footprint chip` makes, the
+  STEP model's top view of the others, drawn by hw's `tools/footprint_tools`; test points, net ties and mechanical
+  footprints have none). KiCad pairs user layers only by number (User.5 flips to
   User.6, never to User.7), so each pair is an odd number and the next. KiCad's own `Dwgs.User` and `Cmts.User`
   are named `Dimensions` and `Fab.Notes`. Bodies drawn before the Body pair existed (footprint drawings on User.2,
   then named `Body.F`, which KiCad did not flip) move to `Body.F` or `Body.B` by the footprint's side, and User.2

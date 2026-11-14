@@ -255,6 +255,19 @@
 		)
 		(layer "User.21")
 	)
+	(fp_poly
+		(pts
+			(xy -2.28 0.75) (xy -2.28 1.35) (xy 2.28 1.35) (xy 2.28 0.75) (xy 2.5 0.75) (xy 2.5 -0.75)
+			(xy 2.28 -0.75) (xy 2.28 -1.35) (xy -2.28 -1.35) (xy -2.28 -0.75) (xy -2.5 -0.75) (xy -2.5 0.75)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "9ebdaf21-1221-4f41-a78c-348351a2ddee")
+	)
 	(pad "1" smd roundrect
 		(at -2 0)
 		(size 2.5 1.8)

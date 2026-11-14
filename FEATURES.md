@@ -151,4 +151,6 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   them; `tests/layer_presets.rs` keeps the table and the templates in step.
 - ✅ LIB-34 body-layer: Body.F/B (User.5/6), a front/back pair KiCad flips with the part, carry each part's full top
   view, the outline of its 3D model; in the templates, the Floorplan presets and `kilib layers`, which moves bodies
-  a board still draws on User.2 (the old Body.F) to the pair by the footprint's side.
+  a board still draws on User.2 (the old Body.F) to the pair by the footprint's side. Every real part with a model
+  has one: `kilib footprint chip` draws the table body, hw `tools/footprint_tools` (`body.py`) projects the STEP
+  model of the others; test points, net ties and mechanical footprints have none.

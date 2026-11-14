@@ -222,6 +222,17 @@
 			)
 		)
 	)
+	(fp_rect
+		(start -1.52 -1.52)
+		(end 1.52 1.52)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "c849c292-38da-45fb-8798-2c48f71e88d7")
+	)
 	(pad "" smd roundrect
 		(at -0.36 -0.36)
 		(size 0.58 0.58)

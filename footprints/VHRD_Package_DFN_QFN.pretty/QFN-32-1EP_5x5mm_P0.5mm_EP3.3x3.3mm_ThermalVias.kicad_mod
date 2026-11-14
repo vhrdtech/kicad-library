@@ -325,6 +325,17 @@
 		)
 		(layer "User.21")
 	)
+	(fp_rect
+		(start -2.5 -2.5)
+		(end 2.5 2.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "dd6684f4-317f-4e17-bcdb-d8b6fd54634f")
+	)
 	(pad "" smd custom
 		(at -1.325 -1.325)
 		(size 0.413109 0.413109)

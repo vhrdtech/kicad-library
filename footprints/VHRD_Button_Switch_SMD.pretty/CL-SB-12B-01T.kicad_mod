@@ -299,6 +299,20 @@
 		)
 		(layer "User.21")
 	)
+	(fp_poly
+		(pts
+			(xy -4.25 1.75) (xy -2.8 1.75) (xy -2.8 2.5) (xy -2.2 2.5) (xy -2.2 1.75) (xy 2.2 1.75)
+			(xy 2.2 2.5) (xy 2.8 2.5) (xy 2.8 1.75) (xy 4.25 1.75) (xy 4.25 -1.75) (xy 0.3 -1.75)
+			(xy 0.3 -2.5) (xy -0.3 -2.5) (xy -0.3 -1.75) (xy -4.25 -1.75)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "45b9dc3d-2243-4001-a68a-c7d5733d80ce")
+	)
 	(pad "" np_thru_hole circle
 		(at -3.4 0)
 		(size 0.9 0.9)

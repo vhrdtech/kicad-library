@@ -309,6 +309,17 @@
 		)
 		(layer "User.21")
 	)
+	(fp_rect
+		(start -1.27 -1.27)
+		(end 1.27 49.53)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "User.5")
+		(uuid "53a5c378-a911-468e-a9d6-fbb28125d32c")
+	)
 	(pad "1" thru_hole circle
 		(at 0 0)
 		(size 1.7 1.7)
