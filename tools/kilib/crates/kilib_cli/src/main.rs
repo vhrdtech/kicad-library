@@ -232,13 +232,15 @@ Examples:
     /// Ref.Mech.F/B); F.Fab and B.Fab keep the drawing alone. User.15/16 Rooms.F/B hold hand-drawn outlines of the
     /// circuit blocks. User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
     /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin, User.25/26
-    /// Crit.F/B and User.27/28 Imp.F/B a real part's Layout_Critical and Layout_Important notes. Each pair is
-    /// typed front and back, so KiCad flips a bottom-side footprint's text onto the back layer. KiCad's own
-    /// Dwgs.User, Cmts.User and User.2 are named Dimensions, Fab.Notes and Body.F (a part's full top view); User.2
-    /// keeps its plain name on a board that draws on it itself. This adds the layers a board lacks, and names and
-    /// types ones it has unnamed; a number the board already uses under another name is left alone and reported.
-    /// A board in KiCad 8's layer numbering is refused (save it in KiCad 10 first). Only the (layers ...) table
-    /// changes. Without --write it lists what would change and exits 1 when anything would.
+    /// Crit.F/B and User.27/28 Imp.F/B a real part's Layout_Critical and Layout_Important notes, User.5/6 Body.F/B
+    /// a part's full top view (its 3D model's outline). Each pair is typed front and back, so KiCad flips a
+    /// bottom-side footprint's drawing onto the back layer. KiCad's own Dwgs.User and Cmts.User are named
+    /// Dimensions and Fab.Notes. This adds the layers a board lacks, and names and types ones it has unnamed; a
+    /// number the board already uses under another name is left alone and reported. Bodies from before the pair
+    /// (footprint drawings on User.2, then named Body.F) move to Body.F or Body.B by the footprint's side, and User.2
+    /// loses that name. A board in KiCad 8's layer numbering is refused (save it in KiCad 10 first). Only the
+    /// (layers ...) table and those layers of footprint drawings change. Without --write it lists what would change
+    /// and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
   kilib layers ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb
@@ -1182,11 +1184,12 @@ fn run_layers(boards: &[PathBuf], write: bool) -> Result<ExitCode, String> {
                     taken += 1;
                     println!("{YELLOW}!{YELLOW:#} {}: {} is taken ({line}); {} not added", b.display(), l.id, l.name);
                 }
-                layers::LayerChange::InUse { layer: l, items } => println!(
-                    "{CYAN}·{CYAN:#} {}: {} carries {items} items of the board's own; not named {}",
-                    b.display(),
-                    l.id,
-                    l.name
+                layers::LayerChange::Retired { id, name } => {
+                    println!("  {BOLD}{}{BOLD:#}: {id} no longer named \"{name}\"", b.display())
+                }
+                layers::LayerChange::BodiesMoved { front, back } => println!(
+                    "  {BOLD}{}{BOLD:#}: footprint bodies off User.2: {front} to Body.F, {back} to Body.B",
+                    b.display()
                 ),
             }
         }

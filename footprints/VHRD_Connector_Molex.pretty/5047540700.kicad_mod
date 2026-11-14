@@ -211,7 +211,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "6db3ee0d-7b60-4c96-a6c1-28351ac80ff5")
 	)
 	(fp_text user "1"

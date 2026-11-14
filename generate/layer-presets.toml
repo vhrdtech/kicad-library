@@ -25,7 +25,7 @@ flip = false
 
 [[preset]]
 name = "Floorplan.B"
-layers = ["B.Courtyard", "B.Fab", "Ref.Des.B", "Crit.B", "Imp.B", "Edge.Cuts"]
+layers = ["B.Courtyard", "B.Fab", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Edge.Cuts"]
 render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 

@@ -141,7 +141,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "54e0b14c-7152-4276-9020-77b59e1850c3")
 	)
 	(fp_text user "PCB Edge"

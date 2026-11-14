@@ -58,14 +58,15 @@ and library in step). A new package: a line in the map, then `kilib per-package 
 
 ## Designator layers
 
-User.9-28 are the library's: front/back pairs `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
+User.5/6 and User.9-28 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
+outline), `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
 ties, mechanical parts), `Rooms` (block outlines), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
 --rule pins`), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
 part's `Layout_Critical` and `Layout_Important` notes, set in the schematic, README "Layout priority"), named in
 the templates and by `kilib layers`; don't use those numbers for anything else. F.Fab and B.Fab carry only the
 drawing, no text: Ref.Des and Value are both centred on the body, so they are separate layers shown one at a time;
-the Value of a test point, net tie or mechanical part stays hidden on the fab layer. KiCad's `Dwgs.User`, `Cmts.User` and `User.2` carry the names `Dimensions`, `Fab.Notes`
-and `Body.F` (a part's full top view). Which footprint goes where is `kilib::layers::class_of`, never decided by hand.
+the Value of a test point, net tie or mechanical part stays hidden on the fab layer. KiCad's `Dwgs.User` and `Cmts.User` carry the names `Dimensions` and
+`Fab.Notes`. KiCad flips user layers only in fixed odd/even pairs, so a new pair takes an odd number and the next. Which footprint goes where is `kilib::layers::class_of`, never decided by hand.
 
 ## The look comes from vhrd_brand
 

@@ -226,7 +226,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "10c8e551-2513-4de7-a9f7-861576d3d8cf")
 	)
 	(fp_line

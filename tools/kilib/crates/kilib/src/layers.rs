@@ -9,8 +9,10 @@
 //! Three pairs more carry what a fab or assembly print may want on demand: Value (a real part's Value, centred on
 //! the body like the designator, so Ref.Des and Value are shown one at a time), Pins (pin numbers next to the pads)
 //! and Centroid (a cross on the placement origin). Two pairs show layout priority: Crit and Imp carry a real part's
-//! `Layout_Critical` and `Layout_Important` notes, empty (so nothing shows) until the schematic sets one. A few of KiCad's own layers get a name of their own
-//! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table (and only there).
+//! `Layout_Critical` and `Layout_Important` notes, empty (so nothing shows) until the schematic sets one. Body
+//! carries a part's full top view, the outline of its 3D model. A few of KiCad's own layers get a name of their own
+//! ([`RENAMED`]). [`add_to_board`] names them in a `.kicad_pcb`'s layer table and moves the bodies a board's
+//! footprints still draw on User.2 (Body.F before the pair existed) onto Body.F or Body.B.
 
 use crate::migrate::{Edit, apply_edits};
 use crate::sexpr::{self, Node};
@@ -29,8 +31,9 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
     Layer { id, ordinal: 39 + 2 * (n - 1), side, name }
 }
 
-/// The layers, front then back of each pair.
-pub const LAYERS: [Layer; 20] = [
+/// The layers, front then back of each pair. KiCad pairs user layers by number only (User.5 front flips to User.6,
+/// never to User.7), so each pair is an odd number and the even one after it.
+pub const LAYERS: [Layer; 22] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -51,6 +54,8 @@ pub const LAYERS: [Layer; 20] = [
     user(26, "back", "Crit.B", "User.26"),
     user(27, "front", "Imp.F", "User.27"),
     user(28, "back", "Imp.B", "User.28"),
+    user(5, "front", "Body.F", "User.5"),
+    user(6, "back", "Body.B", "User.6"),
 ];
 
 /// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
@@ -68,17 +73,23 @@ pub const CRIT: [&str; 2] = ["User.25", "User.26"];
 /// The Imp pair: a real part's `Layout_Important` note, the second level of layout priority.
 pub const IMP: [&str; 2] = ["User.27", "User.28"];
 
+/// The Body pair: a part's full top view, the outline of its 3D model seen from above.
+pub const BODY: [&str; 2] = ["User.5", "User.6"];
+
+/// Where the library drew bodies before the Body pair: User.2, a plain layer KiCad does not flip, named Body.F.
+pub const OLD_BODY: &str = "User.2";
+const OLD_BODY_NAME: &str = "Body.F";
+
 /// The front or back layer of a pair.
 pub fn side_of(pair: [&'static str; 2], back: bool) -> &'static str {
     pair[usize::from(back)]
 }
 
 /// Layers KiCad has anyway, given a name of their own (their type stays `user`): drawing dimensions on Dwgs.User,
-/// notes for the fab on Cmts.User, the full top view of a part (a connector's body from its STEP model) on User.2.
-pub const RENAMED: [Layer; 3] = [
+/// notes for the fab on Cmts.User.
+pub const RENAMED: [Layer; 2] = [
     Layer { id: "Dwgs.User", ordinal: 17, side: "user", name: "Dimensions" },
     Layer { id: "Cmts.User", ordinal: 19, side: "user", name: "Fab.Notes" },
-    user(2, "user", "Body.F", "User.2"),
 ];
 
 /// The name KiCad gives a layer by itself: such a layer counts as unnamed.
@@ -167,21 +178,10 @@ pub enum LayerChange {
     Set(Layer),
     /// The board uses this number for something else (another name); left alone.
     Taken { layer: Layer, line: String },
-    /// A layer KiCad has anyway ([`RENAMED`]) that the board draws on itself (`items` graphics, texts or
-    /// dimensions outside footprints): left unnamed, as that drawing may mean something else.
-    InUse { layer: Layer, items: usize },
-}
-
-/// Board items (not those inside footprints) on `layer`.
-fn board_items_on(pcb: &Node, layer: &str) -> usize {
-    pcb.items()
-        .iter()
-        .filter(|n| n.head().is_some_and(|h| h.starts_with("gr_") || h == "dimension" || h == "zone"))
-        .filter(|n| {
-            n.value("layer") == Some(layer)
-                || n.child("layers").is_some_and(|l| l.items().iter().skip(1).any(|a| a.as_atom() == Some(layer)))
-        })
-        .count()
+    /// User.2 lost its old name Body.F (the bodies moved to the Body pair).
+    Retired { id: &'static str, name: &'static str },
+    /// Footprint drawings moved from User.2 to Body.F (`front`, footprints on the top) and Body.B (`back`).
+    BodiesMoved { front: usize, back: usize },
 }
 
 /// The board text with [`LAYERS`] in its `(layers ...)` table, and what happened to each; only that table changes.
@@ -205,11 +205,7 @@ pub fn add_to_board(text: &str) -> Result<(String, Vec<LayerChange>), String> {
     let mut added = String::new();
     for l in LAYERS.iter().chain(&RENAMED) {
         let found = entries.iter().find(|e| e.head() == Some(&l.ordinal.to_string()) || e.arg(0) == Some(l.id));
-        let in_use = if l.id == "User.2" { board_items_on(&pcb, l.id) } else { 0 };
         match found {
-            Some(e) if in_use > 0 && e.arg(2) != Some(l.name) => {
-                out.push(LayerChange::InUse { layer: *l, items: in_use })
-            }
             Some(e) => {
                 let (side, name) = (e.arg(1), e.arg(2));
                 if side == Some(l.side) && name == Some(l.name) {
@@ -234,8 +230,42 @@ pub fn add_to_board(text: &str) -> Result<(String, Vec<LayerChange>), String> {
     if !added.is_empty() {
         edits.push(Edit { range: last.span().end..last.span().end, text: added });
     }
+    // The old name goes even where the board draws on User.2 itself: two layers named Body.F would confuse.
+    if let Some(e) = entries.iter().find(|e| e.arg(0) == Some(OLD_BODY) && e.arg(2) == Some(OLD_BODY_NAME)) {
+        let ordinal = e.head().unwrap_or("41");
+        edits.push(Edit { range: e.span(), text: format!("({ordinal} {} user)", sexpr::quote(OLD_BODY)) });
+        out.push(LayerChange::Retired { id: OLD_BODY, name: OLD_BODY_NAME });
+    }
+    let placed = |id: &str| !out.iter().any(|c| matches!(c, LayerChange::Taken { layer, .. } if layer.id == id));
+    if placed(BODY[0]) && placed(BODY[1]) {
+        let (moves, front, back) = body_moves(&pcb);
+        if front + back > 0 {
+            edits.extend(moves);
+            out.push(LayerChange::BodiesMoved { front, back });
+        }
+    }
     edits.sort_by_key(|e| e.range.start);
     Ok((apply_edits(text, &edits), out))
+}
+
+/// The edits that move each footprint's drawings on [`OLD_BODY`] to Body.F or Body.B by the footprint's side, and
+/// how many go to each.
+fn body_moves(pcb: &Node) -> (Vec<Edit>, usize, usize) {
+    let (mut edits, mut front, mut back) = (Vec::new(), 0, 0);
+    for fp in pcb.children("footprint") {
+        let on_back = fp.value("layer") == Some("B.Cu");
+        for g in fp.items().iter().filter(|n| n.head().is_some_and(|h| h.starts_with("fp_"))) {
+            let Some(layer) = g.child("layer").filter(|l| l.arg(0) == Some(OLD_BODY)) else { continue };
+            let Some(atom) = layer.items().get(1) else { continue };
+            edits.push(Edit { range: atom.span(), text: sexpr::quote(side_of(BODY, on_back)) });
+            if on_back {
+                back += 1;
+            } else {
+                front += 1;
+            }
+        }
+    }
+    (edits, front, back)
 }
 
 /// The names of [`LAYERS`] not yet on the board's `(layers ...)` table (added, typed and named by `kilib layers
@@ -289,7 +319,9 @@ mod tests {
         );
         assert!(new.contains("(85 \"User.24\" back \"Ref.Des.B\")\n\t\t(87 \"User.25\" front \"Crit.F\")"), "{new}");
         assert!(new.contains("(91 \"User.27\" front \"Imp.F\")\n\t\t(93 \"User.28\" back \"Imp.B\")"), "{new}");
-        assert!(new.contains("(41 \"User.2\" user \"Body.F\")\n\t)\n\t(setup)\n)\n"), "{new}");
+        assert!(new.contains("(39 \"User.1\" user)\n\t\t(55 \"User.9\" front"), "{new}");
+        assert!(new.contains("(93 \"User.28\" back \"Imp.B\")\n\t\t(47 \"User.5\" front \"Body.F\")"), "{new}");
+        assert!(new.contains("(49 \"User.6\" back \"Body.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
         assert_eq!(again, new);
@@ -310,13 +342,35 @@ mod tests {
         // KiCad 8's numbers are not touched.
         let old = "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t\t(31 \"B.Cu\" signal)\n\t\t(55 \"User.6\" user)\n\t)\n)\n";
         assert!(add_to_board(old).unwrap_err().contains("KiCad 8"));
-        // User.2 with the board's own drawing on it stays unnamed.
-        let drawn = board
-            .replace("(39 \"User.1\" user)", "(41 \"User.2\" user)")
-            .replace("\t(setup)", "\t(gr_line (start 0 0) (end 1 0) (layer \"User.2\"))\n\t(setup)");
-        let (new, changes) = add_to_board(&drawn).unwrap();
+    }
+
+    #[test]
+    fn old_bodies_on_user_2_move_to_the_body_pair_by_side() {
+        let fp = |side: &str, layer: &str| {
+            format!(
+                "\t(footprint \"J\"\n\t\t(layer \"{side}\")\n\t\t(fp_poly\n\t\t\t(pts (xy 0 0) (xy 1 0) (xy 1 1))\n\t\t\t(layer \"{layer}\")\n\t\t)\n\t)\n"
+            )
+        };
+        let board = format!(
+            "(kicad_pcb\n\t(layers\n\t\t(0 \"F.Cu\" signal)\n\t\t(41 \"User.2\" user \"Body.F\")\n\t)\n{}{}{}\t(gr_line (start 0 0) (end 1 0) (layer \"User.2\"))\n)\n",
+            fp("F.Cu", "User.2"),
+            fp("B.Cu", "User.2"),
+            fp("F.Cu", "F.Fab"),
+        );
+        let (new, changes) = add_to_board(&board).unwrap();
         assert!(new.contains("(41 \"User.2\" user)\n"), "{new}");
-        assert!(changes.iter().any(|c| matches!(c, LayerChange::InUse { items: 1, .. })));
+        assert_eq!(new.matches("(layer \"User.5\")").count(), 1, "{new}");
+        assert_eq!(new.matches("(layer \"User.6\")").count(), 1, "{new}");
+        assert!(new.contains("(gr_line (start 0 0) (end 1 0) (layer \"User.2\"))"), "the board's own drawing stays");
+        assert!(changes.contains(&LayerChange::BodiesMoved { front: 1, back: 1 }));
+        assert!(changes.contains(&LayerChange::Retired { id: "User.2", name: "Body.F" }));
+        let (again, changes) = add_to_board(&new).unwrap();
+        assert_eq!(again, new);
+        assert!(changes.iter().all(|c| matches!(c, LayerChange::Fine(_))));
+        // With User.5 taken nothing moves.
+        let taken = board.replace("(41 \"User.2\" user \"Body.F\")", "(47 \"User.5\" user \"Mine\")");
+        let (new, _) = add_to_board(&taken).unwrap();
+        assert!(!new.contains("\"User.6\")\n\t\t)") && new.matches("(layer \"User.2\")").count() == 3, "{new}");
     }
 
     #[test]

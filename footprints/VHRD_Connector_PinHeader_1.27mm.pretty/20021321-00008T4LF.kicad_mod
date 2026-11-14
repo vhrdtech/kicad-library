@@ -223,7 +223,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "bdc8d503-dbe8-4ecb-ab83-c52d301f0134")
 	)
 	(fp_rect

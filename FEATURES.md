@@ -72,9 +72,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   round their pads on Ref.Tie (0.05 mm out, 0.05 mm lines; `kilib lint --rule ref-outline`), and `kilib
   fab-designators` fits the designator to that drawing, beside it where nothing fits inside
 - ✅ LIB-20 more-layers: User.17/18 Value.F/B, User.19/20 Pins.F/B, User.21/22 Centroid.F/B (front/back pairs), and
-  KiCad's Dwgs.User, Cmts.User and User.2 named Dimensions, Fab.Notes and Body.F, in the three templates; `kilib
-  layers` names them in an existing board (User.2 only where the board draws nothing of its own there), refuses
-  boards in KiCad 8's layer numbering
+  KiCad's Dwgs.User and Cmts.User named Dimensions and Fab.Notes, in the three templates; `kilib layers` names them
+  in an existing board, refuses boards in KiCad 8's layer numbering
 - ✅ LIB-21 value-layer: each footprint's Value on Value.F/B (User.17/18), shown and unlocked (mechanical: hidden),
   fitted like the designator for a long value of the kind (100k, 4.7uF, TPS54202DDC) with the designator's ink as an
   obstacle, so both read side by side; just outside the body where it holds only the designator; `kilib
@@ -150,3 +149,6 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   Edge.Cuts), each `B` the back counterpart, flipped. A preset of the same name is replaced, the project's own
   kept; a board lacking a named user layer is told to run `kilib layers --write` first. The three templates have
   them; `tests/layer_presets.rs` keeps the table and the templates in step.
+- ✅ LIB-34 body-layer: Body.F/B (User.5/6), a front/back pair KiCad flips with the part, carry each part's full top
+  view, the outline of its 3D model; in the templates, the Floorplan presets and `kilib layers`, which moves bodies
+  a board still draws on User.2 (the old Body.F) to the pair by the footprint's side.

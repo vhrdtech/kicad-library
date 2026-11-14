@@ -125,14 +125,16 @@ same under `footprints/<name>.pretty` for footprints.
   (hand-drawn outlines of the circuit blocks), User.17/18 `Value.F`/`Value.B` (each real part's Value), User.19/20
   `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin),
   User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts), User.25/26 `Crit.F`/`Crit.B` and User.27/28
-  `Imp.F`/`Imp.B` (a real part's layout-priority notes, see "Layout priority").
-  KiCad's own `Dwgs.User`, `Cmts.User` and `User.2` are named `Dimensions`, `Fab.Notes` and `Body.F` (a part's full
-  top view, a connector's body from its STEP model); a board that draws on User.2 itself keeps it unnamed, and the
-  report says so. A board still in KiCad 8's layer numbering is refused: open and save it in KiCad 10 first. The
+  `Imp.F`/`Imp.B` (a real part's layout-priority notes, see "Layout priority"), User.5/6 `Body.F`/`Body.B` (a
+  part's full top view, the outline of its 3D model). KiCad pairs user layers only by number (User.5 flips to
+  User.6, never to User.7), so each pair is an odd number and the next. KiCad's own `Dwgs.User` and `Cmts.User`
+  are named `Dimensions` and `Fab.Notes`. Bodies drawn before the Body pair existed (footprint drawings on User.2,
+  then named `Body.F`, which KiCad did not flip) move to `Body.F` or `Body.B` by the footprint's side, and User.2
+  loses the name; the board's own drawings on User.2 stay. A board still in KiCad 8's layer numbering is refused: open and save it in KiCad 10 first. The
   templates have them; a board made before needs them once, with
   `kilib layers --write` or by hand in Board Setup > Board Editor Layers (add the user layers, name them, set
   their type to front or back). A number the board already uses under another name is left alone and reported.
-  Only the layer table changes.
+  Only the layer table and the layer of those old bodies change.
 - `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
   a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
   Edge.Cuts; pads, vias and ratsnest shown), `Assembly.F`/`B` (Fab, Ref.Des, Value, Centroid, Courtyard, Edge.Cuts;

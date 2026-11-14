@@ -196,7 +196,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "abcb6e10-d960-4098-8945-c646af31350b")
 	)
 	(fp_poly

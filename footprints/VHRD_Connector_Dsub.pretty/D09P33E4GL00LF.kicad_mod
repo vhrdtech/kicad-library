@@ -433,7 +433,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "a053c6c6-e25c-4503-a8ec-80193ab72380")
 	)
 	(fp_poly
@@ -452,7 +452,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "be619136-d084-49fa-8cc3-8583a6cba8bf")
 	)
 	(fp_poly
@@ -471,7 +471,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "097e8ac0-6e9c-4a99-a9ec-20f2dae6b643")
 	)
 	(fp_text user "0"

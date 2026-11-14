@@ -226,7 +226,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "User.2")
+		(layer "User.5")
 		(uuid "08ac88dc-a93e-470a-9e5c-0a990d70a096")
 	)
 	(fp_rect

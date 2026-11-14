@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Body.F/B is a front/back pair on User.5/6, so a bottom part's body flips with it; the old User.2 bodies moved (LIB-34 body-layer).
+- `kilib layers` moves a board's footprint bodies off User.2 to Body.F or Body.B by side, and drops User.2's old name.
+- Floorplan.B shows Body.B.
+
 ## [0.5.4] - 2026-11-14
 
 ### Changed
