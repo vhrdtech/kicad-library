@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.6] - 2026-11-14
+
 ### Changed
 
 - Pin numbers on Pins.F/B sit inside the fab outline at each pad's inner end and read left to right or top to bottom, a glyph apart; a number with no room inside stays beside its pad and is reported (LIB-22 pin-numbers).
