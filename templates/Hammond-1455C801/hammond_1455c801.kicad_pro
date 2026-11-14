@@ -292,10 +292,7 @@
           0,
           25,
           31,
-          35,
-          83,
-          87,
-          91
+          35
         ],
         "name": "Layout.F",
         "renderLayers": [
@@ -314,7 +311,6 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
           "drawing_sheet",
           "grid",
           "ratsnest"
@@ -327,10 +323,7 @@
           2,
           25,
           29,
-          33,
-          85,
-          89,
-          93
+          33
         ],
         "name": "Layout.B",
         "renderLayers": [
@@ -349,7 +342,54 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
+          "drawing_sheet",
+          "grid",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 31,
+        "flipBoard": false,
+        "layers": [
+          25,
+          31,
+          35,
+          87,
+          91
+        ],
+        "name": "Floorplan.F",
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drawing_sheet",
+          "grid",
+          "ratsnest"
+        ]
+      },
+      {
+        "activeLayer": 29,
+        "flipBoard": true,
+        "layers": [
+          25,
+          29,
+          33,
+          89,
+          93
+        ],
+        "name": "Floorplan.B",
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
           "drawing_sheet",
           "grid",
           "ratsnest"
@@ -360,13 +400,11 @@
         "flipBoard": false,
         "layers": [
           25,
-          31,
           35,
-          71,
           79,
           83
         ],
-        "name": "Assembly.F",
+        "name": "Assembly.Ref.F",
         "renderLayers": [
           "shapes",
           "bitmaps",
@@ -375,10 +413,9 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "footprint_anchors",
-          "board_outline_area",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "footprint_anchors"
         ]
       },
       {
@@ -386,13 +423,11 @@
         "flipBoard": true,
         "layers": [
           25,
-          29,
           33,
-          73,
           81,
           85
         ],
-        "name": "Assembly.B",
+        "name": "Assembly.Ref.B",
         "renderLayers": [
           "shapes",
           "bitmaps",
@@ -401,10 +436,55 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "footprint_anchors",
-          "board_outline_area",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "footprint_anchors"
+        ]
+      },
+      {
+        "activeLayer": 35,
+        "flipBoard": false,
+        "layers": [
+          25,
+          35,
+          71,
+          79
+        ],
+        "name": "Assembly.Value.F",
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drawing_sheet",
+          "grid",
+          "footprint_anchors"
+        ]
+      },
+      {
+        "activeLayer": 33,
+        "flipBoard": true,
+        "layers": [
+          25,
+          33,
+          73,
+          81
+        ],
+        "name": "Assembly.Value.B",
+        "renderLayers": [
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "drawing_sheet",
+          "grid",
+          "footprint_anchors"
         ]
       },
       {
@@ -418,8 +498,6 @@
         ],
         "name": "Pins.F",
         "renderLayers": [
-          "tracks",
-          "vias",
           "pads",
           "shapes",
           "bitmaps",
@@ -432,7 +510,6 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
           "drawing_sheet",
           "grid"
         ]
@@ -448,8 +525,6 @@
         ],
         "name": "Pins.B",
         "renderLayers": [
-          "tracks",
-          "vias",
           "pads",
           "shapes",
           "bitmaps",
@@ -462,7 +537,6 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
           "drawing_sheet",
           "grid"
         ]
@@ -494,7 +568,6 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
           "drawing_sheet",
           "grid"
         ]
@@ -526,7 +599,6 @@
           "drc_errors",
           "locked_item_shadows",
           "conflict_shadows",
-          "board_outline_area",
           "drawing_sheet",
           "grid"
         ]
