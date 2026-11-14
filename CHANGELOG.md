@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-14
+
 ### Added
 
 - TI footprints from TI's example board layouts: `TI_DBV0005A_SOT-23-5`, `TI_DCU0008A_VSSOP-8_2.3x2mm_P0.5mm`, `TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm`, `TI_DDA0008B_SOIC-8-1EP_..._ThermalVias` and `TI_DFG0004A_SOIC-4_4.8x3.51mm_P2.54mm` (HV land). The TI symbols that sat on a generic footprint use them or an existing TI footprint (TLV755P, TLV702, INA181, TLV9061, TS5A3160, SN74LXC1T45, INA229, ten DCU parts, TCA6408A, TXU0104, LV14360, ISOM8600, SN74LXC8T245); the generic footprints stay.
