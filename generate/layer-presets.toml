@@ -68,13 +68,13 @@ flip = true
 
 [[preset]]
 name = "Pins.F"
-layers = ["Pins.F", "F.Fab", "Xray.F", "Edge.Cuts"]
+layers = ["Pins.F", "Ruler.F", "F.Fab", "Xray.F", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = false
 
 [[preset]]
 name = "Pins.B"
-layers = ["Pins.B", "B.Fab", "Xray.B", "Edge.Cuts"]
+layers = ["Pins.B", "Ruler.B", "B.Fab", "Xray.B", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = true
 
