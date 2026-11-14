@@ -457,17 +457,49 @@ fn edge_band(courtyard: Rect, body: Rect, edge: Edge) -> Option<Rect> {
     (band.w() > EPS && band.h() > EPS).then_some(band)
 }
 
-/// Where a layout note's text goes, and the ink box it takes there: hugging `prefer` ([`note_edges`]) inside the
-/// real courtyard ([`Shape::courtyard`]), clear of the fab drawing (the body, same as [`layout`]'s rules) and of
-/// every rect in `avoid` ([`GAP`] kept free of each, as from any other drawing) — the designator's own ink as
-/// [`layout`] fits it, and a note already placed on the same footprint, so [`crate::lint::layout::CRITICAL`] and
-/// [`crate::lint::layout::IMPORTANT`] never overlap. Tried next its opposite edge, then the other pair's two
-/// ([`edge_order`]); where none of the four has room, the legacy centred placement instead ([`layout_with_floor`]
-/// down to [`NOTE_TINY_SIZE`], `avoid` not counted there: a note alone on an edgeless body still just centres).
-/// `None` says which edge, `None` on that fallback.
-pub fn layout_note(shape: &Shape, values: &[String], prefer: Edge, avoid: &[Rect]) -> (Placement, Rect, Option<Edge>) {
+/// The edge `layout_note` prefers for note number `idx` of [`crate::lint::layout::FIELDS`] and whether to `keep`
+/// it: Critical (0) the longer pair's first edge, Important (1) the side opposite the edge Critical took where it
+/// found one, else the longer pair's second edge.
+pub fn note_prefer(edges: [Edge; 2], idx: usize, critical: Option<Edge>) -> (Edge, bool) {
+    match (idx, critical) {
+        (0, _) => (edges[0], false),
+        (_, Some(e)) => (opposite(e), true),
+        (_, None) => (edges[1], false),
+    }
+}
+
+/// The edge across the body from `edge`.
+pub fn opposite(edge: Edge) -> Edge {
+    match edge {
+        Edge::Top => Edge::Bottom,
+        Edge::Bottom => Edge::Top,
+        Edge::Left => Edge::Right,
+        Edge::Right => Edge::Left,
+    }
+}
+
+/// Where a layout note's text goes, and the ink box it takes there: inside the real courtyard
+/// ([`Shape::courtyard`]), clear of the fab drawing (the body, same as [`layout`]'s rules) and of every rect in
+/// `avoid` ([`GAP`] kept free of each, as from any other drawing) — the designator's own ink as [`layout`] fits it,
+/// and a note already placed on the same footprint, so [`crate::lint::layout::CRITICAL`] and
+/// [`crate::lint::layout::IMPORTANT`] never overlap. All four edges are tried, the text level along a longer edge
+/// and turned 90 degrees (as KiCad draws it, upright) at a shorter one wherever that gives larger text: the band
+/// along a passive's long edge is thin, the ends beyond its pads have more room. The largest size wins; a tie
+/// keeps `prefer`, its opposite, then the other pair's two ([`edge_order`]). With `keep` set `prefer` is taken as
+/// soon as the note fits there at all (the opposite side of the other note), and the others only where it does
+/// not. Where none of the four has room, the legacy centred placement instead ([`layout_with_floor`] down to
+/// [`NOTE_TINY_SIZE`], `avoid` not counted there: a note alone on an edgeless body still just centres). The edge
+/// is `None` on that fallback.
+pub fn layout_note(
+    shape: &Shape,
+    values: &[String],
+    prefer: Edge,
+    keep: bool,
+    avoid: &[Rect],
+) -> (Placement, Rect, Option<Edge>) {
     if let Some(courtyard) = shape.courtyard {
         let extra: Vec<Prim> = avoid.iter().map(|r| Prim::Area(r.corners().to_vec())).collect();
+        let mut best: Option<(Placement, Rect, Edge)> = None;
         for edge in edge_order(prefer) {
             let Some(band) = edge_band(courtyard, shape.body, edge) else { continue };
             let mut s = shape.clone();
@@ -475,10 +507,18 @@ pub fn layout_note(shape: &Shape, values: &[String], prefer: Edge, avoid: &[Rect
             s.region = band;
             s.texts = values.to_vec();
             s.graphics.extend(extra.iter().cloned());
-            if let Some(p) = place(&s, &sizes()).or_else(|| place(&s, &tiny_sizes(NOTE_TINY_SIZE))) {
-                let ink = s.text_rect(p.x, p.y, p.angle, p.size);
-                return (p, ink, Some(edge));
+            let Some(p) = place(&s, &sizes()).or_else(|| place(&s, &tiny_sizes(NOTE_TINY_SIZE))) else { continue };
+            let found = (p, s.text_rect(p.x, p.y, p.angle, p.size), edge);
+            if keep && edge == prefer {
+                best = Some(found);
+                break;
             }
+            if best.as_ref().is_none_or(|b| found.0.size > b.0.size + EPS) {
+                best = Some(found);
+            }
+        }
+        if let Some((p, ink, edge)) = best {
+            return (p, ink, Some(edge));
         }
     }
     let mut s = shape.clone();
@@ -1370,16 +1410,21 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
             .into_iter()
             .collect();
         let mut notes = Vec::new();
+        let mut critical_edge = None;
         for (idx, (name, pair)) in crate::lint::layout::FIELDS.into_iter().enumerate() {
             let Some(prop) = node.children("property").find(|n| n.arg(0) == Some(name)) else { continue };
             let r = read_property(prop);
             if r.value.trim().is_empty() {
                 continue;
             }
-            match board_note_edits(text, node, &fp, (name, pair), &r, edges[idx], &avoid) {
-                Ok((outcome, e, ink)) => {
+            let prefer = note_prefer(edges, idx, critical_edge);
+            match board_note_edits(text, node, &fp, (name, pair), &r, prefer, &avoid) {
+                Ok((outcome, e, ink, edge)) => {
                     edits.extend(e);
                     avoid.push(ink);
+                    if idx == 0 {
+                        critical_edge = edge;
+                    }
                     notes.push((name, outcome));
                 }
                 Err(why) => notes.push((name, BoardOutcome::Skipped(why))),
@@ -1423,23 +1468,23 @@ fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOu
 /// (the designator's own ink, and the other note once it is placed). A real part's note that is elsewhere or
 /// hidden (Update PCB from Schematic puts a field the footprint lacks hidden on the fab layer, and Update
 /// Footprints from Library keeps it there) is moved to its layer, shown: the property is written anew. Other
-/// classes' notes are left alone. Returns the note's own ink box too, so the next note can avoid it.
+/// classes' notes are left alone. Returns the note's own ink box and edge too, so the next note can avoid it.
 fn board_note_edits(
     text: &str,
     node: &Node,
     fp: &Footprint,
     field: (&'static str, [&'static str; 2]),
     r: &Reference,
-    prefer: Edge,
+    (prefer, keep): (Edge, bool),
     avoid: &[Rect],
-) -> Result<(BoardOutcome, Vec<Edit>, Rect), String> {
+) -> Result<(BoardOutcome, Vec<Edit>, Rect, Option<Edge>), String> {
     let (name, pair) = field;
     let layer = layers::side_of(pair, fp.back);
     let (shape, phi) = board_shape(node, fp)?;
-    let (p, ink, _edge) = layout_note(&shape, std::slice::from_ref(&r.value), prefer, avoid);
+    let (p, ink, edge) = layout_note(&shape, std::slice::from_ref(&r.value), prefer, keep, avoid);
     if r.layer == layer && !r.hidden {
         let (outcome, edits) = fit_property(text, node, name, r, p, phi)?;
-        return Ok((outcome, edits, ink));
+        return Ok((outcome, edits, ink, edge));
     }
     if fp.class != Class::Part {
         return Err(format!("{name} on {}: not a real part, left alone", r.layer));
@@ -1451,7 +1496,12 @@ fn board_note_edits(
     let at = Placement { angle, ..p };
     let new = property_text(name, &r.value, r.uuid.as_deref(), layer, fp.back, false, &at, indent);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
-    Ok((BoardOutcome::Change { before, placement: p, angle }, vec![Edit { range: r.span.clone(), text: new }], ink))
+    Ok((
+        BoardOutcome::Change { before, placement: p, angle },
+        vec![Edit { range: r.span.clone(), text: new }],
+        ink,
+        edge,
+    ))
 }
 
 /// The footprint's shape as placed on the board, its text kept upright as KiCad draws it, and its angle.
@@ -1774,7 +1824,7 @@ mod tests {
         let designator = layout(&shape);
         assert_eq!((designator.size, designator.clean), (MIN_SIZE, false), "{designator:?}");
         // ...but a short note reads fine well below that floor, so it gets a clean fit instead.
-        let (note, _, edge) = layout_note(&shape, &["FB U301".to_string()], Edge::Top, &[]);
+        let (note, _, edge) = layout_note(&shape, &["FB U301".to_string()], Edge::Top, false, &[]);
         assert!(note.clean && note.size < TINY_SIZE && edge.is_none(), "{note:?} {edge:?}");
         assert!(note.size >= NOTE_TINY_SIZE - EPS, "{note:?}");
         // A note too long even for the note floor still ends up not clean, like a designator.
@@ -1782,6 +1832,7 @@ mod tests {
             &shape,
             &["a very much longer note than any body this small could ever hold".to_string()],
             Edge::Top,
+            false,
             &[],
         );
         assert_eq!((huge.size, huge.clean), (MIN_SIZE, false), "{huge:?}");
@@ -1811,7 +1862,7 @@ mod tests {
         let designator_ink = shape.text_rect(designator.x, designator.y, designator.angle, designator.size);
 
         let (critical, crit_ink, edge) =
-            layout_note(&shape, &["U101.5 VDD".to_string()], Edge::Left, &[designator_ink]);
+            layout_note(&shape, &["U101.5 VDD".to_string()], Edge::Left, false, &[designator_ink]);
         assert_eq!(edge, Some(Edge::Left), "{critical:?}");
         assert!(critical.clean, "{critical:?}");
         // Left of the body, inside the courtyard, clear of the designator's ink.
@@ -1821,11 +1872,31 @@ mod tests {
 
         // Important avoids both the designator and Critical's ink: it lands on the opposite (Right) edge.
         let (important, imp_ink, edge) =
-            layout_note(&shape, &["FB U301".to_string()], Edge::Right, &[designator_ink, crit_ink]);
+            layout_note(&shape, &["FB U301".to_string()], Edge::Right, true, &[designator_ink, crit_ink]);
         assert_eq!(edge, Some(Edge::Right), "{important:?}");
         assert!(important.clean, "{important:?}");
         assert!(imp_ink.x0 >= shape.body.x1 - 1e-9, "{imp_ink:?} body {:?}", shape.body);
         assert!(!imp_ink.overlaps(&crit_ink) && !imp_ink.overlaps(&designator_ink), "{imp_ink:?} {crit_ink:?}");
+    }
+
+    #[test]
+    fn a_passives_notes_turn_to_the_ends_where_there_is_more_room() {
+        // 0402: a 1.0 x 0.5 body, courtyard 0.43 beyond it at the ends and 0.22 along the long edges.
+        let extra = "\t(fp_rect\n\t\t(start -0.93 -0.47)\n\t\t(end 0.93 0.47)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"F.CrtYd\")\n\t)\n";
+        let text = with_drawing(1.0, 0.5, &[], "F.Fab", &[], extra);
+        let shape = read(&text).unwrap().shape.unwrap();
+        let note = ["U1001.48".to_string()];
+        let (crit, crit_ink, edge) = layout_note(&shape, &note, Edge::Top, false, &[]);
+        assert!(matches!(edge, Some(Edge::Left | Edge::Right)), "{crit:?} {edge:?}");
+        assert_eq!(crit.angle, 90.0, "{crit:?}");
+        // Along the long edge the same note got only 0.08 mm.
+        assert!(crit.size > 0.11, "{crit:?}");
+        // Important goes to the opposite end and never touches Critical.
+        let (prefer, keep) = note_prefer([Edge::Top, Edge::Bottom], 1, edge);
+        let (imp, imp_ink, imp_edge) = layout_note(&shape, &note, prefer, keep, &[crit_ink]);
+        assert_eq!(imp_edge, edge.map(opposite), "{imp:?}");
+        assert!(!imp_ink.overlaps(&crit_ink), "{imp_ink:?} {crit_ink:?}");
+        assert!((imp.size - crit.size).abs() < 1e-9, "{imp:?} {crit:?}");
     }
 
     #[test]
@@ -1835,7 +1906,7 @@ mod tests {
         let text = with_drawing(4.0, 4.0, &[], "F.Fab", &[], &extra);
         let shape = read(&text).unwrap().shape.unwrap();
         assert!(shape.courtyard.is_some(), "a courtyard was drawn, just too tight to use");
-        let (p, ink, edge) = layout_note(&shape, &["VDDA33".to_string()], Edge::Top, &[]);
+        let (p, ink, edge) = layout_note(&shape, &["VDDA33".to_string()], Edge::Top, false, &[]);
         assert!(edge.is_none(), "{p:?}");
         let (cx, cy) = ink.center();
         let (bx, by) = shape.centre();

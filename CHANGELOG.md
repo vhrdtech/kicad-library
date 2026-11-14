@@ -5,6 +5,7 @@
 ### Changed
 
 - Layer presets: Silk.F/B show the silkscreen and the solder mask only, no copper or paste, so the silk reads against the mask openings.
+- Layout notes also try the courtyard's shorter edges, turned 90°, and take the larger text; 0402 notes grow from 0.08 to 0.12 mm, SOT-23 from 0.12 to 0.45 (LIB-32 layout-priority-marks).
 
 ## [0.5.3] - 2026-11-14
 

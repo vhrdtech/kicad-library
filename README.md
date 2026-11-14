@@ -114,7 +114,7 @@ same under `footprints/<name>.pretty` for footprints.
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
   it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, fitted to its own
-  text hugging the courtyard's edge (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
+  text beside the body inside the courtyard, along an edge or turned 90° at an end (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
   than a designator) before it is reported with no clean fit; on a real part a set note that sits elsewhere or
   hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab layer) is moved to its
   layer, shown. `--write` writes the board.
@@ -188,9 +188,11 @@ same under `footprints/<name>.pretty` for footprints.
     placement data. The fix replaces anything else on the layer.
   - `layout`: every real part has the properties `Layout_Critical` on `Crit.F` (User.25; `Crit.B`, User.26, on the
     back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible and unlocked, fitted for the note
-    `U1001.48` (down to 0.05 mm, a short note reads fine much smaller than a designator) hugging an edge of the
-    real courtyard: the courtyard's longer pair (top/bottom for one at least as wide as tall, else left/right),
-    Critical the first, Important the opposite, clear of the designator's own ink and, for Important, of Critical,
+    `U1001.48` (down to 0.05 mm, a short note reads fine much smaller than a designator) inside the real
+    courtyard beside the body: level along a longer edge, or turned 90° (upright, as KiCad draws it) at a shorter one,
+    whichever gives the larger text (a passive's long edges are thin, its ends have room); ties keep the longer pair
+    (top/bottom for a courtyard at least as wide as tall, else left/right). Critical takes the best placement,
+    Important the opposite side where it fits, clear of the designator's own ink and, for Important, of Critical,
     so they never overlap even though both show together on the Floorplan preset. Where the footprint draws no
     courtyard, or the body already fills it, a note falls back to the centre instead, reported. Test points, net
     ties, mechanical and graphic footprints have neither. The fix adds them or puts them back in place and removes
@@ -245,7 +247,7 @@ by hand. Two levels: critical (`Crit.F`/`Crit.B`, User.25/26) and important (`Im
 decoupling and the like). The schematic sets a short note in the symbol's `Layout_Critical` or `Layout_Important`
 field (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint's property of the same name,
 which shows on its layer; an empty field shows nothing. Every library symbol has both fields, empty and hidden, and
-every real part's footprint both properties, empty and shown, fitted hugging an edge of the courtyard rather than
+every real part's footprint both properties, empty and shown, fitted beside the body inside the courtyard, along an edge or turned 90° at an end, rather than
 the designator's own centre, so the Floorplan preset (courtyard, fab, Ref.Des and Crit/Imp together) reads the two
 apart (`kilib layout-fields`, `kilib lint --rule layout`).
 

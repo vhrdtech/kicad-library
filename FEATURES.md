@@ -137,8 +137,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-32 layout-priority-marks: parts that need care in layout show in the PCB editor on layers of their own.
   Every symbol carries the empty, hidden fields `Layout_Critical` and `Layout_Important` (`kilib layout-fields`,
   also for schematics placed before), every real part's footprint the empty, shown properties of the same names on
-  Crit.F/B (User.25/26) and Imp.F/B (User.27/28), each fitted for its note hugging the courtyard's longer edge pair
-  (Critical one side, Important the other), clear of the designator's own ink, falling back to the centre where the
+  Crit.F/B (User.25/26) and Imp.F/B (User.27/28), each fitted for its note beside the body inside the courtyard, level along a longer edge or turned 90° at a shorter
+  one, whichever gives larger text (Critical one side, Important the opposite), clear of the designator's own ink, falling back to the centre where the
   footprint draws no courtyard (`kilib lint --rule layout`). A schematic sets a short note (`U101.5 VDD`,
   `FB U301`); Update PCB from Schematic carries it to the footprint, where it shows; empty, nothing shows. `kilib
   designators --board` fits a set note to its text the same way and moves one KiCad left hidden on the fab layer.

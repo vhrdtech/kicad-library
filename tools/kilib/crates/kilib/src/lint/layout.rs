@@ -2,7 +2,7 @@
 //! Crit.B, User.26, on the back) and [`IMPORTANT`] (`Layout_Important`) on Imp.F (User.27; Imp.B, User.28),
 //! visible, unlocked and empty. The schematic sets a note in the symbol field of the same name (`U101.5 VDD`,
 //! `FB U301`) for a part that needs care in layout; Update PCB from Schematic carries it to the footprint, where it
-//! shows on its own layer. Empty, nothing shows. Each hugs an edge of the real courtyard, clear of the designator's
+//! shows on its own layer. Empty, nothing shows. Each sits in the real courtyard beside the body, level along a longer edge or turned 90 degrees at a shorter one, whichever gives larger text, clear of the designator's
 //! own ink and of the other note, for the typical note [`TYPICAL`] ([`crate::fab::layout_note`], much smaller than
 //! a designator or Value before it is reported with no clean fit: a short note reads fine small, and fitting it
 //! beside the body matters more than its size); where the footprint draws no courtyard it falls back to the
@@ -39,8 +39,8 @@ pub fn run(i: &Input) -> Outcome {
     let part = fp.class == Class::Part;
     let props: Vec<_> = root.children("property").collect();
     let mut added = String::new();
-    // Critical takes the courtyard's longer edge, Important the opposite one, each clear of the designator's own
-    // ink and, for Important, of Critical once it is placed, so the two never overlap.
+    // Critical takes the edge with the largest text, Important the opposite one where it fits, each clear of the
+    // designator's own ink and, for Important, of Critical once it is placed, so the two never overlap.
     let edges =
         fp.shape.as_ref().and_then(|s| s.courtyard).map(fab::note_edges).unwrap_or([fab::Edge::Top, fab::Edge::Bottom]);
     let mut avoid: Vec<fab::Rect> = fp
@@ -53,6 +53,7 @@ pub fn run(i: &Input) -> Outcome {
         })
         .into_iter()
         .collect();
+    let mut critical_edge = None;
     for (idx, (name, pair)) in FIELDS.into_iter().enumerate() {
         let node = props.iter().find(|n| n.arg(0) == Some(name));
         if !part {
@@ -67,8 +68,12 @@ pub fn run(i: &Input) -> Outcome {
             continue;
         };
         let layer = side_of(pair, fp.back);
-        let (p, ink, edge) = fab::layout_note(shape, &[TYPICAL.to_string()], edges[idx], &avoid);
+        let (prefer, keep) = fab::note_prefer(edges, idx, critical_edge);
+        let (p, ink, edge) = fab::layout_note(shape, &[TYPICAL.to_string()], prefer, keep, &avoid);
         avoid.push(ink);
+        if idx == 0 {
+            critical_edge = edge;
+        }
         let fallback = if edge.is_none() { ", centred: no room beside the body" } else { "" };
         match node {
             Some(n) => {
