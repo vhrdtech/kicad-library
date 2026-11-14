@@ -492,12 +492,12 @@
         ]
       },
       {
-        "activeLayer": 0,
+        "activeLayer": 75,
         "flipBoard": false,
         "layers": [
-          0,
           25,
           35,
+          47,
           75
         ],
         "name": "Pins.F",
@@ -519,12 +519,12 @@
         ]
       },
       {
-        "activeLayer": 2,
+        "activeLayer": 77,
         "flipBoard": true,
         "layers": [
-          2,
           25,
           33,
+          49,
           77
         ],
         "name": "Pins.B",

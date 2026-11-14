@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Layer presets: Pins.F/B show the pin numbers over the fab drawing and the body outline (Body.F/B), no copper.
+
 ## [0.5.6] - 2026-11-14
 
 ### Changed
