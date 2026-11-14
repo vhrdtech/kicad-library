@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Layer presets: Floorplan.F/B/FB show no fab layer.
 - Layer presets: Layout.FB and Floorplan.FB show both sides at once (front view); no preset shows the locked items' shadow.
 
 ## [0.5.7] - 2026-11-14
