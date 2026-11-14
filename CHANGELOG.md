@@ -16,7 +16,7 @@
 ### Fixed
 
 - TI lands checked against TI's drawings: `TI_PW0008A` rows were 1 mm too close (now 5.8 mm centres), `TI_RUC0014A` pads 0.6 mm long instead of 0.875 mm, `TI_DCK0005A` pads 0.95 mm long instead of 0.9 mm.
-- `TXU0101DCKR` pointed at the DRL (SOT-563) footprint; it is TI's DCK (SC-70-6) part.
+- `TXU0101DCKR` pointed at the DRL (SOT-563) footprint; it is TI's DCK (SC-70-6) part, and the map moves placed ones to `TI_DCK0006A_SC-70-6`.
 - Lands from the makers' drawings after footprint review: STM32G0 LQFP-48 (plain and both dual LQFP/UFQFPN
   variants, ST DS13560), `DFN-12-AOZ` corner pads (AOS), `Texas_RUK0020B` pad length (TI SLVSEL8).
 
