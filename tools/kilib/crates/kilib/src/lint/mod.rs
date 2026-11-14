@@ -18,6 +18,8 @@
 //!   layer ([`refs`]).
 //! - [`Rule::Pins`]: pin numbers beside the pads on Pins.F/B, every pin of a connector, pin 1 and every 5th of other
 //!   multi-pin parts ([`pins`]).
+//! - [`Rule::Ruler`]: ticks every 5 pins and numbers beside the pads of fine-pitch parts on Ruler.F/B, for
+//!   counting pins: QFP, QFN/DFN, SOIC/TSSOP and FFC or board-to-board connectors ([`ruler`]).
 //! - [`Rule::Centroid`]: a cross on the origin on Centroid.F/B for every placed footprint ([`centroid`]).
 //! - [`Rule::Layout`]: a real part's empty `Layout_Critical` and `Layout_Important` properties on Crit.F/B and
 //!   Imp.F/B, centred like the Value ([`layout`]).
@@ -37,6 +39,7 @@ pub mod pin1;
 pub mod pin1_body;
 pub mod pins;
 pub mod refs;
+pub mod ruler;
 pub mod silk;
 
 use std::fmt;
@@ -57,13 +60,14 @@ pub enum Rule {
     Pin1Body,
     RefOutline,
     Pins,
+    Ruler,
     Centroid,
     Layout,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 10] = [
+    pub const ALL: [Rule; 11] = [
         Rule::Attrs,
         Rule::Models,
         Rule::Courtyard,
@@ -72,6 +76,7 @@ impl Rule {
         Rule::Pin1Body,
         Rule::RefOutline,
         Rule::Pins,
+        Rule::Ruler,
         Rule::Centroid,
         Rule::Layout,
     ];
@@ -86,6 +91,7 @@ impl Rule {
             Rule::Pin1Body => "pin1-body",
             Rule::RefOutline => "ref-outline",
             Rule::Pins => "pins",
+            Rule::Ruler => "ruler",
             Rule::Centroid => "centroid",
             Rule::Layout => "layout",
         }
@@ -233,6 +239,7 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Pin1Body => pin1_body::run(i),
         Rule::RefOutline => refs::run(i),
         Rule::Pins => pins::run(i),
+        Rule::Ruler => ruler::run(i),
         Rule::Centroid => centroid::run(i),
         Rule::Layout => layout::run(i),
     }

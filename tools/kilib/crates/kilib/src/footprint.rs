@@ -461,7 +461,8 @@ pub fn turner(origin: Pt, degrees: f64) -> impl Fn(Pt) -> Pt {
     move |(x, y)| (origin.0 + x * cos + y * sin, origin.1 - x * sin + y * cos)
 }
 
-fn pad(n: &Node) -> Option<Pad> {
+/// A pad; `turned` is taken off its angle (a board keeps a footprint's turn in its pads' angles).
+fn pad(n: &Node, turned: f64) -> Option<Pad> {
     let number = n.arg(0).unwrap_or("").to_string();
     let kind = match n.arg(1)? {
         "smd" => PadKind::Smd,
@@ -472,7 +473,7 @@ fn pad(n: &Node) -> Option<Pad> {
     let shape = n.arg(2).unwrap_or("rect");
     let at = n.child("at")?;
     let origin = xy(at)?;
-    let angle = num(at.items().get(3)).unwrap_or(0.0);
+    let angle = num(at.items().get(3)).unwrap_or(0.0) - turned;
     let turn = turner(origin, angle);
     let (w, h) = n.child("size").and_then(xy).unwrap_or((0.0, 0.0));
     let drill = n.child("drill").and_then(|d| {
@@ -543,6 +544,11 @@ fn text(n: &Node) -> Option<Text> {
 
 /// Reads a footprint file's text.
 pub fn read(text_: &str) -> Result<Footprint, String> {
+    read_placed(text_, 0.0)
+}
+
+/// Reads a footprint as a board keeps it, placed at `angle`: in its own frame, pads turned back by that angle.
+pub fn read_placed(text_: &str, angle: f64) -> Result<Footprint, String> {
     let fp = sexpr::parse(text_).map_err(|e| e.to_string())?;
     if fp.head() != Some("footprint") {
         return Err("not a (footprint ...) file".into());
@@ -572,7 +578,7 @@ pub fn read(text_: &str) -> Result<Footprint, String> {
             }
             Some("pad") => {
                 first_pad.get_or_insert(n.span().start);
-                out.pads.extend(pad(n));
+                out.pads.extend(pad(n, angle));
             }
             Some("fp_text" | "property") => out.texts.extend(text(n)),
             Some("model") => {

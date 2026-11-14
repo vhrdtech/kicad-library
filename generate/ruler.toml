@@ -1,0 +1,21 @@
+# The pin ruler (`kilib lint --rule ruler`, built into kilib): ticks and numbers beside the pads of fine-pitch parts on
+# Ruler.F/B (User.31/32), for counting pins; `kilib ruler --board` copies it onto a board's silkscreen.
+# Pin 1, every 10th pin and each side's end pins get a large tick and their number, pins 5, 15, 25... a small tick.
+
+# Ticks and numbers keep this from every solder mask opening
+gap_mm = 0.4
+tick_width_mm = 0.1
+tick_small_mm = 0.4
+tick_large_mm = 0.8
+# Numbers on Ruler.F/B
+text_height_mm = 0.5
+text_stroke_mm = 0.1
+# Numbers of the silkscreen copy: the boards' minimum text height (min_text_height); one that does not fit is left out
+silk_text_height_mm = 0.8
+silk_text_stroke_mm = 0.12
+# From a tick's end to its number, and between a number and any other tick or number
+text_gap_mm = 0.15
+# Parts with fewer pins get no ruler
+pins_min = 8
+# Connectors get one only for a counted pad row at this pitch or finer (FFC/FPC, board-to-board)
+connector_pitch_max_mm = 1.0

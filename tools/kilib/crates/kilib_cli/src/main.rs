@@ -386,6 +386,12 @@ Examples:
     /// clear of every pad and other number, one size per footprint (0.5 mm down to 0.2 mm). Fix: written,
     /// replacing anything else on that layer; a number with no room is left for a person.
     ///
+    /// ruler: ticks and numbers beside the pads on Ruler.F (User.31) for counting pins on QFP, QFN/DFN, SOIC/TSSOP
+    /// (8 pins or more) and FFC or board-to-board connectors (a counted row, 1 mm pitch or finer); never BGA, LGA,
+    /// WLCSP. On each pin's centre line beyond the pads' toe, 0.4 mm clear of every mask opening: a large tick and
+    /// the number at pin 1, every 10th and each side's end pins, a small tick at 5, 15, 25... Sizes in
+    /// generate/ruler.toml. Fix: drawn, replacing anything else on that layer; a number with no room left out.
+    ///
     /// centroid: a 0.5 mm cross of 0.05 mm lines on the origin on Centroid.F (User.21) for every part and
     /// fiducial, the point the position file gives. Fix: drawn, replacing anything else on that layer.
     ///
