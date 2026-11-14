@@ -405,9 +405,14 @@ fn circle_points(c: Pt, r: f64) -> Vec<Pt> {
 
 pub const GRAPHICS: [&str; 6] = ["fp_line", "fp_rect", "fp_circle", "fp_arc", "fp_poly", "fp_curve"];
 
-/// A graphic item, `None` for anything else or one without the points it needs.
+/// A graphic item, `None` for anything else or one without the points it needs. A custom pad's primitives
+/// (`gr_poly`, `gr_line`...) read as their `fp_` namesakes.
 pub fn graphic(g: &Node) -> Option<Graphic> {
-    let kind = g.head().filter(|h| GRAPHICS.contains(h))?.to_string();
+    let head = g.head()?;
+    let kind = head.strip_prefix("gr_").map_or_else(|| head.to_owned(), |k| format!("fp_{k}"));
+    if !GRAPHICS.contains(&kind.as_str()) {
+        return None;
+    }
     let p = |name: &str| g.child(name).and_then(xy);
     let width_node = g.child("stroke").and_then(|s| s.child("width")).or_else(|| g.child("width"));
     let width = width_node.and_then(|w| num(w.items().get(1))).unwrap_or(0.0);
@@ -721,6 +726,16 @@ mod tests {
         assert_eq!(&FP[f.insert_at..f.insert_at + 5], "\t(pad");
         let fab = f.fab_box().unwrap();
         assert!((fab.x0 + 1.05).abs() < 1e-9);
+    }
+
+    #[test]
+    fn a_custom_pad_reaches_as_far_as_its_primitives() {
+        let pad = r#"(footprint "x"
+	(pad "1" smd custom (at -1.95 -1.4) (size 0.129289 0.129289) (layers "F.Cu" "F.Mask")
+		(primitives (gr_poly (pts (xy -0.35 -0.05) (xy 0.35 -0.05) (xy 0.35 0.05) (xy -0.35 0.05)) (width 0.1) (fill yes))))
+)"#;
+        let b = read(pad).unwrap().pads[0].outline.bbox();
+        assert!((b.w() - 0.8).abs() < 1e-9 && (b.h() - 0.2).abs() < 1e-9, "{b:?}");
     }
 
     #[test]
