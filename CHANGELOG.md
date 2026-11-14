@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-14
+
 ### Added
 
 - Layout priority (LIB-32 layout-priority-marks): a schematic sets a short note in a symbol's `Layout_Critical` or `Layout_Important` field, and Update PCB from Schematic carries it to the footprint, where it shows on its own layer. README "Layout priority" says how KiCad 10 treats the fields and what a board made before needs.
