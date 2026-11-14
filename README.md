@@ -152,7 +152,7 @@ same under `footprints/<name>.pretty` for footprints.
 - `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
   a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
   Edge.Cuts; pads, vias and ratsnest shown), `Assembly.F`/`B` (Fab, Ref.Des, Value, Centroid, Courtyard, Edge.Cuts;
-  no copper), `Pins.F`/`B` (Cu, Fab, Pins, Edge.Cuts) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
+  no copper), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
   the back counterpart, viewed from below. A preset already in the project under the same name is replaced; the
   project's other presets are kept, in their place. The sibling board (same name, `.kicad_pcb`) is checked for the
   user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only

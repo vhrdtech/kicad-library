@@ -4,12 +4,15 @@
 
 ### Added
 
-- Xray.F/B (User.7/8): every edge of a part's 3D model seen from above, hidden ones included; `kilib layers` names it, templates have it (LIB-35 xray-layer).
+- Xray.F/B (User.7/8): all edges of the 3D model from above, hidden included; in `kilib layers` and templates (LIB-35 xray-layer).
+- `kilib footprint chip` draws the model's x-ray view on Xray.F: terminations, electrodes, LED die (LIB-35 xray-layer).
+- 361 footprints draw their x-ray view on Xray.F: 192 chip parts, 169 from STEP models (hw footprint_tools `xray.py`) (LIB-35 xray-layer).
 
 ### Changed
 
 - Layer presets: Floorplan.F/B also show the test point and net tie designators (Ref.Test, Ref.Tie).
-- Layer presets: Pins.F/B show the pin numbers over the fab drawing and the x-ray view (Xray.F/B), no copper (LIB-35 xray-layer).
+- The 48 connector bodies of 7 Nov redrawn like the others: at most 64 corners (LIB-34 body-layer).
+- Layer presets: Pins.F/B show pin numbers over the fab drawing and Xray.F/B, no copper (LIB-35 xray-layer).
 
 ## [0.5.6] - 2026-11-14
 

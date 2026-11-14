@@ -158,4 +158,5 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-35 xray-layer: Xray.F/B (User.7/8) carry every edge of a part's 3D model seen from above, hidden ones
   included (leads, terminations, bottom electrodes and exposed pads under the body, internal outlines); in the
   templates, the Pins presets and `kilib layers`. `kilib footprint chip` draws it from the model it generates, hw
-  `tools/footprint_tools` (`fc_xray.py`, `body.py --xray`) from the STEP model of the others.
+  `tools/footprint_tools` (`fc_xray.py`, `xray.py`) from the STEP model of the others; test points, net ties and
+  mechanical footprints have none.
