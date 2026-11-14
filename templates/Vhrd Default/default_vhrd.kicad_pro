@@ -548,10 +548,8 @@
         "activeLayer": 5,
         "flipBoard": false,
         "layers": [
-          0,
           1,
           5,
-          13,
           25
         ],
         "name": "Silk.F",
@@ -579,10 +577,8 @@
         "activeLayer": 7,
         "flipBoard": true,
         "layers": [
-          2,
           3,
           7,
-          15,
           25
         ],
         "name": "Silk.B",

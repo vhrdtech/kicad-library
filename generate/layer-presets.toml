@@ -67,12 +67,12 @@ flip = true
 
 [[preset]]
 name = "Silk.F"
-layers = ["F.SilkS", "F.Mask", "F.Paste", "F.Cu", "Edge.Cuts"]
+layers = ["F.SilkS", "F.Mask", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
 flip = false
 
 [[preset]]
 name = "Silk.B"
-layers = ["B.SilkS", "B.Mask", "B.Paste", "B.Cu", "Edge.Cuts"]
+layers = ["B.SilkS", "B.Mask", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "locked_item_shadows", "conflict_shadows", "drawing_sheet", "grid"]
 flip = true
