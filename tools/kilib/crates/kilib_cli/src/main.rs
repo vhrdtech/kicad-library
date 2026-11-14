@@ -270,7 +270,9 @@ Examples:
     /// footprint on that board whose Reference is already on its designator layer gets its own designator fitted
     /// the same way (a short one gets larger text), and a real part whose Value is on Value its own value; only the
     /// properties' position, angle, size and thickness change. A Layout_Critical or Layout_Important note that is
-    /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp. Without --write it lists
+    /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp; on a real part a set note
+    /// that sits elsewhere or hidden (where Update PCB from Schematic puts a field the footprint lacked) is moved
+    /// there, shown. Without --write it lists
     /// what would change and exits 1 when anything would. `fab-designators` is the old name of this command.
     #[command(
         visible_alias = "fab-designators",

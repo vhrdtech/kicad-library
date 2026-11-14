@@ -1313,8 +1313,9 @@ fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOu
     fit_property(text, node, "Value", v, p, phi)
 }
 
-/// A layout note fitted to its own text like the Value: skipped where it is not on its layer shown (a footprint not
-/// updated from the library).
+/// A layout note fitted to its own text like the Value. A real part's note that is elsewhere or hidden (Update PCB
+/// from Schematic puts a field the footprint lacks hidden on the fab layer, and Update Footprints from Library keeps
+/// it there) is moved to its layer, shown: the property is written anew. Other classes' notes are left alone.
 fn board_note_edits(
     text: &str,
     node: &Node,
@@ -1324,16 +1325,23 @@ fn board_note_edits(
     pair: [&'static str; 2],
 ) -> Result<(BoardOutcome, Vec<Edit>), String> {
     let layer = layers::side_of(pair, fp.back);
-    if r.layer != layer {
-        return Err(format!("{name} on {}, not {layer} (update the footprint from the library)", r.layer));
-    }
-    if r.hidden {
-        return Err(format!("{name} hidden"));
-    }
     let (mut shape, phi) = board_shape(node, fp)?;
     shape.texts = vec![r.value.clone()];
     let p = layout(&shape);
-    fit_property(text, node, name, r, p, phi)
+    if r.layer == layer && !r.hidden {
+        return fit_property(text, node, name, r, p, phi);
+    }
+    if fp.class != Class::Part {
+        return Err(format!("{name} on {}: not a real part, left alone", r.layer));
+    }
+    let angle = upright(phi + p.angle);
+    let start = text[..r.span.start].rfind('\n').map_or(0, |i| i + 1);
+    let indent = &text[start..r.span.start];
+    let indent = if indent.trim().is_empty() { indent } else { "\t\t" };
+    let at = Placement { angle, ..p };
+    let new = property_text(name, &r.value, r.uuid.as_deref(), layer, fp.back, false, &at, indent);
+    let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
+    Ok((BoardOutcome::Change { before, placement: p, angle }, vec![Edit { range: r.span.clone(), text: new }]))
 }
 
 /// The footprint's shape as placed on the board, its text kept upright as KiCad draws it, and its angle.
@@ -1819,5 +1827,37 @@ mod tests {
         let plan = plan_board(&format!("(kicad_pcb\n{})\n", tp.replace("\"REF**\"", "\"TP1\""))).unwrap();
         assert!(matches!(&plan.items[0].outcome, BoardOutcome::Change { .. }), "{:?}", plan.items[0]);
         assert!(matches!(&plan.items[0].value, BoardOutcome::Skipped(w) if w.contains("not a real part")));
+    }
+
+    #[test]
+    fn a_board_moves_a_set_layout_note_kicad_left_on_the_fab_layer() {
+        let pads = [(-1.0, 0.0, 0.6, 0.6), (1.0, 0.0, 0.6, 0.6)];
+        let (_, lib) = changed(&footprint(3.0, 1.6, &pads, "F.Fab", &[]));
+        // As Update PCB from Schematic adds a field the footprint lacks: hidden on F.Fab at the origin.
+        let note = "\t(property \"Layout_Critical\" \"U1.5\"\n\t\t(at 10 10 90)\n\t\t(layer \"F.Fab\")\n\t\t(hide yes)\n\t\t(uuid \"u-crit\")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t)\n\t)\n";
+        let placed = lib
+            .replacen("(footprint \"T\"", "(footprint \"Lib:T\"\n\t(at 10 10 90)", 1)
+            .replace("\"REF**\"", "\"C1\"")
+            .replacen("\t(fp_rect", &format!("{note}\t(fp_rect"), 1);
+        let board = format!("(kicad_pcb\n{placed})\n");
+        let plan = plan_board(&board).unwrap();
+        let [(name, BoardOutcome::Change { placement: p, angle, .. })] = plan.items[0].notes.as_slice() else {
+            panic!("{:?}", plan.items[0])
+        };
+        assert_eq!((*name, *angle), ("Layout_Critical", 90.0));
+        assert!(
+            plan.new.contains(&format!(
+                "(property \"Layout_Critical\" \"U1.5\"\n\t\t(at {} {} 90)\n\t\t(unlocked yes)\n\t\t(layer \"User.25\")\n\t\t(uuid \"u-crit\")",
+                fmt(p.x),
+                fmt(p.y)
+            )),
+            "{}",
+            plan.new
+        );
+        let again = plan_board(&plan.new).unwrap();
+        assert_eq!(again.new, plan.new, "a second run changes nothing");
+        // An empty note is not looked at.
+        let empty = plan_board(&board.replace("\"U1.5\"", "\"\"")).unwrap();
+        assert!(empty.items[0].notes.is_empty());
     }
 }
