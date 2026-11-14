@@ -56,24 +56,24 @@
 		)
 	)
 	(property "Layout_Critical" ""
-		(at 0.02 0.007 90)
+		(at -0.003 -1.216 0)
 		(unlocked yes)
 		(layer "User.25")
 		(effects
 			(font
-				(size 0.29 0.29)
-				(thickness 0.044)
+				(size 0.12 0.12)
+				(thickness 0.025)
 			)
 		)
 	)
 	(property "Layout_Important" ""
-		(at 0.02 0.007 90)
+		(at -0.003 1.234 0)
 		(unlocked yes)
 		(layer "User.27")
 		(effects
 			(font
-				(size 0.29 0.29)
-				(thickness 0.044)
+				(size 0.12 0.12)
+				(thickness 0.025)
 			)
 		)
 	)

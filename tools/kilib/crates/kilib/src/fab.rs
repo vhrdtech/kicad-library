@@ -18,6 +18,9 @@
 //!
 //! [`check`] judges a footprint by these rules; [`plan`] rewrites only the footprints that break one, and what it
 //! writes passes [`check`].
+//!
+//! A layout note ([`layout_note`]) sits apart: Ref.Des and Crit/Imp show together on the Floorplan preset, so a
+//! note hugs an edge of the real courtyard instead of the centre, clear of the designator's own ink.
 
 use std::f64::consts::TAU;
 use std::ops::Range;
@@ -240,6 +243,10 @@ pub struct Shape {
     /// Angle the text is drawn at for each of the two placements (0° and 90° in the footprint's frame): on a
     /// board KiCad keeps text upright, which may turn it by 180° in the footprint's frame.
     pub drawn: [f64; 2],
+    /// The courtyard's inside (F.CrtYd/B.CrtYd, its own stroke already subtracted), where [`layout_note`] hugs an
+    /// edge; `None` where the footprint draws no courtyard (or [`body_from`](Shape::body_from) is already
+    /// [`BodyFrom::Courtyard`], leaving no room between the body and it), and a note falls back to the centre.
+    pub courtyard: Option<Rect>,
 }
 
 impl Shape {
@@ -410,12 +417,75 @@ pub fn layout(shape: &Shape) -> Placement {
     layout_with_floor(shape, TINY_SIZE)
 }
 
-/// Where a layout note's text goes: [`layout_with_floor`] down to [`NOTE_TINY_SIZE`], much smaller than a
-/// designator or Value before it is reported with no clean fit.
-pub fn layout_note(shape: &Shape, values: &[String]) -> Placement {
+/// Which edge of the courtyard a layout note hugs ([`layout_note`]): the body's top or bottom for a courtyard at
+/// least as wide as tall, its left or right for one taller than wide (the longer pair usually has more room).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Edge {
+    Top,
+    Bottom,
+    Left,
+    Right,
+}
+
+/// The edge pair [`layout_note`] prefers, the longer one: top and bottom for a courtyard at least as wide as tall,
+/// left and right for one taller than wide. [`crate::lint::layout::FIELDS`]' two notes take one each, so they land
+/// on opposite sides of the body whenever both fit there.
+pub fn note_edges(courtyard: Rect) -> [Edge; 2] {
+    if courtyard.w() >= courtyard.h() { [Edge::Top, Edge::Bottom] } else { [Edge::Left, Edge::Right] }
+}
+
+/// `prefer`, its opposite, then the other pair, screen order.
+fn edge_order(prefer: Edge) -> [Edge; 4] {
+    use Edge::*;
+    match prefer {
+        Top => [Top, Bottom, Left, Right],
+        Bottom => [Bottom, Top, Left, Right],
+        Left => [Left, Right, Top, Bottom],
+        Right => [Right, Left, Top, Bottom],
+    }
+}
+
+/// The slice of `courtyard` beyond `body`'s `edge`; `None` where there is no room (the body already reaches that
+/// side of the courtyard, or past it).
+fn edge_band(courtyard: Rect, body: Rect, edge: Edge) -> Option<Rect> {
+    let band = match edge {
+        Edge::Top => Rect { x0: courtyard.x0, x1: courtyard.x1, y0: courtyard.y0, y1: body.y0 },
+        Edge::Bottom => Rect { x0: courtyard.x0, x1: courtyard.x1, y0: body.y1, y1: courtyard.y1 },
+        Edge::Left => Rect { x0: courtyard.x0, x1: body.x0, y0: courtyard.y0, y1: courtyard.y1 },
+        Edge::Right => Rect { x0: body.x1, x1: courtyard.x1, y0: courtyard.y0, y1: courtyard.y1 },
+    };
+    (band.w() > EPS && band.h() > EPS).then_some(band)
+}
+
+/// Where a layout note's text goes, and the ink box it takes there: hugging `prefer` ([`note_edges`]) inside the
+/// real courtyard ([`Shape::courtyard`]), clear of the fab drawing (the body, same as [`layout`]'s rules) and of
+/// every rect in `avoid` ([`GAP`] kept free of each, as from any other drawing) — the designator's own ink as
+/// [`layout`] fits it, and a note already placed on the same footprint, so [`crate::lint::layout::CRITICAL`] and
+/// [`crate::lint::layout::IMPORTANT`] never overlap. Tried next its opposite edge, then the other pair's two
+/// ([`edge_order`]); where none of the four has room, the legacy centred placement instead ([`layout_with_floor`]
+/// down to [`NOTE_TINY_SIZE`], `avoid` not counted there: a note alone on an edgeless body still just centres).
+/// `None` says which edge, `None` on that fallback.
+pub fn layout_note(shape: &Shape, values: &[String], prefer: Edge, avoid: &[Rect]) -> (Placement, Rect, Option<Edge>) {
+    if let Some(courtyard) = shape.courtyard {
+        let extra: Vec<Prim> = avoid.iter().map(|r| Prim::Area(r.corners().to_vec())).collect();
+        for edge in edge_order(prefer) {
+            let Some(band) = edge_band(courtyard, shape.body, edge) else { continue };
+            let mut s = shape.clone();
+            s.body = band;
+            s.region = band;
+            s.texts = values.to_vec();
+            s.graphics.extend(extra.iter().cloned());
+            if let Some(p) = place(&s, &sizes()).or_else(|| place(&s, &tiny_sizes(NOTE_TINY_SIZE))) {
+                let ink = s.text_rect(p.x, p.y, p.angle, p.size);
+                return (p, ink, Some(edge));
+            }
+        }
+    }
     let mut s = shape.clone();
     s.texts = values.to_vec();
-    layout_with_floor(&s, NOTE_TINY_SIZE)
+    let p = layout_with_floor(&s, NOTE_TINY_SIZE);
+    let ink = s.text_rect(p.x, p.y, p.angle, p.size);
+    (p, ink, None)
 }
 
 /// The designators a library footprint is sized for, from its name: the longest realistic one of its kind, five
@@ -819,22 +889,24 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
     let pads_box = Rect::of_points(pads.iter().flat_map(|p| [(p.x0, p.y0), (p.x1, p.y1)]));
     let covers_pads =
         |b: &Rect| pads_box.is_none_or(|p| b.contains(&Rect::around(p.center().0, p.center().1, 0.0, 0.0)));
-    let courtyard = || {
+    let crty = {
         let g: Vec<&Node> = layer_graphics(fp, crtyd).collect();
         let stroke = g.iter().map(|g| stroke_width(g)).fold(0.0, f64::max);
-        let body = prims_box(&g.iter().flat_map(|g| graphic_prims(g, stroke_width(g))).collect::<Vec<_>>())?;
-        Some((body, body.expand(-stroke)))
+        prims_box(&g.iter().flat_map(|g| graphic_prims(g, stroke_width(g))).collect::<Vec<_>>())
+            .map(|body| (body, body.expand(-stroke)))
     };
     let shape = if let Some(body) = prims_box(&ref_lines) {
         Some((body, BodyFrom::RefLayer, body.expand(-ref_stroke)))
     } else if let Some(body) = prims_box(&lines).filter(covers_pads) {
         Some((body, BodyFrom::Fab, body))
-    } else if let Some((body, region)) = courtyard() {
+    } else if let Some((body, region)) = crty {
         Some((body, BodyFrom::Courtyard, region))
     } else {
         pads_box.map(|body| (body, BodyFrom::Pads, body))
     };
     let texts = library_refs(class, name).iter().map(|t| t.to_string()).collect::<Vec<_>>();
+    // A note hugs the courtyard's inside beyond the body; where the body already is the courtyard (no fab or
+    // reference-layer drawing of its own) there is no room between the two, and a note falls back to the centre.
     let shape = shape.map(|(body, body_from, region)| Shape {
         body,
         body_from,
@@ -843,6 +915,7 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
         back,
         texts: texts.clone(),
         drawn: [0.0, 90.0],
+        courtyard: crty.map(|(_, inner)| inner).filter(|_| body_from != BodyFrom::Courtyard),
     });
     let values = library_values(class, name).iter().map(|t| t.to_string()).collect();
     Footprint { back, class, reference, value, values, ref_texts, fab_widths, shape }
@@ -1263,8 +1336,9 @@ pub struct BoardPlan {
 /// Fits each footprint's own designator on a board (`.kicad_pcb` text): a footprint whose Reference already sits on
 /// its designator layer (as [`fix`] leaves it in the library) gets the size, anchor and angle [`layout`] finds for
 /// its actual text, so a short designator gets larger text; a real part's Value, when shown on the Value layer, gets
-/// what [`layout_value`] finds for its actual text, centred the same way, and so does a layout note that is set
-/// (`Layout_Critical`, `Layout_Important`) on its layer. Only these properties' `(at ...)`,
+/// what [`layout_value`] finds for its actual text, centred the same way; a layout note that is set
+/// (`Layout_Critical`, `Layout_Important`) gets what [`layout_note`] finds for its own text, hugging the
+/// courtyard's edge, clear of the designator and (Important's) of Critical. Only these properties' `(at ...)`,
 /// `(size ...)` and `(thickness ...)` change; the angle is written as KiCad keeps it upright. Other footprints are
 /// skipped with the reason.
 pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
@@ -1287,14 +1361,29 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
         };
         let outcome = run(board_edits(text, node, &fp));
         let value = run(board_value_edits(text, node, &fp));
+        // The notes hug the courtyard's longer pair of edges, Critical then Important, each clear of the
+        // designator's own ink and of the other once it is placed, so the two never overlap.
+        let edges = fp.shape.as_ref().and_then(|s| s.courtyard).map(note_edges).unwrap_or([Edge::Top, Edge::Bottom]);
+        let mut avoid: Vec<Rect> = board_designator(node, &fp)
+            .ok()
+            .map(|(shape, p, _)| shape.text_rect(p.x, p.y, p.angle, p.size))
+            .into_iter()
+            .collect();
         let mut notes = Vec::new();
-        for (name, pair) in crate::lint::layout::FIELDS {
+        for (idx, (name, pair)) in crate::lint::layout::FIELDS.into_iter().enumerate() {
             let Some(prop) = node.children("property").find(|n| n.arg(0) == Some(name)) else { continue };
             let r = read_property(prop);
             if r.value.trim().is_empty() {
                 continue;
             }
-            notes.push((name, run(board_note_edits(text, node, &fp, name, &r, pair))));
+            match board_note_edits(text, node, &fp, (name, pair), &r, edges[idx], &avoid) {
+                Ok((outcome, e, ink)) => {
+                    edits.extend(e);
+                    avoid.push(ink);
+                    notes.push((name, outcome));
+                }
+                Err(why) => notes.push((name, BoardOutcome::Skipped(why))),
+            }
         }
         items.push(BoardItem { reference, id, outcome, value, notes });
     }
@@ -1330,22 +1419,27 @@ fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOu
     fit_property(text, node, "Value", v, p, phi)
 }
 
-/// A layout note fitted to its own text like the Value. A real part's note that is elsewhere or hidden (Update PCB
-/// from Schematic puts a field the footprint lacks hidden on the fab layer, and Update Footprints from Library keeps
-/// it there) is moved to its layer, shown: the property is written anew. Other classes' notes are left alone.
+/// A layout note fitted to its own text like the Value, hugging `prefer`'s edge of the courtyard, clear of `avoid`
+/// (the designator's own ink, and the other note once it is placed). A real part's note that is elsewhere or
+/// hidden (Update PCB from Schematic puts a field the footprint lacks hidden on the fab layer, and Update
+/// Footprints from Library keeps it there) is moved to its layer, shown: the property is written anew. Other
+/// classes' notes are left alone. Returns the note's own ink box too, so the next note can avoid it.
 fn board_note_edits(
     text: &str,
     node: &Node,
     fp: &Footprint,
-    name: &str,
+    field: (&'static str, [&'static str; 2]),
     r: &Reference,
-    pair: [&'static str; 2],
-) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    prefer: Edge,
+    avoid: &[Rect],
+) -> Result<(BoardOutcome, Vec<Edit>, Rect), String> {
+    let (name, pair) = field;
     let layer = layers::side_of(pair, fp.back);
     let (shape, phi) = board_shape(node, fp)?;
-    let p = layout_note(&shape, std::slice::from_ref(&r.value));
+    let (p, ink, _edge) = layout_note(&shape, std::slice::from_ref(&r.value), prefer, avoid);
     if r.layer == layer && !r.hidden {
-        return fit_property(text, node, name, r, p, phi);
+        let (outcome, edits) = fit_property(text, node, name, r, p, phi)?;
+        return Ok((outcome, edits, ink));
     }
     if fp.class != Class::Part {
         return Err(format!("{name} on {}: not a real part, left alone", r.layer));
@@ -1357,7 +1451,7 @@ fn board_note_edits(
     let at = Placement { angle, ..p };
     let new = property_text(name, &r.value, r.uuid.as_deref(), layer, fp.back, false, &at, indent);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
-    Ok((BoardOutcome::Change { before, placement: p, angle }, vec![Edit { range: r.span.clone(), text: new }]))
+    Ok((BoardOutcome::Change { before, placement: p, angle }, vec![Edit { range: r.span.clone(), text: new }], ink))
 }
 
 /// The footprint's shape as placed on the board, its text kept upright as KiCad draws it, and its angle.
@@ -1674,18 +1768,78 @@ mod tests {
 
     #[test]
     fn a_layout_note_fits_much_smaller_than_a_designator_would() {
-        // The same 0.6 x 0.3 body: a designator has no clean fit even at the tiny floor (0.15 mm)...
+        // The same 0.6 x 0.3 body, no courtyard drawn: the note falls back to the centre, like a designator.
         let shape = read(&footprint(0.6, 0.3, &[], "F.SilkS", &[])).unwrap().shape.unwrap();
+        assert!(shape.courtyard.is_none());
         let designator = layout(&shape);
         assert_eq!((designator.size, designator.clean), (MIN_SIZE, false), "{designator:?}");
         // ...but a short note reads fine well below that floor, so it gets a clean fit instead.
-        let note = layout_note(&shape, &["FB U301".to_string()]);
-        assert!(note.clean && note.size < TINY_SIZE, "{note:?}");
+        let (note, _, edge) = layout_note(&shape, &["FB U301".to_string()], Edge::Top, &[]);
+        assert!(note.clean && note.size < TINY_SIZE && edge.is_none(), "{note:?} {edge:?}");
         assert!(note.size >= NOTE_TINY_SIZE - EPS, "{note:?}");
         // A note too long even for the note floor still ends up not clean, like a designator.
-        let huge =
-            layout_note(&shape, &["a very much longer note than any body this small could ever hold".to_string()]);
+        let (huge, _, _) = layout_note(
+            &shape,
+            &["a very much longer note than any body this small could ever hold".to_string()],
+            Edge::Top,
+            &[],
+        );
         assert_eq!((huge.size, huge.clean), (MIN_SIZE, false), "{huge:?}");
+    }
+
+    /// A courtyard rect round `body` with `margin` on every side, 0.05 mm stroke, on F.CrtYd (B.CrtYd when `back`).
+    fn crtyd_rect(w: f64, h: f64, margin: f64, back: bool) -> String {
+        let layer = if back { "B.CrtYd" } else { "F.CrtYd" };
+        format!(
+            "\t(fp_rect\n\t\t(start {} {})\n\t\t(end {} {})\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n\t\t(layer \"{layer}\")\n\t)\n",
+            -w / 2.0 - margin,
+            -h / 2.0 - margin,
+            w / 2.0 + margin,
+            h / 2.0 + margin
+        )
+    }
+
+    #[test]
+    fn a_layout_note_hugs_the_courtyard_clear_of_the_designator() {
+        // A 4 x 6 body (taller than wide: left/right are the longer pair) with a 0.25 mm courtyard margin.
+        let extra = crtyd_rect(4.0, 6.0, 0.25, false);
+        let text = with_drawing(4.0, 6.0, &[], "F.Fab", &[], &extra);
+        let shape = read(&text).unwrap().shape.unwrap();
+        let courtyard = shape.courtyard.expect("a courtyard was drawn");
+        assert_eq!(note_edges(courtyard), [Edge::Left, Edge::Right]);
+        let designator = layout(&shape);
+        let designator_ink = shape.text_rect(designator.x, designator.y, designator.angle, designator.size);
+
+        let (critical, crit_ink, edge) =
+            layout_note(&shape, &["U101.5 VDD".to_string()], Edge::Left, &[designator_ink]);
+        assert_eq!(edge, Some(Edge::Left), "{critical:?}");
+        assert!(critical.clean, "{critical:?}");
+        // Left of the body, inside the courtyard, clear of the designator's ink.
+        assert!(crit_ink.x1 <= shape.body.x0 + 1e-9, "{crit_ink:?} body {:?}", shape.body);
+        assert!(crit_ink.x0 >= courtyard.x0 - 1e-9, "{crit_ink:?} courtyard {courtyard:?}");
+        assert!(!crit_ink.overlaps(&designator_ink), "{crit_ink:?} {designator_ink:?}");
+
+        // Important avoids both the designator and Critical's ink: it lands on the opposite (Right) edge.
+        let (important, imp_ink, edge) =
+            layout_note(&shape, &["FB U301".to_string()], Edge::Right, &[designator_ink, crit_ink]);
+        assert_eq!(edge, Some(Edge::Right), "{important:?}");
+        assert!(important.clean, "{important:?}");
+        assert!(imp_ink.x0 >= shape.body.x1 - 1e-9, "{imp_ink:?} body {:?}", shape.body);
+        assert!(!imp_ink.overlaps(&crit_ink) && !imp_ink.overlaps(&designator_ink), "{imp_ink:?} {crit_ink:?}");
+    }
+
+    #[test]
+    fn a_courtyard_with_no_room_beside_the_body_falls_back_to_the_centre() {
+        // The courtyard clears the body by less than a floor-sized note needs on any side.
+        let extra = crtyd_rect(4.0, 4.0, 0.01, false);
+        let text = with_drawing(4.0, 4.0, &[], "F.Fab", &[], &extra);
+        let shape = read(&text).unwrap().shape.unwrap();
+        assert!(shape.courtyard.is_some(), "a courtyard was drawn, just too tight to use");
+        let (p, ink, edge) = layout_note(&shape, &["VDDA33".to_string()], Edge::Top, &[]);
+        assert!(edge.is_none(), "{p:?}");
+        let (cx, cy) = ink.center();
+        let (bx, by) = shape.centre();
+        assert!((cx - bx).abs() < 1.1e-3 && (cy - by).abs() < 1.1e-3, "{p:?}: ink at ({cx}, {cy})");
     }
 
     #[test]

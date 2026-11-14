@@ -2,13 +2,14 @@
 
 ## [Unreleased]
 
-### Fixed
-
-- Layer presets show the footprints, their text (designators, values, Crit/Imp notes, pin numbers), tracks and zones: they listed almost no object types, so KiCad hid nearly everything.
-
 ### Changed
 
 - Layer presets: Floorplan.F/B (courtyard, fab, designators, Crit/Imp, ratsnest) is new; Assembly is split into Assembly.Ref and Assembly.Value, without the courtyard; Floorplan also shows Ref.Des and Body.F; Assembly shows no Centroid; Layout shows Crit/Imp but not Ref.Des; Pins hides tracks, vias and zones; no preset shows the board outline area's shadow.
+- Layout notes (`Layout_Critical`, `Layout_Important`) hug the courtyard's edge instead of the body's centre, clear of the designator's own ink, so the Floorplan preset reads the two apart (LIB-32 layout-priority-marks); falls back to the centre where the footprint draws no courtyard.
+
+### Fixed
+
+- Layer presets show the footprints, their text (designators, values, Crit/Imp notes, pin numbers), tracks and zones: they listed almost no object types, so KiCad hid nearly everything.
 
 ## [0.5.2] - 2026-11-14
 

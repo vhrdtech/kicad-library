@@ -113,10 +113,11 @@ same under `footprints/<name>.pretty` for footprints.
   gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
-  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, but down to 0.05 mm
-  (a short note reads fine much smaller than a designator) before it is reported with no clean fit; on a real part
-  a set note that sits elsewhere or hidden (Update PCB from Schematic puts a field the footprint lacked hidden on
-  the fab layer) is moved to its layer, shown. `--write` writes the board.
+  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, fitted to its own
+  text hugging the courtyard's edge (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
+  than a designator) before it is reported with no clean fit; on a real part a set note that sits elsewhere or
+  hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab layer) is moved to its
+  layer, shown. `--write` writes the board.
 - `kilib layers BOARD.kicad_pcb...` names the user layers the library uses in a board's layer table, front and back
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
@@ -186,9 +187,14 @@ same under `footprints/<name>.pretty` for footprints.
     point the position file gives: two 0.5 mm lines, 0.05 mm wide. Show the layer over the board to check the
     placement data. The fix replaces anything else on the layer.
   - `layout`: every real part has the properties `Layout_Critical` on `Crit.F` (User.25; `Crit.B`, User.26, on the
-    back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible, unlocked and empty, centred on the
-    body for the note `U1001.48`, down to 0.05 mm where the body needs it. Test points, net ties, mechanical and graphic footprints
-    have neither. The fix adds them or puts them back in place and removes a stray one; a note set in the library is
+    back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible and unlocked, fitted for the note
+    `U1001.48` (down to 0.05 mm, a short note reads fine much smaller than a designator) hugging an edge of the
+    real courtyard: the courtyard's longer pair (top/bottom for one at least as wide as tall, else left/right),
+    Critical the first, Important the opposite, clear of the designator's own ink and, for Important, of Critical,
+    so they never overlap even though both show together on the Floorplan preset. Where the footprint draws no
+    courtyard, or the body already fills it, a note falls back to the centre instead, reported. Test points, net
+    ties, mechanical and graphic footprints have neither. The fix adds them or puts them back in place and removes
+    a stray one; a note set in the library is
     reported, as the note belongs to the schematic.
 - `kilib layout-fields [PATH...]` adds the empty, hidden symbol fields `Layout_Critical` and `Layout_Important`
   where a symbol lacks them: to each symbol of a library file (default: this checkout's `symbols/`), and in a
@@ -239,7 +245,9 @@ by hand. Two levels: critical (`Crit.F`/`Crit.B`, User.25/26) and important (`Im
 decoupling and the like). The schematic sets a short note in the symbol's `Layout_Critical` or `Layout_Important`
 field (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint's property of the same name,
 which shows on its layer; an empty field shows nothing. Every library symbol has both fields, empty and hidden, and
-every real part's footprint both properties, empty and shown (`kilib layout-fields`, `kilib lint --rule layout`).
+every real part's footprint both properties, empty and shown, fitted hugging an edge of the courtyard rather than
+the designator's own centre, so the Floorplan preset (courtyard, fab, Ref.Des and Crit/Imp together) reads the two
+apart (`kilib layout-fields`, `kilib lint --rule layout`).
 
 How KiCad 10 treats them, and what a board made before needs:
 
