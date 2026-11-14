@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.12] - 2026-11-15
+
 ### Changed
 
 - Keyed connectors and switches lose silk, fab and Pin1 marks: USB-C, RJ45, D-sub, card sockets (LIB-14 pin1-marks).
