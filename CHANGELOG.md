@@ -2,14 +2,16 @@
 
 ## [Unreleased]
 
-### Changed
-
-- No pin-1 mark on a part that works the same turned half round: PTS815, CL-SB-22B, 4-pad crystals (LIB-36 pin1-layer).
-- SOT-23-class 3-pin parts lose their silkscreen triangle, fab chamfer and Xray dimple (LIB-14 pin1-marks).
+## [0.5.11] - 2026-11-14
 
 ### Added
 
 - `generate/connected-pins.toml`: pins a part joins inside, read by the half-turn rule (LIB-36 pin1-layer).
+
+### Changed
+
+- No pin-1 mark on a part that works the same turned half round: PTS815, CL-SB-22B, 4-pad crystals (LIB-36 pin1-layer).
+- SOT-23-class 3-pin parts lose their silkscreen triangle, fab chamfer and Xray dimple (LIB-14 pin1-marks).
 
 ## [0.5.10] - 2026-11-14
 
