@@ -160,6 +160,24 @@
 		(layer "User.5")
 		(uuid "ea1d74f7-26da-4edd-a181-9e85597baaae")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(fp_text user "A1"
 		(at 2.76 -2.756 0)
 		(unlocked yes)
@@ -259,6 +277,17 @@
 			)
 		)
 	)
+	(fp_text user "A10"
+		(at -1.759 -2.903 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
 	(fp_text user "A11"
 		(at -2.24 -2.756 0)
 		(unlocked yes)
@@ -271,7 +300,7 @@
 		)
 	)
 	(fp_text user "A12"
-		(at -3.253 -2.141 0)
+		(at -2.759 -2.903 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -358,8 +387,8 @@
 			)
 		)
 	)
-	(fp_text user "S1"
-		(at -4.22 -3.306 0)
+	(fp_text user "B12"
+		(at 3.306 -1.235 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -369,23 +398,16 @@
 			)
 		)
 	)
-	(fp_line
-		(start -0.25 0)
-		(end 0.25 0)
-		(stroke
-			(width 0.05)
-			(type solid)
+	(fp_text user "S1"
+		(at -4.22 -0.276 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
 		)
-		(layer "User.21")
-	)
-	(fp_line
-		(start 0 -0.25)
-		(end 0 0.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "User.21")
 	)
 	(pad "A1" smd roundrect
 		(at 2.75 -2.15)

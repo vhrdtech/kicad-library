@@ -213,7 +213,7 @@
 		(uuid "22be37c8-c769-4a33-94cd-51c666d7790a")
 	)
 	(fp_text user "1"
-		(at -1.98 -0.927 0)
+		(at -0.12 -0.927 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

@@ -209,8 +209,26 @@
 		(layer "User.5")
 		(uuid "fea646f7-dee7-4fee-9ed2-717e91b610ac")
 	)
+	(fp_line
+		(start -0.25 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
+	(fp_line
+		(start 0 -0.25)
+		(end 0 0.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "User.21")
+	)
 	(fp_text user "1"
-		(at -6.35 3.51 0)
+		(at -7.13 1.873 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -221,7 +239,7 @@
 		)
 	)
 	(fp_text user "2"
-		(at -7.13 -1.827 0)
+		(at -6.338 -3.465 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -232,7 +250,7 @@
 		)
 	)
 	(fp_text user "3"
-		(at -3.798 3.51 0)
+		(at -3.833 0.32 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -254,7 +272,7 @@
 		)
 	)
 	(fp_text user "5"
-		(at -1.27 3.51 0)
+		(at -1.293 3.38 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -276,7 +294,7 @@
 		)
 	)
 	(fp_text user "7"
-		(at 1.27 3.51 0)
+		(at 1.247 0.296 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -298,7 +316,7 @@
 		)
 	)
 	(fp_text user "9"
-		(at 3.81 3.51 0)
+		(at 3.787 3.38 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -320,7 +338,7 @@
 		)
 	)
 	(fp_text user "11"
-		(at 6.35 3.51 0)
+		(at 7.368 1.873 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -331,7 +349,7 @@
 		)
 	)
 	(fp_text user "12"
-		(at 7.368 -1.827 0)
+		(at 6.35 -3.465 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -340,24 +358,6 @@
 				(thickness 0.075)
 			)
 		)
-	)
-	(fp_line
-		(start -0.25 0)
-		(end 0.25 0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "User.21")
-	)
-	(fp_line
-		(start 0 -0.25)
-		(end 0 0.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "User.21")
 	)
 	(pad "" np_thru_hole circle
 		(at -5.08 -6.3)

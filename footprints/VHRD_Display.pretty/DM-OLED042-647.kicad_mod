@@ -518,50 +518,6 @@
 			(justify left bottom)
 		)
 	)
-	(fp_text user "1"
-		(at 1.53 4.898 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 1.53 2.298 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "10"
-		(at 1.768 -0.952 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "15"
-		(at 1.768 -4.202 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -579,6 +535,50 @@
 			(type solid)
 		)
 		(layer "User.21")
+	)
+	(fp_text user "1"
+		(at -1.53 4.898 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at -1.53 2.298 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "10"
+		(at -1.768 -0.952 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "15"
+		(at -1.768 -4.202 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
 	)
 	(pad "" np_thru_hole circle
 		(at -6.53 -7.475)

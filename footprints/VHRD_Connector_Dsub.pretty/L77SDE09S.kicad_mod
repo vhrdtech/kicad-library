@@ -35484,7 +35484,7 @@
 		(layer "User.21")
 	)
 	(fp_text user "1"
-		(at -6.92 2.023 0)
+		(at -5.54 -0.365 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -35495,7 +35495,7 @@
 		)
 	)
 	(fp_text user "2"
-		(at -2.758 4.41 0)
+		(at -2.758 -0.365 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -35506,7 +35506,7 @@
 		)
 	)
 	(fp_text user "3"
-		(at 0.012 4.41 0)
+		(at 0.012 -0.365 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -35517,7 +35517,7 @@
 		)
 	)
 	(fp_text user "4"
-		(at 2.758 4.434 0)
+		(at 2.758 -0.365 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -35528,7 +35528,7 @@
 		)
 	)
 	(fp_text user "5"
-		(at 6.92 2.023 0)
+		(at 5.54 -0.365 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

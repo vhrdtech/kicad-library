@@ -322,61 +322,6 @@
 		(layer "User.5")
 		(uuid "b1b31336-926e-44b5-b0cb-ac5c23506aca")
 	)
-	(fp_text user "1"
-		(at -2.25 -3.66 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "2"
-		(at -0.738 -3.66 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "3"
-		(at 0.762 -3.66 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "4"
-		(at 2.238 -3.66 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "MP"
-		(at -4.867 3.705 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -394,6 +339,61 @@
 			(type solid)
 		)
 		(layer "User.21")
+	)
+	(fp_text user "1"
+		(at -2.25 -1.885 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at -0.738 -1.885 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 0.762 -1.885 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "4"
+		(at 2.238 -1.861 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "MP"
+		(at -3.676 2.418 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
 	)
 	(pad "1" smd roundrect
 		(at -2.25 -2.795)

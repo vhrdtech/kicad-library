@@ -675,145 +675,145 @@
 		(layer "User.21")
 	)
 	(fp_text user "A1"
-		(at -1.063 4.905 0)
+		(at -1.051 5.06 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A2"
-		(at -1.638 4.905 0)
+		(at -1.626 2.735 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A3"
-		(at -2.138 2.867 0)
+		(at -2.126 5.06 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A4"
-		(at -2.644 4.917 0)
+		(at -2.638 2.735 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A5"
-		(at -3.138 2.867 0)
+		(at -3.126 5.06 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A6"
-		(at -3.638 4.905 0)
+		(at -3.626 2.735 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A7"
-		(at -4.144 2.867 0)
+		(at -4.138 5.06 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A8"
-		(at -4.638 4.905 0)
+		(at -4.626 2.735 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A9"
-		(at -5.138 2.867 0)
+		(at -5.126 5.06 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A10"
-		(at -5.638 4.905 0)
+		(at -5.673 2.367 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A11"
-		(at -6.138 2.867 0)
+		(at -6.173 5.43 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "A12"
-		(at -6.713 4.905 0)
+		(at -6.748 2.367 270)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)
 	(fp_text user "S1"
-		(at -7.532 0.567 0)
+		(at -8.443 1.573 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
 			(font
-				(size 0.25 0.25)
-				(thickness 0.038)
+				(size 0.5 0.5)
+				(thickness 0.075)
 			)
 		)
 	)

@@ -271,138 +271,6 @@
 		(layer "F.Fab")
 		(uuid "41771888-6563-4960-92ec-95f7b5e2b325")
 	)
-	(fp_text user "MP1"
-		(at -2.973 -1.057 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "MP2"
-		(at -2.973 1.093 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "MP3"
-		(at 2.954 -1.057 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "MP4"
-		(at 2.954 1.103 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "P1"
-		(at -1.01 -1.612 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "P2"
-		(at -1.01 1.648 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "P3"
-		(at 0.99 -1.612 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "P4"
-		(at 0.981 1.667 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "S1"
-		(at -0.2 -1.612 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "S2"
-		(at -0.2 1.648 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "S3"
-		(at 0.2 -0.502 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
-	(fp_text user "S4"
-		(at 0.19 0.538 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -420,6 +288,138 @@
 			(type solid)
 		)
 		(layer "User.21")
+	)
+	(fp_text user "MP1"
+		(at -1.955 -0.626 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "MP2"
+		(at -1.955 0.644 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "MP3"
+		(at 1.945 -0.626 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "MP4"
+		(at 1.94 0.644 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P1"
+		(at -1.005 -0.626 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P2"
+		(at -1.005 0.644 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P3"
+		(at 0.995 -0.626 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P4"
+		(at 0.99 0.644 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "S1"
+		(at -0.2 -0.626 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "S2"
+		(at -0.2 0.644 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "S3"
+		(at 0.191 -0.583 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "S4"
+		(at 0.186 0.573 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
 	)
 	(pad "MP1" smd roundrect
 		(at -1.95 -1.075)

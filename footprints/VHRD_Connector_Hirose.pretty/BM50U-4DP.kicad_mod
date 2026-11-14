@@ -173,116 +173,6 @@
 		(fill no)
 		(layer "F.Fab")
 	)
-	(fp_text user "1"
-		(at -0.175 1.264 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "2"
-		(at -0.168 -1.237 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "3"
-		(at 0.182 1.264 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "4"
-		(at 0.168 -1.237 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "M1"
-		(at -2.147 0.014 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "M2"
-		(at 2.132 0.014 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "P1"
-		(at -1.77 0.661 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "P2"
-		(at -1.77 -0.634 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "P3"
-		(at 1.756 0.661 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
-	(fp_text user "P4"
-		(at 1.756 -0.627 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -300,6 +190,116 @@
 			(type solid)
 		)
 		(layer "User.21")
+	)
+	(fp_text user "1"
+		(at -0.184 0.145 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at -0.184 -0.136 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 0.166 0.145 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "4"
+		(at 0.161 -0.145 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "M1"
+		(at -1.236 0.009 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "M2"
+		(at 1.227 0.009 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P1"
+		(at -1.636 0.643 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P2"
+		(at -1.636 -0.652 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P3"
+		(at 1.618 0.643 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
+	)
+	(fp_text user "P4"
+		(at 1.618 -0.657 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.2 0.2)
+				(thickness 0.03)
+			)
+		)
 	)
 	(pad "1" smd rect
 		(at -0.175001 0.647499)

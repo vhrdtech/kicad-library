@@ -360,7 +360,7 @@
 		(layer "User.21")
 	)
 	(fp_text user "1"
-		(at -5.13 -2.727 0)
+		(at -4.395 -3.265 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects

@@ -224,138 +224,6 @@
 		(layer "User.5")
 		(uuid "31c6c0b9-6bff-4c56-9970-f036629ab641")
 	)
-	(fp_text user "1"
-		(at 0 -1.215 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "2"
-		(at 1.154 2.563 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "3"
-		(at 1.154 5.103 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "4"
-		(at 1.13 7.654 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "5"
-		(at 1.13 10.183 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "6"
-		(at 1.13 12.723 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "7"
-		(at 1.154 15.263 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "8"
-		(at 1.13 17.803 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "9"
-		(at 1.13 20.343 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "10"
-		(at 1.368 22.883 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "11"
-		(at 1.368 25.423 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
-	(fp_text user "12"
-		(at 0 29.2 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.5 0.5)
-				(thickness 0.075)
-			)
-		)
-	)
 	(fp_line
 		(start -0.25 0)
 		(end 0.25 0)
@@ -373,6 +241,138 @@
 			(type solid)
 		)
 		(layer "User.21")
+	)
+	(fp_text user "1"
+		(at 1.058 0.014 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at 1.073 2.554 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 1.073 5.094 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "4"
+		(at 1.058 7.641 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "5"
+		(at 1.058 10.174 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "6"
+		(at 1.058 12.714 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "7"
+		(at 1.073 15.254 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "8"
+		(at 1.058 17.794 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "9"
+		(at 1.058 20.334 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "10"
+		(at 1.109 22.86 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "11"
+		(at 1.109 25.4 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
+	)
+	(fp_text user "12"
+		(at 1.109 27.94 270)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.045)
+			)
+		)
 	)
 	(pad "1" thru_hole rect
 		(at 0 0)

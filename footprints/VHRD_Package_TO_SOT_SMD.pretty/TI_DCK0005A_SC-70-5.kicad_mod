@@ -191,7 +191,7 @@
 		(layer "F.CrtYd")
 	)
 	(fp_text user "1"
-		(at -1.855 -0.627 0)
+		(at -0.345 -0.627 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
@@ -202,7 +202,7 @@
 		)
 	)
 	(fp_text user "5"
-		(at 1.855 -0.627 0)
+		(at 0.345 -0.627 0)
 		(unlocked yes)
 		(layer "User.19")
 		(effects
