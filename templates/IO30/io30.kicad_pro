@@ -309,11 +309,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
           "grid",
+          "drc_warnings",
+          "drc_errors",
           "ratsnest"
         ]
       },
@@ -341,11 +341,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
           "grid",
+          "drc_warnings",
+          "drc_errors",
           "ratsnest"
         ]
       },
@@ -378,11 +378,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
           "grid",
+          "drc_warnings",
+          "drc_errors",
           "ratsnest"
         ]
       },
@@ -401,6 +401,10 @@
         ],
         "name": "Floorplan.F",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -408,6 +412,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "ratsnest"
@@ -428,6 +433,10 @@
         ],
         "name": "Floorplan.B",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -435,6 +444,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "ratsnest"
@@ -462,6 +472,10 @@
         ],
         "name": "Floorplan.FB",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -469,6 +483,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "ratsnest"
@@ -484,6 +499,10 @@
         ],
         "name": "Assembly.Ref.F",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -491,6 +510,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "footprint_anchors"
@@ -506,6 +526,10 @@
         ],
         "name": "Assembly.Ref.B",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -513,6 +537,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "footprint_anchors"
@@ -528,6 +553,10 @@
         ],
         "name": "Assembly.Value.F",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -535,6 +564,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "footprint_anchors"
@@ -550,6 +580,10 @@
         ],
         "name": "Assembly.Value.B",
         "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -557,6 +591,7 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
+          "conflict_shadows",
           "drawing_sheet",
           "grid",
           "footprint_anchors"
@@ -573,7 +608,10 @@
         ],
         "name": "Pins.F",
         "renderLayers": [
+          "tracks",
+          "vias",
           "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -581,11 +619,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "drc_warnings",
+          "drc_errors"
         ]
       },
       {
@@ -599,7 +637,10 @@
         ],
         "name": "Pins.B",
         "renderLayers": [
+          "tracks",
+          "vias",
           "pads",
+          "zones",
           "shapes",
           "bitmaps",
           "footprints_front",
@@ -607,11 +648,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "drc_warnings",
+          "drc_errors"
         ]
       },
       {
@@ -635,11 +676,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "drc_warnings",
+          "drc_errors"
         ]
       },
       {
@@ -663,11 +704,11 @@
           "footprint_values",
           "footprint_references",
           "footprint_text",
-          "drc_warnings",
-          "drc_errors",
           "conflict_shadows",
           "drawing_sheet",
-          "grid"
+          "grid",
+          "drc_warnings",
+          "drc_errors"
         ]
       }
     ],

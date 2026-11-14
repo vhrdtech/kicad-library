@@ -1,6 +1,6 @@
 # Layer presets for the PCB Editor, written into a project's .kicad_pro (board.layer_presets) by `kilib presets`.
 # `layers`: board layers shown, by kilib's names (`kilib layers`) or KiCad's own (F.Cu, Edge.Cuts, F.Courtyard...);
-# the first one becomes the preset's active layer. `render`: the object types shown (KiCad's "Objects" tab;
+# the first one becomes the preset's active layer. `render`: the object types shown (KiCad's "Objects" tab; every type a layer may carry is on, so a layer switched on by hand shows its content;
 # anything not listed is hidden: footprints_front/back carry the footprints' graphics, footprint_text the
 # designators, values, Crit/Imp notes and pin numbers; Edge.Cuts in every preset, the board outline area's shadow in none).
 # `flip` views the board from below, for a back-side preset. Decided 14 Nov 2026.
@@ -8,83 +8,83 @@
 [[preset]]
 name = "Layout.F"
 layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Layout.B"
 layers = ["B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Layout.FB"
 layers = ["F.Cu", "F.Fab", "Crit.F", "Imp.F", "F.Courtyard", "Edge.Cuts", "B.Cu", "B.Fab", "Crit.B", "Imp.B", "B.Courtyard"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.F"
 layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.B"
 layers = ["B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Ref.Test.B", "Ref.Tie.B", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Floorplan.FB"
 layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts", "B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Ref.Test.B", "Ref.Tie.B"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "ratsnest"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Assembly.Ref.F"
 layers = ["F.Fab", "Ref.Des.F", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "footprint_anchors"]
 flip = false
 
 [[preset]]
 name = "Assembly.Ref.B"
 layers = ["B.Fab", "Ref.Des.B", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "footprint_anchors"]
 flip = true
 
 [[preset]]
 name = "Assembly.Value.F"
 layers = ["F.Fab", "Value.F", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "footprint_anchors"]
 flip = false
 
 [[preset]]
 name = "Assembly.Value.B"
 layers = ["B.Fab", "Value.B", "Edge.Cuts"]
-render = ["shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drawing_sheet", "grid", "footprint_anchors"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "footprint_anchors"]
 flip = true
 
 [[preset]]
 name = "Pins.F"
 layers = ["Pins.F", "F.Fab", "Xray.F", "Edge.Cuts"]
-render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = false
 
 [[preset]]
 name = "Pins.B"
 layers = ["Pins.B", "B.Fab", "Xray.B", "Edge.Cuts"]
-render = ["pads", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = true
 
 [[preset]]
 name = "Silk.F"
 layers = ["F.SilkS", "F.Mask", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = false
 
 [[preset]]
 name = "Silk.B"
 layers = ["B.SilkS", "B.Mask", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "drc_warnings", "drc_errors", "conflict_shadows", "drawing_sheet", "grid"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = true
