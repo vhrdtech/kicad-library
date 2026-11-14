@@ -10,7 +10,7 @@
 //! ([`crate::stroke`]). Ref.Des and Value are both centred, so they are shown one at a time. A library footprint is sized for the longest
 //! realistic designator of its kind ([`library_refs`]: `R1004`, `C1001`, `TP526`, `U1004`); on a board
 //! ([`plan_board`]) each footprint's own designator is fitted, so a short one gets larger text. To fit, it gets
-//! smaller (from [`MAX_SIZE`] down to [`MIN_SIZE`]) or turns 90°; where neither fits at the centre it moves to the
+//! smaller (from [`MAX_SIZE`] down to [`MIN_SIZE`]) or turns to read top to bottom; where neither fits at the centre it moves to the
 //! largest free spot inside the body nearest the centre. Only where nothing fits at [`MIN_SIZE`] (0201, 01005) does
 //! it go down to [`TINY_SIZE`], reported as tiny. Where nothing fits at all it stays on the centre at [`MIN_SIZE`]
 //! and the placement is not clean. Every line on the fab layers of a library footprint gets a stroke of
@@ -28,6 +28,7 @@ use std::path::{Path, PathBuf};
 
 use crate::layers::{self, Class, class_of};
 use crate::migrate::{Edit, apply_edits};
+use crate::reading::reading;
 use crate::sexpr::{self, Node};
 pub use crate::stroke::Ink;
 use crate::stroke::ink_of_all;
@@ -240,8 +241,9 @@ pub struct Shape {
     pub back: bool,
     /// The designators the text must hold: the box fitted holds the ink of each.
     pub texts: Vec<String>,
-    /// Angle the text is drawn at for each of the two placements (0° and 90° in the footprint's frame): on a
-    /// board KiCad keeps text upright, which may turn it by 180° in the footprint's frame.
+    /// Angle the text is drawn at for each of the two placements (level, and vertical reading top to bottom,
+    /// [`crate::reading`]) in the footprint's frame: on a board a rotated part turns its text, which then turns by a
+    /// half turn where needed.
     pub drawn: [f64; 2],
     /// The courtyard's inside (F.CrtYd/B.CrtYd, its own stroke already subtracted), where [`layout_note`] hugs an
     /// edge; `None` where the footprint draws no courtyard (or [`body_from`](Shape::body_from) is already
@@ -250,13 +252,18 @@ pub struct Shape {
 }
 
 impl Shape {
+    /// The angle a vertical text is written at: reading top to bottom ([`crate::reading::vertical`]).
+    pub fn vertical(&self) -> f64 {
+        crate::reading::vertical(self.back)
+    }
+
     /// The body's centre, rounded the way it is written.
     pub fn centre(&self) -> (f64, f64) {
         let (x, y) = self.body.center();
         (round3(x), round3(y))
     }
 
-    /// The designator's ink box from its anchor at `size`, placed at `angle` (0 or 90 in the footprint's frame).
+    /// The designator's ink box from its anchor at `size`, placed at `angle` (level, or vertical: [`Shape::vertical`], in the footprint's frame).
     pub fn ink(&self, angle: f64, size: f64) -> Ink {
         let i = ink_of_all(self.texts.iter().map(String::as_str), size, size, thickness(size)).unwrap_or(Ink {
             x0: 0.0,
@@ -321,7 +328,7 @@ fn tiny_sizes(floor: f64) -> Vec<f64> {
     steps(MIN_SIZE - FINE_STEP, floor, FINE_STEP).collect()
 }
 
-/// A designator's size, anchor and angle (0 or 90 in the footprint's frame); `clean` when it fits by the rules.
+/// A designator's size, anchor and angle (level, or vertical: [`Shape::vertical`], in the footprint's frame); `clean` when it fits by the rules.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Placement {
     pub x: f64,
@@ -364,22 +371,23 @@ fn grid(area: Rect, centre: (f64, f64)) -> Vec<(f64, f64)> {
     pts.into_iter().map(|(_, _, p)| p).collect()
 }
 
-/// The largest of `sizes` that fits with the ink centred on the body, at 0° or 90° (0° on a tie); else the
+/// The largest of `sizes` that fits with the ink centred on the body, level or vertical (level on a tie); else the
 /// largest that fits anywhere inside the body, the ink's middle nearest the centre.
 fn place(shape: &Shape, sizes: &[f64]) -> Option<Placement> {
     let c = shape.centre();
     let at = |angle: f64, (size, (x, y)): (f64, (f64, f64))| Placement { x, y, angle, size, clean: true };
-    match (shape.room(sizes, c, 0.0), shape.room(sizes, c, 90.0)) {
-        (Some(a), Some(b)) if b.0 > a.0 + EPS => return Some(at(90.0, b)),
+    let v = shape.vertical();
+    match (shape.room(sizes, c, 0.0), shape.room(sizes, c, v)) {
+        (Some(a), Some(b)) if b.0 > a.0 + EPS => return Some(at(v, b)),
         (Some(a), _) => return Some(at(0.0, a)),
-        (None, Some(b)) => return Some(at(90.0, b)),
+        (None, Some(b)) => return Some(at(v, b)),
         (None, None) => {}
     }
     let pts = grid(shape.region, c);
     for &size in sizes {
-        let inks = [shape.ink(0.0, size), shape.ink(90.0, size)];
+        let inks = [shape.ink(0.0, size), shape.ink(v, size)];
         for &(x, y) in &pts {
-            for (k, angle) in [0.0, 90.0].into_iter().enumerate() {
+            for (k, angle) in [0.0, v].into_iter().enumerate() {
                 let (dx, dy) = inks[k].centre();
                 let (ax, ay) = (round3(x - dx), round3(y - dy));
                 if shape.fits_rect(&rect_at(&inks[k], ax, ay)) {
@@ -407,7 +415,7 @@ fn layout_with_floor(shape: &Shape, floor: f64) -> Placement {
             return p;
         }
     }
-    let angle = if shape.region.h() > shape.region.w() + EPS { 90.0 } else { 0.0 };
+    let angle = if shape.region.h() > shape.region.w() + EPS { shape.vertical() } else { 0.0 };
     let (x, y) = shape.anchor(shape.centre(), angle, MIN_SIZE);
     Placement { x, y, angle, size: MIN_SIZE, clean: false }
 }
@@ -483,7 +491,7 @@ pub fn opposite(edge: Edge) -> Edge {
 /// `avoid` ([`GAP`] kept free of each, as from any other drawing) — the designator's own ink as [`layout`] fits it,
 /// and a note already placed on the same footprint, so [`crate::lint::layout::CRITICAL`] and
 /// [`crate::lint::layout::IMPORTANT`] never overlap. All four edges are tried, the text level along a longer edge
-/// and turned 90 degrees (as KiCad draws it, upright) at a shorter one wherever that gives larger text: the band
+/// and turned to read top to bottom at a shorter one wherever that gives larger text: the band
 /// along a passive's long edge is thin, the ends beyond its pads have more room. The largest size wins; a tie
 /// keeps `prefer`, its opposite, then the other pair's two ([`edge_order`]). With `keep` set `prefer` is taken as
 /// soon as the note fits there at all (the opposite side of the other note), and the others only where it does
@@ -954,7 +962,7 @@ pub fn read_node(fp: &Node, id: &str, board: bool) -> Footprint {
         graphics,
         back,
         texts: texts.clone(),
-        drawn: [0.0, 90.0],
+        drawn: [0.0, crate::reading::vertical(back)],
         courtyard: crty.map(|(_, inner)| inner).filter(|_| body_from != BodyFrom::Courtyard),
     });
     let values = library_values(class, name).iter().map(|t| t.to_string()).collect();
@@ -1162,7 +1170,7 @@ impl Outcome {
             Outcome::Change { before: b, placement: p, .. } => (
                 (b.x - p.x).abs() > 5e-4 || (b.y - p.y).abs() > 5e-4,
                 (b.size - p.size).abs() > EPS,
-                (b.angle - p.angle).rem_euclid(180.0).min((p.angle - b.angle).rem_euclid(180.0)) > EPS,
+                (b.angle - p.angle).rem_euclid(360.0).min((p.angle - b.angle).rem_euclid(360.0)) > EPS,
             ),
             _ => (false, false, false),
         }
@@ -1327,18 +1335,6 @@ pub fn apply(items: &[Item]) -> Result<usize, String> {
     Ok(changes.len())
 }
 
-/// The angle KiCad draws footprint text at for the angle `a`: kept upright, in (-90°, 90°].
-pub fn upright(a: f64) -> f64 {
-    let a = a.rem_euclid(360.0);
-    if a > 270.0 + EPS {
-        a - 360.0
-    } else if a > 90.0 + EPS {
-        a - 180.0
-    } else {
-        a
-    }
-}
-
 /// What happens to one footprint's designator on a board.
 #[derive(Debug, Clone, PartialEq)]
 pub enum BoardOutcome {
@@ -1381,7 +1377,7 @@ pub struct BoardPlan {
 /// what [`layout_value`] finds for its actual text, centred the same way; a layout note that is set
 /// (`Layout_Critical`, `Layout_Important`) gets what [`layout_note`] finds for its own text, hugging the
 /// courtyard's edge, clear of the designator and (Important's) of Critical. Only these properties' `(at ...)`,
-/// `(size ...)` and `(thickness ...)` change; the angle is written as KiCad keeps it upright. Other footprints are
+/// `(size ...)` and `(thickness ...)` change; the angle is written to read left to right or top to bottom ([`crate::reading`]). Other footprints are
 /// skipped with the reason.
 pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
     let pcb = sexpr::parse(text).map_err(|e| e.to_string())?;
@@ -1444,7 +1440,7 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
 fn board_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome, Vec<Edit>), String> {
     let (_, p, phi) = board_designator(node, fp)?;
     let r = fp.reference.as_ref().expect("board_designator checked it");
-    fit_property(text, node, "Reference", r, p, phi)
+    fit_property(text, node, "Reference", r, p, phi, fp.back)
 }
 
 /// A real part's Value fitted to its own text: skipped for other classes, and where the Value is not on its layer
@@ -1466,7 +1462,7 @@ fn board_value_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOu
     let (mut shape, phi) = board_shape(node, fp)?;
     shape.texts = vec![v.value.clone()];
     let p = layout(&shape);
-    fit_property(text, node, "Value", v, p, phi)
+    fit_property(text, node, "Value", v, p, phi, fp.back)
 }
 
 /// A layout note fitted to its own text like the Value, hugging `prefer`'s edge of the courtyard, clear of `avoid`
@@ -1488,13 +1484,13 @@ fn board_note_edits(
     let (shape, phi) = board_shape(node, fp)?;
     let (p, ink, edge) = layout_note(&shape, std::slice::from_ref(&r.value), prefer, keep, avoid);
     if r.layer == layer && !r.hidden {
-        let (outcome, edits) = fit_property(text, node, name, r, p, phi)?;
+        let (outcome, edits) = fit_property(text, node, name, r, p, phi, fp.back)?;
         return Ok((outcome, edits, ink, edge));
     }
     if fp.class != Class::Part {
         return Err(format!("{name} on {}: not a real part, left alone", r.layer));
     }
-    let angle = upright(phi + p.angle);
+    let angle = reading(phi + p.angle, fp.back);
     let start = text[..r.span.start].rfind('\n').map_or(0, |i| i + 1);
     let indent = &text[start..r.span.start];
     let indent = if indent.trim().is_empty() { indent } else { "\t\t" };
@@ -1509,11 +1505,11 @@ fn board_note_edits(
     ))
 }
 
-/// The footprint's shape as placed on the board, its text kept upright as KiCad draws it, and its angle.
+/// The footprint's shape as placed on the board, its text turned to read left to right or top to bottom, and its angle.
 fn board_shape(node: &Node, fp: &Footprint) -> Result<(Shape, f64), String> {
     let mut shape = fp.shape.clone().ok_or("no fab outline, courtyard or pads to place the text by")?;
     let phi = node.child("at").and_then(|a| num(a.items().get(3))).unwrap_or(0.0);
-    shape.drawn = [upright(phi) - phi, upright(phi + 90.0) - phi];
+    shape.drawn = [reading(phi, shape.back) - phi, reading(phi + 90.0, shape.back) - phi];
     Ok((shape, phi))
 }
 
@@ -1544,7 +1540,7 @@ fn board_designator(node: &Node, fp: &Footprint) -> Result<(Shape, Placement, f6
 }
 
 /// The edits that put property `name` (as read, `r`) at `p` on a footprint turned by `phi`: its `at` (the angle
-/// written upright), font size and thickness.
+/// written to read left to right or top to bottom), font size and thickness.
 fn fit_property(
     text: &str,
     node: &Node,
@@ -1552,8 +1548,9 @@ fn fit_property(
     r: &Reference,
     p: Placement,
     phi: f64,
+    back: bool,
 ) -> Result<(BoardOutcome, Vec<Edit>), String> {
-    let angle = upright(phi + p.angle);
+    let angle = reading(phi + p.angle, back);
     let before = Before { x: r.x, y: r.y, angle: r.angle, size: r.height };
     let same_angle = (r.angle - angle).rem_euclid(360.0).min((angle - r.angle).rem_euclid(360.0)) < 1e-3;
     let fine = (r.x - p.x).abs() < 5e-4
@@ -1728,7 +1725,7 @@ mod tests {
             .collect();
         let text = footprint(3.9, 4.9, &pads, "F.SilkS", &["F.SilkS", "F.Fab"]);
         let (p, new) = changed(&text);
-        assert_eq!((p.angle, p.size, p.clean), (90.0, 1.0, true), "{p:?}");
+        assert_eq!((p.angle, p.size, p.clean), (270.0, 1.0, true), "{p:?}");
         centred(&new, &p);
         assert!(!new.contains("${REFERENCE}"), "{new}");
         assert!(new.contains("(layer \"User.23\")\n\t\t(uuid \"u-ref\")"), "{new}");
@@ -1778,7 +1775,7 @@ mod tests {
         settled(&new, &p);
         // A tall body turns it.
         let (p, new) = changed(&footprint(1.4, 4.0, &[], "F.Fab", &[]));
-        assert_eq!(p.angle, 90.0, "{p:?}");
+        assert_eq!(p.angle, 270.0, "{p:?}");
         centred(&new, &p);
         settled(&new, &p);
     }
@@ -1893,7 +1890,7 @@ mod tests {
         let note = ["U1001.48".to_string()];
         let (crit, crit_ink, edge) = layout_note(&shape, &note, Edge::Top, false, &[]);
         assert!(matches!(edge, Some(Edge::Left | Edge::Right)), "{crit:?} {edge:?}");
-        assert_eq!(crit.angle, 90.0, "{crit:?}");
+        assert_eq!(crit.angle, 270.0, "{crit:?}");
         // Along the long edge the same note got only 0.08 mm.
         assert!(crit.size > 0.11, "{crit:?}");
         // Important goes to the opposite end and never touches Critical.
@@ -2077,7 +2074,7 @@ mod tests {
         };
         // Both centred on the body, each as large as its own text allows.
         assert!(p.clean && vp.clean && vp.size < p.size, "{p:?} {vp:?}");
-        assert!((-90.0..=90.0).contains(angle));
+        assert!(*angle == 0.0 || *angle == 270.0, "{angle}");
         let again = plan_board(&plan.new).unwrap();
         assert_eq!(again.new, plan.new, "a second run changes nothing");
         assert!(matches!(again.items[0].value, BoardOutcome::Fine(_)));
@@ -2108,10 +2105,10 @@ mod tests {
         let [(name, BoardOutcome::Change { placement: p, angle, .. })] = plan.items[0].notes.as_slice() else {
             panic!("{:?}", plan.items[0])
         };
-        assert_eq!((*name, *angle), ("Layout_Critical", 90.0));
+        assert_eq!((*name, *angle), ("Layout_Critical", 270.0));
         assert!(
             plan.new.contains(&format!(
-                "(property \"Layout_Critical\" \"U1.5\"\n\t\t(at {} {} 90)\n\t\t(unlocked yes)\n\t\t(layer \"User.25\")\n\t\t(uuid \"u-crit\")",
+                "(property \"Layout_Critical\" \"U1.5\"\n\t\t(at {} {} 270)\n\t\t(unlocked yes)\n\t\t(layer \"User.25\")\n\t\t(uuid \"u-crit\")",
                 fmt(p.x),
                 fmt(p.y)
             )),
@@ -2123,5 +2120,33 @@ mod tests {
         // An empty note is not looked at.
         let empty = plan_board(&board.replace("\"U1.5\"", "\"\"")).unwrap();
         assert!(empty.items[0].notes.is_empty());
+    }
+
+    #[test]
+    fn every_designator_reads_left_to_right_or_top_to_bottom_on_each_side() {
+        let (_, lib) = changed(&footprint(3.9, 4.9, &[], "F.Fab", &[]));
+        for (side, vertical) in [("F.Cu", 270.0), ("B.Cu", 90.0)] {
+            for phi in [0.0, 90.0, 180.0, 270.0, -90.0] {
+                let placed = lib
+                    .replacen(
+                        "(footprint \"T\"",
+                        &format!("(footprint \"Lib:T\"\n\t(layer \"{side}\")\n\t(at 10 10 {phi})"),
+                        1,
+                    )
+                    .replace("\"REF**\"", "\"U1\"");
+                let placed = if side == "B.Cu" {
+                    placed.replace("User.23", "User.24").replace("User.17", "User.18").replace("F.Fab", "B.Fab")
+                } else {
+                    placed
+                };
+                let plan = plan_board(&format!("(kicad_pcb\n{placed})\n")).unwrap();
+                let (BoardOutcome::Change { angle, .. } | BoardOutcome::Fine(Placement { angle, .. })) =
+                    plan.items[0].outcome
+                else {
+                    panic!("{:?}", plan.items[0])
+                };
+                assert!(angle == 0.0 || angle == vertical, "{side} part at {phi}: {angle}");
+            }
+        }
     }
 }

@@ -290,7 +290,7 @@ Examples:
     /// outline (else the courtyard). Pads do not matter (KiCad draws the selected layers on top); the drawing on the
     /// fab layer of the same side does: 0.02 mm stays free between the strokes. A library footprint is sized for the
     /// longest designator of its kind (R1004, C1001, TP526, U1004). It gets the largest size from 1 mm down to
-    /// 0.2 mm that fits on the centre, level or turned 90°; else it moves to the largest free spot inside the body
+    /// 0.2 mm that fits on the centre, level or turned to read top to bottom; else it moves to the largest free spot inside the body
     /// nearest the centre; else it may go down to 0.15 mm (0201, 01005: listed as "tiny"); else it stays on the
     /// centre at 0.2 mm and is listed as "no clean fit". Strokes are 15 % of the size, at least 0.025 mm. Every line
     /// on F.Fab and B.Fab gets a 0.05 mm stroke. A real part's Value goes to Value.F (User.17; Value.B, User.18, on

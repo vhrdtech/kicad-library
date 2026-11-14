@@ -97,7 +97,7 @@ same under `footprints/<name>.pretty` for footprints.
   the neighbouring parts. A library footprint is sized for the longest designator of its kind (`R1004`, `C1001`,
   `TP526`, `JP104`, `U1004`). 0.02 mm stays free between the text's strokes and every line of the fab drawing of the
   same side (outline, polarity and pin-1 marks, diode symbols, inner lines), so the two read together. It gets the
-  largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned 90°. Where neither fits, it moves to
+  largest size from 1 mm down to 0.2 mm that fits on the centre, level or turned to read top to bottom. Where neither fits, it moves to
   the largest free spot inside the body nearest the centre. The smallest parts (0201, 01005, SOD-523) may go down to
   0.15 mm, and the report lists them as "tiny". Where nothing fits at all it stays on the centre at 0.2 mm, and the
   report lists the footprint as "no clean fit". The text's stroke is 15 % of its size, at least 0.025 mm. Every line
@@ -112,15 +112,22 @@ same under `footprints/<name>.pretty` for footprints.
 - `kilib designators --board BOARD.kicad_pcb` fits each placed footprint's own designator the same way, so `R7`
   gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
-  those only the two properties' position, angle, size and thickness; the angle is written upright, as KiCad draws
-  it. A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, fitted to its own
-  text beside the body inside the courtyard, along an edge or turned 90° at an end (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
+  those only the two properties' position, angle, size and thickness; the angle is written so the text reads left to right or top to bottom, as the editor shows it from
+  its side (0° or 270° on the front, 0° or 90° on the back, a part's rotation included; see "Text direction" below). A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, fitted to its own
+  text beside the body inside the courtyard, along an edge or turned to read top to bottom at an end (see `layout` below), down to 0.05 mm (a short note reads fine much smaller
   than a designator) before it is reported with no clean fit; on a real part a set note that sits elsewhere or
   hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab layer) is moved to its
   layer, shown. Each pin number of a part placed at a quarter turn (`Pins.F`/`Pins.B`, written by `lint --rule pins`) is
   turned by a half turn where needed so it reads left to right or top to bottom, its ink where it was, so the library's
   clearances hold; numbers at another angle, and those of parts on the back, are listed and left. `--write` writes the
   board.
+- Text direction: every text kilib places (designators on `Ref.Des`/`Ref.Test`/`Ref.Tie`, Values, layout notes, pin
+  numbers) reads left to right or top to bottom, never upside down or bottom to top, as the PCB editor shows it from
+  the text's side. KiCad stores a text's angle as it is on the board and kilib writes `(unlocked yes)`, so the editor
+  does not turn it back upright. On the front a text is at 0° (left to right) or 270° (top to bottom); on the back,
+  mirrored, at 0° or 90°, seen with KiCad's default left-to-right board flip. A part's rotation adds to its texts'
+  angle, so `kilib designators --board` writes each text's angle as the rotation plus its own, normalised to those
+  two. The rule is in `kilib::reading`, used by all of them.
 - `kilib layers BOARD.kicad_pcb...` names the user layers the library uses in a board's layer table, front and back
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
@@ -200,7 +207,7 @@ same under `footprints/<name>.pretty` for footprints.
   - `layout`: every real part has the properties `Layout_Critical` on `Crit.F` (User.25; `Crit.B`, User.26, on the
     back) and `Layout_Important` on `Imp.F` (User.27; `Imp.B`, User.28), visible and unlocked, fitted for the note
     `U1001.48` (down to 0.05 mm, a short note reads fine much smaller than a designator) inside the real
-    courtyard beside the body: level along a longer edge, or turned 90° (upright, as KiCad draws it) at a shorter one,
+    courtyard beside the body: level along a longer edge, or turned to read top to bottom at a shorter one,
     whichever gives the larger text (a passive's long edges are thin, its ends have room); ties keep the longer pair
     (top/bottom for a courtyard at least as wide as tall, else left/right). Critical takes the best placement,
     Important the opposite side where it fits, clear of the designator's own ink and, for Important, of Critical,
@@ -258,7 +265,7 @@ by hand. Two levels: critical (`Crit.F`/`Crit.B`, User.25/26) and important (`Im
 decoupling and the like). The schematic sets a short note in the symbol's `Layout_Critical` or `Layout_Important`
 field (`U101.5 VDD`, `FB U301`); Update PCB from Schematic carries it to the footprint's property of the same name,
 which shows on its layer; an empty field shows nothing. Every library symbol has both fields, empty and hidden, and
-every real part's footprint both properties, empty and shown, fitted beside the body inside the courtyard, along an edge or turned 90° at an end, rather than
+every real part's footprint both properties, empty and shown, fitted beside the body inside the courtyard, along an edge or turned to read top to bottom at an end, rather than
 the designator's own centre, so the Floorplan preset (courtyard, fab, Ref.Des and Crit/Imp together) reads the two
 apart (`kilib layout-fields`, `kilib lint --rule layout`).
 

@@ -10,12 +10,12 @@
 //! Each number is a stroke text inside the part, at its pad's inner end: inside the fab outline (else the
 //! courtyard), [`GAP`] clear of every pad and hole and a glyph's height from the other numbers, on a side of the pad with no other pad
 //! in line within [`OPEN`] (never squeezed between two pads), toward the body's middle; a pad wholly outside the
-//! body has its number pulled in to the body's edge. Text reads left to right (0°), or top to bottom (270°) where
-//! that fits and level does not; never upside down or bottom to top. A number that has no room inside stays beside
+//! body has its number pulled in to the body's edge. Text reads left to right (0°), or top to bottom ([`crate::reading`]: 270°,
+//! 90° on the back) where that fits and level does not; never upside down or bottom to top. A number that has no room inside stays beside
 //! its pad, outside, level, and is reported (a connector whose body is mostly pads; a footprint with neither fab
 //! outline nor courtyard). The footprint gets one size for all its numbers: of [`SIZES`] the one with the most
 //! numbers inside, the largest among those; a number that fits nowhere is left out and reported. On the back the
-//! text is mirrored and level only. The layer belongs to this rule: whatever else is there is replaced.
+//! text is mirrored. The layer belongs to this rule: whatever else is there is replaced.
 //!
 //! On a board a placed part's rotation turns its texts: [`board`] turns each number by the half turn that makes it read
 //! left to right or top to bottom, keeping the ink where it is, so spacing stays as the library made it.
@@ -25,6 +25,7 @@ use crate::fab::{self, BodyFrom, thickness};
 use crate::footprint::{Pt, Rect, fmt, turner};
 use crate::layers::{PINS, side_of};
 use crate::migrate::Edit;
+use crate::reading::{reading, vertical};
 use crate::sexpr::{self, Node};
 use crate::stroke::{Ink, ink};
 
@@ -36,8 +37,6 @@ pub const GAP: f64 = 0.1;
 pub const OPEN: f64 = 2.0;
 /// Past this many pins a part gets every 10th number instead of every 5th.
 pub const DENSE: usize = 40;
-/// The angles a number may be written at, in the order tried: left to right, then top to bottom.
-pub const ANGLES: [f64; 2] = [0.0, 270.0];
 
 /// One number as it should be written: the text, its anchor, angle and size, and whether it sits inside the body.
 #[derive(Debug, Clone, PartialEq)]
@@ -182,7 +181,8 @@ fn candidates(pad: &Rect, lay: &Layout, base: &Ink, back: bool) -> Vec<Cand> {
             .then(cmp(&away(b), &away(a)))
             .then(a.cmp(&b))
     });
-    let angles: &[f64] = if back { &ANGLES[..1] } else { &ANGLES };
+    // Left to right first, then top to bottom ([`crate::reading`]).
+    let angles = [0.0, vertical(back)];
     let mut out = Vec::new();
     let mut add = |k: usize, angle: f64, pull: bool| {
         let ink = base.turned(angle);
@@ -211,7 +211,7 @@ fn candidates(pad: &Rect, lay: &Layout, base: &Ink, back: bool) -> Vec<Cand> {
     };
     if lay.body.is_some() {
         for &k in &inner {
-            for &a in angles {
+            for a in angles {
                 let e = if dirs[k].0 != 0.0 { base.turned(a).width() } else { base.turned(a).height() };
                 if near(k, e) {
                     add(k, a, true);
@@ -384,23 +384,10 @@ pub struct BoardPins {
     pub skipped: Vec<String>,
 }
 
-/// The angle a number placed at `angle` on the board reads at: 0 (left to right) for a level one, 270 (top to
-/// bottom) for a vertical one; `None` for a slanted text.
-pub fn readable(angle: f64) -> Option<f64> {
-    let a = angle.rem_euclid(180.0);
-    if a < 1e-3 || 180.0 - a < 1e-3 {
-        Some(0.0)
-    } else if (a - 90.0).abs() < 1e-3 {
-        Some(270.0)
-    } else {
-        None
-    }
-}
-
 /// Turns each pin number of a footprint placed on a board (`node`, at angle `phi`, on the back when `back`) so it
 /// reads left to right or top to bottom: the file keeps a text's angle on the board, so a rotated part's numbers
 /// point every way. The turn is a half turn at most, the ink's middle stays where it was (the anchor moves by the
-/// difference, in the footprint's frame), so the clearance the library gave is kept. Texts on the back are left.
+/// difference, in the footprint's frame), so the clearance the library gave is kept.
 pub fn board(node: &Node, back: bool, phi: f64) -> (BoardPins, Vec<Edit>) {
     let layer = side_of(PINS, back);
     let mut out = BoardPins::default();
@@ -419,19 +406,17 @@ pub fn board(node: &Node, back: bool, phi: f64) -> (BoardPins, Vec<Edit>) {
             .and_then(Node::as_atom)
             .and_then(|s| s.parse::<f64>().ok())
             .unwrap_or(1.0);
-        if back {
-            out.skipped.push(format!("{text}: on the back"));
-            continue;
-        }
-        let Some(target) = readable(angle) else {
+        if angle.rem_euclid(90.0).min(90.0 - angle.rem_euclid(90.0)) > 1e-3 {
             out.skipped.push(format!("{text}: at {}°", fmt(angle)));
             continue;
-        };
-        if (angle - target).rem_euclid(360.0) < 1e-3 {
+        }
+        let target = reading(angle, back);
+        if (angle - target).rem_euclid(360.0) < 1e-3 || (target - angle).rem_euclid(360.0) < 1e-3 {
             out.fine += 1;
             continue;
         }
         let Some(base) = ink(&text, size, size, thickness(size)) else { continue };
+        let base = if back { base.mirrored() } else { base };
         let (old, new) = (base.turned(angle).centre(), base.turned(target).centre());
         // The ink is drawn in board directions, the anchor is in the footprint's frame.
         let (lx, ly) = turner((0.0, 0.0), -phi)((old.0 - new.0, old.1 - new.1));
@@ -606,6 +591,17 @@ mod tests {
             assert!((before.0 - after.0).abs() < 2e-3 && (before.1 - after.1).abs() < 2e-3, "{before:?} {after:?}");
             // A second run changes nothing.
             assert_eq!(crate::fab::plan_board(&plan.new).unwrap().new, plan.new);
+        }
+    }
+
+    #[test]
+    fn on_a_board_a_number_on_the_back_reads_by_the_back_view() {
+        // Seen from the back (KiCad's left-to-right flip) a mirrored text at 0° reads left to right and at 90° top to
+        // bottom: a back part turned a quarter keeps its numbers at 90°, one turned back to level at 0°.
+        let back = |phi: f64, angle: f64| placed(phi, angle, "User.20").replace("(layer \"F.Cu\")", "(layer \"B.Cu\")");
+        for (phi, angle, want) in [(0.0, 0.0, 0.0), (90.0, 270.0, 90.0), (180.0, 180.0, 0.0), (90.0, 90.0, 90.0)] {
+            let plan = crate::fab::plan_board(&back(phi, angle)).unwrap();
+            assert_eq!(board_text(&plan.new).2, want, "back part at {phi}, text at {angle}");
         }
     }
 

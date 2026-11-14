@@ -37,6 +37,7 @@ pub mod map;
 pub mod migrate;
 pub mod per_package;
 pub mod presets;
+pub mod reading;
 pub mod restructure;
 pub mod setup;
 pub mod sexpr;

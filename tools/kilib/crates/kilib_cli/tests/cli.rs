@@ -474,7 +474,7 @@ fn designators_lists_then_writes_then_finds_nothing() {
     let out = kilib(&dir, &["designators", "lib/footprints"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
-    assert!(t.contains("VHRD_Test:P: 1 mm 90° at (0.021, 0.024) (Reference on F.SilkS;"), "{t}");
+    assert!(t.contains("VHRD_Test:P: 1 mm 270° at (-0.021, -0.024) (Reference on F.SilkS;"), "{t}");
     assert!(t.contains("VHRD_Test:Small: 0.19 mm at (-0.005, 0.004) (Reference on F.SilkS;"), "{t}");
     assert!(t.contains("VHRD_Test:Tiny: 0.2 mm at (-0.005, 0.004), no clean fit ("), "{t}");
     assert!(t.contains("3 footprints: 3 to change (3 moved, 2 resized, 1 turned), 0 already fine, 0 skipped"), "{t}");
@@ -534,11 +534,11 @@ fn designators_board_fits_each_designator_and_value_to_its_own_text() {
     let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
-    // R806 is shorter than R1004: 0.26 mm fits; R1 larger still, written upright at the board's 90°.
+    // R806 is shorter than R1004: 0.26 mm fits; R1 larger still, written at 270°: the part's 90° and the text's read top to bottom.
     assert!(t.contains("R806: 0.26 mm 0° at ("), "{t}");
-    assert!(t.contains("R1: 0.35 mm 90° at ("), "{t}");
+    assert!(t.contains("R1: 0.35 mm 270° at ("), "{t}");
     // Each 10K value centred on its own, larger than its designator.
-    assert!(t.contains("R806 value: 0.35 mm 0° at (0, 0.016)") && t.contains("R1 value: 0.35 mm 90° at ("), "{t}");
+    assert!(t.contains("R806 value: 0.35 mm 0° at (0, 0.016)") && t.contains("R1 value: 0.35 mm 270° at ("), "{t}");
     assert!(t.contains("1 skipped; 2 values to change, 1 layout notes"), "{t}");
     assert!(t.contains("R806 Layout_Critical: 0.35 mm 0° at (0, 0.016)"), "{t}");
     assert!(!t.contains("Layout_Important"), "{t}");

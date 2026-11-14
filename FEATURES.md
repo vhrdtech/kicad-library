@@ -36,7 +36,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   the silkscreen and never twice (the Value: LIB-21); the ink, measured in KiCad's stroke font, centred on the body
   (fab outline, else courtyard), pads ignored, 0.02 mm clear of the other drawing on its layer beyond the strokes;
   sized for the longest designator of the footprint's kind (R1004, C1001, TP526, U1004): smaller (1 to 0.2 mm),
-  turned 90°, else the largest free spot nearest the centre, else down to 0.15 mm reported as tiny, else centred at
+  turned top to bottom, else the largest free spot nearest the centre, else down to 0.15 mm reported as tiny, else centred at
   0.2 mm and reported as no clean fit; strokes 15 % of the size, at least 0.025 mm; every fab line 0.05 mm;
   `kilib fab-designators` lists what breaks these rules with counts and sizes and `--write` fixes it
 - ✅ LIB-11 stock-copies: KiCad stock footprints and symbols that boards use are copied into `VHRD_*` libraries of
@@ -48,7 +48,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   `VHRD_Resistor_SMD`, `VHRD_Connector_PinSocket_2.54mm`, `VHRD_Transistor_BJT`, `VHRD_Amplifier_Operational`,
   `VHRD_74xGxx` and existing libraries)
 - ✅ LIB-12 board-designators: `kilib fab-designators --board PCB` fits each placed footprint's own designator by the
-  LIB-10 rules (a short one gets larger text), writing only the Reference's position, angle (upright), size and
+  LIB-10 rules (a short one gets larger text), writing only the Reference's position, angle (left to right or top to bottom), size and
   thickness, and only where the Reference is already on its layer
 - ✅ LIB-13 designator-layers: front/back pairs of user layers, typed so KiCad flips them, User.9/10 Ref.Test,
   User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms, named in the three templates; the class of a footprint
@@ -137,7 +137,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
 - ✅ LIB-32 layout-priority-marks: parts that need care in layout show in the PCB editor on layers of their own.
   Every symbol carries the empty, hidden fields `Layout_Critical` and `Layout_Important` (`kilib layout-fields`,
   also for schematics placed before), every real part's footprint the empty, shown properties of the same names on
-  Crit.F/B (User.25/26) and Imp.F/B (User.27/28), each fitted for its note beside the body inside the courtyard, level along a longer edge or turned 90° at a shorter
+  Crit.F/B (User.25/26) and Imp.F/B (User.27/28), each fitted for its note beside the body inside the courtyard, level along a longer edge or turned top to bottom at a shorter
   one, whichever gives larger text (Critical one side, Important the opposite), clear of the designator's own ink, falling back to the centre where the
   footprint draws no courtyard (`kilib lint --rule layout`). A schematic sets a short note (`U101.5 VDD`,
   `FB U301`); Update PCB from Schematic carries it to the footprint, where it shows; empty, nothing shows. `kilib
