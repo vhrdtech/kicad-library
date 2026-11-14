@@ -40,6 +40,14 @@ migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol l
 Nothing in `symbols/` or `footprints/` names a stock library: a symbol's `Footprint` field and its `ki_fp_filters`
 libraries are `VHRD_*` of this checkout (`tests/decoupled.rs`). A stock footprint a symbol needs is imported first.
 
+## TI footprints
+
+A footprint for a TI package is named `TI_<TI package designator>_<generic package>` (`TI_DBV0005A_SOT-23-5`), so it
+is found by TI's name and by the generic one. Its land is TI's EXAMPLE BOARD LAYOUT page (pads, exposed pad, corner
+radius as drawn), cited in `descr`; silk, fab and 3D model come from the generic footprint. A TI symbol points at
+the TI footprint of its package, never at the generic. `migrate/2026-11-ti.toml` maps the old names
+(`[footprint_rename]`) and the symbols that moved off a generic footprint (`[symbol_footprint]`).
+
 ## Per-package symbols
 
 A generic symbol (`VHRD_Device:R`, `Footprint` empty) is placed on a board through a per-package symbol derived from
