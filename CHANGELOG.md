@@ -8,6 +8,10 @@
 - Test points get a centroid cross on Centroid.F/B, marking the probe's target.
 - `Floorplan.Cu` preset: both sides' copper, courtyard, centroids, Crit, Imp, Body and Pin1, no designators.
 
+### Fixed
+
+- `LQFP-48_UFQFPN-48_..._PasteUFQFPN` uses a QFN-48 7x7 3D model, with its Body and Xray views redrawn.
+
 ## [0.5.14] - 2026-11-15
 
 ### Changed
