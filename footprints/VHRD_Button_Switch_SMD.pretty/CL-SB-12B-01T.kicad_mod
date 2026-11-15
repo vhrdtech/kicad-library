@@ -275,17 +275,6 @@
 		(layer "User.5")
 		(uuid "45b9dc3d-2243-4001-a68a-c7d5733d80ce")
 	)
-	(fp_text user "1"
-		(at -2.514 1.292 270)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
 	(fp_line
 		(start -4.25 -1.75)
 		(end -4.25 1.75)
@@ -1829,6 +1818,39 @@
 		)
 		(fill no)
 		(layer "F.Fab")
+	)
+	(fp_text user "1"
+		(at -2.5 2.223 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at 0.012 -2.177 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 2.512 2.223 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
 	)
 	(pad "" np_thru_hole circle
 		(at -3.4 0)

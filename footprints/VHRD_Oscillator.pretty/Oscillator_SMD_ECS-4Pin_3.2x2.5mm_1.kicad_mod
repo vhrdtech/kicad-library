@@ -320,17 +320,6 @@
 		(layer "User.5")
 		(uuid "a30cbf50-d1bc-4159-80f3-497af433ccc6")
 	)
-	(fp_text user "1"
-		(at -0.292 0.914 0)
-		(unlocked yes)
-		(layer "User.19")
-		(effects
-			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
-			)
-		)
-	)
 	(fp_line
 		(start -1.6 -1.1)
 		(end -1.6 1.1)
@@ -811,6 +800,50 @@
 			(type solid)
 		)
 		(layer "User.7")
+	)
+	(fp_text user "1"
+		(at -1.15 0.923 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at 1.162 0.923 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 1.162 -0.877 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
+	)
+	(fp_text user "4"
+		(at -1.162 -0.866 0)
+		(unlocked yes)
+		(layer "User.19")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.075)
+			)
+		)
 	)
 	(pad "1" smd rect
 		(at -1.15 0.9)
