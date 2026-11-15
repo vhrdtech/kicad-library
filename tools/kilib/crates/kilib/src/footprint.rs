@@ -462,7 +462,7 @@ pub fn turner(origin: Pt, degrees: f64) -> impl Fn(Pt) -> Pt {
 }
 
 /// A pad; `turned` is taken off its angle (a board keeps a footprint's turn in its pads' angles).
-fn pad(n: &Node, turned: f64) -> Option<Pad> {
+pub(crate) fn pad(n: &Node, turned: f64) -> Option<Pad> {
     let number = n.arg(0).unwrap_or("").to_string();
     let kind = match n.arg(1)? {
         "smd" => PadKind::Smd,

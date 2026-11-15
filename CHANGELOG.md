@@ -5,6 +5,8 @@
 ### Changed
 
 - The Pins presets no longer show the Ruler layers.
+- Parts without pin-1 marks number every pad, centred on the pad; 20 footprints regenerated (LIB-22 pin-numbers).
+- `kilib designators --board` shows pin names (pinfunction) on those pad labels, numbers as fallback (LIB-22 pin-numbers).
 - Pin ruler only on parts with 7 or more pins on one side (`side_pins_min`, was 8 pins in all); 25 footprints lost theirs.
 
 ### Fixed

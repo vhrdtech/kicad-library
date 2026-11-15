@@ -1,6 +1,8 @@
 //! Pin numbers on Pins.F (User.19; Pins.B, User.20, on the back), so a fab or assembly print can show which pad is
 //! which on demand:
 //!
+//! - a part with no pin-1 mark ([`super::pin1::need`]: a 3-pin SOT-23, a part that works the same turned half round,
+//!   a keyed connector): every pin, on the pad;
 //! - a connector: every pin;
 //! - another part with three or more pins: pin 1 and every 5th (5, 10, 15...), every 10th past [`DENSE`] pins;
 //!   pins not numbered with digits (a BGA's A1) only pin 1;
@@ -17,12 +19,22 @@
 //! numbers inside, the largest among those; a number that fits nowhere is left out and reported. On the back the
 //! text is mirrored. The layer belongs to this rule: whatever else is there is replaced.
 //!
+//! A part with no pin-1 mark has nothing else to tell its pins apart, and a lone "1" would read as a mark: every pad
+//! gets its number centred on the pad, inside its copper ([`INSET`] clear of the edge), level or else top to bottom,
+//! all at the largest of [`SIZES`] at which every one fits. Where one fits on no pad at all (a USB-C receptacle's
+//! narrow pads), or the part has through-hole pads (a label over a drill does not print), every pin is numbered beside
+//! its pad as above.
+//!
 //! On a board a placed part's rotation turns its texts: [`board`] turns each number by the half turn that makes it read
-//! left to right or top to bottom, keeping the ink where it is, so spacing stays as the library made it.
+//! left to right or top to bottom, keeping the ink where it is, so spacing stays as the library made it. A label
+//! centred on a pad is fitted to the pad again and shows the pin's name instead of its number, from the pad's
+//! `pinfunction` (the symbol's pin name, which KiCad writes there), where the name is a real one of at most
+//! [`NAME_MAX`] characters that fits on the pad ([`pin_name`]).
 
+use super::pin1::{Need, need};
 use super::{Class, Input, Outcome, delete, insert};
 use crate::fab::{self, BodyFrom, thickness};
-use crate::footprint::{Pt, Rect, fmt, render_text, turner};
+use crate::footprint::{self as fpt, Outline, Pad, PadKind, Pt, Rect, dist, fmt, render_text, turner};
 use crate::layers::{PINS, side_of};
 use crate::migrate::Edit;
 use crate::reading::{reading, vertical};
@@ -37,6 +49,12 @@ pub const GAP: f64 = 0.1;
 pub const OPEN: f64 = 2.0;
 /// Past this many pins a part gets every 10th number instead of every 5th.
 pub const DENSE: usize = 40;
+/// Room kept between a label on a pad and the edge of the pad's copper.
+pub const INSET: f64 = 0.05;
+/// The longest pin name a board's label on a pad shows; a longer one gives way to the pad number.
+pub const NAME_MAX: usize = 4;
+/// A label whose ink centre is this close to a pad's centre sits on that pad.
+const ON_PAD: f64 = 0.01;
 
 /// One number as it should be written: the text, its anchor, angle and size, and whether it sits inside the body.
 #[derive(Debug, Clone, PartialEq)]
@@ -57,8 +75,9 @@ fn connector(lib: &str, name: &str) -> bool {
             .any(|k| n.contains(k))
 }
 
-/// The pad numbers that get a label, each with the first pad of that number, in the order of the file.
-fn labelled<'a>(i: &'a Input) -> Vec<(&'a str, Rect)> {
+/// The pad numbers that get a label, each with the first pad of that number, in the order of the file: every one when
+/// `every`.
+fn labelled<'a>(i: &'a Input, every: bool) -> Vec<(&'a str, Rect)> {
     let mut seen: Vec<&str> = Vec::new();
     let mut pads = Vec::new();
     for p in i.fp.copper_pads() {
@@ -76,7 +95,7 @@ fn labelled<'a>(i: &'a Input) -> Vec<(&'a str, Rect)> {
     if pads.len() < 3 {
         return Vec::new();
     }
-    if connector(i.lib, &i.fp.name) {
+    if every || connector(i.lib, &i.fp.name) {
         return pads;
     }
     let every = if pads.len() > DENSE { 10 } else { 5 };
@@ -275,9 +294,86 @@ fn body(i: &Input) -> Option<Rect> {
     })
 }
 
+/// The box inside a pad's copper that a label on it may fill.
+fn room(o: &Outline) -> Rect {
+    match o {
+        Outline::Poly(_) => o.bbox(),
+        Outline::Capsule { a, b, r } => {
+            // A stadium: across, the end circle's inscribed square; along, the straight part as well.
+            let k = r * std::f64::consts::FRAC_1_SQRT_2;
+            let (cx, cy) = ((a.0 + b.0) / 2.0, (a.1 + b.1) / 2.0);
+            let (hx, hy) = ((b.0 - a.0).abs() / 2.0 + k, (b.1 - a.1).abs() / 2.0 + k);
+            Rect { x0: cx - hx, y0: cy - hy, x1: cx + hx, y1: cy + hy }
+        }
+    }
+}
+
+/// `text` at `size` and `angle` on a room `w` by `h` (board directions), [`INSET`] clear of its edges: the ink's
+/// centre from the anchor, if it fits.
+fn fit_at(text: &str, (w, h): Pt, size: f64, angle: f64, back: bool) -> Option<Pt> {
+    let base = ink(text, size, size, thickness(size))?;
+    let i = if back { base.mirrored() } else { base }.turned(angle);
+    (i.width() <= w - 2.0 * INSET + 1e-9 && i.height() <= h - 2.0 * INSET + 1e-9).then(|| i.centre())
+}
+
+/// The angle of `text` on a room `w` by `h`: level, or top to bottom along a tall room for more than one character;
+/// the other where that one does not fit even at the smallest size; `None` where neither does.
+fn orient(text: &str, (w, h): Pt, back: bool) -> Option<f64> {
+    let tall = h > w * 1.2 && text.chars().count() > 1;
+    let order = if tall { [vertical(back), 0.0] } else { [0.0, vertical(back)] };
+    order.into_iter().find(|&a| fit_at(text, (w, h), SIZES[SIZES.len() - 1], a, back).is_some())
+}
+
+/// Each label (text, room) on its pad at its [`orient`] angle, at the largest of [`SIZES`] at which every one fits:
+/// the size, and per label the angle and the ink's centre from the anchor.
+fn on_pad_fit(labels: &[(&str, Pt)], back: bool) -> Option<(f64, Vec<(f64, Pt)>)> {
+    let angles: Vec<f64> = labels.iter().map(|(t, d)| orient(t, *d, back)).collect::<Option<_>>()?;
+    SIZES.into_iter().find_map(|size| {
+        let fits = labels
+            .iter()
+            .zip(&angles)
+            .map(|((t, d), &a)| Some((a, fit_at(t, *d, size, a, back)?)))
+            .collect::<Option<Vec<_>>>()?;
+        Some((size, fits))
+    })
+}
+
+/// Every pad of a part with no pin-1 mark, numbered on the pad; `None` when a number fits on no pad, or a pad has a
+/// hole (a label over a drill does not print).
+fn on_pads(i: &Input) -> Option<Vec<Wanted>> {
+    if i.fp.copper_pads().any(|p| p.kind == PadKind::ThruHole) {
+        return None;
+    }
+    let mut labels: Vec<(&str, Rect)> = Vec::new();
+    for p in i.fp.copper_pads().filter(|p| !p.number.is_empty()) {
+        // A pad on the copper of one already labelled (USB-C's B12 on A1) shares its label.
+        let b = p.outline.bbox();
+        if labels.iter().any(|(_, q)| overlaps(q, &b)) {
+            continue;
+        }
+        labels.push((&p.number, room(&p.outline)));
+    }
+    let dims: Vec<(&str, Pt)> = labels.iter().map(|(t, r)| (*t, (r.w(), r.h()))).collect();
+    let (size, fits) = on_pad_fit(&dims, i.fp.back)?;
+    Some(
+        labels
+            .iter()
+            .zip(fits)
+            .map(|((t, r), (angle, c))| {
+                let m = r.center();
+                Wanted { text: (*t).to_owned(), at: (r3(m.0 - c.0), r3(m.1 - c.1)), angle, size, inside: true }
+            })
+            .collect(),
+    )
+}
+
 /// The numbers to write, and those that fit nowhere even at the smallest size.
 fn wanted(i: &Input) -> (Vec<Wanted>, Vec<String>) {
-    let labels = labelled(i);
+    let no_mark = matches!(need(i), Need::NoMark(_));
+    if no_mark && let Some(w) = on_pads(i) {
+        return (w, Vec::new());
+    }
+    let labels = labelled(i, no_mark);
     if labels.is_empty() {
         return (Vec::new(), Vec::new());
     }
@@ -368,34 +464,85 @@ pub fn run(i: &Input) -> Outcome {
 pub struct BoardPins {
     /// Each number turned: the text, the angle it had and the angle it gets.
     pub turned: Vec<(String, f64, f64)>,
-    /// Numbers that already read left to right or top to bottom.
+    /// Each label on a pad written anew (a pin name for a number, refitted, turned): the text it had and gets.
+    pub on_pads: Vec<(String, String)>,
+    /// Numbers that already read left to right or top to bottom, and labels on pads already as wanted.
     pub fine: usize,
     /// Numbers left alone, with the reason.
     pub skipped: Vec<String>,
 }
 
+/// The name KiCad's `pinfunction` `f` gives the pin of pad `number`, when it suits a label on the pad: the
+/// `_<number>` KiCad appends taken off (`D_3` is `D`); none for an unnamed pin (`~`), an overbarred one, a name with
+/// a space, one made of `Pin` or `Pad`, or one past [`NAME_MAX`] characters.
+pub fn pin_name<'a>(f: &'a str, number: &str) -> Option<&'a str> {
+    let n = f.strip_suffix(number).and_then(|s| s.strip_suffix('_')).filter(|s| !s.is_empty()).unwrap_or(f);
+    let lower = n.to_ascii_lowercase();
+    let junk = n.is_empty()
+        || n.contains('~')
+        || n.contains(char::is_whitespace)
+        || lower.starts_with("pin")
+        || lower.starts_with("pad")
+        || n.chars().count() > NAME_MAX;
+    (!junk).then_some(n)
+}
+
+/// A text on the Pins layer of a placed footprint, as written.
+struct Placed<'a> {
+    node: &'a Node,
+    text: String,
+    at: Pt,
+    angle: f64,
+    size: f64,
+}
+
+fn placed_text(t: &Node) -> Option<Placed<'_>> {
+    let at = t.child("at")?;
+    let num = |k: usize| at.items().get(k).and_then(Node::as_atom).and_then(|s| s.parse::<f64>().ok());
+    let size = t
+        .child("effects")
+        .and_then(|e| e.child("font"))
+        .and_then(|f| f.child("size"))
+        .and_then(|s| s.items().get(1))
+        .and_then(Node::as_atom)
+        .and_then(|s| s.parse::<f64>().ok())
+        .unwrap_or(1.0);
+    Some(Placed {
+        node: t,
+        text: t.arg(1).unwrap_or("").to_owned(),
+        at: (num(1)?, num(2)?),
+        angle: num(3).unwrap_or(0.0),
+        size,
+    })
+}
+
 /// Turns each pin number of a footprint placed on a board (`node`, at angle `phi`, on the back when `back`) so it
 /// reads left to right or top to bottom: the file keeps a text's angle on the board, so a rotated part's numbers
 /// point every way. The turn is a half turn at most, the ink's middle stays where it was (the anchor moves by the
-/// difference, in the footprint's frame), so the clearance the library gave is kept.
+/// difference, in the footprint's frame), so the clearance the library gave is kept. Labels centred on their pads go
+/// to [`board_on_pads`].
 pub fn board(node: &Node, back: bool, phi: f64) -> (BoardPins, Vec<Edit>) {
     let layer = side_of(PINS, back);
     let mut out = BoardPins::default();
     let mut edits = Vec::new();
+    let pads: Vec<(Pad, Option<&str>)> = node
+        .children("pad")
+        .filter_map(|n| Some((fpt::pad(n, phi)?, n.value("pinfunction"))))
+        .filter(|(p, _)| p.has_copper() && !p.number.is_empty())
+        .collect();
+    let mut on_pad = Vec::new();
     for t in node.children("fp_text").filter(|t| t.arg(0) == Some("user") && t.value("layer") == Some(layer)) {
-        let text = t.arg(1).unwrap_or("").to_string();
-        let Some(at) = t.child("at") else { continue };
-        let num = |k: usize| at.items().get(k).and_then(Node::as_atom).and_then(|s| s.parse::<f64>().ok());
-        let (Some(x), Some(y)) = (num(1), num(2)) else { continue };
-        let angle = num(3).unwrap_or(0.0);
-        let size = t
-            .child("effects")
-            .and_then(|e| e.child("font"))
-            .and_then(|f| f.child("size"))
-            .and_then(|s| s.items().get(1))
-            .and_then(Node::as_atom)
-            .and_then(|s| s.parse::<f64>().ok())
-            .unwrap_or(1.0);
+        let Some(p) = placed_text(t) else { continue };
+        let Some(base) = ink(&p.text, p.size, p.size, thickness(p.size)) else { continue };
+        let base = if back { base.mirrored() } else { base };
+        // The ink's middle in the footprint's frame: the ink is drawn in board directions.
+        let c = turner((0.0, 0.0), -phi)(base.turned(p.angle).centre());
+        let mid = (p.at.0 + c.0, p.at.1 + c.1);
+        if let Some(pad) = pads.iter().find(|(q, _)| dist(room(&q.outline).center(), mid) < ON_PAD) {
+            on_pad.push((p, pad));
+            continue;
+        }
+        let (text, angle) = (p.text, p.angle);
         if angle.rem_euclid(90.0).min(90.0 - angle.rem_euclid(90.0)) > 1e-3 {
             out.skipped.push(format!("{text}: at {}°", fmt(angle)));
             continue;
@@ -405,22 +552,83 @@ pub fn board(node: &Node, back: bool, phi: f64) -> (BoardPins, Vec<Edit>) {
             out.fine += 1;
             continue;
         }
-        let Some(base) = ink(&text, size, size, thickness(size)) else { continue };
-        let base = if back { base.mirrored() } else { base };
         let (old, new) = (base.turned(angle).centre(), base.turned(target).centre());
-        // The ink is drawn in board directions, the anchor is in the footprint's frame.
         let (lx, ly) = turner((0.0, 0.0), -phi)((old.0 - new.0, old.1 - new.1));
-        let at_new = format!("(at {} {} {})", fmt(r3(x + lx)), fmt(r3(y + ly)), fmt(target));
-        edits.push(Edit { range: at.span(), text: at_new });
+        let at_new = format!("(at {} {} {})", fmt(r3(p.at.0 + lx)), fmt(r3(p.at.1 + ly)), fmt(target));
+        edits.push(Edit { range: p.node.child("at").expect("placed_text read it").span(), text: at_new });
         out.turned.push((text, angle, target));
     }
+    if !on_pad.is_empty() {
+        edits.extend(board_on_pads(&on_pad, back, phi, &mut out));
+    }
     (out, edits)
+}
+
+/// The labels centred on pads of one placed footprint (each with its pad and the pad's `pinfunction`), written anew:
+/// each pin's name where [`pin_name`] gives one that fits on the pad at the smallest size, else the pad number; all
+/// at the largest size at which every one fits; centred on the pad, level or top to bottom as the pad lies on the
+/// board. A part not turned by a quarter turn, or with a pad too small for its number, is left.
+fn board_on_pads(labels: &[(Placed, &(Pad, Option<&str>))], back: bool, phi: f64, out: &mut BoardPins) -> Vec<Edit> {
+    let quarter = phi.rem_euclid(90.0).min(90.0 - phi.rem_euclid(90.0)) < 1e-3;
+    if !quarter {
+        out.skipped.extend(labels.iter().map(|(p, _)| format!("{}: part at {}°", p.text, fmt(phi))));
+        return Vec::new();
+    }
+    let across = (phi / 90.0).round().rem_euclid(2.0) == 1.0;
+    // Each pad's room, in board directions.
+    let rooms: Vec<Rect> = labels.iter().map(|(_, (pad, _))| room(&pad.outline)).collect();
+    let dims = |r: &Rect| if across { (r.h(), r.w()) } else { (r.w(), r.h()) };
+    let texts: Vec<&str> = labels
+        .iter()
+        .zip(&rooms)
+        .map(|((_, (pad, f)), r)| {
+            f.and_then(|f| pin_name(f, &pad.number))
+                .filter(|n| orient(n, dims(r), back).is_some())
+                .unwrap_or(&pad.number)
+        })
+        .collect();
+    let sized: Vec<(&str, Pt)> = texts.iter().zip(&rooms).map(|(t, r)| (*t, dims(r))).collect();
+    let Some((size, fits)) = on_pad_fit(&sized, back) else {
+        out.skipped.extend(labels.iter().map(|(p, _)| format!("{}: no room on its pad", p.text)));
+        return Vec::new();
+    };
+    let mut edits = Vec::new();
+    for ((((p, _), r), text), (angle, c)) in labels.iter().zip(&rooms).zip(&texts).zip(fits) {
+        let (lx, ly) = turner((0.0, 0.0), -phi)(c);
+        let m = r.center();
+        let at = (r3(m.0 - lx), r3(m.1 - ly));
+        let same = p.text == *text
+            && (p.at.0 - at.0).abs() < 1e-4
+            && (p.at.1 - at.1).abs() < 1e-4
+            && (p.angle - angle).abs() < 1e-4
+            && (p.size - size).abs() < 1e-6;
+        if same {
+            out.fine += 1;
+            continue;
+        }
+        let node = p.node;
+        if let Some(t) = node.items().get(2) {
+            edits.push(Edit { range: t.span(), text: sexpr::quote(text) });
+        }
+        let at_node = node.child("at").expect("placed_text read it");
+        edits.push(Edit { range: at_node.span(), text: format!("(at {} {} {})", fmt(at.0), fmt(at.1), fmt(angle)) });
+        if let Some(font) = node.child("effects").and_then(|e| e.child("font")) {
+            if let Some(s) = font.child("size") {
+                edits.push(Edit { range: s.span(), text: format!("(size {} {})", fmt(size), fmt(size)) });
+            }
+            if let Some(th) = font.child("thickness") {
+                edits.push(Edit { range: th.span(), text: format!("(thickness {})", fmt(thickness(size))) });
+            }
+        }
+        out.on_pads.push((p.text.clone(), (*text).to_owned()));
+    }
+    edits
 }
 
 #[cfg(test)]
 mod tests {
     use super::super::Rule;
-    use super::super::tests::{fp, run, settled};
+    use super::super::tests::{fp, run, run_in, settled};
     use crate::footprint;
 
     fn pads(n: usize, pitch: f64) -> String {
@@ -641,5 +849,218 @@ mod tests {
         let f = footprint::read(&new).unwrap();
         let a1 = f.texts.iter().find(|t| t.text == "A1" && t.layer == "User.19").unwrap();
         assert!(a1.at.1 > -0.6 || a1.at.1 < -1.4 - 0.33 - super::GAP, "{:?}", a1.at);
+    }
+
+    /// The SOT-23 land: pins 1 and 2 left, 3 right, wide pads.
+    const SOT23: &str = r#"(fp_rect (start -0.65 -1.45) (end 0.65 1.45) (stroke (width 0.05) (type solid)) (layer "F.Fab"))
+(pad "1" smd roundrect (at -0.9375 -0.95) (size 1.475 0.6) (layers "F.Cu" "F.Mask" "F.Paste") (roundrect_rratio 0.25))
+(pad "2" smd roundrect (at -0.9375 0.95) (size 1.475 0.6) (layers "F.Cu" "F.Mask" "F.Paste") (roundrect_rratio 0.25))
+(pad "3" smd roundrect (at 0.9375 0) (size 1.475 0.6) (layers "F.Cu" "F.Mask" "F.Paste") (roundrect_rratio 0.25))
+"#;
+
+    /// Each label's ink centre and whether its ink lies inside the pad of its number, [`super::INSET`] clear.
+    fn on_their_pads(text: &str) -> Vec<(String, bool)> {
+        let f = footprint::read(text).unwrap();
+        f.texts
+            .iter()
+            .filter(|t| t.layer == "User.19")
+            .map(|t| {
+                let i =
+                    crate::stroke::ink(&t.text, t.size, t.size, crate::fab::thickness(t.size)).unwrap().turned(t.angle);
+                let r = super::ink_rect(&i, t.at);
+                let on = f.copper_pads().filter(|p| p.number == t.text).any(|p| {
+                    let b = p.outline.bbox().expand(-super::INSET + 1e-6);
+                    super::within(&b, &r)
+                });
+                (t.text.clone(), on)
+            })
+            .collect()
+    }
+
+    #[test]
+    fn a_sot23_without_a_pin_1_mark_gets_every_number_on_its_pad() {
+        let t = fp("SOT-23", SOT23);
+        let new = run("VHRD_Package_TO_SOT_SMD", &t, Rule::Pins).0.unwrap();
+        assert_eq!(on_their_pads(&new), [("1".into(), true), ("2".into(), true), ("3".into(), true)], "{new}");
+        // Wide pads: level text.
+        assert!(spots(&new).iter().all(|s| s.3 == 0.0), "{new}");
+        settled("VHRD_Package_TO_SOT_SMD", &t, Rule::Pins);
+    }
+
+    fn pts815() -> String {
+        let pads: String = [(-2.25, -1.075), (2.25, -1.075), (-2.25, 1.075), (2.25, 1.075)]
+            .iter()
+            .enumerate()
+            .map(|(k, (x, y))| {
+                format!(
+                    "(pad \"{}\" smd roundrect (at {x} {y}) (size 0.99 0.71) (layers \"F.Cu\" \"F.Mask\"))\n",
+                    k + 1
+                )
+            })
+            .collect();
+        fp(
+            "PTS815",
+            &format!(
+                "(fp_rect (start -1.7 -1.45) (end 1.7 1.45) (stroke (width 0.05) (type solid)) (layer \"F.Fab\"))\n{pads}"
+            ),
+        )
+    }
+
+    #[test]
+    fn a_tact_switch_that_works_turned_half_round_gets_every_number_on_its_pad() {
+        use super::super::half_turn::{Symbol, Uses};
+        let sym = Symbol {
+            id: "VHRD_Switch:PTS815".into(),
+            prefix: "SW".into(),
+            pins: [("1", "1"), ("2", "2"), ("3", "K"), ("4", "A")].map(|(n, s)| (n.into(), s.into())).to_vec(),
+            connected: vec![vec!["1".into(), "2".into()], vec!["3".into(), "4".into()]],
+        };
+        let ctx = super::super::Context {
+            uses: Some(Uses([("VHRD_Button_Switch_SMD:PTS815".to_owned(), vec![sym])].into())),
+            ..Default::default()
+        };
+        let new = run_in("VHRD_Button_Switch_SMD", &pts815(), Rule::Pins, &ctx).0.unwrap();
+        let on = on_their_pads(&new);
+        assert_eq!(on.len(), 4, "{new}");
+        assert!(on.iter().all(|(_, on)| *on), "{on:?}");
+        // No symbol says the half turn keeps the circuit: it keeps its mark, and pin 1 alone is numbered.
+        assert_eq!(numbers(&run("VHRD_Button_Switch_SMD", &pts815(), Rule::Pins).0.unwrap()), ["1"]);
+    }
+
+    #[test]
+    fn a_keyed_usb_c_whose_pads_are_too_narrow_numbers_every_pin_beside_them() {
+        let mut pads: String = ["A1", "A4", "B8", "A5", "B7", "A6", "A7", "B6", "A8", "B5", "B4", "B1"]
+            .iter()
+            .enumerate()
+            .map(|(k, n)| {
+                format!(
+                    "(pad \"{n}\" smd rect (at {} 0) (size 0.3 1.15) (layers \"F.Cu\" \"F.Mask\"))\n",
+                    -2.75 + 0.5 * k as f64
+                )
+            })
+            .collect();
+        // Shell pads on one side only: no turn fits, the receptacle is keyed.
+        pads += "(pad \"S1\" smd rect (at -4.3 3) (size 1 2) (layers \"F.Cu\" \"F.Mask\"))\n";
+        pads += "(pad \"S1\" smd rect (at 4.3 3) (size 1 2) (layers \"F.Cu\" \"F.Mask\"))\n";
+        let body = "(fp_rect (start -4.5 -0.8) (end 4.5 6) (stroke (width 0.05) (type solid)) (layer \"F.Fab\"))\n";
+        let t = fp("USB_C_Receptacle_X", &format!("{body}{pads}"));
+        let new = run("VHRD_Connector_USB", &t, Rule::Pins).0.unwrap();
+        let on = on_their_pads(&new);
+        assert_eq!(on.len(), 13, "every pin and the shell: {on:?}");
+        // The signal pads are too narrow: the numbers stay beside them, the shell's beside its pad too.
+        assert!(on.iter().all(|(_, on)| !*on), "{on:?}");
+        settled("VHRD_Connector_USB", &t, Rule::Pins);
+    }
+
+    #[test]
+    fn a_soic_8_keeps_pin_1_and_5_beside_its_pads() {
+        let t = fp("SOIC-8", &format!("{SOIC_BODY}{}", pads(8, 1.27)));
+        let new = run("VHRD_Package_SO", &t, Rule::Pins).0.unwrap();
+        assert_eq!(on_their_pads(&new), [("1".into(), false), ("5".into(), false)]);
+    }
+
+    #[test]
+    fn pin_names_drop_kicads_number_suffix_and_skip_what_is_no_name() {
+        use super::pin_name;
+        assert_eq!(pin_name("D_3", "3"), Some("D"));
+        assert_eq!(pin_name("GND_25", "25"), Some("GND"));
+        assert_eq!(pin_name("VBUS", "A4"), Some("VBUS"));
+        assert_eq!(pin_name("A_1", "2"), Some("A_1"), "another pad's number is part of the name");
+        assert_eq!(pin_name("VBUSX", "2"), None, "five characters");
+        assert_eq!(pin_name("1_1", "1"), Some("1"));
+        for junk in ["~", "~{CS}", "Pin_3", "PAD", "Pad1", "MountPin", "SHIELD", "", "A B"] {
+            assert_eq!(pin_name(junk, "3"), None, "{junk}");
+        }
+    }
+
+    /// The library's SOT-23 placed on a board at `phi`, on the front, its pads' `pinfunction`s as given: what KiCad
+    /// writes, every angle including the part's.
+    fn sot23_on_board(phi: f64, functions: [&str; 3]) -> String {
+        let lib = run("VHRD_Package_TO_SOT_SMD", &fp("SOT-23", SOT23), Rule::Pins).0.unwrap();
+        let root = crate::sexpr::parse(&lib).unwrap();
+        let mut out = String::from("(kicad_pcb\n");
+        out += &format!("(footprint \"VHRD_Package_TO_SOT_SMD:SOT-23\"\n(layer \"F.Cu\")\n(at 50 40 {phi})\n");
+        for n in root.items().iter().skip(1) {
+            let mut item = lib[n.span()].to_owned();
+            match n.head() {
+                Some("pad") | Some("fp_text") => {
+                    let at = n.child("at").unwrap();
+                    let v: Vec<&str> = at.items().iter().skip(1).filter_map(|x| x.as_atom()).collect();
+                    let a = v.get(2).map_or(0.0, |s| s.parse::<f64>().unwrap()) + phi;
+                    item = item.replacen(&lib[at.span()], &format!("(at {} {} {a})", v[0], v[1]), 1);
+                    if n.head() == Some("pad") {
+                        let k: usize = n.arg(0).unwrap().parse().unwrap();
+                        item.insert_str(item.len() - 1, &format!(" (pinfunction \"{}\")", functions[k - 1]));
+                    }
+                }
+                Some("fp_rect") => {}
+                _ => continue,
+            }
+            out += &item;
+            out.push('\n');
+        }
+        out + ")\n)\n"
+    }
+
+    fn board_labels(board: &str) -> Vec<(String, f64, f64, f64, f64)> {
+        let root = crate::sexpr::parse(board).unwrap();
+        let fp = root.children("footprint").next().unwrap();
+        fp.children("fp_text")
+            .filter(|t| t.value("layer") == Some("User.19"))
+            .map(|t| {
+                let at = t.child("at").unwrap();
+                let n =
+                    |k: usize| at.items().get(k).and_then(|x| x.as_atom()).map_or(0.0, |s| s.parse::<f64>().unwrap());
+                let size = t.child("effects").unwrap().child("font").unwrap().child("size").unwrap().arg(0).unwrap();
+                (t.arg(1).unwrap().to_owned(), n(1), n(2), n(3), size.parse().unwrap())
+            })
+            .collect()
+    }
+
+    #[test]
+    fn on_a_board_a_sot23s_labels_show_its_pin_names_centred_on_the_pads() {
+        for phi in [0.0, 90.0, 180.0, 270.0] {
+            let b = sot23_on_board(phi, ["G_1", "S_2", "D_3"]);
+            let plan = crate::fab::plan_board(&b).unwrap();
+            let labels = board_labels(&plan.new);
+            let names: Vec<&str> = labels.iter().map(|l| l.0.as_str()).collect();
+            assert_eq!(names, ["G", "S", "D"], "part at {phi}");
+            assert_eq!(plan.items[0].pins.on_pads.len(), 3, "{:?}", plan.items[0].pins);
+            for (text, x, y, angle, size) in &labels {
+                // One letter reads level on the board, on a pad stood up by a quarter turn too.
+                assert_eq!(*angle, 0.0, "{text} at {phi}");
+                // The ink's centre on the pad's centre, in the footprint's frame.
+                let i = crate::stroke::ink(text, *size, *size, crate::fab::thickness(*size)).unwrap().turned(*angle);
+                let c = crate::footprint::turner((0.0, 0.0), -phi)(i.centre());
+                let pad = match text.as_str() {
+                    "G" => (-0.9375, -0.95),
+                    "S" => (-0.9375, 0.95),
+                    _ => (0.9375, 0.0),
+                };
+                assert!(
+                    (x + c.0 - pad.0).abs() < 2e-3 && (y + c.1 - pad.1).abs() < 2e-3,
+                    "{text} at {phi}: ({x}, {y})"
+                );
+            }
+            // Again: nothing changes.
+            let again = crate::fab::plan_board(&plan.new).unwrap();
+            assert_eq!(again.new, plan.new, "part at {phi}");
+            assert!(again.items[0].pins.on_pads.is_empty());
+        }
+    }
+
+    #[test]
+    fn on_a_board_a_name_that_is_none_or_too_long_keeps_the_pad_number() {
+        let b = sot23_on_board(0.0, ["~", "VBUSX_2", "Pin_3"]);
+        let plan = crate::fab::plan_board(&b).unwrap();
+        let names: Vec<String> = board_labels(&plan.new).into_iter().map(|l| l.0).collect();
+        assert_eq!(names, ["1", "2", "3"]);
+        assert_eq!(plan.new, b, "the library's labels are already as wanted");
+        // A name once written goes back to the number when the pin loses it.
+        let named = crate::fab::plan_board(&sot23_on_board(0.0, ["G_1", "S_2", "D_3"])).unwrap().new;
+        let renamed = named.replace("\"G_1\"", "\"~\"");
+        let names: Vec<String> =
+            board_labels(&crate::fab::plan_board(&renamed).unwrap().new).into_iter().map(|l| l.0).collect();
+        assert_eq!(names, ["1", "S", "D"]);
     }
 }

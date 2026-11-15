@@ -87,7 +87,10 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   connector, pin 1 and every 5th (10th past 40) of other parts with three or more pins; inside the fab outline (else
   the courtyard), left to right or top to bottom, 0.1 mm clear of pads and holes, a glyph's height from each other, one
   size per footprint (0.5 to 0.2 mm); a number with no room inside stays beside its pad and is listed (37 footprints);
-  `kilib lint --rule pins`. On a board `kilib designators --board` turns a placed part's numbers to read the same way
+  `kilib lint --rule pins`. A part with no pin-1 mark (3-pin SOT-23 class, half-turn-symmetric, keyed) gets every
+  pad's number centred on the pad where every one fits (SMD only; 16 footprints), else every pin beside its pad (4).
+  On a board `kilib designators --board` turns a placed part's numbers to read the same way, and a label on a pad
+  shows the pad's `pinfunction` name (G, S, D) where it is at most 4 characters and fits
 - ✅ LIB-23 centroid-cross: a 0.5 mm cross of 0.05 mm lines on Centroid.F/B (User.21/22) at the origin of every part
   and fiducial, for checking the position file; `kilib lint --rule centroid`. 163 footprints
 - ✅ LIB-24 ref-des-layer: F.Fab/B.Fab carry the drawing alone (no text); real parts' designators on User.23/24

@@ -385,8 +385,10 @@ Examples:
     ///
     /// pins: pin numbers beside the pads on Pins.F (User.19): every pin of a connector; pin 1 and every 5th of
     /// another part with three or more pins (every 10th past 40); none on two-pin parts. Level stroke text, 0.1 mm
-    /// clear of every pad and other number, one size per footprint (0.5 mm down to 0.2 mm). Fix: written,
-    /// replacing anything else on that layer; a number with no room is left for a person.
+    /// clear of every pad and other number, one size per footprint (0.5 mm down to 0.2 mm). A part with no pin-1
+    /// mark (3-pin SOT-23, half-turn-symmetric, keyed): every pad's number centred on the pad where all fit (SMD
+    /// only), else every pin beside its pad. Fix: written, replacing anything else on that layer; a number with no
+    /// room is left for a person.
     ///
     /// ruler: ticks and numbers beside the pads on Ruler.F (User.31) for counting pins on QFP, QFN/DFN, SOIC/TSSOP
     /// (8 pins or more) and FFC or board-to-board connectors (a counted row, 1 mm pitch or finer); never BGA, LGA,
@@ -1343,7 +1345,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let plan = fab::plan_board(&text).map_err(|e| format!("{}: {e}", path.display()))?;
     let (mut changed, mut fine, mut skipped, mut unclean) = (0, 0, Vec::new(), Vec::new());
-    let (mut values, mut notes, mut pins) = (0, 0, 0);
+    let (mut values, mut notes, mut pins, mut labels) = (0, 0, 0, 0);
     let mut pins_left = Vec::new();
     let mut placements = Vec::new();
     for i in &plan.items {
@@ -1433,10 +1435,16 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
                 println!("  {BOLD}{name}{BOLD:#} pin {text}: {}° to {}°", fab::fmt(*from), fab::fmt(*to));
             }
         }
+        for (from, to) in &i.pins.on_pads {
+            labels += 1;
+            if verbose {
+                println!("  {BOLD}{name}{BOLD:#} pin label {from} to {to} on its pad");
+            }
+        }
         pins_left.extend(i.pins.skipped.iter().map(|w| format!("{name} {w}")));
     }
     eprintln!(
-        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change, {notes} layout notes, {pins} pin numbers to turn",
+        "{BOLD}kilib designators{BOLD:#} {}: {} footprints: {changed} to change, {fine} already fine, {} skipped; {values} values to change, {notes} layout notes, {pins} pin numbers to turn, {labels} pin labels on pads to write",
         path.display(),
         plan.items.len(),
         skipped.len()
@@ -1453,7 +1461,7 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
     report_sizes(&placements);
     if !pins_left.is_empty() {
         eprintln!(
-            "{YELLOW}pin numbers left{YELLOW:#} ({}: not level or vertical, or on the back): {}",
+            "{YELLOW}pin numbers left{YELLOW:#} ({}: not level or vertical, or no room on the pad): {}",
             pins_left.len(),
             pins_left.join(", ")
         );
@@ -1466,13 +1474,13 @@ fn run_fab_board(path: &Path, write: bool, verbose: bool) -> Result<ExitCode, St
             unclean.join(", ")
         );
     }
-    if changed == 0 && values == 0 && notes == 0 && pins == 0 {
+    if changed == 0 && values == 0 && notes == 0 && pins == 0 && labels == 0 {
         eprintln!("{GREEN}✓{GREEN:#} nothing to change");
         Ok(ExitCode::SUCCESS)
     } else if write {
         fab::apply_board(path, &plan)?;
         eprintln!(
-            "{GREEN}✓{GREEN:#} wrote {changed} designators, {values} values, {notes} layout notes and {pins} pin numbers to {}",
+            "{GREEN}✓{GREEN:#} wrote {changed} designators, {values} values, {notes} layout notes, {pins} pin numbers and {labels} pin labels to {}",
             path.display()
         );
         Ok(ExitCode::SUCCESS)

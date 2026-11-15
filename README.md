@@ -119,7 +119,11 @@ same under `footprints/<name>.pretty` for footprints.
   hidden (Update PCB from Schematic puts a field the footprint lacked hidden on the fab layer) is moved to its
   layer, shown. Each pin number of a part placed at a quarter turn (`Pins.F`/`Pins.B`, written by `lint --rule pins`) is
   turned by a half turn where needed so it reads left to right or top to bottom, its ink where it was, so the library's
-  clearances hold; numbers at another angle, and those of parts on the back, are listed and left. `--write` writes the
+  clearances hold; numbers at another angle, and those of parts on the back, are listed and left. A label centred on
+  a pad (a part with no pin-1 mark) shows the pin's name from the pad's `pinfunction` (the symbol pin name KiCad
+  writes there, its `_<number>` suffix dropped: `D_3` is `D`) where the name has at most 4 characters, is not `~`,
+  overbarred, or made of `Pin`/`Pad`, and fits on the pad; else the pad number. It is re-fitted, centred and
+  level or top to bottom as the pad lies on the board; a second run changes nothing. `--write` writes the
   board.
 - Text direction: every text kilib places (designators on `Ref.Des`/`Ref.Test`/`Ref.Tie`, Values, layout notes, pin
   numbers) reads left to right or top to bottom, never upside down or bottom to top, as the PCB editor shows it from
@@ -245,6 +249,12 @@ same under `footprints/<name>.pretty` for footprints.
     neither fab outline nor courtyard, keeps the number beside its pad, outside and level, and is reported
     (`left`). A footprint gets one size for all its numbers, of 0.5 to 0.2 mm the one with the most numbers inside,
     the largest of those; one that fits nowhere is reported. The fix replaces anything else on the layer.
+    A part with no pin-1 mark (`pin1` above: a 3-pin SOT-23, SOT-323, SOT-723..., a part that works the same
+    turned half round such as the PTS815, a keyed connector) has nothing else to tell its pins apart, and a lone
+    `1` would read as a mark: every pad gets its number centred on the pad, 0.05 mm inside its copper, level (top
+    to bottom only for a longer number on a tall pad, or where level does not fit), all at the largest size at
+    which every one fits. Where one fits on no pad (a USB-C receptacle's narrow pads), or the part has
+    through-hole pads (a label over a drill does not print), every pin is numbered beside its pad as above.
   - `ruler`: a pin ruler on `Ruler.F` (User.31; `Ruler.B`, User.32, on the back), for finding pin N by counting on
     the board: QFP, QFN/DFN/SON and SOIC/SSOP/TSSOP with 8 pins or more, and connectors with a counted pad row
     (`pin1` above: FFC/FPC, board-to-board) at 1 mm pitch or finer; never BGA, LGA or WLCSP. The pins are the pads
