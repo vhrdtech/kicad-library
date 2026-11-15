@@ -4,6 +4,7 @@
 
 ### Added
 
+- Test points get a centroid cross on Centroid.F/B, marking the probe's target.
 - `Floorplan.Cu` preset: both sides' copper, courtyard, centroids, Crit, Imp, Body and Pin1, no designators.
 
 ## [0.5.14] - 2026-11-15

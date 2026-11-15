@@ -1,7 +1,7 @@
 //! A cross on Centroid.F (User.21; Centroid.B, User.22, on the back) at the footprint's origin, the point the
 //! position file gives for it, so a print of the layer over the board shows where the placement data puts each
-//! part: two lines [`SIZE`] long, [`WIDTH`] wide, crossing at (0, 0). Only footprints that are placed get one
-//! (parts and fiducials); test points, net ties, logos and holes, which stay out of the position files, get none.
+//! part: two lines [`SIZE`] long, [`WIDTH`] wide, crossing at (0, 0). Parts and fiducials get one, and test points
+//! (the probe's target); net ties, logos and holes, which stay out of the position files, get none.
 //! The layer belongs to this rule: whatever else is there is replaced.
 
 use super::{Class, Input, Outcome, delete, insert};
@@ -28,7 +28,7 @@ fn is_arm(g: &Graphic, arm: &[(f64, f64); 2]) -> bool {
 pub fn run(i: &Input) -> Outcome {
     let mut out = Outcome::default();
     let layer = side_of(CENTROID, i.fp.back);
-    let placed = matches!(i.class, Class::Part | Class::Fiducial);
+    let placed = matches!(i.class, Class::Part | Class::Fiducial | Class::TestPoint);
     let have: Vec<_> = i.fp.on(layer).collect();
     let fine = if placed {
         have.len() == 2 && arms().iter().all(|a| have.iter().any(|g| is_arm(g, a)))
@@ -78,9 +78,10 @@ mod tests {
     }
 
     #[test]
-    fn test_points_and_logos_get_none() {
-        assert!(run("VHRD_TestPoint", &fp("TestPoint_Pad_D1.0mm", PAD), Rule::Centroid).0.is_none());
+    fn logos_get_none_test_points_and_fiducials_get_one() {
         assert!(run("VHRD_Symbol", &fp("VHRD_TECH_LOGO", PAD), Rule::Centroid).0.is_none());
+        let tp = run("VHRD_TestPoint", &fp("TestPoint_Pad_D1.0mm", PAD), Rule::Centroid).0.unwrap();
+        assert!(tp.contains("User.21"));
         let fid = run("VHRD_Fiducial", &fp("Fiducial_1mm", PAD), Rule::Centroid).0.unwrap();
         assert!(fid.contains("User.21"));
     }
