@@ -43,6 +43,12 @@ render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_fr
 flip = false
 
 [[preset]]
+name = "Floorplan.Cu"
+layers = ["F.Cu", "B.Cu", "F.Courtyard", "B.Courtyard", "Centroid.F", "Centroid.B", "Crit.F", "Crit.B", "Imp.F", "Imp.B", "Body.F", "Body.B", "Pin1.F", "Pin1.B", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+flip = false
+
+[[preset]]
 name = "Assembly.Ref.F"
 layers = ["Body.F", "Pin1.F", "Ref.Des.F", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "footprint_anchors"]

@@ -494,6 +494,45 @@
         ]
       },
       {
+        "activeLayer": 0,
+        "flipBoard": false,
+        "layers": [
+          0,
+          2,
+          25,
+          29,
+          31,
+          47,
+          49,
+          79,
+          81,
+          87,
+          89,
+          91,
+          93,
+          95,
+          97
+        ],
+        "name": "Floorplan.Cu",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "ratsnest"
+        ]
+      },
+      {
         "activeLayer": 47,
         "flipBoard": false,
         "layers": [

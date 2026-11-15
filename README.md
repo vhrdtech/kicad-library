@@ -166,7 +166,7 @@ same under `footprints/<name>.pretty` for footprints.
   exits 1 when anything would.
 - `kilib presets PROJECT.kicad_pro...` writes the PCB Editor's layer presets of `generate/layer-presets.toml` into
   a project's `board.layer_presets`: `Layout.F`/`B` (F.Cu/B.Cu, F.Fab/B.Fab, Crit, Imp, Ref.Des, Courtyard,
-  Edge.Cuts; pads, vias and ratsnest shown), `Floorplan.F`/`B`/`FB` (Courtyard, Ref.Des, Crit, Imp, Body, Pin1, Ref.Test, Ref.Tie, Edge.Cuts), `Assembly.Ref.F`/`B` and `Assembly.Value.F`/`B` (Body, Pin1, Ref.Des or Value, Edge.Cuts; pads shown), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
+  Edge.Cuts; pads, vias and ratsnest shown), `Floorplan.F`/`B`/`FB` (Courtyard, Ref.Des, Crit, Imp, Body, Pin1, Ref.Test, Ref.Tie, Edge.Cuts), `Floorplan.Cu` (both sides: Cu, Courtyard, Centroid, Crit, Imp, Body, Pin1, Edge.Cuts; no designators), `Assembly.Ref.F`/`B` and `Assembly.Value.F`/`B` (Body, Pin1, Ref.Des or Value, Edge.Cuts; pads shown), `Pins.F`/`B` (Pins, Fab, Xray, Edge.Cuts; pads shown) and `Silk.F`/`B` (SilkS, Mask, Paste, Cu, Edge.Cuts), each `B`
   the back counterpart, viewed from below. A preset already in the project under the same name is replaced; the
   project's other presets are kept, in their place. The sibling board (same name, `.kicad_pcb`) is checked for the
   user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
