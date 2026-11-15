@@ -4,6 +4,7 @@
 
 ### Changed
 
+- The Pins presets no longer show the Ruler layers.
 - Pin ruler only on parts with 7 or more pins on one side (`side_pins_min`, was 8 pins in all); 25 footprints lost theirs.
 
 ### Fixed
