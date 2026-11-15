@@ -15,7 +15,7 @@ silk_text_height_mm = 0.8
 silk_text_stroke_mm = 0.12
 # From a tick's end to its number, and between a number and any other tick or number
 text_gap_mm = 0.15
-# Parts with fewer pins get no ruler
-pins_min = 8
+# Parts with fewer pins on their longest side get no ruler: counting to 3 from either end is easy
+side_pins_min = 7
 # Connectors get one only for a counted pad row at this pitch or finer (FFC/FPC, board-to-board)
 connector_pitch_max_mm = 1.0

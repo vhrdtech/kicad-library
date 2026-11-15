@@ -3,7 +3,7 @@
 //!
 //! - The parts ([`family`]): QFP, QFN/DFN/SON, SOIC/TSSOP/SSOP and connectors with a counted pad row
 //!   ([`keyed::counting_row`]: FFC/FPC, board-to-board) at [`Settings::connector_pitch_max_mm`] or finer, each with
-//!   [`Settings::pins_min`] pins or more. Never a BGA, LGA or WLCSP.
+//!   [`Settings::side_pins_min`] pins or more on one side. Never a BGA, LGA or WLCSP.
 //! - The pins: the pads numbered 1, 2, 3..., of the size most of them share (pin 1 whatever its shape); an exposed
 //!   pad, its vias and mounting pads are no pins. Each pin points away from the pads' middle along its long side
 //!   (a single row: away from the body); pins pointing the same way are one side.
@@ -60,8 +60,8 @@ pub struct Settings {
     pub silk_text_stroke_mm: f64,
     /// From a tick's end to its number, and between a number and any other tick or number.
     pub text_gap_mm: f64,
-    /// Parts with fewer pins get no ruler.
-    pub pins_min: usize,
+    /// Parts with fewer pins on their longest side get no ruler: counting to 3 from either end is easy.
+    pub side_pins_min: usize,
     /// The coarsest pitch of a connector's pad row that gets one.
     pub connector_pitch_max_mm: f64,
 }
@@ -394,7 +394,8 @@ pub(crate) fn numbers(
 fn plan(lib: &str, fp: &Footprint, s: &Settings) -> Option<Plan> {
     let family = family(lib, fp)?;
     let pins = pins(fp);
-    if pins.len() < s.pins_min {
+    let side_most = pins.iter().map(|p| pins.iter().filter(|q| q.dir == p.dir).count()).max().unwrap_or(0);
+    if side_most < s.side_pins_min {
         return None;
     }
     if family == Family::Connector {
@@ -848,8 +849,10 @@ mod tests {
         ] {
             assert!(run(lib, &fp(name, &pads), Rule::Ruler).0.is_none(), "{lib}:{name}");
         }
-        // Fewer pins than pins_min.
+        // Fewer pins on a side than side_pins_min: 6 a side (DFN-12) gets none, 7 a side (DFN-14) gets one.
         assert!(run("VHRD_Package_SO", &fp("SOIC-6", &so(6, 1.27, "")), Rule::Ruler).0.is_none());
+        assert!(run("VHRD_Package_SO", &fp("TSSOP-12", &so(12, 0.65, "")), Rule::Ruler).0.is_none());
+        assert!(run("VHRD_Package_SO", &fp("TSSOP-14", &so(14, 0.65, "")), Rule::Ruler).0.is_some());
         // A 2.54 mm header is a counted row but too coarse; a 0.5 mm FFC row gets one, pointing away from the body.
         let row = |pitch: f64| -> String {
             (0..10)

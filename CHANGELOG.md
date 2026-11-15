@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Pin ruler only on parts with 7 or more pins on one side (`side_pins_min`, was 8 pins in all); 25 footprints lost theirs.
+
 ### Fixed
 
 - Designators re-fitted on 6 SOT-23-class footprints after their pin-1 marks were removed.
