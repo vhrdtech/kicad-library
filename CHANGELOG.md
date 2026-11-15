@@ -4,6 +4,7 @@
 
 ### Added
 
+- Templates: black solder mask and white silkscreen in the stackup.
 - Test points get a centroid cross on Centroid.F/B, marking the probe's target.
 - `Floorplan.Cu` preset: both sides' copper, courtyard, centroids, Crit, Imp, Body and Pin1, no designators.
 
