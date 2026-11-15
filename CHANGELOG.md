@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.13] - 2026-11-15
+
 ### Added
 
 - Ruler.F/B layers (User.31/32) in `kilib layers`, the templates and the Pins presets (LIB-37 pin-ruler).
