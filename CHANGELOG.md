@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.14] - 2026-11-15
+
 ### Changed
 
 - The Pins presets no longer show the Ruler layers.
