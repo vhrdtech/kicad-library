@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Designators re-fitted on 6 SOT-23-class footprints after their pin-1 marks were removed.
+
 ## [0.5.13] - 2026-11-15
 
 ### Added

@@ -6,14 +6,14 @@
 	(descr "SOT-23 for CAN FD ESD protection with two makers: TI DBZ0003A land (pads 1.3 x 0.6, pitch 1.9, rows 2.1 apart), which also covers Nexperia SOT23 tolerances; PESD2CANFD24V-T, ESD2CANFD24DBZR(Q1) (https://www.ti.com/lit/ds/symlink/esd2canfd24.pdf, https://assets.nexperia.com/documents/data-sheet/PESD2CANFD24V-T.pdf)")
 	(tags "SOT-23 SOT23 TO-236AB DBZ0003A Nexperia TI PESD ESD2CANFD24")
 	(property "Reference" "REF**"
-		(at -0.012 -0.013 270)
+		(at -0.013 -0.014 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "e4893dbe-7654-4a6f-9537-27e1350fcf53")
 		(effects
 			(font
-				(size 0.55 0.55)
-				(thickness 0.083)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)

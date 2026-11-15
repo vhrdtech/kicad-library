@@ -6,26 +6,26 @@
 	(descr "SOT-23W http://www.allegromicro.com/~/media/Files/Datasheets/A112x-Datasheet.ashx?la=en&hash=7BC461E058CC246E0BAB62433B2F1ECA104CA9D3")
 	(tags "SOT-23W")
 	(property "Reference" "REF**"
-		(at -0.01 -0.011 270)
+		(at -0.013 -0.014 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "c9b5f292-0326-4437-9124-431836185075")
 		(effects
 			(font
-				(size 0.45 0.45)
-				(thickness 0.068)
+				(size 0.6 0.6)
+				(thickness 0.09)
 			)
 		)
 	)
 	(property "Value" "SOT-23W"
-		(at -0.021 0.014 270)
+		(at -0.024 0.017 270)
 		(unlocked yes)
 		(layer "User.17")
 		(uuid "16124b75-aed5-4ccb-85c3-4b1ce3c0afc0")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
+				(size 0.35 0.35)
+				(thickness 0.053)
 			)
 		)
 	)

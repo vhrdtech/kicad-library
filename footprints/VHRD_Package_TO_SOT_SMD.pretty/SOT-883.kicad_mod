@@ -6,14 +6,14 @@
 	(descr "SOT-883, https://assets.nexperia.com/documents/outline-drawing/SOT883.pdf")
 	(tags "SOT-883")
 	(property "Reference" "REF**"
-		(at -0.004 0.004 0)
+		(at -0.005 0.004 0)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "c7eeb668-4f75-40f6-8ab9-6211e26a289c")
 		(effects
 			(font
-				(size 0.18 0.18)
-				(thickness 0.027)
+				(size 0.19 0.19)
+				(thickness 0.028)
 			)
 		)
 	)

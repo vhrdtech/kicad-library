@@ -6,14 +6,14 @@
 	(descr "SOT-416, https://www.nxp.com/docs/en/package-information/SOT416.pdf")
 	(tags "SOT-416")
 	(property "Reference" "REF**"
-		(at -0.006 -0.007 270)
+		(at -0.008 -0.008 270)
 		(unlocked yes)
 		(layer "User.23")
 		(uuid "faa795a1-915a-4b04-861b-5d2aecbbf734")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
+				(size 0.35 0.35)
+				(thickness 0.053)
 			)
 		)
 	)
