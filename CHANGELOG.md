@@ -7,6 +7,7 @@
 - Templates: black solder mask and white silkscreen in the stackup.
 - Test points get a centroid cross on Centroid.F/B, marking the probe's target.
 - `Floorplan.Cu` preset: both sides' copper, courtyard, centroids, Crit, Imp, Body and Pin1, no designators.
+- `VHRD_Power_Protection:RCLAMP0502BA` on `VHRD_Package_TO_SOT_SMD:SOT-416` with its 3D model; the stock map moves boards to it.
 
 ### Changed
 
