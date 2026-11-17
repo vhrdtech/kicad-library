@@ -5,6 +5,7 @@
 # designators, values, Crit/Imp notes and pin numbers; Edge.Cuts in every preset, the board outline area's shadow in none).
 # `flip` views the board from below, for a back-side preset. Decided 14 Nov 2026.
 # Every preset that shows Body shows Pin1 of that side; Assembly shows the body, not the fab drawing.
+# The Floorplan presets show vias but not tracks.
 
 [[preset]]
 name = "Layout.F"
@@ -27,25 +28,25 @@ flip = false
 [[preset]]
 name = "Floorplan.F"
 layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.B"
 layers = ["B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Floorplan.FB"
 layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts", "B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.Cu"
 layers = ["F.Cu", "B.Cu", "F.Courtyard", "B.Courtyard", "Centroid.F", "Centroid.B", "Crit.F", "Crit.B", "Imp.F", "Imp.B", "Body.F", "Body.B", "Pin1.F", "Pin1.B", "Edge.Cuts"]
-render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
+render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
