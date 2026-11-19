@@ -1,0 +1,14 @@
+# Exposed-pad footprints that boards fitted with hand-placed vias, November 2026: KiCad connects a via to a zone
+# solid, so the vias are pads of the footprint (`_ThermalVias<pad>x<drill>mm`) and get the zone's thermal relief.
+# The plain footprints are gone; `kilib migrate --map migrate/2026-11-thermal-vias.toml BOARD_DIR` moves a board to
+# the 0.4/0.2 mm variant; the hand-placed vias then sit on its pads and are deleted by hand.
+
+[libraries.footprint]
+"VHRD_Package_DFN_QFN" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_DFN_QFN.pretty"
+"VHRD_Package_QFP" = "${VHRD_LIBRARY_DIR}/footprints/VHRD_Package_QFP.pretty"
+
+[footprint_rename]
+# "Lib:OldName" = "Lib:NewName"
+"VHRD_Package_DFN_QFN:QFN-36-1EP_6x6mm_P0.5mm_EP3.7x3.7mm" = "VHRD_Package_DFN_QFN:QFN-36-1EP_6x6mm_P0.5mm_EP3.7x3.7mm_ThermalVias0.4x0.2mm"
+"VHRD_Package_DFN_QFN:TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm" = "VHRD_Package_DFN_QFN:TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm_ThermalVias0.4x0.2mm"
+"VHRD_Package_QFP:LQFP-48_UFQFPN-48_7x7mm_P0.5mm_PasteUFQFPN" = "VHRD_Package_QFP:LQFP-48_UFQFPN-48_7x7mm_P0.5mm_PasteUFQFPN_ThermalVias0.4x0.2mm"

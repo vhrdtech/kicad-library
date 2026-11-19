@@ -1,8 +1,8 @@
-(footprint "TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm"
+(footprint "TI_RGT0016A_VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm_ThermalVias0.4x0.2mm"
 	(version 20260206)
 	(generator "kicad-footprint-generator")
 	(layer "F.Cu")
-	(descr "VQFN-16-1EP 3x3mm P0.5mm EP1.45x1.45mm, TI RGT0016A (drawing 4219032/A), without the optional thermal vias, land from TI's example board layout, SCPS192E page 41 (https://www.ti.com/lit/ds/symlink/tca6408a.pdf#page=41)")
+	(descr "VQFN-16-1EP 3x3mm P0.5mm EP1.45x1.45mm, TI RGT0016A (drawing 4219032/A), land from TI's example board layout, SCPS192E page 41 (https://www.ti.com/lit/ds/symlink/tca6408a.pdf#page=41); 1 tented 0.4/0.2 mm thermal via in the exposed pad")
 	(tags "RGT0016A VQFN NoLead")
 	(property "Reference" "REF**"
 		(at -0.014 0.013 0)
@@ -48,7 +48,7 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr through_hole)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
 		(start -1.61 -1.135)
@@ -982,6 +982,14 @@
 		(layers "F.Cu" "F.Mask")
 		(roundrect_rratio 0.0345)
 		(zone_connect 2)
+	)
+	(pad "17" thru_hole circle
+		(at 0 0)
+		(size 0.4 0.4)
+		(drill 0.2)
+		(property pad_prop_heatsink)
+		(layers "*.Cu")
+		(remove_unused_layers no)
 	)
 	(embedded_fonts no)
 	(model "${VHRD_3DMODEL_DIR}/vendor/VHRD_Package_DFN_QFN.3dshapes/VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm.step"

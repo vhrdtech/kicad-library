@@ -8,9 +8,11 @@
 - Test points get a centroid cross on Centroid.F/B, marking the probe's target.
 - `Floorplan.Cu` preset: both sides' copper, courtyard, centroids, Crit, Imp, Body and Pin1, no designators.
 - `VHRD_Diode:RCLAMP0502BA` on `VHRD_Package_TO_SOT_SMD:SOT-416` with its 3D model; the stock map moves boards to it.
+- `_ThermalVias0.4x0.2mm` and `_ThermalVias0.6x0.3mm` variants of the STM32 LQFP/UFQFPN-48, TCA6408A and USB2514B footprints.
 
 ### Changed
 
+- **Breaking:** the plain variants of those three footprints are gone; `migrate/2026-11-thermal-vias.toml` moves boards to `_ThermalVias0.4x0.2mm`.
 - The Floorplan presets show vias but no longer tracks (LIB-33 layer-presets).
 
 ### Fixed
