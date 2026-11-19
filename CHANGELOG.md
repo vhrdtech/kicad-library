@@ -12,6 +12,7 @@
 
 ### Changed
 
+- Through-hole pin headers and sockets: pad 1 is round like the others; the silkscreen and Pin1 marks show pin 1.
 - **Breaking:** the plain variants of those three footprints are gone; `migrate/2026-11-thermal-vias.toml` moves boards to `_ThermalVias0.4x0.2mm`.
 - The Floorplan presets show vias but no longer tracks (LIB-33 layer-presets).
 
