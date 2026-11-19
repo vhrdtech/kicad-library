@@ -171,7 +171,7 @@ fn migrated_boards_resolve_against_the_restructured_library() {
 
 /// Every board's designators and values fitted (`designators --board`) and the user layers named (`kilib layers`)
 /// on a temporary copy: both parse every board, change only what they own (the Reference's and the Value's at, size
-/// and thickness; the layer table) and change nothing on a second run.
+/// and thickness; a pin label's text, its pad's `pinfunction`; the layer table) and change nothing on a second run.
 #[test]
 fn board_designators_and_layers_on_a_copy_of_the_boards() {
     let Some(from) = boards() else { return };
@@ -180,7 +180,8 @@ fn board_designators_and_layers_on_a_copy_of_the_boards() {
     let mut pcbs = Vec::new();
     collect_pcbs(dir.path(), &mut pcbs);
     assert!(!pcbs.is_empty(), "no boards in {}", from.display());
-    let owned = |l: &str| ["(at ", "(size ", "(thickness "].iter().any(|k| l.trim_start().starts_with(k));
+    let owned =
+        |l: &str| ["(at ", "(size ", "(thickness ", "(fp_text user "].iter().any(|k| l.trim_start().starts_with(k));
     for pcb in &pcbs {
         let old = std::fs::read_to_string(pcb).unwrap();
         let plan = kilib::fab::plan_board(&old).unwrap_or_else(|e| panic!("{}: {e}", pcb.display()));
