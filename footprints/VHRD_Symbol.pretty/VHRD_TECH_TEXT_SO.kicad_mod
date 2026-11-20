@@ -8,7 +8,7 @@
 		(unlocked yes)
 		(layer "User.13")
 		(hide yes)
-		(uuid "b7d3ae52-59d5-49d1-9aa2-b7c58365c8a5")
+		(uuid "68a411e3-d14d-46bd-88dd-ced7b5d8b461")
 		(effects
 			(font
 				(size 1 1)
@@ -21,7 +21,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "2f50b8f6-9458-4305-9755-d019399a3f0d")
+		(uuid "8876889b-63c4-47f5-9fcc-973ce325d3f5")
 		(effects
 			(font
 				(size 1 1)
@@ -34,7 +34,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "4f805fa8-0a4a-45db-a614-012652d8b3e8")
+		(uuid "bf1cfcbd-861f-4ca4-87a4-2947be7d2a0a")
 		(effects
 			(font
 				(size 1 1)
@@ -47,7 +47,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "682d0c2b-8154-4f99-939c-7a7f7f1f7eb7")
+		(uuid "c21f3ece-c78f-4cc6-9b75-8dee443e6610")
 		(effects
 			(font
 				(size 1 1)
@@ -57,11 +57,42 @@
 	)
 	(attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
 	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.3 0)
+		(end 1.3 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "7cec5838-832a-4f0c-b14a-f1ab7f513aa6")
+	)
+	(fp_line
+		(start 0 -1.3)
+		(end 0 1.3)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "826a03eb-9d47-4500-a1de-e723707b4306")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0 -0.8)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "1b067dda-cccb-41ba-a459-9a149163f6a2")
+	)
 	(fp_text user "VHRD"
 		(at 0 -0.8 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "cc8eb475-a524-497c-9daf-c9f08d0833fb")
+		(uuid "b9a6f0a5-ec0d-416c-a903-9fa803834ca7")
 		(effects
 			(font
 				(face "Audiowide")
@@ -124,7 +155,7 @@
 		(at 0.05 1 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "6d7c85a1-256f-4f76-ba01-43ec2d8a542d")
+		(uuid "3e277757-de1b-4b82-9560-8de623c2fc08")
 		(effects
 			(font
 				(face "Audiowide")

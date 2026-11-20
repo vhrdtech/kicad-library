@@ -8,7 +8,7 @@
 		(unlocked yes)
 		(layer "User.13")
 		(hide yes)
-		(uuid "3c41d061-a1f8-4701-965e-4291c31000d3")
+		(uuid "52ad3ea2-b3bd-4413-bc88-feff165a52b5")
 		(effects
 			(font
 				(size 1 1)
@@ -21,7 +21,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "7f63a275-be58-4c11-8989-036dbb02bbce")
+		(uuid "d3b8a860-434a-4177-9102-a62bc19214ee")
 		(effects
 			(font
 				(size 1 1)
@@ -34,7 +34,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "47b7835c-5bc2-4749-bd66-053ea6d2e226")
+		(uuid "1b9bad27-93a6-49f0-9741-b7e3390cb35c")
 		(effects
 			(font
 				(size 1 1)
@@ -47,7 +47,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "8cd79940-3f79-4c4a-82ce-3159fdbe1156")
+		(uuid "91849db4-9e43-442f-90f6-39f12b66adf1")
 		(effects
 			(font
 				(size 1 1)
@@ -57,11 +57,42 @@
 	)
 	(attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
 	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.3 0)
+		(end 1.3 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "5241e5aa-a403-47a1-983a-beb4e83de509")
+	)
+	(fp_line
+		(start 0 -1.3)
+		(end 0 1.3)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "b85b7fe0-fd60-477a-b926-fa098e22092b")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0 -0.8)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "866b9673-db95-46f1-a9a3-eb7daebb38b5")
+	)
 	(fp_text user "${PRODUCT_NAME}"
 		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "e20451a6-05af-42da-9a1b-c53c1028d679")
+		(uuid "d37e5bcf-0301-4af0-8841-8b76ef117703")
 		(effects
 			(font
 				(face "Audiowide")

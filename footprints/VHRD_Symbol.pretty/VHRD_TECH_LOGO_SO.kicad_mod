@@ -8,7 +8,7 @@
 		(unlocked yes)
 		(layer "User.13")
 		(hide yes)
-		(uuid "a2a6f28a-8d2c-406b-ab6e-343cf0779b18")
+		(uuid "c4408edb-a0e1-4c7d-ab65-f156aeb27b28")
 		(effects
 			(font
 				(size 1 1)
@@ -21,7 +21,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "39fb9146-8d43-4b2b-b457-851fbe75993e")
+		(uuid "318b0531-4505-498d-9a9d-44321660c05d")
 		(effects
 			(font
 				(size 1 1)
@@ -33,7 +33,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "f41eb83a-6d5e-405b-9a0a-340f8daeb2bc")
+		(uuid "fdf08833-872c-4925-a8f2-1b50d95b7bb9")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -44,7 +44,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "597e32b4-0c08-4aa8-96f3-68e1a09a681b")
+		(uuid "6968b1d5-fafb-4977-b22f-1aa29a3fdb66")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -63,7 +63,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "faf12518-6b3d-40a5-8db7-7e7ca7a30234")
+		(uuid "117b6897-9b64-4508-ab9a-f249af82c540")
 	)
 	(fp_poly
 		(pts
@@ -75,7 +75,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "d84c0cd2-46c0-4e9f-9bfb-f3327b1b1609")
+		(uuid "8abcaa10-cb44-45a5-94c4-6d683c12d2aa")
 	)
 	(fp_poly
 		(pts
@@ -87,7 +87,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "aeaea0b1-d5e4-4f25-8c85-35aa2eb38033")
+		(uuid "2139cc85-b66a-4f37-91c9-f00b78f7f726")
 	)
 	(fp_poly
 		(pts
@@ -99,13 +99,44 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "69ce1638-7262-4fa2-b8c4-cbc251b29fcc")
+		(uuid "c1d07c46-7b06-455f-a13e-883cb2a71b4c")
+	)
+	(fp_line
+		(start -1.3 0)
+		(end 1.3 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "e7001d2b-ba99-4c8c-b9a9-84a186c386e6")
+	)
+	(fp_line
+		(start 0 -1.3)
+		(end 0 1.3)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "edc43e6c-9545-44ab-84a6-2800abff150d")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0 -0.8)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "1b6611a0-2a5c-4460-9666-a6adc2b1fbbc")
 	)
 	(fp_text user "VHRD"
 		(at 0.1 -1 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "677d17e2-9b01-42ea-b562-e609155ca5fd")
+		(uuid "d9265c31-2284-4831-9c97-0e74545ba564")
 		(effects
 			(font
 				(face "Audiowide")
@@ -168,7 +199,7 @@
 		(at 0.1 2.55 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "8f1d2dc6-cccd-4140-8c7b-ade675ae1b25")
+		(uuid "320078c8-bf98-46db-831e-209e640c97d1")
 		(effects
 			(font
 				(face "Audiowide")
