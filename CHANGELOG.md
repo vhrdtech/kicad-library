@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.15] - 2026-11-20
+
 ### Added
 
 - Templates: black solder mask and white silkscreen in the stackup.
