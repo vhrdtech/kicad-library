@@ -302,7 +302,9 @@ Examples:
     /// Value of a test point, net tie or mechanical footprint stays hidden on the fab layer, where it was. A
     /// footprint that already follows these rules is left as it is; every other byte stays. With --board, each
     /// footprint on that board whose Reference is already on its designator layer gets its own designator fitted
-    /// the same way (a short one gets larger text), and a real part whose Value is on Value its own value; only the
+    /// the same way (a short one gets larger text; a real part whose body holds it only small takes its courtyard or
+    /// free board beside it where the text grows, plainly nearer it than any other part), and a real part whose Value
+    /// is on Value its own value; only the
     /// properties' position, angle, size and thickness change. A Layout_Critical or Layout_Important note that is
     /// set (from the schematic) is fitted to its own text the same way, on Crit or Imp, but down to 0.05 mm (a
     /// short note reads fine much smaller than a designator, and fitting it on the body matters more) before it

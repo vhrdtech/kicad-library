@@ -49,7 +49,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   `VHRD_74xGxx` and existing libraries)
 - ✅ LIB-12 board-designators: `kilib fab-designators --board PCB` fits each placed footprint's own designator by the
   LIB-10 rules (a short one gets larger text), writing only the Reference's position, angle (left to right or top to bottom), size and
-  thickness, and only where the Reference is already on its layer
+  thickness, and only where the Reference is already on its layer. A real part whose body holds only small text
+  takes its courtyard (1.25x larger) or free board beside it (1.5x, up to 0.6 mm), plainly nearer it than any other part
 - ✅ LIB-13 designator-layers: front/back pairs of user layers, typed so KiCad flips them, User.9/10 Ref.Test,
   User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms, named in the three templates; the class of a footprint
   from its library, name and designator prefix; `kilib layers` names them in an existing board's layer table only

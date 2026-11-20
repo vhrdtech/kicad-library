@@ -156,7 +156,7 @@ fn a_mark_on_the_centre_moves_the_text_to_the_largest_free_spot() {
     let shape = fp.shape.unwrap();
     let bigger = p.size + SIZE_STEP;
     assert!(
-        grid(shape.region, shape.centre())
+        grid(shape.region, shape.centre(), STEP)
             .iter()
             .all(|&(x, y)| !shape.fits(x, y, 0.0, bigger) && !shape.fits(x, y, 90.0, bigger))
     );
@@ -543,4 +543,79 @@ fn every_designator_reads_left_to_right_or_top_to_bottom_on_each_side() {
             assert!(angle == 0.0 || angle == vertical, "{side} part at {phi}: {angle}");
         }
     }
+}
+
+/// A board with a crowded 0402 (a mark across its body leaves room for small text only) at each of `at`, named
+/// `R1`, `R2`, ..., inside a 20 mm square edge.
+fn crowded_board(at: &[(f64, f64)]) -> String {
+    let pads = [(-0.48, 0.0, 0.56, 0.62), (0.48, 0.0, 0.56, 0.62)];
+    let mark = "\t(fp_line\n\t\t(start 0 -0.25)\n\t\t(end 0 0.25)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(layer \"F.Fab\")\n\t)\n";
+    let crtyd = crtyd_rect(1.0, 0.5, 0.25, false);
+    let (_, lib) = changed(&with_drawing(1.0, 0.5, &pads, "F.Fab", &[], &format!("{mark}{crtyd}")));
+    let mut board = String::from("(kicad_pcb\n");
+    board += "\t(gr_rect\n\t\t(start 0 0)\n\t\t(end 20 20)\n\t\t(stroke\n\t\t\t(width 0.05)\n\t\t\t(type solid)\n\t\t)\n\t\t(layer \"Edge.Cuts\")\n\t)\n";
+    for (i, (x, y)) in at.iter().enumerate() {
+        board += &lib
+            .replacen("(footprint \"T\"", &format!("(footprint \"VHRD_Resistor_SMD:R_0402\"\n\t(at {x} {y})"), 1)
+            .replace("\"REF**\"", &format!("\"R{}\"", i + 1));
+    }
+    board + ")\n"
+}
+
+fn designator(plan: &BoardPlan, i: usize) -> Placement {
+    match &plan.items[i].outcome {
+        BoardOutcome::Change { placement, .. } | BoardOutcome::Fine(placement) => *placement,
+        BoardOutcome::Skipped(why) => panic!("{why}"),
+    }
+}
+
+/// Footprint `i`'s shape on `board` and its designator's ink box in board coordinates (no turn).
+fn board_ink(board: &str, plan: &BoardPlan, i: usize) -> (Shape, Rect) {
+    let pcb = sexpr::parse(board).unwrap();
+    let node = pcb.children("footprint").nth(i).unwrap();
+    let (shape, p, _) = board_designator(node, &read_node(node, "VHRD_Resistor_SMD:R_0402", true)).unwrap();
+    let q = designator(plan, i);
+    let r = shape.text_rect(q.x, q.y, q.angle, q.size);
+    let (x, y) = xy(node.child("at").unwrap()).unwrap();
+    assert!(p.size > 0.0);
+    (shape, Rect { x0: r.x0 + x, y0: r.y0 + y, x1: r.x1 + x, y1: r.y1 + y })
+}
+
+#[test]
+fn a_crowded_body_with_free_board_beside_it_takes_larger_text_there() {
+    let board = crowded_board(&[(10.0, 10.0)]);
+    let plan = plan_board(&board).unwrap();
+    let pcb = sexpr::parse(&board).unwrap();
+    let node = pcb.children("footprint").next().unwrap();
+    let (_, inside, _) = board_designator(node, &read_node(node, "VHRD_Resistor_SMD:R_0402", true)).unwrap();
+    let p = designator(&plan, 0);
+    assert!(p.size >= inside.size * room::NEAR_GROWTH - EPS, "{p:?} vs {inside:?}");
+    assert!(p.size <= room::NEAR_SIZE_MAX + EPS, "{p:?}");
+    let (shape, ink) = board_ink(&board, &plan, 0);
+    let own = shape.courtyard.unwrap();
+    let own = Rect { x0: own.x0 + 10.0, y0: own.y0 + 10.0, x1: own.x1 + 10.0, y1: own.y1 + 10.0 };
+    assert!(own.gap(&ink) <= room::OWN_GAP_MAX + EPS, "{ink:?} beside {own:?}");
+    assert_eq!(plan_board(&plan.new).unwrap().new, plan.new, "a second run changes nothing");
+}
+
+#[test]
+fn a_crowded_body_hemmed_in_by_neighbours_stays_in_its_courtyard() {
+    let at = [(10.0, 9.0), (10.0, 10.0), (10.0, 11.0), (8.5, 10.0), (11.5, 10.0)];
+    let board = crowded_board(&at);
+    let plan = plan_board(&board).unwrap();
+    let (shape, ink) = board_ink(&board, &plan, 1);
+    let own = shape.courtyard.unwrap();
+    let own = Rect { x0: own.x0 + 10.0, y0: own.y0 + 10.0, x1: own.x1 + 10.0, y1: own.y1 + 10.0 };
+    assert!(own.contains(&ink), "{ink:?} in {own:?}");
+}
+
+#[test]
+fn designators_moved_out_keep_clear_of_each_other_and_the_edge() {
+    let board = crowded_board(&[(10.0, 10.0), (11.8, 10.0), (0.8, 10.0)]);
+    let plan = plan_board(&board).unwrap();
+    let ink: Vec<Rect> = (0..3).map(|i| board_ink(&board, &plan, i).1).collect();
+    // Each moved out: its body alone holds about 0.2 mm.
+    assert!((0..3).all(|i| designator(&plan, i).size >= 0.4), "{:?}", plan.items);
+    assert!(ink[0].gap(&ink[1]) >= room::LABEL_GAP_MIN - 1e-3, "{ink:?}");
+    assert!(ink[2].x0 >= room::EDGE_GAP, "{:?}", ink[2]);
 }

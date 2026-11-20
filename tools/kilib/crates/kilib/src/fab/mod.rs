@@ -9,7 +9,8 @@
 //! read together: [`GAP`] stays free between the strokes, the text measured with KiCad's stroke font
 //! ([`crate::stroke`]). Ref.Des and Value are both centred, so they are shown one at a time. A library footprint is sized for the longest
 //! realistic designator of its kind ([`library_refs`]: `R1004`, `C1001`, `TP526`, `U1004`); on a board
-//! ([`plan_board`]) each footprint's own designator is fitted, so a short one gets larger text. To fit, it gets
+//! ([`plan_board`]) each footprint's own designator is fitted, so a short one gets larger text, and a real part whose
+//! body holds it only small takes the room round it (module `room`). To fit, it gets
 //! smaller (from [`MAX_SIZE`] down to [`MIN_SIZE`]) or turns to read top to bottom; where neither fits at the centre it moves to the
 //! largest free spot inside the body nearest the centre. Only where nothing fits at [`MIN_SIZE`] (0201, 01005) does
 //! it go down to [`TINY_SIZE`], reported as tiny. Where nothing fits at all it stays on the centre at [`MIN_SIZE`]
@@ -32,6 +33,8 @@ use crate::reading::reading;
 use crate::sexpr::{self, Node};
 pub use crate::stroke::Ink;
 use crate::stroke::ink_of_all;
+
+mod room;
 
 /// KiCad's convention for fab text is 1 mm, smaller to fit the part.
 pub const MAX_SIZE: f64 = 1.0;
@@ -125,6 +128,22 @@ impl Rect {
         dx.hypot(dy)
     }
 
+    /// How far the segment a-b is from the box, 0 where it crosses or lies in it.
+    fn segment_gap(&self, a: (f64, f64), b: (f64, f64)) -> f64 {
+        if self.meets_segment(a, b) {
+            return 0.0;
+        }
+        let ends = self.distance_to(a).min(self.distance_to(b));
+        self.corners().iter().map(|&c| segment_distance(c, a, b)).fold(ends, f64::min)
+    }
+
+    /// How far the boxes are apart, 0 where they touch or overlap.
+    fn gap(&self, o: &Rect) -> f64 {
+        let dx = (o.x0 - self.x1).max(self.x0 - o.x1).max(0.0);
+        let dy = (o.y0 - self.y1).max(self.y0 - o.y1).max(0.0);
+        dx.hypot(dy)
+    }
+
     /// The segment a-b crosses or lies in the box (Liang-Barsky clipping).
     fn meets_segment(&self, a: (f64, f64), b: (f64, f64)) -> bool {
         let (dx, dy) = (b.0 - a.0, b.1 - a.1);
@@ -193,15 +212,7 @@ impl Prim {
     /// Text with the ink box `t` comes within [`GAP`] of this.
     pub fn hits(&self, t: &Rect) -> bool {
         match self {
-            Prim::Seg { a, b, hw } => {
-                let d = if t.meets_segment(*a, *b) {
-                    0.0
-                } else {
-                    let ends = t.distance_to(*a).min(t.distance_to(*b));
-                    t.corners().iter().map(|&c| segment_distance(c, *a, *b)).fold(ends, f64::min)
-                };
-                d < hw + GAP - EPS
-            }
+            Prim::Seg { a, b, hw } => t.segment_gap(*a, *b) < hw + GAP - EPS,
             Prim::Ring { c, r, hw } => {
                 let near = t.distance_to(*c);
                 let far = t.corners().iter().map(|k| (k.0 - c.0).hypot(k.1 - c.1)).fold(0.0, f64::max);
@@ -298,11 +309,6 @@ impl Shape {
     fn fits_rect(&self, r: &Rect) -> bool {
         self.region.contains(r) && !self.graphics.iter().any(|g| g.hits(r))
     }
-
-    /// The largest of `sizes` whose ink fits centred on `c` at `angle`, and its anchor.
-    fn room(&self, sizes: &[f64], c: (f64, f64), angle: f64) -> Option<(f64, (f64, f64))> {
-        sizes.iter().map(|&s| (s, self.anchor(c, angle, s))).find(|&(s, (x, y))| self.fits(x, y, angle, s))
-    }
 }
 
 fn rect_at(i: &Ink, x: f64, y: f64) -> Rect {
@@ -356,8 +362,8 @@ fn round3(v: f64) -> f64 {
 }
 
 /// The grid points of `area` round `centre`, nearest first (then the least off level, then left and up first).
-fn grid(area: Rect, centre: (f64, f64)) -> Vec<(f64, f64)> {
-    let step = STEP * (area.w().max(area.h()) / (STEP * MAX_STEPS)).ceil().max(1.0);
+fn grid(area: Rect, centre: (f64, f64), step: f64) -> Vec<(f64, f64)> {
+    let step = step * (area.w().max(area.h()) / (step * MAX_STEPS)).ceil().max(1.0);
     let span = |lo: f64, c: f64, hi: f64| {
         (-(((c - lo) / step + EPS).floor() as i64))..=(((hi - c) / step + EPS).floor() as i64)
     };
@@ -374,23 +380,35 @@ fn grid(area: Rect, centre: (f64, f64)) -> Vec<(f64, f64)> {
 /// The largest of `sizes` that fits with the ink centred on the body, level or vertical (level on a tie); else the
 /// largest that fits anywhere inside the body, the ink's middle nearest the centre.
 fn place(shape: &Shape, sizes: &[f64]) -> Option<Placement> {
+    place_where(shape, sizes, STEP, |_| true)
+}
+
+/// [`place`] on a grid of `step`, taking only ink boxes `ok` accepts.
+fn place_where(shape: &Shape, sizes: &[f64], step: f64, ok: impl Fn(&Rect) -> bool) -> Option<Placement> {
     let c = shape.centre();
+    let fits = |r: &Rect| shape.fits_rect(r) && ok(r);
     let at = |angle: f64, (size, (x, y)): (f64, (f64, f64))| Placement { x, y, angle, size, clean: true };
     let v = shape.vertical();
-    match (shape.room(sizes, c, 0.0), shape.room(sizes, c, v)) {
+    let room = |angle: f64| {
+        sizes
+            .iter()
+            .map(|&s| (s, shape.anchor(c, angle, s)))
+            .find(|&(s, (x, y))| fits(&shape.text_rect(x, y, angle, s)))
+    };
+    match (room(0.0), room(v)) {
         (Some(a), Some(b)) if b.0 > a.0 + EPS => return Some(at(v, b)),
         (Some(a), _) => return Some(at(0.0, a)),
         (None, Some(b)) => return Some(at(v, b)),
         (None, None) => {}
     }
-    let pts = grid(shape.region, c);
+    let pts = grid(shape.region, c, step);
     for &size in sizes {
         let inks = [shape.ink(0.0, size), shape.ink(v, size)];
         for &(x, y) in &pts {
             for (k, angle) in [0.0, v].into_iter().enumerate() {
                 let (dx, dy) = inks[k].centre();
                 let (ax, ay) = (round3(x - dx), round3(y - dy));
-                if shape.fits_rect(&rect_at(&inks[k], ax, ay)) {
+                if fits(&rect_at(&inks[k], ax, ay)) {
                     return Some(Placement { x: ax, y: ay, angle, size, clean: true });
                 }
             }
@@ -718,18 +736,20 @@ fn chain(pts: &[(f64, f64)], closed: bool, hw: f64) -> Vec<Prim> {
     (0..n).map(|i| Prim::Seg { a: pts[i], b: pts[(i + 1) % pts.len()], hw }).collect()
 }
 
-/// A graphic item as drawn with a stroke of `width`.
+/// A graphic item (a footprint's `fp_*` or a board's `gr_*`) as drawn with a stroke of `width`.
 fn graphic_prims(g: &Node, width: f64) -> Vec<Prim> {
     let hw = width / 2.0;
     let p = |name: &str| g.child(name).and_then(xy);
     let mut out = Vec::new();
-    match g.head().unwrap_or("") {
-        "fp_line" => {
+    let head = g.head().unwrap_or("");
+    let kind = head.strip_prefix("fp_").or_else(|| head.strip_prefix("gr_")).unwrap_or(head);
+    match kind {
+        "line" => {
             if let (Some(a), Some(b)) = (p("start"), p("end")) {
                 out.push(Prim::Seg { a, b, hw });
             }
         }
-        "fp_rect" => {
+        "rect" => {
             if let (Some(a), Some(b)) = (p("start"), p("end")) {
                 let pts = [a, (b.0, a.1), b, (a.0, b.1)];
                 out.extend(chain(&pts, true, hw));
@@ -738,20 +758,20 @@ fn graphic_prims(g: &Node, width: f64) -> Vec<Prim> {
                 }
             }
         }
-        "fp_circle" => {
+        "circle" => {
             if let (Some(c), Some(e)) = (p("center"), p("end")) {
                 let r = (e.0 - c.0).hypot(e.1 - c.1);
                 out.push(if filled(g) { Prim::Ring { c, r: 0.0, hw: r + hw } } else { Prim::Ring { c, r, hw } });
             }
         }
-        "fp_arc" => match (p("start"), p("mid"), p("end")) {
+        "arc" => match (p("start"), p("mid"), p("end")) {
             (Some(a), Some(m), Some(b)) => out.extend(chain(&arc_points(a, m, b), false, hw)),
             (Some(a), None, Some(b)) => out.push(Prim::Seg { a, b, hw }),
             _ => {}
         },
-        "fp_poly" | "fp_curve" => {
+        "poly" | "curve" => {
             let pts: Vec<_> = g.child("pts").map(|l| l.children("xy").filter_map(xy).collect()).unwrap_or_default();
-            let closed = g.head() == Some("fp_poly");
+            let closed = kind == "poly";
             out.extend(chain(&pts, closed && pts.len() > 2, hw));
             if closed && pts.len() > 2 && filled(g) {
                 out.push(Prim::Area(pts));
@@ -1384,11 +1404,14 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
     if pcb.head() != Some("kicad_pcb") {
         return Err("not a (kicad_pcb ...) file".into());
     }
+    let footprints: Vec<(&Node, Footprint)> =
+        pcb.children("footprint").map(|node| (node, read_node(node, node.arg(0).unwrap_or(""), true))).collect();
+    let designators = roomier_designators(&pcb, &footprints);
     let mut items = Vec::new();
     let mut edits = Vec::new();
-    for node in pcb.children("footprint") {
+    for ((node, fp), designator) in footprints.iter().zip(&designators) {
+        let (node, fp) = (*node, fp);
         let id = node.arg(0).unwrap_or("").to_string();
-        let fp = read_node(node, &id, true);
         let reference = fp.reference.as_ref().map(|r| r.value.clone()).unwrap_or_default();
         let mut run = |r: Result<(BoardOutcome, Vec<Edit>), String>| match r {
             Ok((outcome, e)) => {
@@ -1397,12 +1420,13 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
             }
             Err(why) => BoardOutcome::Skipped(why),
         };
-        let outcome = run(board_edits(text, node, &fp));
-        let value = run(board_value_edits(text, node, &fp));
+        let outcome = run(board_edits(text, node, fp, designator));
+        let value = run(board_value_edits(text, node, fp));
         // The notes hug the courtyard's longer pair of edges, Critical then Important, each clear of the
         // designator's own ink and of the other once it is placed, so the two never overlap.
         let edges = fp.shape.as_ref().and_then(|s| s.courtyard).map(note_edges).unwrap_or([Edge::Top, Edge::Bottom]);
-        let mut avoid: Vec<Rect> = board_designator(node, &fp)
+        let mut avoid: Vec<Rect> = designator
+            .as_ref()
             .ok()
             .map(|(shape, p, _)| shape.text_rect(p.x, p.y, p.angle, p.size))
             .into_iter()
@@ -1416,7 +1440,7 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
                 continue;
             }
             let prefer = note_prefer(edges, idx, critical_edge);
-            match board_note_edits(text, node, &fp, (name, pair), &r, prefer, &avoid) {
+            match board_note_edits(text, node, fp, (name, pair), &r, prefer, &avoid) {
                 Ok((outcome, e, ink, edge)) => {
                     edits.extend(e);
                     avoid.push(ink);
@@ -1437,10 +1461,38 @@ pub fn plan_board(text: &str) -> Result<BoardPlan, String> {
     Ok(BoardPlan { items, old: text.to_string(), new: apply_edits(text, &edits) })
 }
 
-fn board_edits(text: &str, node: &Node, fp: &Footprint) -> Result<(BoardOutcome, Vec<Edit>), String> {
-    let (_, p, phi) = board_designator(node, fp)?;
+/// Each footprint's designator ([`board_designator`]), a real part's moved off its body where there is more room
+/// round it ([`room::Surroundings::roomier`]), the parts whose body holds the smallest text first.
+fn roomier_designators(pcb: &Node, footprints: &[(&Node, Footprint)]) -> Vec<Result<(Shape, Placement, f64), String>> {
+    let mut designators: Vec<_> = footprints.iter().map(|(node, fp)| board_designator(node, fp)).collect();
+    let frames: Vec<room::Frame> = footprints.iter().map(|(node, _)| room::Frame::of(node)).collect();
+    let shapes = footprints.iter().enumerate().filter_map(|(i, (_, fp))| Some((i, frames[i], fp.shape.as_ref()?)));
+    let mut around = room::Surroundings::read(pcb, shapes);
+    let size = |p: &Placement| if p.clean { p.size } else { 0.0 };
+    let mut order: Vec<(usize, f64, &str)> = designators
+        .iter()
+        .enumerate()
+        .filter(|&(i, _)| footprints[i].1.class == Class::Part)
+        .filter_map(|(i, d)| Some((i, size(&d.as_ref().ok()?.1), footprints[i].1.reference.as_ref()?.value.as_str())))
+        .collect();
+    order.sort_by(|a, b| a.1.total_cmp(&b.1).then_with(|| a.2.cmp(b.2)));
+    for (i, _, _) in order {
+        if let Ok((shape, p, _)) = &mut designators[i] {
+            *p = around.roomier(i, frames[i], shape, *p);
+        }
+    }
+    designators
+}
+
+fn board_edits(
+    text: &str,
+    node: &Node,
+    fp: &Footprint,
+    designator: &Result<(Shape, Placement, f64), String>,
+) -> Result<(BoardOutcome, Vec<Edit>), String> {
+    let (_, p, phi) = designator.as_ref().map_err(Clone::clone)?;
     let r = fp.reference.as_ref().expect("board_designator checked it");
-    fit_property(text, node, "Reference", r, p, phi, fp.back)
+    fit_property(text, node, "Reference", r, *p, *phi, fp.back)
 }
 
 /// A real part's Value fitted to its own text: skipped for other classes, and where the Value is not on its layer

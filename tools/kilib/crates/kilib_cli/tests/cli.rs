@@ -534,9 +534,10 @@ fn designators_board_fits_each_designator_and_value_to_its_own_text() {
     let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb"]);
     let t = text(&out);
     assert_eq!(out.status.code(), Some(1), "{t}");
-    // R806 is shorter than R1004: 0.26 mm fits; R1 larger still, written at 270°: the part's 90° and the text's read top to bottom.
-    assert!(t.contains("R806: 0.26 mm 0° at ("), "{t}");
-    assert!(t.contains("R1: 0.35 mm 270° at ("), "{t}");
+    // Alone on the board, each 0402 takes the free board beside it at the largest size there; R1 is written at
+    // 270°: the part's 90° and the text's read top to bottom.
+    assert!(t.contains("R806: 0.6 mm 0° at ("), "{t}");
+    assert!(t.contains("R1: 0.6 mm 270° at ("), "{t}");
     // Each 10K value centred on its own, larger than its designator.
     assert!(t.contains("R806 value: 0.35 mm 0° at (0, 0.016)") && t.contains("R1 value: 0.35 mm 270° at ("), "{t}");
     assert!(t.contains("1 skipped; 2 values to change, 1 layout notes"), "{t}");
@@ -552,7 +553,7 @@ fn designators_board_fits_each_designator_and_value_to_its_own_text() {
     let out = kilib(&dir, &["designators", "--board", "b.kicad_pcb", "--write"]);
     assert_eq!(out.status.code(), Some(0), "{}", text(&out));
     let new = std::fs::read_to_string(&path).unwrap();
-    assert!(new.contains("(size 0.26 0.26)\n\t\t\t\t\t(thickness 0.039)"), "{new}");
+    assert!(new.contains("(size 0.6 0.6)\n\t\t\t\t\t(thickness 0.09)"), "{new}");
     // Only the Reference's and the Value's at, size and thickness changed.
     let strip = |s: &str| {
         s.lines()

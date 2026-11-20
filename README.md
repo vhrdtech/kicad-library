@@ -111,6 +111,13 @@ same under `footprints/<name>.pretty` for footprints.
   where it was.
 - `kilib designators --board BOARD.kicad_pcb` fits each placed footprint's own designator the same way, so `R7`
   gets larger text than `R1004` would, and each real part's Value on `Value.F`/`Value.B` for its own text (`10K`).
+  Where a real part's body holds its designator only small (a diode whose symbol fills the outline, an 0402), the
+  designator takes the part's courtyard round the body when it grows there by 1.25x, or free board beside the
+  courtyard when it grows there by 1.5x, up to 0.6 mm: a larger text fits only where the board is open, so it drifts
+  towards the most room. Beside the courtyard it must read as that part's: alongside one of its sides within 0.3 mm,
+  every other courtyard three times as far from its middle, 0.15 mm clear of other courtyards, 0.5 mm clear of other
+  designators moved out, 0.2 mm inside the board edge. The parts whose body holds the smallest text choose first;
+  a part hemmed in by its neighbours keeps its text on the body.
   It touches only footprints whose Reference (and Value) is already on its layer (as the library puts it), and of
   those only the two properties' position, angle, size and thickness; the angle is written so the text reads left to right or top to bottom, as the editor shows it from
   its side (0° or 270° on the front, 0° or 90° on the back, a part's rotation included; see "Text direction" below). A `Layout_Critical` or `Layout_Important` note that is set gets the same on `Crit`/`Imp`, fitted to its own
