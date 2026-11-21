@@ -403,6 +403,7 @@
         ],
         "name": "Floorplan.F",
         "renderLayers": [
+          "tracks",
           "vias",
           "pads",
           "zones",
@@ -436,6 +437,7 @@
         ],
         "name": "Floorplan.B",
         "renderLayers": [
+          "tracks",
           "vias",
           "pads",
           "zones",
@@ -478,6 +480,7 @@
         ],
         "name": "Floorplan.FB",
         "renderLayers": [
+          "tracks",
           "vias",
           "pads",
           "zones",

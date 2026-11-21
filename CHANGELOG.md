@@ -11,6 +11,7 @@
 ### Changed
 
 - Floorplan.F/B/FB presets show the side's Rooms; Silk.F/B show the side's Fab (LIB-33 layer-presets).
+- Floorplan.F/B/FB presets keep tracks on, so F.Cu or B.Cu switched on by hand shows them (LIB-33 layer-presets).
 
 ## [0.5.15] - 2026-11-20
 
