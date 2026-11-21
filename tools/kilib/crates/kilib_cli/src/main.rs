@@ -230,8 +230,8 @@ Examples:
     ///
     /// Real parts carry their designator on User.23/24 Ref.Des.F/B; test points, net ties and mechanical
     /// footprints on a layer of their own (User.9/10 Ref.Test.F/B, User.11/12 Ref.Tie.F/B, User.13/14
-    /// Ref.Mech.F/B); F.Fab and B.Fab keep the drawing alone. User.15/16 Rooms.F/B hold hand-drawn outlines of the
-    /// circuit blocks. User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
+    /// Ref.Mech.F/B); F.Fab and B.Fab keep the drawing alone. User.15/16 Rooms.F/B hold one outline per
+    /// schematic sheet, User.33/34 Blocks.F/B one per block (a symbol's Block field). User.17/18 Value.F/B carry a real part's Value, centred like the designator, User.19/20
     /// Pins.F/B pin numbers next to the pads, User.21/22 Centroid.F/B a cross on the placement origin, User.25/26
     /// Crit.F/B and User.27/28 Imp.F/B a real part's Layout_Critical and Layout_Important notes, User.5/6 Body.F/B
     /// a part's full top view (its 3D model's outline), User.7/8 Xray.F/B every edge of that model seen from

@@ -5,7 +5,8 @@
 //! a layer of their own (Ref.Test, Ref.Tie, Ref.Mech), so a print shows one kind at a time: [`Class`] decides from
 //! the footprint's library and name and the designator's prefix. Each such layer is a front/back pair of KiCad user
 //! layers, typed `front` and `back` and numbered one after the other, so KiCad flips a bottom-side footprint's text
-//! to the back one. One more pair, Rooms, holds hand-drawn outlines of the circuit blocks (no footprint uses it).
+//! to the back one. Two more pairs hold outlines no footprint draws: Rooms one per schematic sheet, Blocks one per
+//! block (a symbol's `Block` field).
 //! Three pairs more carry what a fab or assembly print may want on demand: Value (a real part's Value, centred on
 //! the body like the designator, so Ref.Des and Value are shown one at a time), Pins (pin numbers next to the pads)
 //! and Centroid (a cross on the placement origin). Two pairs show layout priority: Crit and Imp carry a real part's
@@ -35,7 +36,7 @@ const fn user(n: u32, side: &'static str, name: &'static str, id: &'static str) 
 
 /// The layers, front then back of each pair. KiCad pairs user layers by number only (User.5 front flips to User.6,
 /// never to User.7), so each pair is an odd number and the even one after it.
-pub const LAYERS: [Layer; 28] = [
+pub const LAYERS: [Layer; 30] = [
     user(9, "front", "Ref.Test.F", "User.9"),
     user(10, "back", "Ref.Test.B", "User.10"),
     user(11, "front", "Ref.Tie.F", "User.11"),
@@ -64,6 +65,8 @@ pub const LAYERS: [Layer; 28] = [
     user(30, "back", "Pin1.B", "User.30"),
     user(31, "front", "Ruler.F", "User.31"),
     user(32, "back", "Ruler.B", "User.32"),
+    user(33, "front", "Blocks.F", "User.33"),
+    user(34, "back", "Blocks.B", "User.34"),
 ];
 
 /// The Ref.Des pair: the designators of real parts, centred on the body ([`crate::fab`]).
@@ -341,7 +344,7 @@ mod tests {
         assert!(new.contains("(39 \"User.1\" user)\n\t\t(55 \"User.9\" front"), "{new}");
         assert!(new.contains("(93 \"User.28\" back \"Imp.B\")\n\t\t(47 \"User.5\" front \"Body.F\")"), "{new}");
         assert!(new.contains("(49 \"User.6\" back \"Body.B\")\n\t\t(51 \"User.7\" front \"Xray.F\")"), "{new}");
-        assert!(new.contains("(53 \"User.8\" back \"Xray.B\")\n\t\t(95 \"User.29\" front \"Pin1.F\")\n\t\t(97 \"User.30\" back \"Pin1.B\")\n\t\t(99 \"User.31\" front \"Ruler.F\")\n\t\t(101 \"User.32\" back \"Ruler.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
+        assert!(new.contains("(53 \"User.8\" back \"Xray.B\")\n\t\t(95 \"User.29\" front \"Pin1.F\")\n\t\t(97 \"User.30\" back \"Pin1.B\")\n\t\t(99 \"User.31\" front \"Ruler.F\")\n\t\t(101 \"User.32\" back \"Ruler.B\")\n\t\t(103 \"User.33\" front \"Blocks.F\")\n\t\t(105 \"User.34\" back \"Blocks.B\")\n\t\t(17 \"Dwgs.User\""), "{new}");
         assert!(changes.iter().all(|c| matches!(c, LayerChange::Set(_))));
         let (again, changes) = add_to_board(&new).unwrap();
         assert_eq!(again, new);

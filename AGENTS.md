@@ -58,9 +58,9 @@ and library in step). A new package: a line in the map, then `kilib per-package 
 
 ## Designator layers
 
-User.5-32 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
+User.5-34 are the library's: front/back pairs `Body` (User.5/6, a part's full top view, its 3D model's
 outline), `Xray` (User.7/8, every edge of the 3D model seen from above, hidden ones included), `Ref.Test`, `Ref.Tie`, `Ref.Mech` (designators of test points, net
-ties, mechanical parts), `Rooms` (block outlines), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
+ties, mechanical parts), `Rooms` (User.15/16, one outline per schematic sheet), `Blocks` (User.33/34, one per `Block` field), `Value` (a real part's Value), `Pins` (pin numbers, `kilib lint
 --rule pins`), `Pin1` (User.29/30, a dot by pin 1, `--rule pin1-body`), `Ruler` (User.31/32, a pin ruler, `--rule ruler`; never on the library's silkscreen, `kilib ruler --board` copies it onto a board's), `Centroid` (a cross on the origin) and `Ref.Des` (User.23/24, the designators of real parts), `Crit` and `Imp` (User.25-28, a real
 part's `Layout_Critical` and `Layout_Important` notes, set in the schematic, README "Layout priority"), named in
 the templates and by `kilib layers`; don't use those numbers for anything else. F.Fab and B.Fab carry only the

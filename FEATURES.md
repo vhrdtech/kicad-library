@@ -52,8 +52,8 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   thickness, and only where the Reference is already on its layer. A real part whose body holds only small text
   takes its courtyard (1.25x larger) or free board beside it (1.5x, up to 0.6 mm), plainly nearer it than any other part
 - ✅ LIB-13 designator-layers: front/back pairs of user layers, typed so KiCad flips them, User.9/10 Ref.Test,
-  User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms, named in the three templates; the class of a footprint
-  from its library, name and designator prefix; `kilib layers` names them in an existing board's layer table only
+  User.11/12 Ref.Tie, User.13/14 Ref.Mech, User.15/16 Rooms (per sheet), User.33/34 Blocks (per block), named in
+  the three templates; the class of a footprint from its library, name and designator prefix; `kilib layers` names them in an existing board's layer table only
 - ✅ LIB-14 pin1-marks: parts with three or more pins and polar two-pin parts mark pin 1 on the fab layer, and on the
   silkscreen where they draw one, so no turn of the part that fits its pads leaves pin 1 in doubt; `kilib lint
   --rule pin1` reports missing, ambiguous and misplaced marks, `--write` chamfers a rectangular fab outline's pin-1

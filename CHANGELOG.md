@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Blocks.F/B layer pair on User.33/34: one outline per block, beside Rooms' one per sheet (LIB-13 designator-layers).
+
 ## [0.5.15] - 2026-11-20
 
 ### Added

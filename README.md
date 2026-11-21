@@ -143,7 +143,7 @@ same under `footprints/<name>.pretty` for footprints.
   pairs so KiCad flips a bottom-side footprint's text to the back one: User.9/10 `Ref.Test.F`/`Ref.Test.B` (test
   points), User.11/12 `Ref.Tie.F`/`Ref.Tie.B` (net ties, spark gaps, solder jumpers), User.13/14
   `Ref.Mech.F`/`Ref.Mech.B` (mounting holes, fiducials, logos; designator hidden), User.15/16 `Rooms.F`/`Rooms.B`
-  (hand-drawn outlines of the circuit blocks), User.17/18 `Value.F`/`Value.B` (each real part's Value), User.19/20
+  (one outline per schematic sheet; User.33/34 `Blocks.F`/`Blocks.B` one per block, a symbol's `Block` field), User.17/18 `Value.F`/`Value.B` (each real part's Value), User.19/20
   `Pins.F`/`Pins.B` (pin numbers), User.21/22 `Centroid.F`/`Centroid.B` (a cross on each placed footprint's origin),
   User.23/24 `Ref.Des.F`/`Ref.Des.B` (the designators of real parts), User.25/26 `Crit.F`/`Crit.B` and User.27/28
   `Imp.F`/`Imp.B` (a real part's layout-priority notes, see "Layout priority"), User.5/6 `Body.F`/`Body.B` (a

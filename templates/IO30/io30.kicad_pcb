@@ -67,6 +67,8 @@
 		(97 "User.30" back "Pin1.B")
 		(99 "User.31" front "Ruler.F")
 		(101 "User.32" back "Ruler.B")
+		(103 "User.33" front "Blocks.F")
+		(105 "User.34" back "Blocks.B")
 	)
 	(setup
 		(stackup
