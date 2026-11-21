@@ -6,6 +6,10 @@
 
 - Blocks.F/B layer pair on User.33/34: one outline per block, beside Rooms' one per sheet (LIB-13 designator-layers).
 
+### Changed
+
+- Floorplan.F/B/FB presets show the side's Rooms; Silk.F/B show the side's Fab (LIB-33 layer-presets).
+
 ## [0.5.15] - 2026-11-20
 
 ### Added

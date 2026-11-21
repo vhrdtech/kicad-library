@@ -5,7 +5,8 @@
 # designators, values, Crit/Imp notes and pin numbers; Edge.Cuts in every preset, the board outline area's shadow in none).
 # `flip` views the board from below, for a back-side preset. Decided 14 Nov 2026.
 # Every preset that shows Body shows Pin1 of that side; Assembly shows the body, not the fab drawing.
-# The Floorplan presets show vias but not tracks.
+# The Floorplan presets show vias but not tracks, and the side's Rooms (one outline per schematic sheet).
+# The Silk presets show the side's fab drawing beside the silkscreen and mask.
 
 [[preset]]
 name = "Layout.F"
@@ -27,19 +28,19 @@ flip = false
 
 [[preset]]
 name = "Floorplan.F"
-layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts"]
+layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Rooms.F", "Edge.Cuts"]
 render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
 [[preset]]
 name = "Floorplan.B"
-layers = ["B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B", "Edge.Cuts"]
+layers = ["B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B", "Rooms.B", "Edge.Cuts"]
 render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = true
 
 [[preset]]
 name = "Floorplan.FB"
-layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Edge.Cuts", "B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B"]
+layers = ["F.Courtyard", "Ref.Des.F", "Crit.F", "Imp.F", "Body.F", "Pin1.F", "Ref.Test.F", "Ref.Tie.F", "Rooms.F", "Edge.Cuts", "B.Courtyard", "Ref.Des.B", "Crit.B", "Imp.B", "Body.B", "Pin1.B", "Ref.Test.B", "Ref.Tie.B", "Rooms.B"]
 render = ["vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "ratsnest"]
 flip = false
 
@@ -87,12 +88,12 @@ flip = true
 
 [[preset]]
 name = "Silk.F"
-layers = ["F.SilkS", "F.Mask", "Edge.Cuts"]
+layers = ["F.SilkS", "F.Mask", "F.Fab", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = false
 
 [[preset]]
 name = "Silk.B"
-layers = ["B.SilkS", "B.Mask", "Edge.Cuts"]
+layers = ["B.SilkS", "B.Mask", "B.Fab", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = true
