@@ -4,9 +4,11 @@
 # anything not listed is hidden: footprints_front/back carry the footprints' graphics, footprint_text the
 # designators, values, Crit/Imp notes and pin numbers; Edge.Cuts in every preset, the board outline area's shadow in none).
 # `flip` views the board from below, for a back-side preset. Decided 14 Nov 2026.
-# Every preset that shows Body shows Pin1 of that side; Assembly shows the body, not the fab drawing.
+# Every preset that shows Body shows Pin1 of that side, except Rooms, Blocks and Dimensions; Assembly shows the body, not the fab drawing.
 # The Floorplan presets show vias but not tracks, and the side's Rooms (one outline per schematic sheet).
 # The Silk presets show the side's fab drawing beside the silkscreen and mask.
+# The Rooms and Blocks presets show that side's room outlines, the parts' bodies and the board outline.
+# Dimensions shows the drawing's dimensions over both sides' bodies and the board outline.
 
 [[preset]]
 name = "Layout.F"
@@ -97,3 +99,33 @@ name = "Silk.B"
 layers = ["B.SilkS", "B.Mask", "B.Fab", "Edge.Cuts"]
 render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
 flip = true
+
+[[preset]]
+name = "Rooms.F"
+layers = ["Rooms.F", "Body.F", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
+flip = false
+
+[[preset]]
+name = "Rooms.B"
+layers = ["Rooms.B", "Body.B", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
+flip = true
+
+[[preset]]
+name = "Blocks.F"
+layers = ["Blocks.F", "Body.F", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
+flip = false
+
+[[preset]]
+name = "Blocks.B"
+layers = ["Blocks.B", "Body.B", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
+flip = true
+
+[[preset]]
+name = "Dimensions"
+layers = ["Dimensions", "Body.F", "Body.B", "Edge.Cuts"]
+render = ["tracks", "vias", "pads", "zones", "shapes", "bitmaps", "footprints_front", "footprints_back", "footprint_values", "footprint_references", "footprint_text", "conflict_shadows", "drawing_sheet", "grid", "drc_warnings", "drc_errors"]
+flip = false

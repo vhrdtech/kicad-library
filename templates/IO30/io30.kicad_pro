@@ -759,6 +759,147 @@
           "drc_warnings",
           "drc_errors"
         ]
+      },
+      {
+        "activeLayer": 67,
+        "flipBoard": false,
+        "layers": [
+          25,
+          47,
+          67
+        ],
+        "name": "Rooms.F",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "drc_warnings",
+          "drc_errors"
+        ]
+      },
+      {
+        "activeLayer": 69,
+        "flipBoard": true,
+        "layers": [
+          25,
+          49,
+          69
+        ],
+        "name": "Rooms.B",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "drc_warnings",
+          "drc_errors"
+        ]
+      },
+      {
+        "activeLayer": 103,
+        "flipBoard": false,
+        "layers": [
+          25,
+          47,
+          103
+        ],
+        "name": "Blocks.F",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "drc_warnings",
+          "drc_errors"
+        ]
+      },
+      {
+        "activeLayer": 105,
+        "flipBoard": true,
+        "layers": [
+          25,
+          49,
+          105
+        ],
+        "name": "Blocks.B",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "drc_warnings",
+          "drc_errors"
+        ]
+      },
+      {
+        "activeLayer": 17,
+        "flipBoard": false,
+        "layers": [
+          17,
+          25,
+          47,
+          49
+        ],
+        "name": "Dimensions",
+        "renderLayers": [
+          "tracks",
+          "vias",
+          "pads",
+          "zones",
+          "shapes",
+          "bitmaps",
+          "footprints_front",
+          "footprints_back",
+          "footprint_values",
+          "footprint_references",
+          "footprint_text",
+          "conflict_shadows",
+          "drawing_sheet",
+          "grid",
+          "drc_warnings",
+          "drc_errors"
+        ]
       }
     ],
     "viewports": []

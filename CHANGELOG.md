@@ -5,6 +5,8 @@
 ### Added
 
 - Blocks.F/B layer pair on User.33/34: one outline per block, beside Rooms' one per sheet (LIB-13 designator-layers).
+- Rooms.F/B and Blocks.F/B presets: one side's room outlines with part bodies and the board outline (LIB-33 layer-presets).
+- Dimensions preset: the dimensions layer over both sides' part bodies and the board outline (LIB-33 layer-presets).
 
 ### Changed
 
