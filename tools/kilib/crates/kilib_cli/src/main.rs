@@ -407,6 +407,9 @@ Examples:
     /// footprint, where it shows on its own layer. Test points, net ties, mechanical and graphic footprints carry
     /// neither. Fix: added or put back in place; a stray one removed; a note set in the library left for a person.
     ///
+    /// hole-dims: a mounting hole gets a circle as large as its drill and a radial dimension reading the diameter
+    /// (⌀3.2) on Dimensions (Dwgs.User). Fix: drawn, replacing anything else on that layer.
+    ///
     /// The designator and the Value are left to `kilib designators`; run it after --write. It lists what each fix changes and
     /// what is left for a person, and exits 1 when a fix is not written yet.
     #[command(after_help = "\

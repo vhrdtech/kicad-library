@@ -7,6 +7,8 @@
 - Blocks.F/B layer pair on User.33/34: one outline per block, beside Rooms' one per sheet (LIB-13 designator-layers).
 - Rooms.F/B and Blocks.F/B presets: one side's room outlines with part bodies and the board outline (LIB-33 layer-presets).
 - Dimensions preset: the dimensions layer over both sides' part bodies and the board outline (LIB-33 layer-presets).
+- Mounting holes show their size on Dimensions: drill circle and diameter (LIB-38 hole-dims).
+- `VHRD_MountingHole` M2, M3 and M4 holes; the stock map moves boards from KiCad's to them (LIB-38 hole-dims).
 
 ### Changed
 

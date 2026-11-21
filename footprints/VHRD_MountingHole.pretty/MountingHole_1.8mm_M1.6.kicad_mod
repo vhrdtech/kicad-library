@@ -89,6 +89,49 @@
 		(layer "F.CrtYd")
 		(uuid "b3f97b30-0cea-4c6c-8966-afbdf763519f")
 	)
+	(fp_circle
+		(center 0 0)
+		(end 0.9 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+	)
+	(dimension
+		(type radial)
+		(layer "Dwgs.User")
+		(pts
+			(xy 0 0) (xy 0.6364 -0.6364)
+		)
+		(leader_length 1)
+		(format
+			(prefix "")
+			(suffix "")
+			(units 3)
+			(units_format 0)
+			(precision 4)
+			(override_value "⌀1.8")
+		)
+		(style
+			(thickness 0.05)
+			(arrow_length 0.45)
+			(text_position_mode 0)
+			(extension_offset 0)
+			(keep_text_aligned yes)
+		)
+		(gr_text "⌀1.8"
+			(at 2.0635 -1.3435 0)
+			(layer "Dwgs.User")
+			(effects
+				(font
+					(size 0.45 0.45)
+					(thickness 0.0563)
+				)
+			)
+		)
+	)
 	(pad "" np_thru_hole circle
 		(at 0 0)
 		(size 1.8 1.8)

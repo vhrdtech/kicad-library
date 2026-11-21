@@ -289,6 +289,9 @@ same under `footprints/<name>.pretty` for footprints.
     ties, mechanical and graphic footprints have neither. The fix adds them or puts them back in place and removes
     a stray one; a note set in the library is
     reported, as the note belongs to the schematic.
+  - `hole-dims`: a mounting hole gets a circle as large as its drill and a radial dimension reading the diameter
+    (`⌀3.2`) on `Dimensions` (Dwgs.User), so the `Dimensions` preset shows each hole's size with no copper layer
+    on. The fix replaces anything else on the layer.
 - `kilib layout-fields [PATH...]` adds the empty, hidden symbol fields `Layout_Critical` and `Layout_Important`
   where a symbol lacks them: to each symbol of a library file (default: this checkout's `symbols/`), and in a
   schematic to each placed symbol and its copy in the schematic's `lib_symbols`. A new field copies a hidden field of

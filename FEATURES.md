@@ -181,3 +181,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   pin's centre line beyond the toe, 0.4 mm clear of every mask opening (`kilib lint --rule ruler`, sizes in
   `generate/ruler.toml`; 47 footprints). The Pins presets show it. The library keeps it off the silkscreen; `kilib
   ruler --board PCB --silk on|off` copies it onto a board's silkscreen with 0.8 mm numbers, or takes the copy off.
+- ✅ LIB-38 hole-dims: mounting holes carry a circle as large as the drill and a radial dimension reading the
+  diameter (`⌀3.2`) on Dimensions (Dwgs.User), so the Dimensions preset shows each hole's size with no copper layer
+  on (`kilib lint --rule hole-dims`). VHRD_MountingHole has the M1.6, M2, M3 and M4 holes; the stock map moves
+  boards from KiCad's MountingHole M2, M3 and M4 to them.

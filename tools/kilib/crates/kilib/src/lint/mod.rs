@@ -23,6 +23,7 @@
 //! - [`Rule::Centroid`]: a cross on the origin on Centroid.F/B for every placed footprint ([`centroid`]).
 //! - [`Rule::Layout`]: a real part's empty `Layout_Critical` and `Layout_Important` properties on Crit.F/B and
 //!   Imp.F/B, centred like the Value ([`layout`]).
+//! - [`Rule::HoleDims`]: a mounting hole's circle and diameter dimension on Dimensions (Dwgs.User) ([`hole_dims`]).
 //!
 //! [`plan`] runs the rules in that order on each footprint, each on the text the one before left, and keeps what they
 //! fixed and what they leave for a person; [`apply`] writes the fixed footprints. The designator (its text, layer
@@ -32,6 +33,7 @@ pub mod attrs;
 pub mod centroid;
 pub mod courtyard;
 pub mod half_turn;
+pub mod hole_dims;
 pub mod keyed;
 pub mod layout;
 pub mod models;
@@ -63,11 +65,12 @@ pub enum Rule {
     Ruler,
     Centroid,
     Layout,
+    HoleDims,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 11] = [
+    pub const ALL: [Rule; 12] = [
         Rule::Attrs,
         Rule::Models,
         Rule::Courtyard,
@@ -79,6 +82,7 @@ impl Rule {
         Rule::Ruler,
         Rule::Centroid,
         Rule::Layout,
+        Rule::HoleDims,
     ];
 
     pub fn name(self) -> &'static str {
@@ -94,6 +98,7 @@ impl Rule {
             Rule::Ruler => "ruler",
             Rule::Centroid => "centroid",
             Rule::Layout => "layout",
+            Rule::HoleDims => "hole-dims",
         }
     }
 
@@ -242,6 +247,7 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Ruler => ruler::run(i),
         Rule::Centroid => centroid::run(i),
         Rule::Layout => layout::run(i),
+        Rule::HoleDims => hole_dims::run(i),
     }
 }
 
