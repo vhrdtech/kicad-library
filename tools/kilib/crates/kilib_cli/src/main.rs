@@ -58,7 +58,7 @@ Examples:
   kilib check --json board.kicad_pcb    the same for one file, as JSON
   kilib setup --dry-run                 what setup would change in this PC's KiCad config
   kilib migrate --map migrate/2026-11.toml ~/git/hw    the diff that moves the boards to the new layout
-  kilib per-package --map migrate/2026-11-packages.toml ~/git/hw/b153_typec_serial    placed generic symbols by footprint
+  kilib per-package --map migrate/2026-11-packages.toml ~/git/hw/b153_portwright    placed generic symbols by footprint
   kilib designators                     which footprints' designators and values are not yet on their layers
   kilib layers --write board.kicad_pcb  name the designator and room layers in an existing board
   kilib stock diff                      our copies of KiCad's stock footprints against the current stock library
@@ -79,7 +79,7 @@ Examples:
   kilib check ~/git/hw
   kilib check --config-dir /tmp/kicad-cfg/10.0 --var KICAD10_3DMODEL_DIR=/mnt/kicad-packages3D ~/git/hw
   kilib check --json ~/git/hw > report.json
-  kilib check --only VHRD_ ~/git/hw/b153_typec_serial    no symbol or footprint from KiCad's stock libraries")]
+  kilib check --only VHRD_ ~/git/hw/b153_portwright    no symbol or footprint from KiCad's stock libraries")]
     Check {
         /// Boards: .kicad_sch, .kicad_pcb, .kicad_sym or .kicad_mod files, or folders searched for them
         #[arg(required = true, value_hint = ValueHint::AnyPath)]
@@ -200,9 +200,9 @@ Examples:
     /// "not in the map". `kilib migrate` with the same map then moves the placed symbols onto them.
     #[command(after_help = "\
 Examples:
-  kilib per-package --map migrate/2026-11-packages.toml ../hw/b153_typec_serial/source/b153a
+  kilib per-package --map migrate/2026-11-packages.toml ../hw/b153_portwright/source/b153a
   kilib per-package --map migrate/2026-11-packages.toml --write
-  kilib migrate --map migrate/2026-11-packages.toml --write ../hw/b153_typec_serial/source/b153a")]
+  kilib migrate --map migrate/2026-11-packages.toml --write ../hw/b153_portwright/source/b153a")]
     PerPackage {
         /// The rename map with the [per_package] tables (migrate/*.toml in kicad-library)
         #[arg(long, value_name = "FILE", value_hint = ValueHint::FilePath)]
@@ -246,7 +246,7 @@ Examples:
     /// and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
-  kilib layers ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb
+  kilib layers ../hw/b153_portwright/source/b153a/b153a_portwright.kicad_pcb
   kilib layers --write templates/IO30/io30.kicad_pcb")]
     Layers {
         /// Boards (.kicad_pcb)
@@ -319,7 +319,7 @@ Examples:
 Examples:
   kilib designators
   kilib designators --write footprints/VHRD_Package_SO.pretty
-  kilib designators --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --write"
+  kilib designators --board ../hw/b153_portwright/source/b153a/b153a_portwright.kicad_pcb --write"
     )]
     Designators {
         /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
@@ -350,7 +350,7 @@ Examples:
 Examples:
   kilib layout-fields
   kilib layout-fields --write symbols/VHRD_Device.kicad_symdir
-  kilib layout-fields ../hw/b153_typec_serial/source/b153a")]
+  kilib layout-fields ../hw/b153_portwright/source/b153a")]
     LayoutFields {
         /// Symbol files (.kicad_sym), schematics (.kicad_sch) or folders searched for them (default: the checkout's
         /// symbols/)
@@ -432,7 +432,7 @@ Examples:
     /// already as they should be. Without --write it lists what would change and exits 1 when anything would.
     #[command(after_help = "\
 Examples:
-  kilib ruler --board ../hw/b153_typec_serial/source/b153a/b153a_typec_serial.kicad_pcb --silk on
+  kilib ruler --board ../hw/b153_portwright/source/b153a/b153a_portwright.kicad_pcb --silk on
   kilib ruler --board board.kicad_pcb --silk on --write
   kilib ruler --board board.kicad_pcb --silk off --write")]
     Ruler(ruler_cmd::RulerArgs),
