@@ -67,8 +67,8 @@
 				)
 			)
 		)
-		(property "ki_keywords" "transistor NMOS N-MOS N-MOSFET dual"
-			(at 0 0 0)
+		(property "Mpn1" "NX3020NAKS,115"
+			(at 0 -5.08 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -76,24 +76,6 @@
 				(font
 					(size 1.27 1.27)
 				)
-			)
-		)
-		(property "Mpn1" "NX3020NAKS,115"
-			(at 0 -5.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "ki_fp_filters" "SOT?363*"
-			(at 0 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
 			)
 		)
 		(property "Layout_Critical" ""
@@ -108,6 +90,28 @@
 			)
 		)
 		(property "Layout_Important" ""
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "transistor NMOS N-MOS N-MOSFET dual"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_fp_filters" "SOT?363*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
