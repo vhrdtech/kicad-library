@@ -680,10 +680,54 @@ fn lint_reports_fixes_then_writes_then_only_what_is_left() {
     let out = kilib(&dir, &["lint", "--rule", "bogus", "lib/footprints"]);
     assert_eq!(out.status.code(), Some(2), "{}", text(&out));
     assert!(text(&out).contains(
-        "unknown rule \"bogus\": one of attrs, models, courtyard, silk, pin1, pin1-body, ref-outline, pins, ruler, centroid, layout"
+        "unknown rule \"bogus\": one of attrs, models, courtyard, silk, pin1, pin1-body, ref-outline, pins, ruler, centroid, layout, hole-dims, datasheet-link"
     ));
     let usage = std::fs::read_to_string(dir.path().join("state/kilib/usage.tsv")).unwrap();
     assert!(usage.contains("\tlint\twrite\n") && usage.contains("\tlint\trule,json\n"), "{usage}");
+}
+
+#[test]
+fn lint_rewrites_stale_mx3_datasheet_links_of_symbols() {
+    let dir = TestDir::new("cli_lint_datasheet");
+    let prop = |name: &str, value: &str| format!("\t\t(property \"{name}\" \"{value}\"\n\t\t\t(at 0 0 0)\n\t\t)\n");
+    let symbol = |name: &str, ds: &str, mpns: &[&str]| {
+        let mut s = format!("(kicad_symbol_lib\n\t(version 20251024)\n\t(symbol \"{name}\"\n");
+        s += &prop("Reference", "U");
+        s += &prop("Datasheet", ds);
+        for m in mpns {
+            s += &prop(m, "");
+        }
+        s + "\t)\n)\n"
+    };
+    let stale = symbol("A", "mx3:${Mpn1} ${Mpn2} ${Mpn3}", &["Mpn1", "Mpn12"]);
+    let right = symbol("B", "mx3:${Mpn1}", &["Mpn1"]);
+    let url = symbol("C", "https://www.example.com/c.pdf", &["Mpn1"]);
+    let a = dir.write("lib/symbols/VHRD_Device.kicad_symdir/A.kicad_sym", &stale);
+    let b = dir.write("lib/symbols/VHRD_Device.kicad_symdir/B.kicad_sym", &right);
+    dir.write("lib/symbols/VHRD_Device.kicad_symdir/C.kicad_sym", &url);
+
+    let out = kilib(&dir, &["lint", "--rule", "datasheet-link", "lib/symbols"]);
+    let t = text(&out);
+    assert_eq!(out.status.code(), Some(1), "{t}");
+    for want in [
+        "VHRD_Device:A (symbol)",
+        "fix  datasheet-link Datasheet `mx3:${Mpn1} ${Mpn2} ${Mpn3}` references ${Mpn2}, ${Mpn3} it has no field for and misses ${Mpn12}: now `mx3:${Mpn1} ${Mpn12}`",
+        "kilib lint: 0 footprints, 3 symbol files, 1 to change; fixes: datasheet-link 1; left for a person: none",
+    ] {
+        assert!(t.contains(want), "missing {want:?} in:\n{t}");
+    }
+    assert!(!t.contains("VHRD_Device:B") && !t.contains("VHRD_Device:C"), "{t}");
+    assert_eq!(std::fs::read_to_string(&a).unwrap(), stale, "nothing written without --write");
+
+    let out = kilib(&dir, &["lint", "--rule", "datasheet-link", "--write", "lib/symbols"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
+    assert_eq!(
+        std::fs::read_to_string(&a).unwrap(),
+        stale.replace("mx3:${Mpn1} ${Mpn2} ${Mpn3}", "mx3:${Mpn1} ${Mpn12}")
+    );
+    assert_eq!(std::fs::read_to_string(&b).unwrap(), right);
+    let out = kilib(&dir, &["lint", "--rule", "datasheet-link", "lib/symbols"]);
+    assert_eq!(out.status.code(), Some(0), "{}", text(&out));
 }
 
 #[test]

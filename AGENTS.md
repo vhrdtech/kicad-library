@@ -97,8 +97,8 @@ boards (`VHRD_BOARDS_DIR`, else `../hw`) and work on a temporary copy, never on 
 
 `kilib lint` writes only with `--write`, and then only the items its fixes name (attributes, model paths,
 courtyards, silkscreen lines and widths, pin-1 marks, what is on the Pins, Pin1, Ruler and Centroid layers, the `Layout_*`
-properties) in the footprints
-given; it never touches the designator or the Value.
+properties) in the footprints given, and the `Datasheet` text of the symbols given (`datasheet-link`); it never
+touches the designator or the Value.
 
 ## FEATURES.md and CHANGELOG.md
 

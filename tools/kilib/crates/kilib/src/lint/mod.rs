@@ -24,14 +24,17 @@
 //! - [`Rule::Layout`]: a real part's empty `Layout_Critical` and `Layout_Important` properties on Crit.F/B and
 //!   Imp.F/B, centred like the Value ([`layout`]).
 //! - [`Rule::HoleDims`]: a mounting hole's circle and diameter dimension on Dimensions (Dwgs.User) ([`hole_dims`]).
+//! - [`Rule::DatasheetLink`], on symbols: an `mx3:` `Datasheet` references exactly the symbol's `Mpn` fields
+//!   ([`datasheet_link`]).
 //!
-//! [`plan`] runs the rules in that order on each footprint, each on the text the one before left, and keeps what they
+//! [`plan`] runs the rules in that order on each footprint, and the symbol rules on each symbol file, each on the text the one before left, and keeps what they
 //! fixed and what they leave for a person; [`apply`] writes the fixed footprints. The designator (its text, layer
 //! and place) belongs to [`crate::fab`]: no rule here changes it.
 
 pub mod attrs;
 pub mod centroid;
 pub mod courtyard;
+pub mod datasheet_link;
 pub mod half_turn;
 pub mod hole_dims;
 pub mod keyed;
@@ -66,11 +69,12 @@ pub enum Rule {
     Centroid,
     Layout,
     HoleDims,
+    DatasheetLink,
 }
 
 impl Rule {
     /// In the order they run.
-    pub const ALL: [Rule; 12] = [
+    pub const ALL: [Rule; 13] = [
         Rule::Attrs,
         Rule::Models,
         Rule::Courtyard,
@@ -83,6 +87,7 @@ impl Rule {
         Rule::Centroid,
         Rule::Layout,
         Rule::HoleDims,
+        Rule::DatasheetLink,
     ];
 
     pub fn name(self) -> &'static str {
@@ -99,7 +104,13 @@ impl Rule {
             Rule::Centroid => "centroid",
             Rule::Layout => "layout",
             Rule::HoleDims => "hole-dims",
+            Rule::DatasheetLink => "datasheet-link",
         }
+    }
+
+    /// The rule looks at symbols (`.kicad_sym`), not footprints.
+    pub fn on_symbols(self) -> bool {
+        self == Rule::DatasheetLink
     }
 
     pub fn parse(s: &str) -> Option<Rule> {
@@ -248,6 +259,8 @@ fn run_rule(rule: Rule, i: &Input) -> Outcome {
         Rule::Centroid => centroid::run(i),
         Rule::Layout => layout::run(i),
         Rule::HoleDims => hole_dims::run(i),
+        // Runs on symbol files, in [`plan`]
+        Rule::DatasheetLink => Outcome::default(),
     }
 }
 
@@ -276,7 +289,7 @@ pub fn lint_text(
     let mut cur = text.to_string();
     let mut findings = Vec::new();
     let mut class = None;
-    for rule in Rule::ALL.into_iter().filter(|r| rules.contains(r)) {
+    for rule in Rule::ALL.into_iter().filter(|r| rules.contains(r) && !r.on_symbols()) {
         let fp = footprint::read(&cur)?;
         let c = *class.get_or_insert_with(|| classify(lib, &fp));
         let mut out = run_rule(rule, &Input { text: &cur, fp: &fp, lib, class: c, ctx });
@@ -291,14 +304,78 @@ pub fn lint_text(
     Ok((class, (cur != text).then_some(cur), findings))
 }
 
-/// Every `.kicad_mod` under `paths` (files, or folders searched), sorted, with what `rules` make of it.
+/// Every `.kicad_mod` under `paths` (files, or folders searched), sorted, with what the footprint rules of `rules`
+/// make of it; then, when `rules` has a symbol rule, every `.kicad_sym` with what the symbol rules make of it.
 pub fn plan(paths: &[PathBuf], rules: &[Rule], ctx: &Context) -> Vec<Item> {
     let mut files = Vec::new();
     for p in paths {
-        collect(p, &mut files);
+        collect(p, "kicad_mod", &mut files);
     }
     files.sort();
     files.dedup();
+    let mut items = plan_footprints(files, rules, ctx);
+    if rules.iter().any(|r| r.on_symbols()) {
+        let mut files = Vec::new();
+        for p in paths {
+            collect(p, "kicad_sym", &mut files);
+        }
+        files.sort();
+        files.dedup();
+        items.extend(files.into_iter().map(plan_symbol_file));
+    }
+    items
+}
+
+/// What the symbol rules make of one `.kicad_sym` file: a finding of a symbol other than the file's own names it.
+fn plan_symbol_file(path: PathBuf) -> Item {
+    let (id, stem) = symbol_id(&path);
+    let mut item = Item {
+        path: path.clone(),
+        id,
+        class: None,
+        old: String::new(),
+        new: None,
+        findings: Vec::new(),
+        skipped: None,
+    };
+    match std::fs::read_to_string(&path) {
+        Err(e) => item.skipped = Some(format!("unreadable: {e}")),
+        Ok(old) => {
+            match datasheet_link::run(&old) {
+                Ok((mut edits, found)) => {
+                    item.findings = found
+                        .into_iter()
+                        .map(|(symbol, msg, fixed)| Finding {
+                            rule: Rule::DatasheetLink,
+                            message: if symbol == stem { msg } else { format!("{symbol}: {msg}") },
+                            fixed,
+                        })
+                        .collect();
+                    if !edits.is_empty() {
+                        edits.sort_by_key(|e| (e.range.start, e.range.end));
+                        item.new = Some(apply_edits(&old, &edits));
+                    }
+                }
+                Err(e) => item.skipped = Some(e),
+            }
+            item.old = old;
+        }
+    }
+    item
+}
+
+/// The `Library:Name` of a symbol file (`VHRD_Device:R` in `VHRD_Device.kicad_symdir/R.kicad_sym`, the library
+/// alone for a whole library file) and its file stem.
+fn symbol_id(path: &Path) -> (String, String) {
+    let stem = path.file_stem().unwrap_or_default().to_string_lossy().into_owned();
+    match path.parent().and_then(Path::file_name).map(|d| d.to_string_lossy()) {
+        Some(d) if d.ends_with(".kicad_symdir") => (format!("{}:{stem}", d.trim_end_matches(".kicad_symdir")), stem),
+        _ => (stem.clone(), stem),
+    }
+}
+
+/// What the footprint rules of `rules` make of each footprint file.
+fn plan_footprints(files: Vec<PathBuf>, rules: &[Rule], ctx: &Context) -> Vec<Item> {
     files
         .into_iter()
         .map(|path| {
@@ -344,9 +421,10 @@ fn footprint_id(path: &Path) -> (String, String) {
     }
 }
 
-fn collect(p: &Path, out: &mut Vec<PathBuf>) {
+/// Every file with extension `ext` at or under `p`.
+fn collect(p: &Path, ext: &str, out: &mut Vec<PathBuf>) {
     if p.is_file() {
-        if p.extension().is_some_and(|e| e == "kicad_mod") {
+        if p.extension().is_some_and(|e| e == ext) {
             out.push(p.to_path_buf());
         }
         return;
@@ -356,7 +434,7 @@ fn collect(p: &Path, out: &mut Vec<PathBuf>) {
         if e.file_name().to_string_lossy().starts_with('.') {
             continue;
         }
-        collect(&e.path(), out);
+        collect(&e.path(), ext, out);
     }
 }
 

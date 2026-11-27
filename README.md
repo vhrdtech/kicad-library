@@ -179,7 +179,7 @@ same under `footprints/<name>.pretty` for footprints.
   user layers the presets name; a board that lacks one is told to run `kilib layers --write` first. Only
   `board.layer_presets` changes, byte for byte; the three templates have them. Without `--write` it lists what
   would change and exits 1 when anything would.
-- `kilib lint [PATH...]` checks footprints against the library rules (default: this checkout's `footprints/`;
+- `kilib lint [PATH...]` checks footprints and symbols against the library rules (default: this checkout's `footprints/`;
   `--rule` picks some of them) and lists, per footprint, what each fix changes and what is left for a person
   (`--left` only that, `--json` as JSON). It exits 1 while a fix is not written; `--write` writes them. The designator
   belongs to `designators`: run it after `--write`, since a new chamfer or courtyard can move it. The rules:
@@ -292,6 +292,10 @@ same under `footprints/<name>.pretty` for footprints.
   - `hole-dims`: a mounting hole gets a circle as large as its drill and a radial dimension reading the diameter
     (`⌀3.2`) on `Dimensions` (Dwgs.User), so the `Dimensions` preset shows each hole's size with no copper layer
     on. The fix replaces anything else on the layer.
+  - `datasheet-link`, on symbols (`.kicad_sym`, default: this checkout's `symbols/`): a `Datasheet` that is an `mx3:`
+    link references exactly the symbol's `Mpn` fields (`Mpn`, `Mpn1`, ..., any case). KiCad flags a reference to a
+    field the symbol lacks, and a field added later goes unnamed. The fix writes `mx3:` and a `${MpnN}` for each `Mpn`
+    field, in field order (LIB-40). A vendor URL or an empty `Datasheet` is left alone.
 - `kilib layout-fields [PATH...]` adds the empty, hidden symbol fields `Layout_Critical` and `Layout_Important`
   where a symbol lacks them: to each symbol of a library file (default: this checkout's `symbols/`), and in a
   schematic to each placed symbol and its copy in the schematic's `lib_symbols`. A new field copies a hidden field of

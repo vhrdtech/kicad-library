@@ -1,4 +1,5 @@
-//! `kilib lint`: the library-wide footprint rules of [`kilib::lint`], as a report and, with `--write`, the fixes.
+//! `kilib lint`: the library-wide footprint and symbol rules of [`kilib::lint`], as a report and, with `--write`,
+//! the fixes.
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -13,10 +14,11 @@ use crate::{BOLD, CYAN, ConfigArgs, DIM, GREEN, YELLOW, library_or_cwd, parse_va
 
 #[derive(clap::Args)]
 pub struct LintArgs {
-    /// Footprints: .kicad_mod files or folders searched for them (default: the checkout's footprints/)
+    /// Footprints and symbols: .kicad_mod and .kicad_sym files or folders searched for them (default: the
+    /// checkout's footprints/, and symbols/ for the symbol rules)
     #[arg(value_hint = ValueHint::AnyPath)]
     paths: Vec<PathBuf>,
-    /// Only these rules (pin1, pin1-body, attrs, courtyard, models, silk, ref-outline, pins, ruler, centroid, layout; repeat or comma-separate; default: all)
+    /// Only these rules (pin1, pin1-body, attrs, courtyard, models, silk, ref-outline, pins, ruler, centroid, layout, hole-dims; on symbols: datasheet-link; repeat or comma-separate; default: all)
     #[arg(long, short, value_name = "RULE", value_delimiter = ',', value_parser = parse_rule)]
     rule: Vec<Rule>,
     /// Write the fixes
@@ -59,8 +61,20 @@ impl LintArgs {
 }
 
 pub fn run(args: LintArgs) -> Result<ExitCode, String> {
-    let paths = if args.paths.is_empty() { vec![library_or_cwd(None)?.join("footprints")] } else { args.paths.clone() };
     let rules: Vec<Rule> = if args.rule.is_empty() { Rule::ALL.to_vec() } else { args.rule.clone() };
+    let paths = if args.paths.is_empty() {
+        let root = library_or_cwd(None)?;
+        let mut p = Vec::new();
+        if rules.iter().any(|r| !r.on_symbols()) {
+            p.push(root.join("footprints"));
+        }
+        if rules.iter().any(|r| r.on_symbols()) {
+            p.push(root.join("symbols"));
+        }
+        p
+    } else {
+        args.paths.clone()
+    };
     // The checkout's symbols tell which parts work the same turned half round (pin-1 rules).
     let mut ctx = match library_or_cwd(None) {
         Ok(root) => lint::Context::of_checkout(&root)?,
@@ -93,9 +107,11 @@ pub fn run(args: LintArgs) -> Result<ExitCode, String> {
         if parts.is_empty() { "none".to_string() } else { parts.join(", ") }
     };
     let skipped = items.iter().filter(|i| i.skipped.is_some()).count();
+    let symbol_files = items.iter().filter(|i| i.path.extension().is_some_and(|e| e == "kicad_sym")).count();
+    let symbols = if symbol_files > 0 { format!(", {symbol_files} symbol files") } else { String::new() };
     eprintln!(
-        "{BOLD}kilib lint{BOLD:#}: {} footprints, {changed} to change; fixes: {}; left for a person: {}{}",
-        items.len(),
+        "{BOLD}kilib lint{BOLD:#}: {} footprints{symbols}, {changed} to change; fixes: {}; left for a person: {}{}",
+        items.len() - symbol_files,
         per(&fixed),
         per(&left),
         if skipped > 0 { format!("; {skipped} skipped") } else { String::new() }
@@ -114,7 +130,7 @@ pub fn run(args: LintArgs) -> Result<ExitCode, String> {
     } else if args.write {
         let n = lint::apply(&items)?;
         eprintln!(
-            "{GREEN}✓{GREEN:#} wrote {n} footprints; run kilib designators after it, the designator and the Value may need to move"
+            "{GREEN}✓{GREEN:#} wrote {n} files; run kilib designators after it, the designator and the Value may need to move"
         );
         Ok(ExitCode::SUCCESS)
     } else {
@@ -133,7 +149,7 @@ fn print_items(items: &[lint::Item], left_only: bool) {
         if shown.is_empty() {
             continue;
         }
-        let class = i.class.map_or("", |c| c.label());
+        let class = i.class.map_or("symbol", |c| c.label());
         println!("{BOLD}{}{BOLD:#} {DIM}({class}){DIM:#}", i.id);
         for f in shown {
             if f.fixed {

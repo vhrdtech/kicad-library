@@ -190,3 +190,7 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   the library's document of the board's part numbers through mx3 (mx3 LIB-14, `docs/kicad-datasheet.md` there). A symbol
   keeps its vendor URL while it has no `Mpn` value; power symbols and parts not in the BOM keep theirs. A part whose
   document the library lacks gets it first (`mx3 lib fetch`, `mx3 lib cover`), so no link is lost.
+- ✅ LIB-40 datasheet-link-lint: `kilib lint --rule datasheet-link` checks each symbol's `mx3:` `Datasheet` against its
+  `Mpn` fields (a reference to a field it lacks, an `Mpn` field it misses) and the fix writes `mx3:` and a `${MpnN}`
+  for each, in field order; vendor URLs and empty ones are left alone. better_erc's `LIB-30` checks the same on
+  boards and `berc fix datasheet-links` fixes them · `tools/kilib/crates/kilib/src/lint/datasheet_link.rs`
