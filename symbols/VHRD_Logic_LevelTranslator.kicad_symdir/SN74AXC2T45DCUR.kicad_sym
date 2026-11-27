@@ -41,7 +41,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74axc2t45.pdf"
+		(property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}"
 			(at 0 -19.05 0)
 			(show_name no)
 			(do_not_autoplace no)

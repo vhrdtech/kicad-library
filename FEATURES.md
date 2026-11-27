@@ -187,5 +187,6 @@ Status: ✅ done · 🚧 in progress · 📋 planned · 💡 idea · 🐛 bug
   boards from KiCad's MountingHole M2, M3 and M4 to them.
 - ✅ LIB-39 mx3-datasheet: a part symbol's `Datasheet` field is `mx3:${Mpn1} ${Mpn2} .. ${Mpn12}`, so Show
   Datasheet (`D`) in the schematic opens the library's document of the board's part numbers through mx3 (mx3
-  LIB-14, `docs/kicad-datasheet.md` there). A symbol keeps its vendor URL while it has no `Mpn` value, or mx3 knows
-  no document or URL for any of them; power symbols and parts not in the BOM keep theirs.
+  LIB-14, `docs/kicad-datasheet.md` there). A symbol keeps its vendor URL while it has no `Mpn` value; power symbols
+  and parts not in the BOM keep theirs. A part whose document the library lacks gets it first (`mx3 lib fetch`, `mx3
+  lib cover`), so no link is lost.
