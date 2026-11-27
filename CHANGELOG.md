@@ -14,6 +14,7 @@
 
 ### Changed
 
+- `just install` installs kilib through binkeep (`deploy/binkeep.toml`): `tpm install` refuses once `binkeep adopt` took the stack.
 - Floorplan.F/B/FB presets show the side's Rooms; Silk.F/B show the side's Fab (LIB-33 layer-presets).
 - Floorplan.F/B/FB presets keep tracks on, so F.Cu or B.Cu switched on by hand shows them (LIB-33 layer-presets).
 

@@ -1,0 +1,6 @@
+# kilib as a binkeep set, in binkeep's list format (cat_stack, cs_keep::list): the set of one `binkeep adopt` brought
+# over from tpm's stack. `just install` puts this file as the user's drop-in ~/.config/binkeep/binkeep.d/kilib.toml
+# (`binkeep list put`); the source folder is the build's tools/kilib/target/deploy.
+[[set.kilib.bin]]
+name = "kilib"
+kind = "cli"

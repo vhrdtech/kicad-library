@@ -53,10 +53,12 @@ lint:
     cd tools/kilib && cargo fmt --all --check
     cd tools/kilib && cargo clippy --workspace --all-targets --quiet -- -D warnings
 
-# Build and install kilib; the library itself is used in place (README "Configuration")
+# Build and install kilib through binkeep (deploy/binkeep.toml); the library itself is used in place (README
+# "Configuration")
 install:
     cd tools/kilib && cargo build --profile deploy --locked -p kilib_cli
-    if command -v tpm >/dev/null; then tpm install tools/kilib/target/deploy/kilib; else cargo install --locked --path tools/kilib/crates/kilib_cli; fi
+    binkeep list put kilib {{justfile_directory()}}/deploy/binkeep.toml
+    binkeep install kilib {{justfile_directory()}}/tools/kilib/target/deploy
     @echo "kicad-library is used in place: KiCad's library tables and VHRD_TEMPLATE_DIR point at $PWD (README)"
 
 # Bring this checkout up to main
