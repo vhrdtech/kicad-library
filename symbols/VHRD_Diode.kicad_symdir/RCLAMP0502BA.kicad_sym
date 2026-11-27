@@ -42,7 +42,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.semtech.com/products/circuit-protection/low-capacitance/rclamp0502ba"
+		(property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}"
 			(at 1.27 2.54 0)
 			(show_name no)
 			(do_not_autoplace no)

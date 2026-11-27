@@ -9,7 +9,7 @@
     (property "Footprint" "VHRD_Package_TO_SOT_SMD:TI_DDF0008A_SOT-23-THIN-8" (at 0 -12.7 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
-    (property "Datasheet" "https://www.ti.com/lit/ds/symlink/tcan1044-q1.pdf" (at 0 0 0)
+    (property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Mpn1" "TCAN1044VDDFRQ1" (at 0 0 0)

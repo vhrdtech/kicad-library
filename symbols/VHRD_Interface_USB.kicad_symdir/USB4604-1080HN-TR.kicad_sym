@@ -39,7 +39,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://ww1.microchip.com/downloads/en/DeviceDoc/000001716C_.pdf"
+		(property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}"
 			(at 26.67 14.732 0)
 			(show_name no)
 			(do_not_autoplace no)
