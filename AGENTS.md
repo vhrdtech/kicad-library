@@ -25,13 +25,13 @@ kilib stock diff                         # what a fresh import of the current st
 ```
 
 Stock symbols go the same way into `symbols/VHRD_<Lib>.kicad_symdir`, one file each: a derived symbol (`extends`)
-becomes standalone, the `Footprint` field points at our footprint copy, `ki_fp_filters` library parts get `VHRD_`,
-an empty `Mpn1` is added. Then fill in the fields by hand: the `Mpn1`.. of the specific parts, a `Footprint`
-default, `in_bom`/`exclude_from_sim` for test points, net ties and mechanical parts. Once `Mpn1` names parts mx3 knows,
-`Datasheet` becomes `mx3:${Mpn1} ${Mpn2} .. ${Mpn12}` (LIB-39). Fields and flags are ours:
-`kilib stock diff` lays them over the fresh import, so it shows only pins, units, graphics and new stock fields. A
-stock symbol the library already has under the same name with the same pins (`Device:R`, `power:PWR_FLAG`) is not
-copied; the map points it at ours.
+becomes standalone, the `Footprint` field points at our footprint copy, `ki_fp_filters` library parts get `VHRD_`, an
+empty `Mpn1` is added. Then fill in the fields by hand: the `Mpn1`.. of the specific parts, a `Footprint` default,
+`in_bom`/`exclude_from_sim` for test points, net ties and mechanical parts. Once `Mpn1` names parts mx3 knows,
+`Datasheet` becomes `mx3:${Mpn1} ${Mpn2}`, one reference per `Mpn` field the symbol has (KiCad flags a field it lacks)
+(LIB-39). Fields and flags are ours: `kilib stock diff` lays them over the fresh import, so it shows only pins, units,
+graphics and new stock fields. A stock symbol the library already has under the same name with the same pins
+(`Device:R`, `power:PWR_FLAG`) is not copied; the map points it at ours.
 
 `migrate/2026-11-stock.toml` maps each imported stock id to its copy; `kilib migrate --map
 migrate/2026-11-stock.toml BOARD` re-points a board (only footprint and symbol lib ids, the symbol cache names and

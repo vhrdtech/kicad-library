@@ -4,7 +4,7 @@
 
 ### Added
 
-- Part symbols' `Datasheet` is an `mx3:` link of their `Mpn` fields: `D` opens the library's document through mx3 (LIB-39 mx3-datasheet).
+- Part symbols' `Datasheet` is an `mx3:` link of the `Mpn` fields each has (an empty `Mpn1` added where none was): `D` opens the library's document through mx3 (LIB-39 mx3-datasheet).
 - Blocks.F/B layer pair on User.33/34: one outline per block, beside Rooms' one per sheet (LIB-13 designator-layers).
 - Rooms.F/B and Blocks.F/B presets: one side's room outlines with part bodies and the board outline (LIB-33 layer-presets).
 - Dimensions preset: the dimensions layer over both sides' part bodies and the board outline (LIB-33 layer-presets).

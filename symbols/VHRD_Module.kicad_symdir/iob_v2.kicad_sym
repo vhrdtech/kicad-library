@@ -9,7 +9,7 @@
     (property "Footprint" "" (at -11.43 12.7 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}" (at -11.43 12.7 0)
+    (property "Datasheet" "" (at -11.43 12.7 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "ki_fp_filters" "iob_v2_*" (at 0 0 0)

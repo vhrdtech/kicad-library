@@ -29,7 +29,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "mx3:${Mpn1} ${Mpn2} ${Mpn3} ${Mpn4} ${Mpn5} ${Mpn6} ${Mpn7} ${Mpn8} ${Mpn9} ${Mpn10} ${Mpn11} ${Mpn12}"
+		(property "Datasheet" "mx3:${Mpn1}"
 			(at 0 0 0)
 			(effects
 				(font
