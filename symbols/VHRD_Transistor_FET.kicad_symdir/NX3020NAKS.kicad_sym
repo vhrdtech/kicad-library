@@ -45,7 +45,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "mx3:${Mpn1}"
+		(property "Datasheet" "mx3:${Mpn1} ${Mpn2}"
 			(at 5.08 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Dual N-MOSFET 30 V 180 mA, VGSth 0.8-1.5 V, Ciss 13 pF typ, RDSon 5.2 Ohm max at 4.5 V, ESD-protected gates, SOT-363 (TSSOP6)"
+		(property "Description" "Dual N-MOSFET 30 V 180 mA, VGSth 0.8-1.5 V, Ciss 13 pF typ, RDSon 5.2 Ohm max at 4.5 V, ESD-protected gates, SOT-363 (TSSOP6). Mpn2 Nexperia NX138AKS: same pinout, VDS 60 V, 170 mA, Ciss 15 pF typ, RDSon 5.2 Ohm max at 5 V"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -69,6 +69,17 @@
 		)
 		(property "Mpn1" "NX3020NAKS,115"
 			(at 0 -5.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mpn2" "NX138AKSX"
+			(at 0 -7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
